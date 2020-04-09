@@ -1,0 +1,12 @@
+<<<<<<< HEAD
+{
+    "port": 3000,
+    "files": ["dist/**/*.{html,htm,css,js}"],
+    "server": { "baseDir": "dist" }
+=======
+{
+    "port": 3000,
+    "files": ["dist/**/*.{html,htm,css,js}"],
+    "server": { "baseDir": "dist" }
+>>>>>>> 096535068754e1df1a4ee544d4173323d08b1828
+}

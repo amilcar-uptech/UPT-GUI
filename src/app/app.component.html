@@ -1,0 +1,49 @@
+<p-toast key="login" [baseZIndex]="1500"></p-toast>
+<mdb-navbar [containerInside]="false" SideClass="custom-no-class">
+    <nav class="navbar navbar-expand-lg navbar-light change-index" [ngClass]="{'upnavbar':urbPerActive, 'stnavbar':suitabilityActive,'bg-white':!suitabilityActive&&!urbPerActive}">
+        <div class="container-fluid resize-text">
+                <div class="navbar-brand">
+                    <img *ngIf="!suitabilityActive && !urbPerActive; else gpWhite" style="height: 2em;" src="{{oskariUrl}}/PLID/assets/img/GEOPORTAL VERSION COLOR-12.png" class="ml-2 img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}"
+                        alt="Geoportal logo">
+                    <ng-template #gpWhite>
+                        <img style="height: 2em;" src="{{oskariUrl}}/PLID/assets/img/GEOPORTAL BLANCO-08.png" class="ml-2 img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="Geoportal logo white">
+                    </ng-template>
+                    <img style="height: 2em;" *ngIf="suitabilityActive && !urbPerActive" src="{{oskariUrl}}/PLID/assets/img/ST V2 BN.png" class="ml-5 pl-2 img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="Suitability logo">
+                    <img style="height: 2em;" *ngIf="urbPerActive && !suitabilityActive" src="{{oskariUrl}}/PLID/assets/img/LOGO BN-07.png" class="ml-5 pl-2img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="UrbanPerformance logo">
+                </div>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown" dropdown>
+                        <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light">Tools<span
+                    class="caret"></span></a>
+                        <div class="dropdown-menu" role="menu" style="left: -32px;">
+                                    <ul class="list-inline p-1" *ngIf="uptWindow.__session_active; else loggedOut">
+                                        <li class="list-inline-item" (click)="stStatus(); tools.showST(); tools.hideUP(); tools.hideAssumptions();">
+                                            <img style="height: 1.8em" src="{{oskariUrl}}/PLID/assets/img/st-small.png" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="Suitability">
+                                        </li>
+                                        <li class="list-inline-item" (click)="upStatus(); tools.showUP(); tools.hideColorScaleST(); tools.hideST(); tools.hideDataST();">
+                                            <img style="height: 1.8em" src="{{oskariUrl}}/PLID/assets/img/up-small.png" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="UrbanPerformance">
+                                        </li>
+                                        <li class="list-inline-item" (click)="closePlugin(); tools.hideUP(); tools.hideColorScaleST(); tools.hideST(); tools.hideAssumptions(); tools.hideDataST();">
+                                            <img style="height: 1.8em" src="{{oskariUrl}}/PLID/assets/img/tache_Mesa de trabajo 1 copia 19.png" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="Close">
+                                        </li>
+                                    </ul>
+                                <ng-template #loggedOut>
+                                    <ul class="list-inline p-1">
+                                        <li class="list-inline-item" (click)="promptLogin()">
+                                            <img style="height: 1.8em" src="{{oskariUrl}}/PLID/assets/img/st-small.png" class="disabled img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="Suitability">
+                                        </li>
+                                        <li class="list-inline-item" (click)="promptLogin()">
+                                            <img style="height: 1.8em" src="{{oskariUrl}}/PLID/assets/img/up-small.png" class="disabled img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="UrbanPerformance">
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <img style="height: 1.8em" src="{{oskariUrl}}/PLID/assets/img/tache_Mesa de trabajo 1 copia 19.png" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="Close">
+                                        </li>
+                                    </ul>
+                                </ng-template>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+</mdb-navbar>
+<app-tools-sidebar #tools [upAct]="urbPerActive" [stAct]="suitabilityActive" [uptWindow]="uptWindow"></app-tools-sidebar>

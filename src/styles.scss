@@ -1,0 +1,72 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import url('https://fonts.googleapis.com/css?family=Titillium+Web:400,400i,700,700i&display=swap');
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+$main-font: 'Titillium Web',
+sans-serif;
+$geo-teal: #47A599;
+$geo-orange: #FF8680;
+$geo-orange-2: #ff7043;
+$geo-blue: #2568D8;
+$geo-green: #7DB952;
+$geo-modal-input: #414B54;
+$geo-modal-input-txt: #D8DEE3;
+$black: #343E46;
+$black2: #414B54;
+$grey-blue: #6C8090;
+$grey: #B7C2CB;
+$grey2: #DADFE3;
+$grey3: #A5ADB4;
+$grey4: #D8DEE3;
+$grey5: #CAD9E0;
+$grey6: #F4F6F7;
+$grey7: #ECF0F2;
+$oskari-bg-1: '../assets/a7ab273602f74c4386e47dd3df3fd5b7.png';
+body,
+html {
+    font-family: $main-font !important;
+    font-size: 12px !important;
+}
+
+#layer-col,
+#tools-col {
+    font-size: .9em;
+    padding-top: 1.5%;
+    background-color: $black;
+    color: #CCCFD1;
+}
+
+// Oskari styles
+.oskariui.container-fluid {
+    padding-left: 0 !important;
+    margin-top: -18px !important;
+}
+
+div.mapplugins.left.top .mappluginsContainer .mappluginsContent .mapplugin {
+    z-index: 1000 !important;
+}
+
+#maptools {
+    padding-top: 4em !important;
+}
+
+#logobar {
+    display: none !important;
+}
+
+div.mapplugins:nth-child(9) {
+    padding-top: 4em !important;
+}
+
+html body div#contentMap.oskariui.container-fluid.oskari-map-window-fullscreen div.row-fluid.oskariui-mode-content div.span12.oskariui-center div#mapdiv.olMap div.mapplugins.right.top div.mappluginsContainer {
+    display: none !important;
+}
+
+html body div#contentMap.oskariui.container-fluid div.row-fluid.oskariui-mode-content {
+    padding-top: -1.5em !important;
+}
