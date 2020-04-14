@@ -1058,6 +1058,7 @@ export class ToolsSidebarComponent implements OnInit {
               }
             }
           );
+          this.rsltLabelsPercent = this.rsltLabelsPercent.sort();
           this.rsltLabels.forEach(label => {
             tmpRslt = [];
             this.scenarioResults.forEach(scenario => {
@@ -1120,17 +1121,26 @@ export class ToolsSidebarComponent implements OnInit {
             (r, index) => {
               tempVal = [];
               prcVal = [];
+              let valPrct = [];
               r.forEach(
                 i => {
-                  tempVal.push(i.value);
-                  if (i.units === '%') {
-                    prcVal.push(i.value);
-                  }
-                  rsltArray.push(i);
+                  this.rsltLabelsPercent.forEach(
+                    lbl => {
+                      if (i.label === lbl) {
+                        prcVal.push({label: i.label, value: i.value});
+                        prcVal = prcVal.sort(this.compareLabels);
+                        tempVal.push(i.value);
+                      }
+                      rsltArray.push(i);
+                    }
+                  );
                 }
               );
               rslVal.push(tempVal);
-              this.rsltValuesPercent.push(prcVal);
+              prcVal.forEach(val => {
+                valPrct.push(val.value);
+              });
+              this.rsltValuesPercent.push(valPrct);
             }
           );
           this.rsltValues = rslVal;
@@ -1165,6 +1175,16 @@ export class ToolsSidebarComponent implements OnInit {
          }
        );
     }
+  }
+
+  compareLabels( a, b ) {
+    if ( a.label < b.label ){
+      return -1;
+    }
+    if ( a.label > b.label ){
+      return 1;
+    }
+    return 0;
   }
 
  calculateScenarios() {
@@ -5669,7 +5689,7 @@ cancelDeleteSettings() {
               }
 
   ngOnInit() {
-    this.loadUptWfsLayers();
+    // this.loadUptWfsLayers();
     this.layerSTId = null;
     this.accordionST = 0;
     this.layerSTLabel = '';
