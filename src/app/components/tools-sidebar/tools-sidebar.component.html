@@ -1555,7 +1555,7 @@
                             <span class="ui-inputgroup-addon"><i class="fa fa-layer-group"></i></span>
                             <p-multiSelect (onChange)="changeIndicator($event)" [filter]="true" defaultLabel="Select indicators" panelStyleClass="urbanperformance" styleClass="urbanperformance" [maxSelectedLabels]="4" [baseZIndex]="2500" appendTo="body" [options]="indSelectItems" [(ngModel)]="selectedIndicators">
                                 <ng-template let-value pTemplate="item">
-                                    <div pTooltip="{{value.value.dependencies | dependencies}}" [tooltipZIndex]="5000" style="width: 100%; display:inline-block;vertical-align:middle;">{{value.label}}</div>
+                                    <div pTooltip="{{value.value.dependencies | dependencies:indSelectItems}}" [tooltipZIndex]="5000" style="width: 100%; display:inline-block;vertical-align:middle;">{{value.label}}</div>
                                 </ng-template>
                             </p-multiSelect>
                         </div>
@@ -1714,6 +1714,8 @@
     </div>
     <p-footer>
         <div class="urbanperformance ui-g ui-fluid px-2">
+            <!--<p-button label="EXPORT RESULTS" [disabled]="true" styleClass="ui-button-raised" icon="pi pi-file">
+            </p-button>-->
             <p-button label="ADVANCED" class="tools-geoportal geoportal-btn geoportal-title-btn" icon="fas fa-cog" (onClick)="showAssumptions();"></p-button>
         </div>
     </p-footer>

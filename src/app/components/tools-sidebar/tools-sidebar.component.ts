@@ -917,79 +917,35 @@ export class ToolsSidebarComponent implements OnInit {
     let buffRoad = false;
     let buffTrst = false;
     let buffObj = [];
+    let orgAry = [];*/
     // this.indSelectItems
-    console.log(event.value);
-    event.value.forEach(
-      (ind) => {
-        if (ind.dependencies.toLowerCase().includes('buffersamenities')) {
-          proxInd++;
-          buffAmen = true;
-        }
-        if (ind.dependencies.toLowerCase().includes('buffersjobs')) {
-          proxInd++;
-          buffJobs = true;
-        }
-        if (ind.dependencies.toLowerCase().includes('buffersrisk')) {
-          proxInd++;
-          buffRisk = true;
-        }
-        if (ind.dependencies.toLowerCase().includes('buffersroads')) {
-          proxInd++;
-          buffRoad = true;
-        }
-        if (ind.dependencies.toLowerCase().includes('bufferstransit')) {
-          proxInd++;
-          buffTrst = true;
-        }
-        if (ind.module.toLowerCase().includes('buffers')) {
-          buffers = true;
-        }
-      }
-    );
-    if (buffAmen) {
-      this.indSelectItems.forEach(item => {
-        if (item.value.module.toLowerCase().includes('buffersamenities')) {
-          buffObj.push(item.value);
+    const indAry = event.value;
+    if (indAry.length > 0) {
+      const indSel = event.itemValue;
+      const indDep = indSel.dependencies;
+      const indList = this.indSelectItems;
+      let origString = '';
+      let arrayString: string[] = [];
+      let newArrayString: string[] = [];
+      let depAry = [];
+      origString = indDep.replace(/"/g, '').replace('[', '').replace(']', '');
+      arrayString = origString.split(',');
+      arrayString.forEach(str => {
+        newArrayString.push(str.trim());
+      });
+      newArrayString.forEach(ary => {
+        indList.forEach(ind => {
+          if (ind.value.name.toLowerCase() === ary.toLowerCase()) {
+            depAry.push(ind.value);
+          }
+        });
+      });
+      depAry.forEach(dep => {
+        if (!indAry.includes(dep)) {
+          event.value.push(dep);
         }
       });
     }
-    if (buffJobs) {
-      this.indSelectItems.forEach(item => {
-        if (item.value.module.toLowerCase().includes('buffersjobs')) {
-          buffObj.push(item.value);
-        }
-      });
-    }
-    if (buffRisk) {
-      this.indSelectItems.forEach(item => {
-        if (item.value.module.toLowerCase().includes('buffersrisk')) {
-          buffObj.push(item.value);
-        }
-      });
-    }
-    if (buffRoad) {
-      this.indSelectItems.forEach(item => {
-        if (item.value.module.toLowerCase().includes('buffersroads')) {
-          buffObj.push(item.value);
-        }
-      });
-    }
-    if (buffTrst) {
-      this.indSelectItems.forEach(item => {
-        if (item.value.module.toLowerCase().includes('bufferstransit')) {
-          buffObj.push(item.value);
-        }
-      });
-    }
-    if (buffObj) {
-      const orgAry = event.value.filter(obj => obj !== buffObj);
-      if (proxInd > 0 && buffers === false) {
-        event.value.push(buffObj);
-      }
-      if (proxInd === 0 && buffers) {
-        this.selectedIndicators = orgAry;
-      }
-    }*/
   }
 
   getUPResults() {

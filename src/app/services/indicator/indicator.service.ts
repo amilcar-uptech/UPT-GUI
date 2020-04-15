@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {SelectItem} from 'primeng/api';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Indicator } from 'src/app/interfaces/indicator';
