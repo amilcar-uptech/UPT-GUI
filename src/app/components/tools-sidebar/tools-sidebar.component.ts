@@ -1242,8 +1242,10 @@ getUPBuffers() {
       });
     }, () => {
       this.buffersUP.forEach(bfs => {
-        Oskari.getSandbox().findRegisteredModuleInstance('MyPlacesImport').getService().addLayerToService(bfs, false);
-        Oskari.getSandbox().findRegisteredModuleInstance('MyPlacesImport').getTab().refresh();
+        setTimeout(() => {
+          Oskari.getSandbox().findRegisteredModuleInstance('MyPlacesImport').getService().addLayerToService(bfs, false);
+          Oskari.getSandbox().findRegisteredModuleInstance('MyPlacesImport').getTab().refresh();
+        }, 500);
       });
       this.layersService.getStudyAreas().subscribe(studyArea => {
         this.studyArea = studyArea;
@@ -1484,7 +1486,8 @@ loadDataColumnsUP(event) {
     sticky: true,
     severity: 'warn',
     summary: 'Warning!',
-    detail: 'This operation will delete all data from the selected table. This process is irreversible. Confirm to delete, cancel to go back'
+    detail: 'This operation will delete all data from the selected table. This process is irreversible. ' +
+    'Confirm to delete, cancel to go back'
   });
  }
 
@@ -1568,6 +1571,7 @@ loadDataColumnsUP(event) {
            summary: 'Success!',
            detail: 'Process completed successfully.'
          });
+         this.loadUPLayers();
          this.classificationService.getClassifications().subscribe(clsf => this.classifications = clsf,
           error => {
             let errContainer = [];
@@ -3968,8 +3972,10 @@ getSTDistanceLayers(sa) {
       });
     }, () => {
       this.distanceLayerST.forEach(lyr => {
-        Oskari.getSandbox().findRegisteredModuleInstance('MyPlacesImport').getService().addLayerToService(lyr, false);
-        Oskari.getSandbox().findRegisteredModuleInstance('MyPlacesImport').getTab().refresh();
+        setTimeout(() => {
+          Oskari.getSandbox().findRegisteredModuleInstance('MyPlacesImport').getService().addLayerToService(lyr, false);
+          Oskari.getSandbox().findRegisteredModuleInstance('MyPlacesImport').getTab().refresh();
+        }, 500);
       });
       this.loadSTStudyArea();
     }
