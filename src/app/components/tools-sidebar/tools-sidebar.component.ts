@@ -1521,6 +1521,8 @@ loadDataColumnsUP(event) {
         summary: 'Success!',
         detail: 'Table data deleted successfully!'
       });
+      this.loadTablesUP();
+      this.loadUPLayers();
     }
    );
  }
