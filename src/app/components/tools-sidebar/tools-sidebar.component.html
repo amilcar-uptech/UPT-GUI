@@ -1714,8 +1714,8 @@
     </div>
     <p-footer>
         <div class="urbanperformance ui-g ui-fluid px-2">
-            <!--<p-button label="EXPORT RESULTS" [disabled]="true" styleClass="ui-button-raised" icon="pi pi-file">
-            </p-button>-->
+            <p-button label="EXPORT RESULTS" (onClick)="exportUPResults()" [disabled]="okayResults" styleClass="tools-geoportal geoportal-btn geoportal-title-btn" icon="pi pi-file">
+            </p-button>
             <p-button label="ADVANCED" class="tools-geoportal geoportal-btn geoportal-title-btn" icon="fas fa-cog" (onClick)="showAssumptions();"></p-button>
         </div>
     </p-footer>

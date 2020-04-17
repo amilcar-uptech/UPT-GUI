@@ -43,6 +43,7 @@ import { Status } from 'src/app/interfaces/status';
 import { Heatmap } from 'src/app/interfaces/heatmap';
 import { HeatmapService } from 'src/app/services/heatmap.service';
 import { WfsUptService } from 'src/app/services/wfs-upt.service';
+import { saveAs } from 'file-saver';
 
 declare var Oskari: any;
 
@@ -301,6 +302,14 @@ export class ToolsSidebarComponent implements OnInit {
 
   // Manage variables for objects
   manageScenario: Scenario;
+
+  // Download object
+  downloadObject: any;
+
+  // selScenarios copy
+  scenariosCopy: Scenario[];
+
+  okayResults = true;
 
   // Cols for managing objects
   colsScenario: any[];
@@ -909,16 +918,6 @@ export class ToolsSidebarComponent implements OnInit {
   }
 
   changeIndicator(event) {
-    /* let proxInd = 0;
-    let buffers = false;
-    let buffAmen = false;
-    let buffJobs = false;
-    let buffRisk = false;
-    let buffRoad = false;
-    let buffTrst = false;
-    let buffObj = [];
-    let orgAry = [];*/
-    // this.indSelectItems
     const indAry = event.value;
     if (indAry.length > 0) {
       const indSel = event.itemValue;
@@ -950,6 +949,8 @@ export class ToolsSidebarComponent implements OnInit {
 
   getUPResults() {
     if(this.selectedScenarios.length > 0) {
+      this.scenariosCopy = this.selectedScenarios;
+      this.okayResults = true;
       this.resultsService.getScenarios(this.selectedScenarios).subscribe(
         scnr => {
           this.scenarioResults = scnr;
@@ -972,6 +973,11 @@ export class ToolsSidebarComponent implements OnInit {
           });
          },
          () => {
+          this.scenarioResults.forEach(rslt => {
+            if (rslt.results.length > 0) {
+              this.okayResults = false;
+            }
+          });
           this.rsltLabels = [];
           this.rsltLabelsArray = [];
           this.rsltLabelsPercent = [];
@@ -1133,6 +1139,38 @@ export class ToolsSidebarComponent implements OnInit {
     }
   }
 
+  exportUPResults() {
+    this.resultsService.exportUPResults(this.scenariosCopy).subscribe(res => {
+      this.downloadObject = res;
+    },
+      error => {
+        let errContainer = [];
+        const errObject = error.error.info.Errors;
+        errObject.forEach(err => {
+          errContainer.push({message: err.message, status: err.status});
+        });
+        errContainer.forEach(err => {
+          this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
+          err.message + '</div>';
+        });
+        this.showConsole();
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error!',
+          detail: 'An error ocurred during the operation!'
+        });
+       },
+       () => {
+        this.saveToFileSystem(this.downloadObject);
+       }
+      );
+  }
+
+  private saveToFileSystem(response) {
+    const blob = new Blob([response], { type: 'text/csv' });
+    saveAs(blob, 'up-results.csv');
+  }
+
   compareLabels( a, b ) {
     if ( a.label < b.label ){
       return -1;
@@ -1152,6 +1190,7 @@ export class ToolsSidebarComponent implements OnInit {
        summary: 'In Progress!',
        detail: 'Your operation is being processed.'
      });
+     this.okayResults = true;
      this.resultsService.calculateScenarios(this.selectedScenarios).subscribe(
        () => {},
        error => {
