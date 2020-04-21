@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { ResponseContentType } from '@angular/http';
 import { Observable } from 'rxjs';
 import { Scenario } from 'src/app/interfaces/scenario';
 import { map } from 'rxjs/operators';

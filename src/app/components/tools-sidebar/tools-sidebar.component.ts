@@ -70,6 +70,9 @@ export class ToolsSidebarComponent implements OnInit {
   dateGP: Date;
   dateStringGP = '';
 
+  hasUPTRole = true;
+  isUPTAdmin = false;
+
   displayAbout = false;
   displayUptWfs = false;
 
@@ -95,6 +98,8 @@ export class ToolsSidebarComponent implements OnInit {
   // Properties to determine which plugin is active
   @Input() upAct: boolean;
   @Input() stAct: boolean;
+
+  
 
   // Properties for range sliders
   filterRangeST: number[];
@@ -672,137 +677,145 @@ export class ToolsSidebarComponent implements OnInit {
    */
 
   showUP() {
-    this.indSelectItems = [];
-    this.indsEditResult = [];
-    this.selectedScenarios = [];
-    this.indicatorService.getIndicators().subscribe(
-      indicators => {
-        this.indicators = indicators;
-      }, error => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach(err => {
-          errContainer.push({message: err.message, status: err.status});
-        });
-        errContainer.forEach(err => {
-          this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
-          err.message + '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!'
-        });
-      },
-      () => {
-        this.indicators.forEach(
-          indicator => {
-            this.indSelectItems.push({label: indicator.label, value: indicator});
-          }
+    if (this.hasUPTRole) {
+      this.indSelectItems = [];
+      this.indsEditResult = [];
+      this.selectedScenarios = [];
+      this.indicatorService.getIndicators().subscribe(
+        indicators => {
+          this.indicators = indicators;
+        }, error => {
+          let errContainer = [];
+          const errObject = error.error.info.Errors;
+          errObject.forEach(err => {
+            errContainer.push({message: err.message, status: err.status});
+          });
+          errContainer.forEach(err => {
+            this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
+            err.message + '</div>';
+          });
+          this.showConsole();
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error!',
+            detail: 'An error ocurred during the operation!'
+          });
+        },
+        () => {
+          this.indicators.forEach(
+            indicator => {
+              this.indSelectItems.push({label: indicator.label, value: indicator});
+            }
+          );
+        }
         );
+      this.layersService.getStudyAreas().subscribe(studyArea => {
+        this.studyArea = studyArea;
+      }, error => {
+          let errContainer = [];
+          const errObject = error.error.info.Errors;
+          errObject.forEach(err => {
+            errContainer.push({message: err.message, status: err.status});
+          });
+          errContainer.forEach(err => {
+            this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
+            err.message + '</div>';
+          });
+          this.showConsole();
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error!',
+            detail: 'An error ocurred during the operation!'
+          });
       }
       );
-    this.layersService.getStudyAreas().subscribe(studyArea => {
-      this.studyArea = studyArea;
-    }, error => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach(err => {
-          errContainer.push({message: err.message, status: err.status});
+      this.classificationService.getClassifications().subscribe(clsf => this.classifications = clsf,
+        error => {
+          let errContainer = [];
+          const errObject = error.error.info.Errors;
+          errObject.forEach(err => {
+            errContainer.push({message: err.message, status: err.status});
+          });
+          errContainer.forEach(err => {
+            this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
+            err.message + '</div>';
+          });
+          this.showConsole();
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error!',
+            detail: 'An error ocurred during the operation!'
+          });
         });
-        errContainer.forEach(err => {
-          this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
-          err.message + '</div>';
+      this.moduleService.getModules().subscribe(mdls => this.modules = mdls,
+        error => {
+          let errContainer = [];
+          const errObject = error.error.info.Errors;
+          errObject.forEach(err => {
+            errContainer.push({message: err.message, status: err.status});
+          });
+          errContainer.forEach(err => {
+            this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
+            err.message + '</div>';
+          });
+          this.showConsole();
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error!',
+            detail: 'An error ocurred during the operation!'
+          });
         });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!'
-        });
+      this.moduleService.getIndicators().subscribe(
+        inds => {
+          this.inds = inds;
+          inds.forEach(ind => this.indsEditResult.push({value: ind.id, label: ind.indicator}));
+        }, error => {
+          let errContainer = [];
+          const errObject = error.error.info.Errors;
+          errObject.forEach(err => {
+            errContainer.push({message: err.message, status: err.status});
+          });
+          errContainer.forEach(err => {
+            this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
+            err.message + '</div>';
+          });
+          this.showConsole();
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error!',
+            detail: 'An error ocurred during the operation!'
+          });
+        }
+      );
+      this.moduleService.getIndicatorResults().subscribe(
+        indRes => this.indsResult = indRes,
+        error => {
+          let errContainer = [];
+          const errObject = error.error.info.Errors;
+          errObject.forEach(err => {
+            errContainer.push({message: err.message, status: err.status});
+          });
+          errContainer.forEach(err => {
+            this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
+            err.message + '</div>';
+          });
+          this.showConsole();
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error!',
+            detail: 'An error ocurred during the operation!'
+          });
+        }
+      );
+      this.getScenarios();
+      this.displayUP = true;
+    } else {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error!',
+        detail: 'You do not have the permission to access the UPT.'
+      });
     }
-    );
-    this.classificationService.getClassifications().subscribe(clsf => this.classifications = clsf,
-      error => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach(err => {
-          errContainer.push({message: err.message, status: err.status});
-        });
-        errContainer.forEach(err => {
-          this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
-          err.message + '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!'
-        });
-      });
-    this.moduleService.getModules().subscribe(mdls => this.modules = mdls,
-      error => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach(err => {
-          errContainer.push({message: err.message, status: err.status});
-        });
-        errContainer.forEach(err => {
-          this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
-          err.message + '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!'
-        });
-      });
-    this.moduleService.getIndicators().subscribe(
-      inds => {
-        this.inds = inds;
-        inds.forEach(ind => this.indsEditResult.push({value: ind.id, label: ind.indicator}));
-      }, error => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach(err => {
-          errContainer.push({message: err.message, status: err.status});
-        });
-        errContainer.forEach(err => {
-          this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
-          err.message + '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!'
-        });
-      }
-    );
-    this.moduleService.getIndicatorResults().subscribe(
-      indRes => this.indsResult = indRes,
-      error => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach(err => {
-          errContainer.push({message: err.message, status: err.status});
-        });
-        errContainer.forEach(err => {
-          this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
-          err.message + '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!'
-        });
-      }
-    );
-    this.getScenarios();
-    this.displayUP = true;
   }
 
   showConsole() {
