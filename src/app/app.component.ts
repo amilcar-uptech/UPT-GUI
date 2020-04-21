@@ -34,34 +34,18 @@ export class AppComponent implements OnInit {
   }
 
   upStatus() {
-    this.roleService.getRoles().subscribe(
-      role => {
-        role.forEach(
-          str => {
-            if (str.toLowerCase().includes('upt')) {
-              this.hasUPTRole = true;
-            }
-            if (str.toLowerCase().includes('uptadmin')) {
-              this.tools.isUPTAdmin = true;
-            }
-          }
-        );
-      }, () => {},
-      () => {
-        if (this.hasUPTRole) {
-          this.urbPerActive = true;
-          this.suitabilityActive = false;
-          this.tools.upAct = true;
-          this.tools.stAct = false;
-          this.tools.showUP();
-          this.tools.hideColorScaleST();
-          this.tools.hideST();
-          this.tools.hideDataST();
-        } else {
-          this.promptPermission();
-        }
-      }
-    );
+    if (this.tools.hasUPTRole) {
+      this.urbPerActive = true;
+      this.suitabilityActive = false;
+      this.tools.upAct = true;
+      this.tools.stAct = false;
+      this.tools.showUP();
+      this.tools.hideColorScaleST();
+      this.tools.hideST();
+      this.tools.hideDataST();
+    } else {
+      this.promptPermission();
+    }
   }
 
   promptLogin() {
@@ -73,30 +57,17 @@ export class AppComponent implements OnInit {
   }
 
   stStatus() {
-    this.roleService.getRoles().subscribe(
-      role => {
-        role.forEach(
-          str => {
-            if (str.toLowerCase().includes('upt')) {
-              this.hasUPTRole = true;
-            }
-          }
-        );
-      }, () => {},
-      () => {
-        if (this.hasUPTRole) {
-          this.suitabilityActive = true;
-          this.urbPerActive = false;
-          this.tools.stAct = true;
-          this.tools.upAct = false;
-          this.tools.showST();
-          this.tools.hideUP();
-          this.tools.hideAssumptions();
-        } else {
-          this.promptPermission();
-        }
-      }
-    );
+    if (this.tools.hasUPTRole) {
+      this.suitabilityActive = true;
+      this.urbPerActive = false;
+      this.tools.stAct = true;
+      this.tools.upAct = false;
+      this.tools.showST();
+      this.tools.hideUP();
+      this.tools.hideAssumptions();
+    } else {
+      this.promptPermission();
+    }
   }
 
   closePlugin() {

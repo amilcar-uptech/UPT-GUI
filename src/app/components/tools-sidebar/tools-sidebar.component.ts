@@ -44,6 +44,8 @@ import { Heatmap } from 'src/app/interfaces/heatmap';
 import { HeatmapService } from 'src/app/services/heatmap.service';
 import { WfsUptService } from 'src/app/services/wfs-upt.service';
 import { saveAs } from 'file-saver';
+import { ShareLayersService } from 'src/app/services/share-layers.service';
+import { RoleService } from 'src/app/services/role.service';
 
 declare var Oskari: any;
 
@@ -71,8 +73,10 @@ export class ToolsSidebarComponent implements OnInit {
   dateStringGP = '';
 
   displayAbout = false;
+  displayShare = false;
   displayUptWfs = false;
 
+  hasUPTRole = false;
   isUPTAdmin = false;
 
   // UPT WFS variables
@@ -91,7 +95,7 @@ export class ToolsSidebarComponent implements OnInit {
 
   // Block Document
   blockedDocument = false;
-  
+
   displayTools: boolean;
 
   // Properties to determine which plugin is active
@@ -102,6 +106,9 @@ export class ToolsSidebarComponent implements OnInit {
   filterRangeST: number[];
 
   columnDataGP: string[] = [];
+
+  shareLayersList: any[];
+  shareLayer: any;
 
   /**
    * UP Variables
@@ -560,6 +567,153 @@ export class ToolsSidebarComponent implements OnInit {
     this.displayUptWfs = !this.displayUptWfs;
   }
 
+  toggleShare() {
+    if (!this.displayShare) {
+      this.shareLayerService.getShareLayers().subscribe(
+        lyr => {
+          this.shareLayersList = lyr;
+        }, error => {
+          let errContainer = [];
+          const errObject = error.error.info.Errors;
+          errObject.forEach(err => {
+            errContainer.push({message: err.message, status: err.status});
+          });
+          errContainer.forEach(err => {
+            this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
+            err.message + '</div>';
+          });
+          this.showConsole();
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error!',
+            detail: 'An error ocurred during the operation!'
+          });
+        }, () => {
+          this.displayShare = !this.displayShare;
+        }
+      );
+    }
+  }
+
+  shareLayerStatus() {
+    this.messageService.add({
+      key: 'changeLayerStatus',
+      sticky: true,
+      severity: 'warn',
+      summary: 'Warning!',
+      detail: 'The following operation will make the selected layer public or private. Select ' +
+      'the option that better suits your needs. Click on the \'x\' to cancel.'
+    });
+  }
+
+  publishLayer() {
+    if (this.shareLayer.id === 0) {
+      this.shareLayerService.postShareLayers(this.shareLayer.id, 1).subscribe(
+        () => {
+          this.messageService.add({
+            severity: 'info',
+            summary: 'In Progress!',
+            detail: 'Your operation is being processed.'
+          });
+        },
+        () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error!',
+            detail: 'An error ocurred during the operation!'
+          });
+        },
+        () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success!',
+            detail: 'Process was completed successfully!'
+          });
+          this.messageService.clear('changeLayerStatus');
+        }
+      );
+    } else if (this.shareLayer.id === 1) {
+      this.shareLayerService.putShareLayers(this.shareLayer.id, 1).subscribe(
+        () => {
+          this.messageService.add({
+            severity: 'info',
+            summary: 'In Progress!',
+            detail: 'Your operation is being processed.'
+          });
+        },
+        () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error!',
+            detail: 'An error ocurred during the operation!'
+          });
+        },
+        () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success!',
+            detail: 'Process was completed successfully!'
+          });
+          this.messageService.clear('changeLayerStatus');
+        }
+      );
+    }
+  }
+
+  privatizeLayer() {
+    if (this.shareLayer.id === 0) {
+      this.shareLayerService.postShareLayers(this.shareLayer.id, 0).subscribe(
+        () => {
+          this.messageService.add({
+            severity: 'info',
+            summary: 'In Progress!',
+            detail: 'Your operation is being processed.'
+          });
+        },
+        () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error!',
+            detail: 'An error ocurred during the operation!'
+          });
+        },
+        () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success!',
+            detail: 'Process was completed successfully!'
+          });
+          this.messageService.clear('changeLayerStatus');
+        }
+      );
+    } else if (this.shareLayer.id === 1) {
+      this.shareLayerService.putShareLayers(this.shareLayer.id, 0).subscribe(
+        () => {
+          this.messageService.add({
+            severity: 'info',
+            summary: 'In Progress!',
+            detail: 'Your operation is being processed.'
+          });
+        },
+        () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error!',
+            detail: 'An error ocurred during the operation!'
+          });
+        },
+        () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success!',
+            detail: 'Process was completed successfully!'
+          });
+          this.messageService.clear('changeLayerStatus');
+        }
+      );
+    }
+  }
+
   fixLayersGP() {
     this.messageService.add({
       severity: 'info',
@@ -674,7 +828,6 @@ export class ToolsSidebarComponent implements OnInit {
    */
 
   showUP() {
-    console.log(this.isUPTAdmin);
     this.indSelectItems = [];
     this.indsEditResult = [];
     this.selectedScenarios = [];
@@ -744,67 +897,69 @@ export class ToolsSidebarComponent implements OnInit {
           detail: 'An error ocurred during the operation!'
         });
       });
-    this.moduleService.getModules().subscribe(mdls => this.modules = mdls,
-      error => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach(err => {
-          errContainer.push({message: err.message, status: err.status});
-        });
-        errContainer.forEach(err => {
-          this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
-          err.message + '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!'
-        });
-      });
-    this.moduleService.getIndicators().subscribe(
-      inds => {
-        this.inds = inds;
-        inds.forEach(ind => this.indsEditResult.push({value: ind.id, label: ind.indicator}));
-      }, error => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach(err => {
-          errContainer.push({message: err.message, status: err.status});
-        });
-        errContainer.forEach(err => {
-          this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
-          err.message + '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!'
-        });
-      }
-    );
-    this.moduleService.getIndicatorResults().subscribe(
-      indRes => this.indsResult = indRes,
-      error => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach(err => {
-          errContainer.push({message: err.message, status: err.status});
-        });
-        errContainer.forEach(err => {
-          this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
-          err.message + '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!'
-        });
-      }
-    );
     this.getScenarios();
+    if (this.isUPTAdmin) {
+      this.moduleService.getModules().subscribe(mdls => this.modules = mdls,
+        error => {
+          let errContainer = [];
+          const errObject = error.error.info.Errors;
+          errObject.forEach(err => {
+            errContainer.push({message: err.message, status: err.status});
+          });
+          errContainer.forEach(err => {
+            this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
+            err.message + '</div>';
+          });
+          this.showConsole();
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error!',
+            detail: 'An error ocurred during the operation!'
+          });
+        });
+      this.moduleService.getIndicators().subscribe(
+        inds => {
+          this.inds = inds;
+          inds.forEach(ind => this.indsEditResult.push({value: ind.id, label: ind.indicator}));
+        }, error => {
+          let errContainer = [];
+          const errObject = error.error.info.Errors;
+          errObject.forEach(err => {
+            errContainer.push({message: err.message, status: err.status});
+          });
+          errContainer.forEach(err => {
+            this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
+            err.message + '</div>';
+          });
+          this.showConsole();
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error!',
+            detail: 'An error ocurred during the operation!'
+          });
+        }
+      );
+      this.moduleService.getIndicatorResults().subscribe(
+        indRes => this.indsResult = indRes,
+        error => {
+          let errContainer = [];
+          const errObject = error.error.info.Errors;
+          errObject.forEach(err => {
+            errContainer.push({message: err.message, status: err.status});
+          });
+          errContainer.forEach(err => {
+            this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
+            err.message + '</div>';
+          });
+          this.showConsole();
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error!',
+            detail: 'An error ocurred during the operation!'
+          });
+        }
+      );
+    }
     this.displayUP = true;
   }
 
@@ -5640,7 +5795,9 @@ cancelDeleteSettings() {
               private upMiscService: UpMiscService,
               private classificationService: ClassificationService,
               private heatmapService: HeatmapService,
-              private wfsUptService: WfsUptService) {
+              private wfsUptService: WfsUptService,
+              private shareLayerService: ShareLayersService,
+              private roleService: RoleService) {
                 // this.uptWindow = window;
                 this.resultOptionsUP = {
                   legend: {
@@ -5818,6 +5975,22 @@ cancelDeleteSettings() {
     ];
     for (let i = 0; i <= 100; i++) {
         this.valuesST.push(i);
+    }
+    if (this.uptWindow) {
+      this.roleService.getRoles().subscribe(
+        role => {
+          role.forEach(
+            str => {
+              if (str.toLowerCase().includes('upt')) {
+                this.hasUPTRole = true;
+              }
+              if (str.toLowerCase().includes('uptadmin')) {
+                this.isUPTAdmin = true;
+              }
+            }
+          );
+        }
+      );
     }
   }
 

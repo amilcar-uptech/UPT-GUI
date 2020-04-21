@@ -16,4 +16,5 @@ export class RoleService {
                   map(response => response.roles as any[])
                 );
   }
+
 }
