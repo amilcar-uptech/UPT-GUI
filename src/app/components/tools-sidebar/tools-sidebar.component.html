@@ -1052,7 +1052,7 @@
                     </ng-container>
                 </ng-template>
             </ngb-tab>
-      <ngb-tab>
+      <ngb-tab *ngIf="isUPTAdmin">
           <ng-template ngbTabTitle>Normalization</ng-template>
           <ng-template ngbTabContent>
             <div class="ui-g ui-fluid">
@@ -1095,7 +1095,7 @@
               </div>
           </ng-template>
       </ngb-tab>
-      <ngb-tab>
+      <ngb-tab *ngIf="isUPTAdmin">
         <ng-template ngbTabTitle>Operation</ng-template>
         <ng-template ngbTabContent>
             <div class="ui-g ui-fluid">
@@ -1334,7 +1334,7 @@
                     </p-table>
                 </ng-template>
             </ngb-tab>
-            <ngb-tab id="indicatorsUP">
+            <ngb-tab id="indicatorsUP" *ngIf="isUPTAdmin">
                 <ng-template ngbTabTitle>
                     Indicators
                 </ng-template>

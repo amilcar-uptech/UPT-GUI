@@ -17,13 +17,13 @@
                     class="caret"></span></a>
                         <div class="dropdown-menu" role="menu" style="left: -32px;">
                                     <ul class="list-inline p-1" *ngIf="uptWindow.__session_active; else loggedOut">
-                                        <li class="list-inline-item" (click)="stStatus(); tools.showST(); tools.hideUP(); tools.hideAssumptions();">
+                                        <li class="list-inline-item" (click)="stStatus();">
                                             <img style="height: 1.8em" src="{{oskariUrl}}/PLID/assets/img/st-small.png" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="Suitability">
                                         </li>
-                                        <li class="list-inline-item" (click)="upStatus(); tools.showUP(); tools.hideColorScaleST(); tools.hideST(); tools.hideDataST();">
+                                        <li class="list-inline-item" (click)="upStatus();">
                                             <img style="height: 1.8em" src="{{oskariUrl}}/PLID/assets/img/up-small.png" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="UrbanPerformance">
                                         </li>
-                                        <li class="list-inline-item" (click)="closePlugin(); tools.hideUP(); tools.hideColorScaleST(); tools.hideST(); tools.hideAssumptions(); tools.hideDataST();">
+                                        <li class="list-inline-item" (click)="closePlugin();">
                                             <img style="height: 1.8em" src="{{oskariUrl}}/PLID/assets/img/tache_Mesa de trabajo 1 copia 19.png" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="Close">
                                         </li>
                                     </ul>
@@ -46,4 +46,4 @@
             </div>
         </nav>
 </mdb-navbar>
-<app-tools-sidebar #tools [upAct]="urbPerActive" [stAct]="suitabilityActive" [uptWindow]="uptWindow"></app-tools-sidebar>
+<app-tools-sidebar #tools [uptWindow]="uptWindow"></app-tools-sidebar>
