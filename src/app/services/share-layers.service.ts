@@ -33,14 +33,4 @@ export class ShareLayersService {
               map(response => response as any[])
             );
   }
-
-  public putShareLayers(id: number, is_public: number): Observable<any[]> {
-    let body = new HttpParams();
-    body = body.set('id', id.toString());
-    body = body.set('is_public', is_public.toString());
-    return this.http.put('/action?action_route=share_layers', body)
-            .pipe(
-              map(response => response as any[])
-            );
-  }
 }

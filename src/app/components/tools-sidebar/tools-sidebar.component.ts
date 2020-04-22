@@ -607,7 +607,6 @@ export class ToolsSidebarComponent implements OnInit {
   }
 
   publishLayer() {
-    if (this.shareLayer.id === 0) {
       this.shareLayerService.postShareLayers(this.shareLayer.id, 1).subscribe(
         () => {
           this.messageService.add({
@@ -632,36 +631,9 @@ export class ToolsSidebarComponent implements OnInit {
           this.messageService.clear('changeLayerStatus');
         }
       );
-    } else {
-      this.shareLayerService.putShareLayers(this.shareLayer.id, 1).subscribe(
-        () => {
-          this.messageService.add({
-            severity: 'info',
-            summary: 'In Progress!',
-            detail: 'Your operation is being processed.'
-          });
-        },
-        () => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!'
-          });
-        },
-        () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success!',
-            detail: 'Process was completed successfully!'
-          });
-          this.messageService.clear('changeLayerStatus');
-        }
-      );
-    }
   }
 
   privatizeLayer() {
-    if (this.shareLayer.id === 0) {
       this.shareLayerService.postShareLayers(this.shareLayer.id, 0).subscribe(
         () => {
           this.messageService.add({
@@ -686,32 +658,6 @@ export class ToolsSidebarComponent implements OnInit {
           this.messageService.clear('changeLayerStatus');
         }
       );
-    } else {
-      this.shareLayerService.putShareLayers(this.shareLayer.id, 0).subscribe(
-        () => {
-          this.messageService.add({
-            severity: 'info',
-            summary: 'In Progress!',
-            detail: 'Your operation is being processed.'
-          });
-        },
-        () => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!'
-          });
-        },
-        () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success!',
-            detail: 'Process was completed successfully!'
-          });
-          this.messageService.clear('changeLayerStatus');
-        }
-      );
-    }
   }
 
   fixLayersGP() {
