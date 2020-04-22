@@ -595,7 +595,7 @@ export class ToolsSidebarComponent implements OnInit {
     }
   }
 
-  shareLayerStatus() {
+  shareLayerStatus(event) {
     this.messageService.add({
       key: 'changeLayerStatus',
       sticky: true,
@@ -632,7 +632,7 @@ export class ToolsSidebarComponent implements OnInit {
           this.messageService.clear('changeLayerStatus');
         }
       );
-    } else if (this.shareLayer.id === 1) {
+    } else {
       this.shareLayerService.putShareLayers(this.shareLayer.id, 1).subscribe(
         () => {
           this.messageService.add({
@@ -686,7 +686,7 @@ export class ToolsSidebarComponent implements OnInit {
           this.messageService.clear('changeLayerStatus');
         }
       );
-    } else if (this.shareLayer.id === 1) {
+    } else {
       this.shareLayerService.putShareLayers(this.shareLayer.id, 0).subscribe(
         () => {
           this.messageService.add({

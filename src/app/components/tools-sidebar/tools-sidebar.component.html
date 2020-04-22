@@ -5,7 +5,7 @@
 <p-dialog header="Share User Layers" [(visible)]="displayShare" [modal]="false" [style]="{width: 'width', minWidth: 'minWidth'}" 
 [maximizable]="false" [baseZIndex]="1150">
     <div class="ui-g ui-fluid p-3">
-        <p-dropdown (onHide)="shareLayerStatus()" placeholder="Select a layer" optionLabel="name" [baseZIndex]="2500" appendTo="body" [options]="shareLayersList" [(ngModel)]="shareLayer" [filter]="true" styleClass="geoportal-dialog" panelStyleClass="geoportal-dialog"></p-dropdown>
+        <p-dropdown (onChange)="shareLayerStatus($event)" placeholder="Select a layer" optionLabel="name" [baseZIndex]="2500" appendTo="body" [options]="shareLayersList" [(ngModel)]="shareLayer" [filter]="true" styleClass="geoportal-dialog" panelStyleClass="geoportal-dialog"></p-dropdown>
     </div>
 </p-dialog>
 <p-toast [modal]="true" key="changeLayerStatus" position="center" [baseZIndex]="5000">
