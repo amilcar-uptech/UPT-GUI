@@ -93,7 +93,7 @@ import { StaticMethodPipe } from './custom-pipes/static-method.pipe';
     HttpClientXsrfModule.withOptions({
       cookieName: 'XSRF-TOKEN',
       headerName: 'X-CSRF-TOKEN'
-    }),
+    })
   ],
   providers: [
     TreeDragDropService,

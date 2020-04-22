@@ -2,19 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Indicator } from 'src/app/interfaces/indicator';
 
 @Injectable({
   providedIn: 'root'
 })
-export class IndicatorService {
+export class RoleService {
 
   constructor(private http: HttpClient) { }
 
-  public getIndicators(): Observable<Indicator[]> {
-    return this.http.get<any>('/action?action_route=IndicatorsUPHandler')
+  public getRoles(): Observable<any[]> {
+    return this.http.get<any>('/action?action_route=upt_roles')
                 .pipe(
-                  map(response => response as Indicator[])
+                  map(response => response.roles as any[])
                 );
   }
+
 }

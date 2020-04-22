@@ -43,6 +43,9 @@ import { Status } from 'src/app/interfaces/status';
 import { Heatmap } from 'src/app/interfaces/heatmap';
 import { HeatmapService } from 'src/app/services/heatmap.service';
 import { WfsUptService } from 'src/app/services/wfs-upt.service';
+import { saveAs } from 'file-saver';
+import { ShareLayersService } from 'src/app/services/share-layers.service';
+import { RoleService } from 'src/app/services/role.service';
 
 declare var Oskari: any;
 
@@ -70,7 +73,11 @@ export class ToolsSidebarComponent implements OnInit {
   dateStringGP = '';
 
   displayAbout = false;
+  displayShare = false;
   displayUptWfs = false;
+
+  hasUPTRole = false;
+  isUPTAdmin = false;
 
   // UPT WFS variables
   wfsStudyArea: SelectItem[];
@@ -88,17 +95,20 @@ export class ToolsSidebarComponent implements OnInit {
 
   // Block Document
   blockedDocument = false;
-  
+
   displayTools: boolean;
 
   // Properties to determine which plugin is active
-  @Input() upAct: boolean;
-  @Input() stAct: boolean;
+  upAct: boolean;
+  stAct: boolean;
 
   // Properties for range sliders
   filterRangeST: number[];
 
   columnDataGP: string[] = [];
+
+  shareLayersList: any[];
+  shareLayer: any;
 
   /**
    * UP Variables
@@ -301,6 +311,14 @@ export class ToolsSidebarComponent implements OnInit {
 
   // Manage variables for objects
   manageScenario: Scenario;
+
+  // Download object
+  downloadObject: any;
+
+  // selScenarios copy
+  scenariosCopy: Scenario[];
+
+  okayResults = true;
 
   // Cols for managing objects
   colsScenario: any[];
@@ -549,6 +567,99 @@ export class ToolsSidebarComponent implements OnInit {
     this.displayUptWfs = !this.displayUptWfs;
   }
 
+  toggleShare() {
+    if (!this.displayShare) {
+      this.shareLayerService.getShareLayers().subscribe(
+        lyr => {
+          this.shareLayersList = lyr;
+        }, error => {
+          let errContainer = [];
+          const errObject = error.error.info.Errors;
+          errObject.forEach(err => {
+            errContainer.push({message: err.message, status: err.status});
+          });
+          errContainer.forEach(err => {
+            this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
+            err.message + '</div>';
+          });
+          this.showConsole();
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error!',
+            detail: 'An error ocurred during the operation!'
+          });
+        }, () => {
+          this.displayShare = !this.displayShare;
+        }
+      );
+    }
+  }
+
+  shareLayerStatus(event) {
+    this.messageService.add({
+      key: 'changeLayerStatus',
+      sticky: true,
+      severity: 'warn',
+      summary: 'Warning!',
+      detail: 'The following operation will make the selected layer public or private. Select ' +
+      'the option that better suits your needs. Click on the \'x\' to cancel.'
+    });
+  }
+
+  publishLayer() {
+      this.shareLayerService.postShareLayers(this.shareLayer.id, 1).subscribe(
+        () => {
+          this.messageService.add({
+            severity: 'info',
+            summary: 'In Progress!',
+            detail: 'Your operation is being processed.'
+          });
+        },
+        () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error!',
+            detail: 'An error ocurred during the operation!'
+          });
+        },
+        () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success!',
+            detail: 'Process was completed successfully!'
+          });
+          this.messageService.clear('changeLayerStatus');
+        }
+      );
+  }
+
+  privatizeLayer() {
+      this.shareLayerService.postShareLayers(this.shareLayer.id, 0).subscribe(
+        () => {
+          this.messageService.add({
+            severity: 'info',
+            summary: 'In Progress!',
+            detail: 'Your operation is being processed.'
+          });
+        },
+        () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error!',
+            detail: 'An error ocurred during the operation!'
+          });
+        },
+        () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success!',
+            detail: 'Process was completed successfully!'
+          });
+          this.messageService.clear('changeLayerStatus');
+        }
+      );
+  }
+
   fixLayersGP() {
     this.messageService.add({
       severity: 'info',
@@ -732,67 +843,69 @@ export class ToolsSidebarComponent implements OnInit {
           detail: 'An error ocurred during the operation!'
         });
       });
-    this.moduleService.getModules().subscribe(mdls => this.modules = mdls,
-      error => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach(err => {
-          errContainer.push({message: err.message, status: err.status});
-        });
-        errContainer.forEach(err => {
-          this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
-          err.message + '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!'
-        });
-      });
-    this.moduleService.getIndicators().subscribe(
-      inds => {
-        this.inds = inds;
-        inds.forEach(ind => this.indsEditResult.push({value: ind.id, label: ind.indicator}));
-      }, error => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach(err => {
-          errContainer.push({message: err.message, status: err.status});
-        });
-        errContainer.forEach(err => {
-          this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
-          err.message + '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!'
-        });
-      }
-    );
-    this.moduleService.getIndicatorResults().subscribe(
-      indRes => this.indsResult = indRes,
-      error => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach(err => {
-          errContainer.push({message: err.message, status: err.status});
-        });
-        errContainer.forEach(err => {
-          this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
-          err.message + '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!'
-        });
-      }
-    );
     this.getScenarios();
+    if (this.isUPTAdmin) {
+      this.moduleService.getModules().subscribe(mdls => this.modules = mdls,
+        error => {
+          let errContainer = [];
+          const errObject = error.error.info.Errors;
+          errObject.forEach(err => {
+            errContainer.push({message: err.message, status: err.status});
+          });
+          errContainer.forEach(err => {
+            this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
+            err.message + '</div>';
+          });
+          this.showConsole();
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error!',
+            detail: 'An error ocurred during the operation!'
+          });
+        });
+      this.moduleService.getIndicators().subscribe(
+        inds => {
+          this.inds = inds;
+          inds.forEach(ind => this.indsEditResult.push({value: ind.id, label: ind.indicator}));
+        }, error => {
+          let errContainer = [];
+          const errObject = error.error.info.Errors;
+          errObject.forEach(err => {
+            errContainer.push({message: err.message, status: err.status});
+          });
+          errContainer.forEach(err => {
+            this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
+            err.message + '</div>';
+          });
+          this.showConsole();
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error!',
+            detail: 'An error ocurred during the operation!'
+          });
+        }
+      );
+      this.moduleService.getIndicatorResults().subscribe(
+        indRes => this.indsResult = indRes,
+        error => {
+          let errContainer = [];
+          const errObject = error.error.info.Errors;
+          errObject.forEach(err => {
+            errContainer.push({message: err.message, status: err.status});
+          });
+          errContainer.forEach(err => {
+            this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
+            err.message + '</div>';
+          });
+          this.showConsole();
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error!',
+            detail: 'An error ocurred during the operation!'
+          });
+        }
+      );
+    }
     this.displayUP = true;
   }
 
@@ -909,91 +1022,39 @@ export class ToolsSidebarComponent implements OnInit {
   }
 
   changeIndicator(event) {
-    /* let proxInd = 0;
-    let buffers = false;
-    let buffAmen = false;
-    let buffJobs = false;
-    let buffRisk = false;
-    let buffRoad = false;
-    let buffTrst = false;
-    let buffObj = [];
-    // this.indSelectItems
-    console.log(event.value);
-    event.value.forEach(
-      (ind) => {
-        if (ind.dependencies.toLowerCase().includes('buffersamenities')) {
-          proxInd++;
-          buffAmen = true;
-        }
-        if (ind.dependencies.toLowerCase().includes('buffersjobs')) {
-          proxInd++;
-          buffJobs = true;
-        }
-        if (ind.dependencies.toLowerCase().includes('buffersrisk')) {
-          proxInd++;
-          buffRisk = true;
-        }
-        if (ind.dependencies.toLowerCase().includes('buffersroads')) {
-          proxInd++;
-          buffRoad = true;
-        }
-        if (ind.dependencies.toLowerCase().includes('bufferstransit')) {
-          proxInd++;
-          buffTrst = true;
-        }
-        if (ind.module.toLowerCase().includes('buffers')) {
-          buffers = true;
-        }
-      }
-    );
-    if (buffAmen) {
-      this.indSelectItems.forEach(item => {
-        if (item.value.module.toLowerCase().includes('buffersamenities')) {
-          buffObj.push(item.value);
+    const indAry = event.value;
+    if (indAry.length > 0) {
+      const indSel = event.itemValue;
+      const indDep = indSel.dependencies;
+      const indList = this.indSelectItems;
+      let origString = '';
+      let arrayString: string[] = [];
+      let newArrayString: string[] = [];
+      let depAry = [];
+      origString = indDep.replace(/"/g, '').replace('[', '').replace(']', '');
+      arrayString = origString.split(',');
+      arrayString.forEach(str => {
+        newArrayString.push(str.trim());
+      });
+      newArrayString.forEach(ary => {
+        indList.forEach(ind => {
+          if (ind.value.name.toLowerCase() === ary.toLowerCase()) {
+            depAry.push(ind.value);
+          }
+        });
+      });
+      depAry.forEach(dep => {
+        if (!indAry.includes(dep)) {
+          event.value.push(dep);
         }
       });
     }
-    if (buffJobs) {
-      this.indSelectItems.forEach(item => {
-        if (item.value.module.toLowerCase().includes('buffersjobs')) {
-          buffObj.push(item.value);
-        }
-      });
-    }
-    if (buffRisk) {
-      this.indSelectItems.forEach(item => {
-        if (item.value.module.toLowerCase().includes('buffersrisk')) {
-          buffObj.push(item.value);
-        }
-      });
-    }
-    if (buffRoad) {
-      this.indSelectItems.forEach(item => {
-        if (item.value.module.toLowerCase().includes('buffersroads')) {
-          buffObj.push(item.value);
-        }
-      });
-    }
-    if (buffTrst) {
-      this.indSelectItems.forEach(item => {
-        if (item.value.module.toLowerCase().includes('bufferstransit')) {
-          buffObj.push(item.value);
-        }
-      });
-    }
-    if (buffObj) {
-      const orgAry = event.value.filter(obj => obj !== buffObj);
-      if (proxInd > 0 && buffers === false) {
-        event.value.push(buffObj);
-      }
-      if (proxInd === 0 && buffers) {
-        this.selectedIndicators = orgAry;
-      }
-    }*/
   }
 
   getUPResults() {
     if(this.selectedScenarios.length > 0) {
+      this.scenariosCopy = this.selectedScenarios;
+      this.okayResults = true;
       this.resultsService.getScenarios(this.selectedScenarios).subscribe(
         scnr => {
           this.scenarioResults = scnr;
@@ -1016,6 +1077,11 @@ export class ToolsSidebarComponent implements OnInit {
           });
          },
          () => {
+          this.scenarioResults.forEach(rslt => {
+            if (rslt.results.length > 0) {
+              this.okayResults = false;
+            }
+          });
           this.rsltLabels = [];
           this.rsltLabelsArray = [];
           this.rsltLabelsPercent = [];
@@ -1177,6 +1243,38 @@ export class ToolsSidebarComponent implements OnInit {
     }
   }
 
+  exportUPResults() {
+    this.resultsService.exportUPResults(this.scenariosCopy).subscribe(res => {
+      this.downloadObject = res;
+    },
+      error => {
+        let errContainer = [];
+        const errObject = error.error.info.Errors;
+        errObject.forEach(err => {
+          errContainer.push({message: err.message, status: err.status});
+        });
+        errContainer.forEach(err => {
+          this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
+          err.message + '</div>';
+        });
+        this.showConsole();
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error!',
+          detail: 'An error ocurred during the operation!'
+        });
+       },
+       () => {
+        this.saveToFileSystem(this.downloadObject);
+       }
+      );
+  }
+
+  private saveToFileSystem(response) {
+    const blob = new Blob([response], { type: 'text/csv' });
+    saveAs(blob, 'up-results.csv');
+  }
+
   compareLabels( a, b ) {
     if ( a.label < b.label ){
       return -1;
@@ -1196,6 +1294,7 @@ export class ToolsSidebarComponent implements OnInit {
        summary: 'In Progress!',
        detail: 'Your operation is being processed.'
      });
+     this.okayResults = true;
      this.resultsService.calculateScenarios(this.selectedScenarios).subscribe(
        () => {},
        error => {
@@ -1286,8 +1385,10 @@ getUPBuffers() {
       });
     }, () => {
       this.buffersUP.forEach(bfs => {
-        Oskari.getSandbox().findRegisteredModuleInstance('MyPlacesImport').getService().addLayerToService(bfs, false);
-        Oskari.getSandbox().findRegisteredModuleInstance('MyPlacesImport').getTab().refresh();
+        setTimeout(() => {
+          Oskari.getSandbox().findRegisteredModuleInstance('MyPlacesImport').getService().addLayerToService(bfs, false);
+          Oskari.getSandbox().findRegisteredModuleInstance('MyPlacesImport').getTab().refresh();
+        }, 500);
       });
       this.layersService.getStudyAreas().subscribe(studyArea => {
         this.studyArea = studyArea;
@@ -1528,7 +1629,8 @@ loadDataColumnsUP(event) {
     sticky: true,
     severity: 'warn',
     summary: 'Warning!',
-    detail: 'This operation will delete all data from the selected table. This process is irreversible. Confirm to delete, cancel to go back'
+    detail: 'This operation will delete all data from the selected table. This process is irreversible. ' +
+    'Confirm to delete, cancel to go back'
   });
  }
 
@@ -1562,6 +1664,8 @@ loadDataColumnsUP(event) {
         summary: 'Success!',
         detail: 'Table data deleted successfully!'
       });
+      this.loadTablesUP();
+      this.loadUPLayers();
     }
    );
  }
@@ -1612,6 +1716,7 @@ loadDataColumnsUP(event) {
            summary: 'Success!',
            detail: 'Process completed successfully.'
          });
+         this.loadUPLayers();
          this.classificationService.getClassifications().subscribe(clsf => this.classifications = clsf,
           error => {
             let errContainer = [];
@@ -4012,8 +4117,10 @@ getSTDistanceLayers(sa) {
       });
     }, () => {
       this.distanceLayerST.forEach(lyr => {
-        Oskari.getSandbox().findRegisteredModuleInstance('MyPlacesImport').getService().addLayerToService(lyr, false);
-        Oskari.getSandbox().findRegisteredModuleInstance('MyPlacesImport').getTab().refresh();
+        setTimeout(() => {
+          Oskari.getSandbox().findRegisteredModuleInstance('MyPlacesImport').getService().addLayerToService(lyr, false);
+          Oskari.getSandbox().findRegisteredModuleInstance('MyPlacesImport').getTab().refresh();
+        }, 500);
       });
       this.loadSTStudyArea();
     }
@@ -5634,7 +5741,9 @@ cancelDeleteSettings() {
               private upMiscService: UpMiscService,
               private classificationService: ClassificationService,
               private heatmapService: HeatmapService,
-              private wfsUptService: WfsUptService) {
+              private wfsUptService: WfsUptService,
+              private shareLayerService: ShareLayersService,
+              private roleService: RoleService) {
                 // this.uptWindow = window;
                 this.resultOptionsUP = {
                   legend: {
@@ -5812,6 +5921,22 @@ cancelDeleteSettings() {
     ];
     for (let i = 0; i <= 100; i++) {
         this.valuesST.push(i);
+    }
+    if (this.uptWindow) {
+      this.roleService.getRoles().subscribe(
+        role => {
+          role.forEach(
+            str => {
+              if (str.toLowerCase().includes('upt')) {
+                this.hasUPTRole = true;
+              }
+              if (str.toLowerCase().includes('uptadmin')) {
+                this.isUPTAdmin = true;
+              }
+            }
+          );
+        }
+      );
     }
   }
 
