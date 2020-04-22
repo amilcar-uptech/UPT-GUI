@@ -28,7 +28,7 @@ export class ShareLayersService {
     let body = new HttpParams();
     body = body.set('id', id.toString());
     body = body.set('is_public', is_public.toString());
-    return this.http.post('/action?action_route=share_layers', httpOptions)
+    return this.http.post('/action?action_route=share_layers', body)
             .pipe(
               map(response => response as any[])
             );
@@ -38,7 +38,7 @@ export class ShareLayersService {
     let body = new HttpParams();
     body = body.set('id', id.toString());
     body = body.set('is_public', is_public.toString());
-    return this.http.put('/action?action_route=share_layers', httpOptions)
+    return this.http.put('/action?action_route=share_layers', body)
             .pipe(
               map(response => response as any[])
             );
