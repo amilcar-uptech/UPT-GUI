@@ -3407,9 +3407,7 @@ installModule(event) {
   loadDataLayerST() {
     this.nodeService.getLayersST().then(layers => {
       this.layersDataST = layers;
-    });
-    this.nodeService.getFiltersST().then(filters => {
-      this.filtersDataST = filters;
+      this.filtersDataST = layers;
     });
   }
 
@@ -3469,7 +3467,6 @@ installModule(event) {
   loadSTColumns() {
     this.listService.getSTColumn().subscribe(listDataST => {
         this.listDataST = listDataST;
-        this.loadDataLayerST();
       }, error => {
         let errContainer = [];
         const errObject = error.error.info.Errors;
