@@ -53,7 +53,7 @@ export class AppComponent implements OnInit {
   }
 
   promptPermission() {
-    this.messageService.add({ key: 'login', severity: 'error', summary: 'Error!', detail: 'You do not have permission to use the UTP'});
+    this.messageService.add({ key: 'login', severity: 'error', summary: 'Error!', detail: 'You do not have permission to use the UPT'});
   }
 
   stStatus() {
