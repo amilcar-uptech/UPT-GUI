@@ -767,6 +767,9 @@ export class ToolsSidebarComponent implements OnInit {
     this.moduleService.getModules().subscribe(
       indicators => {
         this.indicators = indicators;
+        if (this.isUPTAdmin) {
+          this.modules = indicators;
+        }
       }, error => {
         let errContainer = [];
         const errObject = error.error.info.Errors;
@@ -832,24 +835,6 @@ export class ToolsSidebarComponent implements OnInit {
       });
     this.getScenarios();
     if (this.isUPTAdmin) {
-      this.moduleService.getModules().subscribe(mdls => this.modules = mdls,
-        error => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach(err => {
-            errContainer.push({message: err.message, status: err.status});
-          });
-          errContainer.forEach(err => {
-            this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
-            err.message + '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!'
-          });
-        });
       this.moduleService.getIndicators().subscribe(
         inds => {
           this.inds = inds;
@@ -2459,30 +2444,11 @@ saveModule() {
           summary: 'Success!',
           detail: 'Module created successfully!'
         });
-        this.moduleService.getModules().subscribe(
-          mdls => this.modules = mdls,
-          error => {
-            let errContainer = [];
-            const errObject = error.error.info.Errors;
-            errObject.forEach(err => {
-              errContainer.push({message: err.message, status: err.status});
-            });
-            errContainer.forEach(err => {
-              this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
-              err.message + '</div>';
-            });
-            this.showConsole();
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error!',
-              detail: 'An error ocurred during the operation!'
-            });
-          }
-        );
         this.indSelectItems = [];
         this.moduleService.getModules().subscribe(
           indicators => {
             this.indicators = indicators;
+            this.modules = indicators;
           }, error => {
             let errContainer = [];
             const errObject = error.error.info.Errors;
@@ -2542,30 +2508,11 @@ saveModule() {
           summary: 'Success!',
           detail: 'Module updated successfully!'
         });
-        this.moduleService.getModules().subscribe(
-          mdls => this.modules = mdls,
-          error => {
-            let errContainer = [];
-            const errObject = error.error.info.Errors;
-            errObject.forEach(err => {
-              errContainer.push({message: err.message, status: err.status});
-            });
-            errContainer.forEach(err => {
-              this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
-              err.message + '</div>';
-            });
-            this.showConsole();
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error!',
-              detail: 'An error ocurred during the operation!'
-            });
-          }
-        );
         this.indSelectItems = [];
         this.moduleService.getModules().subscribe(
           indicators => {
             this.indicators = indicators;
+            this.modules = indicators;
           }, error => {
             let errContainer = [];
             const errObject = error.error.info.Errors;
@@ -2648,30 +2595,11 @@ confirmDeleteModule() {
         });
   },
     () => {
-      this.moduleService.getModules().subscribe(
-        mdls => this.modules = mdls,
-        error => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach(err => {
-            errContainer.push({message: err.message, status: err.status});
-          });
-          errContainer.forEach(err => {
-            this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
-            err.message + '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!'
-          });
-        }
-      );
       this.indSelectItems = [];
       this.moduleService.getModules().subscribe(
           indicators => {
             this.indicators = indicators;
+            this.modules = indicators;
           }, error => {
             let errContainer = [];
             const errObject = error.error.info.Errors;
@@ -3183,30 +3111,11 @@ installModule(event) {
         summary: 'Success!',
         detail: 'Module installed successfully!'
       });
-      this.moduleService.getModules().subscribe(
-        mdls => this.modules = mdls,
-        error => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach(err => {
-            errContainer.push({message: err.message, status: err.status});
-          });
-          errContainer.forEach(err => {
-            this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
-            err.message + '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!'
-          });
-        }
-      );
       this.indSelectItems = [];
       this.moduleService.getModules().subscribe(
         indicators => {
           this.indicators = indicators;
+          this.modules = indicators;
         }, error => {
           let errContainer = [];
           const errObject = error.error.info.Errors;
