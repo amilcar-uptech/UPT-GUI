@@ -6,7 +6,6 @@ import { Column } from 'src/app/domain/column';
 import { Layer } from 'src/app/interfaces/layer';
 import {SelectItem} from 'primeng/api';
 import { Indicator } from 'src/app/interfaces/indicator';
-import { IndicatorService } from 'src/app/services/indicator/indicator.service';
 import { Scenario } from 'src/app/interfaces/scenario';
 import { ScenarioService } from 'src/app/services/scenario/scenario.service';
 import { Scenarios } from 'src/app/interfaces/results';
@@ -150,12 +149,6 @@ export class ToolsSidebarComponent implements OnInit {
   editModule = false;
   editIndicator = false;
   editIndResult = false;
-  editAmenities = false;
-  editRoads = false;
-  editTransit = false;
-  editRisks = false;
-  editFootprints = false;
-  editJobs = false;
 
   // Data provided by NodeService UP
   layersUP: TreeNode[];
@@ -325,12 +318,6 @@ export class ToolsSidebarComponent implements OnInit {
   colsAssumption: any[];
   colsClassification: any[];
   colsResults: any[] = [];
-  colsAmenities: any[];
-  colsRoads: any[];
-  colsTransit: any[];
-  colsRisks: any[];
-  colsFootprints: any[];
-  colsJobs: any[];
   colsModules: any[];
   colsIndicators: any[];
   colsIndResults: any[];
@@ -777,7 +764,7 @@ export class ToolsSidebarComponent implements OnInit {
     this.indSelectItems = [];
     this.indsEditResult = [];
     this.selectedScenarios = [];
-    this.indicatorService.getIndicators().subscribe(
+    this.moduleService.getModules().subscribe(
       indicators => {
         this.indicators = indicators;
       }, error => {
@@ -2493,7 +2480,7 @@ saveModule() {
           }
         );
         this.indSelectItems = [];
-        this.indicatorService.getIndicators().subscribe(
+        this.moduleService.getModules().subscribe(
           indicators => {
             this.indicators = indicators;
           }, error => {
@@ -2576,7 +2563,7 @@ saveModule() {
           }
         );
         this.indSelectItems = [];
-        this.indicatorService.getIndicators().subscribe(
+        this.moduleService.getModules().subscribe(
           indicators => {
             this.indicators = indicators;
           }, error => {
@@ -2682,7 +2669,7 @@ confirmDeleteModule() {
         }
       );
       this.indSelectItems = [];
-      this.indicatorService.getIndicators().subscribe(
+      this.moduleService.getModules().subscribe(
           indicators => {
             this.indicators = indicators;
           }, error => {
@@ -3217,7 +3204,7 @@ installModule(event) {
         }
       );
       this.indSelectItems = [];
-      this.indicatorService.getIndicators().subscribe(
+      this.moduleService.getModules().subscribe(
         indicators => {
           this.indicators = indicators;
         }, error => {
@@ -3675,30 +3662,6 @@ installModule(event) {
     }
   }
 
-  loadDataColumnMMUST(event) {
-    this.listService.getSTColumnData(event.node.data).subscribe(listManageDataMMUST => {
-      this.colFieldsNameArrayST = [];
-      this.MMUSTId = null;
-      listManageDataMMUST.forEach(data => this.colFieldsNameArrayST.push({name: data}));
-      this.MMUSTId = event.node.data;
-      this.listManageDataMMUST = this.colFieldsNameArrayST;
-      this.columnsHeaderMMUST = event.node.label;
-    },
-      error => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach(err => {
-          errContainer.push({message: err.message, status: err.status});
-        });
-        errContainer.forEach(err => {
-          this.errHtml += '<div class="ui-md-4">' + err.status + '</div><div class="ui-md-8">' +
-          err.message + '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({ severity: 'error', summary: 'Error!', detail: 'An error ocurred during the operation!'});
-    });
-  }
-
 importDataST() {
   if (this.stdAreaSTDistances != null) {
     this.blockDocument();
@@ -3914,7 +3877,7 @@ matchFiltersST() {
         );
       }
       this.unblockDocument();
-  }
+    }
   );
 }
 
@@ -5725,7 +5688,6 @@ cancelDeleteSettings() {
 
   constructor(private nodeService: NodeService,
               private listService: ListService,
-              private indicatorService: IndicatorService,
               private scenarioService: ScenarioService,
               private assumptionService: AssumptionService,
               private resultsService: ResultsService,
@@ -5781,7 +5743,6 @@ cancelDeleteSettings() {
                     callbacks: {
                       label: function (tooltipItem, data) {
                         let label = data.datasets[tooltipItem.datasetIndex].label || '';
-            
                         if (label) {
                           label += ': ';
                         }
@@ -5842,47 +5803,6 @@ cancelDeleteSettings() {
       {field: 'units', header: 'units'},
       {field: 'language', header: 'Language'},
       {field: 'up_indicators_id', header: 'Indicator'}
-    ];
-    this.colsAmenities = [
-      {field: 'id', header: 'ID'},
-      {field: 'scenario', header: 'Scenario'},
-      {field: 'fclass', header: 'F-class'},
-      {field: 'location', header: 'Location'},
-      {field: 'buffer', header: 'Buffer'}
-    ];
-    this.colsRoads = [
-      {field: 'id', header: 'ID'},
-      {field: 'scenario', header: 'Scenario'},
-      {field: 'fclass', header: 'F-class'},
-      {field: 'location', header: 'Location'},
-      {field: 'buffer', header: 'Buffer'}
-    ];
-    this.colsTransit = [
-      {field: 'id', header: 'ID'},
-      {field: 'scenario', header: 'Scenario'},
-      {field: 'fclass', header: 'F-class'},
-      {field: 'location', header: 'Location'},
-      {field: 'buffer', header: 'Buffer'}
-    ];
-    this.colsRisks = [
-      {field: 'id', header: 'ID'},
-      {field: 'scenario', header: 'Scenario'},
-      {field: 'fclass', header: 'F-class'},
-      {field: 'location', header: 'Location'},
-      {field: 'buffer', header: 'Buffer'}
-    ];
-    this.colsFootprints = [
-      {field: 'id', header: 'ID'},
-      {field: 'scenario', header: 'Scenario'},
-      {field: 'name', header: 'Name'},
-      {field: 'location', header: 'Location'},
-      {field: 'value', header: 'Value'}
-    ];
-    this.colsJobs = [
-      {field: 'id', header: 'ID'},
-      {field: 'scenario', header: 'Scenario'},
-      {field: 'location', header: 'Location'},
-      {field: 'buffer', header: 'Buffer'}
     ];
     this.colsLayersSettings = [
       {field: 'label', header: 'Layer'},
