@@ -1,10 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import {MenuItem} from 'primeng/api';
 import { RoleService } from './services/role.service';
 import { ToolsSidebarComponent } from './components/tools-sidebar/tools-sidebar.component';
-
-// declare var __session_active: boolean;
 
 @Component({
   selector: 'app-root',
@@ -14,16 +11,20 @@ import { ToolsSidebarComponent } from './components/tools-sidebar/tools-sidebar.
 })
 
 export class AppComponent implements OnInit {
+  // URL for the directory where most assets will be found
   oskariUrl = '/Oskari/dist/1.1.1/geoportal';
-  dispLay = false;
   title = 'UPT-GUI-app';
+  // Status of UPT
   urbPerActive: boolean;
   suitabilityActive: boolean;
+  // Looks for the a login session.
   uptWindow: Window & {
     __session_active?: boolean
   };
+  // Looks for a role that contains 'UPT'
   hasUPTRole = false;
 
+  // Used to access variables and methods from tools-sidebar.component
   @ViewChild('tools',  {static: false}) tools: ToolsSidebarComponent;
 
   constructor(private messageService: MessageService,
@@ -33,6 +34,7 @@ export class AppComponent implements OnInit {
     this.uptWindow = window;
   }
 
+  // Activates UP and hides dialogs related to ST
   upStatus() {
     if (this.tools.hasUPTRole) {
       this.urbPerActive = true;
@@ -48,14 +50,17 @@ export class AppComponent implements OnInit {
     }
   }
 
+  // Sends a message to user if no login session is active
   promptLogin() {
     this.messageService.add({ key: 'login', severity: 'error', summary: 'Error!', detail: 'Please login to use tools.'});
   }
 
+  // Sends a message to user if no UPT 
   promptPermission() {
     this.messageService.add({ key: 'login', severity: 'error', summary: 'Error!', detail: 'You do not have permission to use the UPT'});
   }
 
+  // Activates ST and hides dialogs related to UP
   stStatus() {
     if (this.tools.hasUPTRole) {
       this.suitabilityActive = true;
@@ -64,19 +69,20 @@ export class AppComponent implements OnInit {
       this.tools.upAct = false;
       this.tools.showST();
       this.tools.hideUP();
-      this.tools.hideAssumptions();
+      this.tools.hideAdvancedUP();
     } else {
       this.promptPermission();
     }
   }
 
+  // Closes either of the active UPT
   closePlugin() {
     this.urbPerActive = false;
     this.suitabilityActive = false;
     this.tools.hideUP();
     this.tools.hideColorScaleST();
     this.tools.hideST();
-    this.tools.hideAssumptions();
+    this.tools.hideAdvancedUP();
     this.tools.hideDataST();
   }
 
