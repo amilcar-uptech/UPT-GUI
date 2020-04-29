@@ -516,6 +516,29 @@ export class ToolsSidebarComponent implements OnInit {
   /**
    * Misc. Functions: Functions that are not involved in either ST or UP
    */
+  // Error handler for the console for most service calls.
+  logErrorHandler(error) {
+    let errContainer = [];
+    const errObject = error.error.info.Errors;
+    errObject.forEach((err) => {
+      errContainer.push({ message: err.message, status: err.status });
+    });
+    errContainer.forEach((err) => {
+            this.errHtml +=
+              '<div class="ui-md-4">' +
+              err.status +
+              '</div><div class="ui-md-8">' +
+              err.message +
+              '</div>';
+          });
+    this.showConsole();
+    this.messageService.add({
+            severity: 'error',
+            summary: 'Error!',
+            detail: 'An error ocurred during the operation!',
+    });
+  }
+
   // Clears the error console.
   clearConsole() {
     this.errHtml = '';
@@ -579,25 +602,7 @@ export class ToolsSidebarComponent implements OnInit {
           this.shareLayersList = lyr;
         },
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         },
         () => {
           this.displayShare = !this.displayShare;
@@ -685,25 +690,7 @@ export class ToolsSidebarComponent implements OnInit {
     this.heatmapService.fixLayerGPData().subscribe(
       () => {},
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       },
       () => {
         this.messageService.add({
@@ -722,25 +709,7 @@ export class ToolsSidebarComponent implements OnInit {
         this.uptWfs = lyr;
       },
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       }
     );
     this.layersService.getStudyAreas().subscribe(
@@ -748,25 +717,7 @@ export class ToolsSidebarComponent implements OnInit {
         this.wfsStudyArea = studyArea;
       },
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       }
     );
   }*/
@@ -781,25 +732,7 @@ export class ToolsSidebarComponent implements OnInit {
             this.listManageDataUptWfs = uptwfs;
           },
           (error) => {
-            let errContainer = [];
-            const errObject = error.error.info.Errors;
-            errObject.forEach((err) => {
-              errContainer.push({ message: err.message, status: err.status });
-            });
-            errContainer.forEach((err) => {
-              this.errHtml +=
-                '<div class="ui-md-4">' +
-                err.status +
-                '</div><div class="ui-md-8">' +
-                err.message +
-                '</div>';
-            });
-            this.showConsole();
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error!',
-              detail: 'An error ocurred during the operation!',
-            });
+            this.logErrorHandler(error);
           }
         );
     }
@@ -840,25 +773,7 @@ export class ToolsSidebarComponent implements OnInit {
         }
       },
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       },
       () => {
         this.indicators.forEach((indicator) => {
@@ -874,49 +789,13 @@ export class ToolsSidebarComponent implements OnInit {
         this.studyArea = studyArea;
       },
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       }
     );
     this.classificationService.getClassifications().subscribe(
       (clsf) => (this.classifications = clsf),
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       }
     );
     this.getScenarios();
@@ -929,49 +808,13 @@ export class ToolsSidebarComponent implements OnInit {
           );
         },
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         }
       );
       this.moduleService.getIndicatorResults().subscribe(
         (indRes) => (this.indsResult = indRes),
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         }
       );
     }
@@ -1102,25 +945,7 @@ export class ToolsSidebarComponent implements OnInit {
           this.scenarioResults = scnr;
         },
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         },
         () => {
           this.scenarioResults.forEach((rslt) => {
@@ -1295,25 +1120,7 @@ export class ToolsSidebarComponent implements OnInit {
         this.downloadObject = res;
       },
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       },
       () => {
         this.saveToFileSystem(this.downloadObject);
@@ -1352,25 +1159,7 @@ export class ToolsSidebarComponent implements OnInit {
       this.resultsService.calculateScenarios(this.selectedScenarios).subscribe(
         () => {},
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         },
         () => {
           interval = setInterval(() => this.getStatusUP(interval), 5000);
@@ -1438,25 +1227,7 @@ export class ToolsSidebarComponent implements OnInit {
     this.resultsService.getUPBuffers(this.selectedScenarios).subscribe(
       (buffers) => (this.buffersUP = buffers),
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       },
       () => {
         this.buffersUP.forEach((bfs) => {
@@ -1476,25 +1247,7 @@ export class ToolsSidebarComponent implements OnInit {
             this.studyArea = studyArea;
           },
           (error) => {
-            let errContainer = [];
-            const errObject = error.error.info.Errors;
-            errObject.forEach((err) => {
-              errContainer.push({ message: err.message, status: err.status });
-            });
-            errContainer.forEach((err) => {
-              this.errHtml +=
-                '<div class="ui-md-4">' +
-                err.status +
-                '</div><div class="ui-md-8">' +
-                err.message +
-                '</div>';
-            });
-            this.showConsole();
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error!',
-              detail: 'An error ocurred during the operation!',
-            });
+            this.logErrorHandler(error);
           }
         );
       }
@@ -1591,25 +1344,7 @@ export class ToolsSidebarComponent implements OnInit {
         },
         (error) => {
           this.unblockDocument();
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation.',
-          });
+          this.logErrorHandler(error);
         },
         () => {
           this.selectedScenarios = [];
@@ -1660,25 +1395,7 @@ export class ToolsSidebarComponent implements OnInit {
             this.loadDataLayerUP();
           },
           (error) => {
-            let errContainer = [];
-            const errObject = error.error.info.Errors;
-            errObject.forEach((err) => {
-              errContainer.push({ message: err.message, status: err.status });
-            });
-            errContainer.forEach((err) => {
-              this.errHtml +=
-                '<div class="ui-md-4">' +
-                err.status +
-                '</div><div class="ui-md-8">' +
-                err.message +
-                '</div>';
-            });
-            this.showConsole();
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error!',
-              detail: 'An error ocurred during the operation!',
-            });
+            this.logErrorHandler(error);
           }
         );
       }
@@ -1703,25 +1420,7 @@ export class ToolsSidebarComponent implements OnInit {
           this.columnsHeaderUP = event.node.label;
         },
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         }
       );
     }
@@ -1733,25 +1432,7 @@ export class ToolsSidebarComponent implements OnInit {
       this.nodeService.getUPTables(this.upTablesScenario.scenarioId).subscribe(
         (tables) => (this.tablesUP = tables),
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         }
       );
     }
@@ -1783,25 +1464,7 @@ export class ToolsSidebarComponent implements OnInit {
       .subscribe(
         () => {},
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -1843,25 +1506,7 @@ export class ToolsSidebarComponent implements OnInit {
       () => {},
       (error) => {
         this.unblockDocument();
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       },
       () => {
         this.messageService.add({
@@ -1873,25 +1518,7 @@ export class ToolsSidebarComponent implements OnInit {
         this.classificationService.getClassifications().subscribe(
           (clsf) => (this.classifications = clsf),
           (error) => {
-            let errContainer = [];
-            const errObject = error.error.info.Errors;
-            errObject.forEach((err) => {
-              errContainer.push({ message: err.message, status: err.status });
-            });
-            errContainer.forEach((err) => {
-              this.errHtml +=
-                '<div class="ui-md-4">' +
-                err.status +
-                '</div><div class="ui-md-8">' +
-                err.message +
-                '</div>';
-            });
-            this.showConsole();
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error!',
-              detail: 'An error ocurred during the operation!',
-            });
+            this.logErrorHandler(error);
           }
         );
         this.unblockDocument();
@@ -1907,25 +1534,7 @@ export class ToolsSidebarComponent implements OnInit {
     this.scenarioService.getScenarios().subscribe(
       (scenarios) => (this.scenarios = scenarios),
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       }
     );
   }
@@ -1957,52 +1566,13 @@ export class ToolsSidebarComponent implements OnInit {
         });
       },
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       },
       () => {
         this.scenarioService.getScenarios().subscribe(
           (scenarios) => (this.scenarios = scenarios),
           (error) => {
-            let errContainer = [];
-            const errObject = error.error.info.Errors;
-            errObject.forEach((err) => {
-              errContainer.push({ message: err.message, status: err.status });
-            });
-            errContainer.forEach((err) => {
-              this.errHtml +=
-                '<div class="ui-md-4">' +
-                err.status +
-                '</div><div class="ui-md-8">' +
-                err.message +
-                '</div>';
-            });
-            this.showConsole();
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error!',
-              detail: 'An error ocurred during the operation!',
-            });
+            this.logErrorHandler(error);
           }
         );
         this.selectedScenarios = [];
@@ -2046,49 +1616,13 @@ export class ToolsSidebarComponent implements OnInit {
         });
       },
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       },
       () => {
         this.scenarioService.getScenarios().subscribe(
           (scenarios) => (this.scenarios = scenarios),
           (error) => {
-            let errContainer = [];
-            const errObject = error.error.info.Errors;
-            errObject.forEach((err) => {
-              errContainer.push({ message: err.message, status: err.status });
-            });
-            errContainer.forEach((err) => {
-              this.errHtml +=
-                '<div class="ui-md-4">' +
-                err.status +
-                '</div><div class="ui-md-8">' +
-                err.message +
-                '</div>';
-            });
-            this.showConsole();
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error!',
-              detail: 'An error ocurred during the operation!',
-            });
+            this.logErrorHandler(error);
           }
         );
         this.layers = [];
@@ -2118,25 +1652,7 @@ export class ToolsSidebarComponent implements OnInit {
         .subscribe(
           (assumptions) => (this.assumptions = assumptions),
           (error) => {
-            let errContainer = [];
-            const errObject = error.error.info.Errors;
-            errObject.forEach((err) => {
-              errContainer.push({ message: err.message, status: err.status });
-            });
-            errContainer.forEach((err) => {
-              this.errHtml +=
-                '<div class="ui-md-4">' +
-                err.status +
-                '</div><div class="ui-md-8">' +
-                err.message +
-                '</div>';
-            });
-            this.showConsole();
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error!',
-              detail: 'An error ocurred during the operation!',
-            });
+            this.logErrorHandler(error);
           }
         );
     }
@@ -2156,25 +1672,7 @@ export class ToolsSidebarComponent implements OnInit {
         () => {},
         (error) => {
           this.unblockDocument();
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         },
         () => {
           if (this.asmptScenarioManage) {
@@ -2183,28 +1681,7 @@ export class ToolsSidebarComponent implements OnInit {
               .subscribe(
                 (asmpt) => (this.assumptions = asmpt),
                 (error) => {
-                  let errContainer = [];
-                  const errObject = error.error.info.Errors;
-                  errObject.forEach((err) => {
-                    errContainer.push({
-                      message: err.message,
-                      status: err.status,
-                    });
-                  });
-                  errContainer.forEach((err) => {
-                    this.errHtml +=
-                      '<div class="ui-md-4">' +
-                      err.status +
-                      '</div><div class="ui-md-8">' +
-                      err.message +
-                      '</div>';
-                  });
-                  this.showConsole();
-                  this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error!',
-                    detail: 'An error ocurred during the operation!',
-                  });
+                  this.logErrorHandler(error);
                 }
               );
           }
@@ -2243,28 +1720,7 @@ export class ToolsSidebarComponent implements OnInit {
             detail: 'Your assumption is being created!',
           }),
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -2278,28 +1734,7 @@ export class ToolsSidebarComponent implements OnInit {
               .subscribe(
                 (asmpt) => (this.assumptions = asmpt),
                 (error) => {
-                  let errContainer = [];
-                  const errObject = error.error.info.Errors;
-                  errObject.forEach((err) => {
-                    errContainer.push({
-                      message: err.message,
-                      status: err.status,
-                    });
-                  });
-                  errContainer.forEach((err) => {
-                    this.errHtml +=
-                      '<div class="ui-md-4">' +
-                      err.status +
-                      '</div><div class="ui-md-8">' +
-                      err.message +
-                      '</div>';
-                  });
-                  this.showConsole();
-                  this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error!',
-                    detail: 'An error ocurred during the operation!',
-                  });
+                  this.logErrorHandler(error);
                 }
               );
           }
@@ -2316,25 +1751,7 @@ export class ToolsSidebarComponent implements OnInit {
             detail: 'Your assumption is being updated!',
           }),
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -2348,28 +1765,7 @@ export class ToolsSidebarComponent implements OnInit {
               .subscribe(
                 (asmpt) => (this.assumptions = asmpt),
                 (error) => {
-                  let errContainer = [];
-                  const errObject = error.error.info.Errors;
-                  errObject.forEach((err) => {
-                    errContainer.push({
-                      message: err.message,
-                      status: err.status,
-                    });
-                  });
-                  errContainer.forEach((err) => {
-                    this.errHtml +=
-                      '<div class="ui-md-4">' +
-                      err.status +
-                      '</div><div class="ui-md-8">' +
-                      err.message +
-                      '</div>';
-                  });
-                  this.showConsole();
-                  this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error!',
-                    detail: 'An error ocurred during the operation!',
-                  });
+                  this.logErrorHandler(error);
                 }
               );
           }
@@ -2412,25 +1808,7 @@ export class ToolsSidebarComponent implements OnInit {
           detail: 'Your assumption is being deleted!',
         }),
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       },
       () => {
         if (this.asmptScenarioManage) {
@@ -2439,28 +1817,7 @@ export class ToolsSidebarComponent implements OnInit {
             .subscribe(
               (asmpt) => (this.assumptions = asmpt),
               (error) => {
-                let errContainer = [];
-                const errObject = error.error.info.Errors;
-                errObject.forEach((err) => {
-                  errContainer.push({
-                    message: err.message,
-                    status: err.status,
-                  });
-                });
-                errContainer.forEach((err) => {
-                  this.errHtml +=
-                    '<div class="ui-md-4">' +
-                    err.status +
-                    '</div><div class="ui-md-8">' +
-                    err.message +
-                    '</div>';
-                });
-                this.showConsole();
-                this.messageService.add({
-                  severity: 'error',
-                  summary: 'Error!',
-                  detail: 'An error ocurred during the operation!',
-                });
+                this.logErrorHandler(error);
               }
             );
         }
@@ -2508,25 +1865,7 @@ export class ToolsSidebarComponent implements OnInit {
               detail: 'Your module is being created!',
             }),
           (error) => {
-            let errContainer = [];
-            const errObject = error.error.info.Errors;
-            errObject.forEach((err) => {
-              errContainer.push({ message: err.message, status: err.status });
-            });
-            errContainer.forEach((err) => {
-              this.errHtml +=
-                '<div class="ui-md-4">' +
-                err.status +
-                '</div><div class="ui-md-8">' +
-                err.message +
-                '</div>';
-            });
-            this.showConsole();
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error!',
-              detail: 'An error ocurred during the operation!',
-            });
+            this.logErrorHandler(error);
           },
           () => {
             this.messageService.add({
@@ -2537,28 +1876,7 @@ export class ToolsSidebarComponent implements OnInit {
             this.classificationService.getClassifications().subscribe(
               (clsf) => (this.classifications = clsf),
               (error) => {
-                let errContainer = [];
-                const errObject = error.error.info.Errors;
-                errObject.forEach((err) => {
-                  errContainer.push({
-                    message: err.message,
-                    status: err.status,
-                  });
-                });
-                errContainer.forEach((err) => {
-                  this.errHtml +=
-                    '<div class="ui-md-4">' +
-                    err.status +
-                    '</div><div class="ui-md-8">' +
-                    err.message +
-                    '</div>';
-                });
-                this.showConsole();
-                this.messageService.add({
-                  severity: 'error',
-                  summary: 'Error!',
-                  detail: 'An error ocurred during the operation!',
-                });
+                this.logErrorHandler(error);
               }
             );
             this.manageClassification = null;
@@ -2576,25 +1894,7 @@ export class ToolsSidebarComponent implements OnInit {
               detail: 'Your module is being updated!',
             }),
           (error) => {
-            let errContainer = [];
-            const errObject = error.error.info.Errors;
-            errObject.forEach((err) => {
-              errContainer.push({ message: err.message, status: err.status });
-            });
-            errContainer.forEach((err) => {
-              this.errHtml +=
-                '<div class="ui-md-4">' +
-                err.status +
-                '</div><div class="ui-md-8">' +
-                err.message +
-                '</div>';
-            });
-            this.showConsole();
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error!',
-              detail: 'An error ocurred during the operation!',
-            });
+            this.logErrorHandler(error);
           },
           () => {
             this.messageService.add({
@@ -2605,28 +1905,7 @@ export class ToolsSidebarComponent implements OnInit {
             this.classificationService.getClassifications().subscribe(
               (clsf) => (this.classifications = clsf),
               (error) => {
-                let errContainer = [];
-                const errObject = error.error.info.Errors;
-                errObject.forEach((err) => {
-                  errContainer.push({
-                    message: err.message,
-                    status: err.status,
-                  });
-                });
-                errContainer.forEach((err) => {
-                  this.errHtml +=
-                    '<div class="ui-md-4">' +
-                    err.status +
-                    '</div><div class="ui-md-8">' +
-                    err.message +
-                    '</div>';
-                });
-                this.showConsole();
-                this.messageService.add({
-                  severity: 'error',
-                  summary: 'Error!',
-                  detail: 'An error ocurred during the operation!',
-                });
+                this.logErrorHandler(error);
               }
             );
             this.manageClassification = null;
@@ -2670,49 +1949,13 @@ export class ToolsSidebarComponent implements OnInit {
             detail: 'Your module is being deleted!',
           }),
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         },
         () => {
           this.classificationService.getClassifications().subscribe(
             (clsf) => (this.classifications = clsf),
             (error) => {
-              let errContainer = [];
-              const errObject = error.error.info.Errors;
-              errObject.forEach((err) => {
-                errContainer.push({ message: err.message, status: err.status });
-              });
-              errContainer.forEach((err) => {
-                this.errHtml +=
-                  '<div class="ui-md-4">' +
-                  err.status +
-                  '</div><div class="ui-md-8">' +
-                  err.message +
-                  '</div>';
-              });
-              this.showConsole();
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error!',
-                detail: 'An error ocurred during the operation!',
-              });
+              this.logErrorHandler(error);
             }
           );
           this.manageClassification = null;
@@ -2750,25 +1993,7 @@ export class ToolsSidebarComponent implements OnInit {
             detail: 'Your module is being created!',
           }),
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -2783,25 +2008,7 @@ export class ToolsSidebarComponent implements OnInit {
               this.modules = indicators;
             },
             (error) => {
-              let errContainer = [];
-              const errObject = error.error.info.Errors;
-              errObject.forEach((err) => {
-                errContainer.push({ message: err.message, status: err.status });
-              });
-              errContainer.forEach((err) => {
-                this.errHtml +=
-                  '<div class="ui-md-4">' +
-                  err.status +
-                  '</div><div class="ui-md-8">' +
-                  err.message +
-                  '</div>';
-              });
-              this.showConsole();
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error!',
-                detail: 'An error ocurred during the operation!',
-              });
+              this.logErrorHandler(error);
             },
             () => {
               this.indicators.forEach((indicator) => {
@@ -2825,25 +2032,7 @@ export class ToolsSidebarComponent implements OnInit {
             detail: 'Your module is being updated!',
           }),
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -2858,25 +2047,7 @@ export class ToolsSidebarComponent implements OnInit {
               this.modules = indicators;
             },
             (error) => {
-              let errContainer = [];
-              const errObject = error.error.info.Errors;
-              errObject.forEach((err) => {
-                errContainer.push({ message: err.message, status: err.status });
-              });
-              errContainer.forEach((err) => {
-                this.errHtml +=
-                  '<div class="ui-md-4">' +
-                  err.status +
-                  '</div><div class="ui-md-8">' +
-                  err.message +
-                  '</div>';
-              });
-              this.showConsole();
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error!',
-                detail: 'An error ocurred during the operation!',
-              });
+              this.logErrorHandler(error);
             },
             () => {
               this.indicators.forEach((indicator) => {
@@ -2926,25 +2097,7 @@ export class ToolsSidebarComponent implements OnInit {
           detail: 'Your module is being deleted!',
         }),
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       },
       () => {
         this.indSelectItems = [];
@@ -2954,25 +2107,7 @@ export class ToolsSidebarComponent implements OnInit {
             this.modules = indicators;
           },
           (error) => {
-            let errContainer = [];
-            const errObject = error.error.info.Errors;
-            errObject.forEach((err) => {
-              errContainer.push({ message: err.message, status: err.status });
-            });
-            errContainer.forEach((err) => {
-              this.errHtml +=
-                '<div class="ui-md-4">' +
-                err.status +
-                '</div><div class="ui-md-8">' +
-                err.message +
-                '</div>';
-            });
-            this.showConsole();
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error!',
-              detail: 'An error ocurred during the operation!',
-            });
+            this.logErrorHandler(error);
           },
           () => {
             this.indicators.forEach((indicator) => {
@@ -3025,25 +2160,7 @@ export class ToolsSidebarComponent implements OnInit {
             detail: 'Your indicator is being created!',
           }),
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -3063,25 +2180,7 @@ export class ToolsSidebarComponent implements OnInit {
               );
             },
             (error) => {
-              let errContainer = [];
-              const errObject = error.error.info.Errors;
-              errObject.forEach((err) => {
-                errContainer.push({ message: err.message, status: err.status });
-              });
-              errContainer.forEach((err) => {
-                this.errHtml +=
-                  '<div class="ui-md-4">' +
-                  err.status +
-                  '</div><div class="ui-md-8">' +
-                  err.message +
-                  '</div>';
-              });
-              this.showConsole();
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error!',
-                detail: 'An error ocurred during the operation!',
-              });
+              this.logErrorHandler(error);
             }
           );
           this.manageIndicators = null;
@@ -3097,25 +2196,7 @@ export class ToolsSidebarComponent implements OnInit {
             detail: 'Your indicator is being updated!',
           }),
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -3135,25 +2216,7 @@ export class ToolsSidebarComponent implements OnInit {
               );
             },
             (error) => {
-              let errContainer = [];
-              const errObject = error.error.info.Errors;
-              errObject.forEach((err) => {
-                errContainer.push({ message: err.message, status: err.status });
-              });
-              errContainer.forEach((err) => {
-                this.errHtml +=
-                  '<div class="ui-md-4">' +
-                  err.status +
-                  '</div><div class="ui-md-8">' +
-                  err.message +
-                  '</div>';
-              });
-              this.showConsole();
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error!',
-                detail: 'An error ocurred during the operation!',
-              });
+              this.logErrorHandler(error);
             }
           );
           this.manageIndicators = null;
@@ -3195,25 +2258,7 @@ export class ToolsSidebarComponent implements OnInit {
           detail: 'Your indicator is being deleted!',
         }),
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       },
       () => {
         this.indsEditResult = [];
@@ -3225,25 +2270,7 @@ export class ToolsSidebarComponent implements OnInit {
             );
           },
           (error) => {
-            let errContainer = [];
-            const errObject = error.error.info.Errors;
-            errObject.forEach((err) => {
-              errContainer.push({ message: err.message, status: err.status });
-            });
-            errContainer.forEach((err) => {
-              this.errHtml +=
-                '<div class="ui-md-4">' +
-                err.status +
-                '</div><div class="ui-md-8">' +
-                err.message +
-                '</div>';
-            });
-            this.showConsole();
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error!',
-              detail: 'An error ocurred during the operation!',
-            });
+            this.logErrorHandler(error);
           }
         );
         this.manageIndicators = null;
@@ -3288,25 +2315,7 @@ export class ToolsSidebarComponent implements OnInit {
             detail: 'Your result labeling is being created!',
           }),
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -3317,25 +2326,7 @@ export class ToolsSidebarComponent implements OnInit {
           this.moduleService.getIndicatorResults().subscribe(
             (indRes) => (this.indsResult = indRes),
             (error) => {
-              let errContainer = [];
-              const errObject = error.error.info.Errors;
-              errObject.forEach((err) => {
-                errContainer.push({ message: err.message, status: err.status });
-              });
-              errContainer.forEach((err) => {
-                this.errHtml +=
-                  '<div class="ui-md-4">' +
-                  err.status +
-                  '</div><div class="ui-md-8">' +
-                  err.message +
-                  '</div>';
-              });
-              this.showConsole();
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error!',
-                detail: 'An error ocurred during the operation!',
-              });
+              this.logErrorHandler(error);
             }
           );
           if (this.scenarioResults || this.selectedScenarios) {
@@ -3354,25 +2345,7 @@ export class ToolsSidebarComponent implements OnInit {
             detail: 'Your result labeling is being updated!',
           }),
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -3383,25 +2356,7 @@ export class ToolsSidebarComponent implements OnInit {
           this.moduleService.getIndicatorResults().subscribe(
             (indRes) => (this.indsResult = indRes),
             (error) => {
-              let errContainer = [];
-              const errObject = error.error.info.Errors;
-              errObject.forEach((err) => {
-                errContainer.push({ message: err.message, status: err.status });
-              });
-              errContainer.forEach((err) => {
-                this.errHtml +=
-                  '<div class="ui-md-4">' +
-                  err.status +
-                  '</div><div class="ui-md-8">' +
-                  err.message +
-                  '</div>';
-              });
-              this.showConsole();
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error!',
-                detail: 'An error ocurred during the operation!',
-              });
+              this.logErrorHandler(error);
             }
           );
           if (this.scenarioResults || this.selectedScenarios) {
@@ -3446,49 +2401,13 @@ export class ToolsSidebarComponent implements OnInit {
           detail: 'Your result labeling is being deleted!',
         }),
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       },
       () => {
         this.moduleService.getIndicatorResults().subscribe(
           (indRes) => (this.indsResult = indRes),
           (error) => {
-            let errContainer = [];
-            const errObject = error.error.info.Errors;
-            errObject.forEach((err) => {
-              errContainer.push({ message: err.message, status: err.status });
-            });
-            errContainer.forEach((err) => {
-              this.errHtml +=
-                '<div class="ui-md-4">' +
-                err.status +
-                '</div><div class="ui-md-8">' +
-                err.message +
-                '</div>';
-            });
-            this.showConsole();
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error!',
-              detail: 'An error ocurred during the operation!',
-            });
+            this.logErrorHandler(error);
           }
         );
         if (this.scenarioResults || this.selectedScenarios) {
@@ -3522,25 +2441,7 @@ export class ToolsSidebarComponent implements OnInit {
           detail: 'Your module is being installed!',
         }),
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       },
       () => {
         this.messageService.add({
@@ -3555,25 +2456,7 @@ export class ToolsSidebarComponent implements OnInit {
             this.modules = indicators;
           },
           (error) => {
-            let errContainer = [];
-            const errObject = error.error.info.Errors;
-            errObject.forEach((err) => {
-              errContainer.push({ message: err.message, status: err.status });
-            });
-            errContainer.forEach((err) => {
-              this.errHtml +=
-                '<div class="ui-md-4">' +
-                err.status +
-                '</div><div class="ui-md-8">' +
-                err.message +
-                '</div>';
-            });
-            this.showConsole();
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error!',
-              detail: 'An error ocurred during the operation!',
-            });
+            this.logErrorHandler(error);
           },
           () => {
             this.indicators.forEach((indicator) => {
@@ -3664,25 +2547,7 @@ export class ToolsSidebarComponent implements OnInit {
         this.stdAreaFilter = studyArea;
       },
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       }
     );
   }
@@ -3695,25 +2560,7 @@ export class ToolsSidebarComponent implements OnInit {
         this.normMethodsSTManage = normMethod;
       },
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       }
     );
     this.layersService.getJoinMethods().subscribe(
@@ -3722,25 +2569,7 @@ export class ToolsSidebarComponent implements OnInit {
         this.joinMethodsSTManage = joinType;
       },
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       },
       () => {
         this.joinMethod = this.joinType[0];
@@ -3753,25 +2582,7 @@ export class ToolsSidebarComponent implements OnInit {
         );
       },
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       }
     );
     this.methodService.getStaticJoinMethod().subscribe(
@@ -3781,25 +2592,7 @@ export class ToolsSidebarComponent implements OnInit {
         );
       },
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       }
     );
   }
@@ -3811,25 +2604,7 @@ export class ToolsSidebarComponent implements OnInit {
         this.tablesST = tablesST;
       },
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       }
     );
   }
@@ -3849,25 +2624,7 @@ export class ToolsSidebarComponent implements OnInit {
         this.listDataDistancesST = listDataST;
       },
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       }
     );
   }
@@ -3887,25 +2644,7 @@ export class ToolsSidebarComponent implements OnInit {
           this.columnHeaderDistancesST = event.node.label;
         },
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         }
       );
     } else {
@@ -3923,25 +2662,7 @@ export class ToolsSidebarComponent implements OnInit {
         this.listDataST = listDataST;
       },
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       }
     );
     this.listService.getSTColumnFilters().subscribe(
@@ -3950,25 +2671,7 @@ export class ToolsSidebarComponent implements OnInit {
         this.loadDataLayerST();
       },
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       }
     );
   }
@@ -3988,25 +2691,7 @@ export class ToolsSidebarComponent implements OnInit {
           this.columnsHeaderST = event.node.label;
         },
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         }
       );
     } else {
@@ -4032,25 +2717,7 @@ export class ToolsSidebarComponent implements OnInit {
           this.columnsHeaderFiltersST = event.node.label;
         },
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         }
       );
     } else {
@@ -4093,25 +2760,7 @@ export class ToolsSidebarComponent implements OnInit {
         },
         (error) => {
           this.unblockDocument();
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -4157,25 +2806,7 @@ export class ToolsSidebarComponent implements OnInit {
         },
         (error) => {
           this.unblockDocument();
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -4192,28 +2823,7 @@ export class ToolsSidebarComponent implements OnInit {
               .subscribe(
                 (layers) => (this.layersSTManage = layers),
                 (error) => {
-                  let errContainer = [];
-                  const errObject = error.error.info.Errors;
-                  errObject.forEach((err) => {
-                    errContainer.push({
-                      message: err.message,
-                      status: err.status,
-                    });
-                  });
-                  errContainer.forEach((err) => {
-                    this.errHtml +=
-                      '<div class="ui-md-4">' +
-                      err.status +
-                      '</div><div class="ui-md-8">' +
-                      err.message +
-                      '</div>';
-                  });
-                  this.showConsole();
-                  this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error!',
-                    detail: 'An error ocurred during the operation!',
-                  });
+                  this.logErrorHandler(error);
                 }
               );
           }
@@ -4250,25 +2860,7 @@ export class ToolsSidebarComponent implements OnInit {
       },
       (error) => {
         this.unblockDocument();
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       },
       () => {
         this.messageService.add({
@@ -4285,28 +2877,7 @@ export class ToolsSidebarComponent implements OnInit {
             .subscribe(
               (layers) => (this.filtersSTManage = layers),
               (error) => {
-                let errContainer = [];
-                const errObject = error.error.info.Errors;
-                errObject.forEach((err) => {
-                  errContainer.push({
-                    message: err.message,
-                    status: err.status,
-                  });
-                });
-                errContainer.forEach((err) => {
-                  this.errHtml +=
-                    '<div class="ui-md-4">' +
-                    err.status +
-                    '</div><div class="ui-md-8">' +
-                    err.message +
-                    '</div>';
-                });
-                this.showConsole();
-                this.messageService.add({
-                  severity: 'error',
-                  summary: 'Error!',
-                  detail: 'An error ocurred during the operation!',
-                });
+                this.logErrorHandler(error);
               }
             );
         }
@@ -4325,25 +2896,7 @@ export class ToolsSidebarComponent implements OnInit {
       this.layersService.getLayers(this.selectedStudyAreaST.id).subscribe(
         (layers) => (this.layerSettings = layers),
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         }
       );
       this.filterList = [];
@@ -4351,25 +2904,7 @@ export class ToolsSidebarComponent implements OnInit {
       this.layersService.getFilters(this.selectedStudyAreaST.id).subscribe(
         (filters) => (this.filterList = filters),
         (error) => { 
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         }
       );
     }
@@ -4421,25 +2956,7 @@ export class ToolsSidebarComponent implements OnInit {
           (error) => {
             this.unblockDocument();
             this.stResult = true;
-            let errContainer = [];
-            const errObject = error.error.info.Errors;
-            errObject.forEach((err) => {
-              errContainer.push({ message: err.message, status: err.status });
-            });
-            errContainer.forEach((err) => {
-              this.errHtml +=
-                '<div class="ui-md-4">' +
-                err.status +
-                '</div><div class="ui-md-8">' +
-                err.message +
-                '</div>';
-            });
-            this.showConsole();
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error!',
-              detail: 'An error ocurred during the operation!',
-            });
+            this.logErrorHandler(error);
           },
           () => {
             this.printGeoJSON();
@@ -4461,25 +2978,7 @@ export class ToolsSidebarComponent implements OnInit {
       () => {},
       (error) => {
         this.unblockDocument();
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       },
       () => {
         interval = setInterval(
@@ -4539,25 +3038,7 @@ export class ToolsSidebarComponent implements OnInit {
     this.stEvaluationService.getDistanceLayers(sa).subscribe(
       (layers) => (this.distanceLayerST = layers),
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       },
       () => {
         this.distanceLayerST.forEach((lyr) => {
@@ -4728,25 +3209,7 @@ export class ToolsSidebarComponent implements OnInit {
       (res) => (this.oskariResponse = res),
       (error) => {
         this.unblockDocument();
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       },
       () => {
         this.unblockDocument();
@@ -4775,25 +3238,7 @@ export class ToolsSidebarComponent implements OnInit {
       this.layerSTService.getLayerST(this.stdAreaManageLayer.id).subscribe(
         (layers) => (this.layersSTManage = layers),
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         }
       );
     }
@@ -4805,25 +3250,7 @@ export class ToolsSidebarComponent implements OnInit {
       this.layerSTService.getFiltersST(this.stdAreaManageFilter.id).subscribe(
         (filters) => (this.filtersSTManage = filters),
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         }
       );
     }
@@ -4835,25 +3262,7 @@ export class ToolsSidebarComponent implements OnInit {
       this.settingsService.getSettings(this.stdAreaManageSetting.id).subscribe(
         (settings) => (this.settingsSTManage = settings),
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         }
       );
     }
@@ -4872,25 +3281,7 @@ export class ToolsSidebarComponent implements OnInit {
         this.selLayerColumns = this.colFieldsNameArrayST;
       },
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       }
     );
     this.editLayers = true;
@@ -4907,25 +3298,7 @@ export class ToolsSidebarComponent implements OnInit {
             detail: 'Your layer is being created!',
           }),
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -4939,28 +3312,7 @@ export class ToolsSidebarComponent implements OnInit {
               .subscribe(
                 (stngs) => (this.settingsSTManage = stngs),
                 (error) => {
-                  let errContainer = [];
-                  const errObject = error.error.info.Errors;
-                  errObject.forEach((err) => {
-                    errContainer.push({
-                      message: err.message,
-                      status: err.status,
-                    });
-                  });
-                  errContainer.forEach((err) => {
-                    this.errHtml +=
-                      '<div class="ui-md-4">' +
-                      err.status +
-                      '</div><div class="ui-md-8">' +
-                      err.message +
-                      '</div>';
-                  });
-                  this.showConsole();
-                  this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error!',
-                    detail: 'An error ocurred during the operation!',
-                  });
+                  this.logErrorHandler(error);
                 }
               );
           }
@@ -4970,28 +3322,7 @@ export class ToolsSidebarComponent implements OnInit {
               .subscribe(
                 (lyrs) => (this.layersSTManage = lyrs),
                 (error) => {
-                  let errContainer = [];
-                  const errObject = error.error.info.Errors;
-                  errObject.forEach((err) => {
-                    errContainer.push({
-                      message: err.message,
-                      status: err.status,
-                    });
-                  });
-                  errContainer.forEach((err) => {
-                    this.errHtml +=
-                      '<div class="ui-md-4">' +
-                      err.status +
-                      '</div><div class="ui-md-8">' +
-                      err.message +
-                      '</div>';
-                  });
-                  this.showConsole();
-                  this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error!',
-                    detail: 'An error ocurred during the operation!',
-                  });
+                  this.logErrorHandler(error);
                 }
               );
           }
@@ -4999,28 +3330,7 @@ export class ToolsSidebarComponent implements OnInit {
             this.layersService.getLayers(this.selectedStudyAreaST.id).subscribe(
               (lyrs) => (this.layerSettings = lyrs),
               (error) => {
-                let errContainer = [];
-                const errObject = error.error.info.Errors;
-                errObject.forEach((err) => {
-                  errContainer.push({
-                    message: err.message,
-                    status: err.status,
-                  });
-                });
-                errContainer.forEach((err) => {
-                  this.errHtml +=
-                    '<div class="ui-md-4">' +
-                    err.status +
-                    '</div><div class="ui-md-8">' +
-                    err.message +
-                    '</div>';
-                });
-                this.showConsole();
-                this.messageService.add({
-                  severity: 'error',
-                  summary: 'Error!',
-                  detail: 'An error ocurred during the operation!',
-                });
+                this.logErrorHandler(error);
               }
             );
           }
@@ -5036,25 +3346,7 @@ export class ToolsSidebarComponent implements OnInit {
             detail: 'Your layer is being updated!',
           }),
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -5068,28 +3360,7 @@ export class ToolsSidebarComponent implements OnInit {
               .subscribe(
                 (stngs) => (this.settingsSTManage = stngs),
                 (error) => {
-                  let errContainer = [];
-                  const errObject = error.error.info.Errors;
-                  errObject.forEach((err) => {
-                    errContainer.push({
-                      message: err.message,
-                      status: err.status,
-                    });
-                  });
-                  errContainer.forEach((err) => {
-                    this.errHtml +=
-                      '<div class="ui-md-4">' +
-                      err.status +
-                      '</div><div class="ui-md-8">' +
-                      err.message +
-                      '</div>';
-                  });
-                  this.showConsole();
-                  this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error!',
-                    detail: 'An error ocurred during the operation!',
-                  });
+                  this.logErrorHandler(error);
                 }
               );
           }
@@ -5099,28 +3370,7 @@ export class ToolsSidebarComponent implements OnInit {
               .subscribe(
                 (lyrs) => (this.layersSTManage = lyrs),
                 (error) => {
-                  let errContainer = [];
-                  const errObject = error.error.info.Errors;
-                  errObject.forEach((err) => {
-                    errContainer.push({
-                      message: err.message,
-                      status: err.status,
-                    });
-                  });
-                  errContainer.forEach((err) => {
-                    this.errHtml +=
-                      '<div class="ui-md-4">' +
-                      err.status +
-                      '</div><div class="ui-md-8">' +
-                      err.message +
-                      '</div>';
-                  });
-                  this.showConsole();
-                  this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error!',
-                    detail: 'An error ocurred during the operation!',
-                  });
+                  this.logErrorHandler(error);
                 }
               );
           }
@@ -5128,28 +3378,7 @@ export class ToolsSidebarComponent implements OnInit {
             this.layersService.getLayers(this.selectedStudyAreaST.id).subscribe(
               (lyrs) => (this.layerSettings = lyrs),
               (error) => {
-                let errContainer = [];
-                const errObject = error.error.info.Errors;
-                errObject.forEach((err) => {
-                  errContainer.push({
-                    message: err.message,
-                    status: err.status,
-                  });
-                });
-                errContainer.forEach((err) => {
-                  this.errHtml +=
-                    '<div class="ui-md-4">' +
-                    err.status +
-                    '</div><div class="ui-md-8">' +
-                    err.message +
-                    '</div>';
-                });
-                this.showConsole();
-                this.messageService.add({
-                  severity: 'error',
-                  summary: 'Error!',
-                  detail: 'An error ocurred during the operation!',
-                });
+                this.logErrorHandler(error);
               }
             );
           }
@@ -5192,25 +3421,7 @@ export class ToolsSidebarComponent implements OnInit {
           detail: 'Your layer is being deleted!',
         }),
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       },
       () => {
         this.manageLayer = null;
@@ -5226,78 +3437,21 @@ export class ToolsSidebarComponent implements OnInit {
             .subscribe(
               (stngs) => (this.settingsSTManage = stngs),
               (error) => {
-                let errContainer = [];
-                const errObject = error.error.info.Errors;
-                errObject.forEach((err) => {
-                  errContainer.push({
-                    message: err.message,
-                    status: err.status,
-                  });
-                });
-                errContainer.forEach((err) => {
-                  this.errHtml +=
-                    '<div class="ui-md-4">' +
-                    err.status +
-                    '</div><div class="ui-md-8">' +
-                    err.message +
-                    '</div>';
-                });
-                this.showConsole();
-                this.messageService.add({
-                  severity: 'error',
-                  summary: 'Error!',
-                  detail: 'An error ocurred during the operation!',
-                });
+                this.logErrorHandler(error);
               }
             );
         }
         this.layerSTService.getLayerST(this.stdAreaManageLayer.id).subscribe(
           (lyrs) => (this.layersSTManage = lyrs),
           (error) => {
-            let errContainer = [];
-            const errObject = error.error.info.Errors;
-            errObject.forEach((err) => {
-              errContainer.push({ message: err.message, status: err.status });
-            });
-            errContainer.forEach((err) => {
-              this.errHtml +=
-                '<div class="ui-md-4">' +
-                err.status +
-                '</div><div class="ui-md-8">' +
-                err.message +
-                '</div>';
-            });
-            this.showConsole();
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error!',
-              detail: 'An error ocurred during the operation!',
-            });
+            this.logErrorHandler(error);
           }
         );
         if (this.selectedStudyAreaST) {
           this.layersService.getLayers(this.selectedStudyAreaST.id).subscribe(
             (layers) => (this.layerSettings = layers),
             (error) => {
-              let errContainer = [];
-              const errObject = error.error.info.Errors;
-              errObject.forEach((err) => {
-                errContainer.push({ message: err.message, status: err.status });
-              });
-              errContainer.forEach((err) => {
-                this.errHtml +=
-                  '<div class="ui-md-4">' +
-                  err.status +
-                  '</div><div class="ui-md-8">' +
-                  err.message +
-                  '</div>';
-              });
-              this.showConsole();
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error!',
-                detail: 'An error ocurred during the operation!',
-              });
+              this.logErrorHandler(error);
             }
           );
         }
@@ -5329,25 +3483,7 @@ export class ToolsSidebarComponent implements OnInit {
             detail: 'Your filter is being created!',
           }),
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -5361,28 +3497,7 @@ export class ToolsSidebarComponent implements OnInit {
               .subscribe(
                 (fltr) => (this.filtersSTManage = fltr),
                 (error) => {
-                  let errContainer = [];
-                  const errObject = error.error.info.Errors;
-                  errObject.forEach((err) => {
-                    errContainer.push({
-                      message: err.message,
-                      status: err.status,
-                    });
-                  });
-                  errContainer.forEach((err) => {
-                    this.errHtml +=
-                      '<div class="ui-md-4">' +
-                      err.status +
-                      '</div><div class="ui-md-8">' +
-                      err.message +
-                      '</div>';
-                  });
-                  this.showConsole();
-                  this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error!',
-                    detail: 'An error ocurred during the operation!',
-                  });
+                  this.logErrorHandler(error);
                 }
               );
           }
@@ -5392,28 +3507,7 @@ export class ToolsSidebarComponent implements OnInit {
               .subscribe(
                 (flts) => (this.filterList = flts),
                 (error) => {
-                  let errContainer = [];
-                  const errObject = error.error.info.Errors;
-                  errObject.forEach((err) => {
-                    errContainer.push({
-                      message: err.message,
-                      status: err.status,
-                    });
-                  });
-                  errContainer.forEach((err) => {
-                    this.errHtml +=
-                      '<div class="ui-md-4">' +
-                      err.status +
-                      '</div><div class="ui-md-8">' +
-                      err.message +
-                      '</div>';
-                  });
-                  this.showConsole();
-                  this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error!',
-                    detail: 'An error ocurred during the operation!',
-                  });
+                  this.logErrorHandler(error);
                 }
               );
           }
@@ -5430,25 +3524,7 @@ export class ToolsSidebarComponent implements OnInit {
             detail: 'Your filter is being updated!',
           }),
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -5462,28 +3538,7 @@ export class ToolsSidebarComponent implements OnInit {
               .subscribe(
                 (fltr) => (this.filtersSTManage = fltr),
                 (error) => {
-                  let errContainer = [];
-                  const errObject = error.error.info.Errors;
-                  errObject.forEach((err) => {
-                    errContainer.push({
-                      message: err.message,
-                      status: err.status,
-                    });
-                  });
-                  errContainer.forEach((err) => {
-                    this.errHtml +=
-                      '<div class="ui-md-4">' +
-                      err.status +
-                      '</div><div class="ui-md-8">' +
-                      err.message +
-                      '</div>';
-                  });
-                  this.showConsole();
-                  this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error!',
-                    detail: 'An error ocurred during the operation!',
-                  });
+                  this.logErrorHandler(error);
                 }
               );
           }
@@ -5493,28 +3548,7 @@ export class ToolsSidebarComponent implements OnInit {
               .subscribe(
                 (flts) => (this.filterList = flts),
                 (error) => {
-                  let errContainer = [];
-                  const errObject = error.error.info.Errors;
-                  errObject.forEach((err) => {
-                    errContainer.push({
-                      message: err.message,
-                      status: err.status,
-                    });
-                  });
-                  errContainer.forEach((err) => {
-                    this.errHtml +=
-                      '<div class="ui-md-4">' +
-                      err.status +
-                      '</div><div class="ui-md-8">' +
-                      err.message +
-                      '</div>';
-                  });
-                  this.showConsole();
-                  this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error!',
-                    detail: 'An error ocurred during the operation!',
-                  });
+                  this.logErrorHandler(error);
                 }
               );
           }
@@ -5557,25 +3591,7 @@ export class ToolsSidebarComponent implements OnInit {
           detail: 'Your filter is being deleted!',
         }),
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       },
       () => {
         this.manageFilter = null;
@@ -5588,50 +3604,14 @@ export class ToolsSidebarComponent implements OnInit {
         this.layerSTService.getFiltersST(this.stdAreaManageFilter.id).subscribe(
           (fltr) => (this.filtersSTManage = fltr),
           (error) => {
-            let errContainer = [];
-            const errObject = error.error.info.Errors;
-            errObject.forEach((err) => {
-              errContainer.push({ message: err.message, status: err.status });
-            });
-            errContainer.forEach((err) => {
-              this.errHtml +=
-                '<div class="ui-md-4">' +
-                err.status +
-                '</div><div class="ui-md-8">' +
-                err.message +
-                '</div>';
-            });
-            this.showConsole();
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error!',
-              detail: 'An error ocurred during the operation!',
-            });
+            this.logErrorHandler(error);
           }
         );
         if (this.selectedStudyAreaST) {
           this.layersService.getFilters(this.selectedStudyAreaST.id).subscribe(
             (fltr) => (this.filterList = fltr),
             (error) => {
-              let errContainer = [];
-              const errObject = error.error.info.Errors;
-              errObject.forEach((err) => {
-                errContainer.push({ message: err.message, status: err.status });
-              });
-              errContainer.forEach((err) => {
-                this.errHtml +=
-                  '<div class="ui-md-4">' +
-                  err.status +
-                  '</div><div class="ui-md-8">' +
-                  err.message +
-                  '</div>';
-              });
-              this.showConsole();
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error!',
-                detail: 'An error ocurred during the operation!',
-              });
+              this.logErrorHandler(error);
             }
           );
         }
@@ -5672,25 +3652,7 @@ export class ToolsSidebarComponent implements OnInit {
               detail: 'Your method is being created!',
             }),
           (error) => {
-            let errContainer = [];
-            const errObject = error.error.info.Errors;
-            errObject.forEach((err) => {
-              errContainer.push({ message: err.message, status: err.status });
-            });
-            errContainer.forEach((err) => {
-              this.errHtml +=
-                '<div class="ui-md-4">' +
-                err.status +
-                '</div><div class="ui-md-8">' +
-                err.message +
-                '</div>';
-            });
-            this.showConsole();
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error!',
-              detail: 'An error ocurred during the operation!',
-            });
+            this.logErrorHandler(error);
           },
           () => {
             this.messageService.add({
@@ -5704,28 +3666,7 @@ export class ToolsSidebarComponent implements OnInit {
                 this.settingsType = method;
               },
               (error) => {
-                let errContainer = [];
-                const errObject = error.error.info.Errors;
-                errObject.forEach((err) => {
-                  errContainer.push({
-                    message: err.message,
-                    status: err.status,
-                  });
-                });
-                errContainer.forEach((err) => {
-                  this.errHtml +=
-                    '<div class="ui-md-4">' +
-                    err.status +
-                    '</div><div class="ui-md-8">' +
-                    err.message +
-                    '</div>';
-                });
-                this.showConsole();
-                this.messageService.add({
-                  severity: 'error',
-                  summary: 'Error!',
-                  detail: 'An error ocurred during the operation!',
-                });
+                this.logErrorHandler(error);
               }
             );
             this.manageNormMethod = null;
@@ -5743,25 +3684,7 @@ export class ToolsSidebarComponent implements OnInit {
               detail: 'Your method is being updated!',
             }),
           (error) => {
-            let errContainer = [];
-            const errObject = error.error.info.Errors;
-            errObject.forEach((err) => {
-              errContainer.push({ message: err.message, status: err.status });
-            });
-            errContainer.forEach((err) => {
-              this.errHtml +=
-                '<div class="ui-md-4">' +
-                err.status +
-                '</div><div class="ui-md-8">' +
-                err.message +
-                '</div>';
-            });
-            this.showConsole();
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error!',
-              detail: 'An error ocurred during the operation!',
-            });
+            this.logErrorHandler(error);
           },
           () => {
             this.messageService.add({
@@ -5775,28 +3698,7 @@ export class ToolsSidebarComponent implements OnInit {
                 this.settingsType = method;
               },
               (error) => {
-                let errContainer = [];
-                const errObject = error.error.info.Errors;
-                errObject.forEach((err) => {
-                  errContainer.push({
-                    message: err.message,
-                    status: err.status,
-                  });
-                });
-                errContainer.forEach((err) => {
-                  this.errHtml +=
-                    '<div class="ui-md-4">' +
-                    err.status +
-                    '</div><div class="ui-md-8">' +
-                    err.message +
-                    '</div>';
-                });
-                this.showConsole();
-                this.messageService.add({
-                  severity: 'error',
-                  summary: 'Error!',
-                  detail: 'An error ocurred during the operation!',
-                });
+                this.logErrorHandler(error);
               }
             );
             this.manageNormMethod = null;
@@ -5840,25 +3742,7 @@ export class ToolsSidebarComponent implements OnInit {
             detail: 'Your method is being deleted!',
           }),
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         },
         () => {
           this.manageNormMethod = null;
@@ -5874,25 +3758,7 @@ export class ToolsSidebarComponent implements OnInit {
               this.settingsType = method;
             },
             (error) => {
-              let errContainer = [];
-              const errObject = error.error.info.Errors;
-              errObject.forEach((err) => {
-                errContainer.push({ message: err.message, status: err.status });
-              });
-              errContainer.forEach((err) => {
-                this.errHtml +=
-                  '<div class="ui-md-4">' +
-                  err.status +
-                  '</div><div class="ui-md-8">' +
-                  err.message +
-                  '</div>';
-              });
-              this.showConsole();
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error!',
-                detail: 'An error ocurred during the operation!',
-              });
+              this.logErrorHandler(error);
             }
           );
           this.editNormMethod = false;
@@ -5930,25 +3796,7 @@ export class ToolsSidebarComponent implements OnInit {
             detail: 'Your method is being created!',
           }),
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -5963,25 +3811,7 @@ export class ToolsSidebarComponent implements OnInit {
               this.joinType = method;
             },
             (error) => {
-              let errContainer = [];
-              const errObject = error.error.info.Errors;
-              errObject.forEach((err) => {
-                errContainer.push({ message: err.message, status: err.status });
-              });
-              errContainer.forEach((err) => {
-                this.errHtml +=
-                  '<div class="ui-md-4">' +
-                  err.status +
-                  '</div><div class="ui-md-8">' +
-                  err.message +
-                  '</div>';
-              });
-              this.showConsole();
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error!',
-                detail: 'An error ocurred during the operation!',
-              });
+              this.logErrorHandler(error);
             }
           );
           this.editJoinMethod = false;
@@ -5996,25 +3826,7 @@ export class ToolsSidebarComponent implements OnInit {
             detail: 'Your method is being updated!',
           }),
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -6028,25 +3840,7 @@ export class ToolsSidebarComponent implements OnInit {
               this.joinType = method;
             },
             (error) => {
-              let errContainer = [];
-              const errObject = error.error.info.Errors;
-              errObject.forEach((err) => {
-                errContainer.push({ message: err.message, status: err.status });
-              });
-              errContainer.forEach((err) => {
-                this.errHtml +=
-                  '<div class="ui-md-4">' +
-                  err.status +
-                  '</div><div class="ui-md-8">' +
-                  err.message +
-                  '</div>';
-              });
-              this.showConsole();
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error!',
-                detail: 'An error ocurred during the operation!',
-              });
+              this.logErrorHandler(error);
             }
           );
           this.manageJoinMethod = null;
@@ -6088,25 +3882,7 @@ export class ToolsSidebarComponent implements OnInit {
           detail: 'Your method is being deleted!',
         }),
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       },
       () => {
         this.manageJoinMethod = null;
@@ -6122,25 +3898,7 @@ export class ToolsSidebarComponent implements OnInit {
             this.joinType = method;
           },
           (error) => {
-            let errContainer = [];
-            const errObject = error.error.info.Errors;
-            errObject.forEach((err) => {
-              errContainer.push({ message: err.message, status: err.status });
-            });
-            errContainer.forEach((err) => {
-              this.errHtml +=
-                '<div class="ui-md-4">' +
-                err.status +
-                '</div><div class="ui-md-8">' +
-                err.message +
-                '</div>';
-            });
-            this.showConsole();
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error!',
-              detail: 'An error ocurred during the operation!',
-            });
+            this.logErrorHandler(error);
           }
         );
         this.editJoinMethod = false;
@@ -6179,25 +3937,7 @@ export class ToolsSidebarComponent implements OnInit {
             detail: 'Your settings are being created!',
           }),
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -6210,56 +3950,14 @@ export class ToolsSidebarComponent implements OnInit {
             .subscribe(
               (stngs) => (this.settingsSTManage = stngs),
               (error) => {
-                let errContainer = [];
-                const errObject = error.error.info.Errors;
-                errObject.forEach((err) => {
-                  errContainer.push({
-                    message: err.message,
-                    status: err.status,
-                  });
-                });
-                errContainer.forEach((err) => {
-                  this.errHtml +=
-                    '<div class="ui-md-4">' +
-                    err.status +
-                    '</div><div class="ui-md-8">' +
-                    err.message +
-                    '</div>';
-                });
-                this.showConsole();
-                this.messageService.add({
-                  severity: 'error',
-                  summary: 'Error!',
-                  detail: 'An error ocurred during the operation!',
-                });
+                this.logErrorHandler(error);
               }
             );
           if (this.selectedStudyAreaST) {
             this.layersService.getLayers(this.selectedStudyAreaST.id).subscribe(
               (layers) => (this.layerSettings = layers),
               (error) => {
-                let errContainer = [];
-                const errObject = error.error.info.Errors;
-                errObject.forEach((err) => {
-                  errContainer.push({
-                    message: err.message,
-                    status: err.status,
-                  });
-                });
-                errContainer.forEach((err) => {
-                  this.errHtml +=
-                    '<div class="ui-md-4">' +
-                    err.status +
-                    '</div><div class="ui-md-8">' +
-                    err.message +
-                    '</div>';
-                });
-                this.showConsole();
-                this.messageService.add({
-                  severity: 'error',
-                  summary: 'Error!',
-                  detail: 'An error ocurred during the operation!',
-                });
+                this.logErrorHandler(error);
               }
             );
           }
@@ -6279,25 +3977,7 @@ export class ToolsSidebarComponent implements OnInit {
             detail: 'Your settings are being updated!',
           }),
         (error) => {
-          let errContainer = [];
-          const errObject = error.error.info.Errors;
-          errObject.forEach((err) => {
-            errContainer.push({ message: err.message, status: err.status });
-          });
-          errContainer.forEach((err) => {
-            this.errHtml +=
-              '<div class="ui-md-4">' +
-              err.status +
-              '</div><div class="ui-md-8">' +
-              err.message +
-              '</div>';
-          });
-          this.showConsole();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'An error ocurred during the operation!',
-          });
+          this.logErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -6310,56 +3990,14 @@ export class ToolsSidebarComponent implements OnInit {
             .subscribe(
               (stngs) => (this.settingsSTManage = stngs),
               (error) => {
-                let errContainer = [];
-                const errObject = error.error.info.Errors;
-                errObject.forEach((err) => {
-                  errContainer.push({
-                    message: err.message,
-                    status: err.status,
-                  });
-                });
-                errContainer.forEach((err) => {
-                  this.errHtml +=
-                    '<div class="ui-md-4">' +
-                    err.status +
-                    '</div><div class="ui-md-8">' +
-                    err.message +
-                    '</div>';
-                });
-                this.showConsole();
-                this.messageService.add({
-                  severity: 'error',
-                  summary: 'Error!',
-                  detail: 'An error ocurred during the operation!',
-                });
+                this.logErrorHandler(error);
               }
             );
           if (this.selectedStudyAreaST) {
             this.layersService.getLayers(this.selectedStudyAreaST.id).subscribe(
               (layers) => (this.layerSettings = layers),
               (error) => {
-                let errContainer = [];
-                const errObject = error.error.info.Errors;
-                errObject.forEach((err) => {
-                  errContainer.push({
-                    message: err.message,
-                    status: err.status,
-                  });
-                });
-                errContainer.forEach((err) => {
-                  this.errHtml +=
-                    '<div class="ui-md-4">' +
-                    err.status +
-                    '</div><div class="ui-md-8">' +
-                    err.message +
-                    '</div>';
-                });
-                this.showConsole();
-                this.messageService.add({
-                  severity: 'error',
-                  summary: 'Error!',
-                  detail: 'An error ocurred during the operation!',
-                });
+                this.logErrorHandler(error);
               }
             );
           }
@@ -6402,25 +4040,7 @@ export class ToolsSidebarComponent implements OnInit {
           detail: 'Your settings are being deleted!',
         }),
       (error) => {
-        let errContainer = [];
-        const errObject = error.error.info.Errors;
-        errObject.forEach((err) => {
-          errContainer.push({ message: err.message, status: err.status });
-        });
-        errContainer.forEach((err) => {
-          this.errHtml +=
-            '<div class="ui-md-4">' +
-            err.status +
-            '</div><div class="ui-md-8">' +
-            err.message +
-            '</div>';
-        });
-        this.showConsole();
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
+        this.logErrorHandler(error);
       },
       () => {
         this.manageSetting = null;
@@ -6435,50 +4055,14 @@ export class ToolsSidebarComponent implements OnInit {
           .subscribe(
             (stngs) => (this.settingsSTManage = stngs),
             (error) => {
-              let errContainer = [];
-              const errObject = error.error.info.Errors;
-              errObject.forEach((err) => {
-                errContainer.push({ message: err.message, status: err.status });
-              });
-              errContainer.forEach((err) => {
-                this.errHtml +=
-                  '<div class="ui-md-4">' +
-                  err.status +
-                  '</div><div class="ui-md-8">' +
-                  err.message +
-                  '</div>';
-              });
-              this.showConsole();
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error!',
-                detail: 'An error ocurred during the operation!',
-              });
+              this.logErrorHandler(error);
             }
           );
         if (this.selectedStudyAreaST) {
           this.layersService.getLayers(this.selectedStudyAreaST.id).subscribe(
             (layers) => (this.layerSettings = layers),
             (error) => {
-              let errContainer = [];
-              const errObject = error.error.info.Errors;
-              errObject.forEach((err) => {
-                errContainer.push({ message: err.message, status: err.status });
-              });
-              errContainer.forEach((err) => {
-                this.errHtml +=
-                  '<div class="ui-md-4">' +
-                  err.status +
-                  '</div><div class="ui-md-8">' +
-                  err.message +
-                  '</div>';
-              });
-              this.showConsole();
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error!',
-                detail: 'An error ocurred during the operation!',
-              });
+              this.logErrorHandler(error);
             }
           );
         }
