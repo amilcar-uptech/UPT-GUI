@@ -4,6 +4,7 @@ import { Indicator } from '../interfaces/indicator';
 @Pipe({
   name: 'dependencies'
 })
+// This pipe is used to show dependencies in a tooltip using their labels in the multiselect element for indicators.
 export class DependenciesPipe implements PipeTransform {
 
   transform(value: any, indicators: any[]): any {

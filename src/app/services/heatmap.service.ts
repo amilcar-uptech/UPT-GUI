@@ -6,6 +6,7 @@ import { Heatmap } from '../interfaces/heatmap';
 @Injectable({
   providedIn: 'root'
 })
+// Service used to save heatmaps into Oskari, as well as sending a request to fix user layer data
 export class HeatmapService {
 
   constructor(private http: HttpClient) { }

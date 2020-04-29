@@ -3657,7 +3657,7 @@ export class ToolsSidebarComponent implements OnInit {
 
   // Sends a request to get the study areas for ST
   loadSTStudyArea() {
-    this.layersService.getStudyAreasST().subscribe(
+    this.layersService.getStudyAreas().subscribe(
       (studyArea) => {
         this.studyAreaST = studyArea;
         this.stdAreaLayer = studyArea;

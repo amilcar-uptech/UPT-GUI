@@ -13,6 +13,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
+// Service used to handle the sharing or privatization of layers.
 export class ShareLayersService {
 
   constructor(private http: HttpClient) { }

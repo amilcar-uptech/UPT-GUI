@@ -14,6 +14,8 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
+// Service used to manage the normalization and operation methods labels for ST (CRUD),
+// as well as getting a static list of the currently installed methods.
 export class MethodService {
 
   constructor(private http: HttpClient) { }

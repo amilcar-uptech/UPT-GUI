@@ -14,6 +14,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
+// Service used to import data from the geoportal into the UPT.
 export class DataCopyService {
 
   constructor(private http: HttpClient) { }

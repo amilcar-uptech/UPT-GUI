@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
+// Service used to get the roles assigned to the current user.
 export class RoleService {
 
   constructor(private http: HttpClient) { }
