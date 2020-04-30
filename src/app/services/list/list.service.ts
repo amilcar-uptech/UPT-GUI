@@ -8,6 +8,7 @@ import { UpColumn } from 'src/app/interfaces/up-column';
 import { StColumn } from 'src/app/interfaces/st-column';
 
 @Injectable()
+// Service that fills some dropdown elements in the UPT, mostly for data importing modules.
 export class ListService {
 
     constructor(private http: HttpClient) {}
@@ -69,36 +70,6 @@ export class ListService {
             return this.http.get<any>('/action?action_route=LayersSTHandler&action=list_columns&layer_id=' + id).pipe(
                 map(response => response.columns as any[])
             );
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
-    getSTColumnMMU(): Observable<Column[]> {
-        try {
-            return this.http.get<any>('/action?action_route=LayersSTHandler&action=list_st_columns&table=mmu').pipe(
-                map(response => response.columns)
-            );
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
-    getSTColumnMMUWithId(id: string): Observable<any[]> {
-        try {
-            return this.http.get<any>('/action?action_route=list_suitability_layers&table=' + id).pipe(
-                map(response => response.columns as any[])
-            );
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
-    getSTColumnData(id: string): Observable<any[]> {
-        try {
-            return this.http.get<any>('/action?action_route=list_suitability_layer_columns&layer_id=' + id).pipe(
-                map(response => response.columns as any[])
-            )
         } catch (e) {
             console.log(e);
         }

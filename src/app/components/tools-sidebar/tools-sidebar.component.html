@@ -1,13 +1,16 @@
+<!--PrimeNG block component to block the whole document when certain requests are made.-->
 <p-blockUI [blocked]="blockedDocument" [baseZIndex]="50000">
     <p-progressSpinner strokeWidth="3" [style]="{'width': '50px', 'height': '50px', 'position': 'absolute', 'top': '50%', 'left':'50%'}">
     </p-progressSpinner>
 </p-blockUI>
+<!--PrimeNG dialog which allows users to share layers so that other UPT users may access them for their evaluations.-->
 <p-dialog header="Share User Layers" [(visible)]="displayShare" [modal]="false" [style]="{width: 'width', minWidth: 'minWidth'}" 
 [maximizable]="false" [baseZIndex]="1150">
     <div class="ui-g ui-fluid p-3">
         <p-dropdown (onChange)="shareLayerStatus($event)" placeholder="Select a layer" optionLabel="name" [baseZIndex]="2500" appendTo="body" [options]="shareLayersList" [(ngModel)]="shareLayer" [filter]="true" styleClass="geoportal-dialog" panelStyleClass="geoportal-dialog"></p-dropdown>
     </div>
 </p-dialog>
+<!--PrimeNG toast which asks users to make a layer either public or private.-->
 <p-toast [modal]="true" key="changeLayerStatus" position="center" [baseZIndex]="5000">
     <ng-template let-o let-message pTemplate="message">
         <div style="text-align: center">
@@ -25,6 +28,7 @@
         </div>
     </ng-template>
 </p-toast>
+<!--PrimeNG dialog which shows the color scale used for UrbanHotspots-->
 <p-dialog [showHeader]="false" [(visible)]="displayColorScaleST"
 [maximizable]="false" [resizable]="false" [draggable]="false" [baseZIndex]="1150" styleClass="colorScaleST" [contentStyle]="{'opacity': 0.75}">
     <div class="ui-g ui-fluid ui-rtl" dir="rtl" style="font-size: 12px;">
@@ -36,6 +40,7 @@
         <div class="ui-md-4" style="font-size: 9px;">{{scaleNumbersST[i]}}</div>
     </div>
 </p-dialog>
+<!--PrimeNG toast which prompts the user to go to the Upload Assumptions module for UrbanPerformance-->
 <p-toast [modal]="true" key="loadAssumptions" position="center" [baseZIndex]="5000">
     <ng-template let-o let-message pTemplate="message">
         <div style="text-align: center">
@@ -53,6 +58,7 @@
         </div>
     </ng-template>
 </p-toast>
+<!--PrimeNG toast which asks for confirmation to delete a joinMethod-->
 <p-toast [modal]="true" key="confirmDeleteJoinMethod" position="center" [baseZIndex]="5000">
     <ng-template let-o let-message pTemplate="message">
         <div style="text-align: center">
@@ -69,24 +75,8 @@
             </div>
         </div>
     </ng-template>
-  </p-toast>
-<p-toast [modal]="true" key="confirmDeleteJoinMethod" position="center" [baseZIndex]="5000">
-  <ng-template let-o let-message pTemplate="message">
-      <div style="text-align: center">
-          <i class="pi pi-exclamation-triangle" style="font-size: 3em"></i>
-          <h3>{{message.summary}}</h3>
-          <p>{{message.detail}}</p>
-      </div>
-      <div class="ui-g ui-fluid">
-          <div class="ui-g-6">
-              <button type="button" pButton label="CONFIRM" class="ui-button-success" (click)="confirmDeleteJoinMethod()"></button>
-          </div>
-          <div class="ui-g-6">
-              <button type="button" pButton label="CANCEL" class="ui-button-secondary" (click)="cancelDeleteJoinMethod()"></button>
-          </div>
-      </div>
-  </ng-template>
 </p-toast>
+<!--PrimeNG toast which asks for confirmation to delete a normMethod-->
 <p-toast [modal]="true" key="confirmDeleteNormMethod" position="center" [baseZIndex]="5000">
   <ng-template let-o let-message pTemplate="message">
       <div style="text-align: center">
@@ -104,6 +94,7 @@
       </div>
   </ng-template>
 </p-toast>
+<!--PrimeNG toast which asks for confirmation to delete the data from the selected UP table.-->
 <p-toast [modal]="true" key="confirmDeleteTableUP" position="center" [baseZIndex]="5000">
     <ng-template let-o let-message pTemplate="message">
         <div style="text-align: center">
@@ -120,7 +111,8 @@
             </div>
         </div>
     </ng-template>
-  </p-toast>
+</p-toast>
+<!--PrimeNG toast which asks for confirmation to delete a Scenario-->
 <p-toast [modal]="true" key="confirmDeleteScenario" position="center" [baseZIndex]="5000">
     <ng-template let-o let-message pTemplate="message">
         <div style="text-align: center">
@@ -138,6 +130,7 @@
         </div>
     </ng-template>
 </p-toast>
+<!--PrimeNG toast which asks for confirmation to delete an Indicator Label-->
 <p-toast [modal]="true" key="confirmDeleteIndicatorResult" position="center" [baseZIndex]="5000">
     <ng-template let-o let-message pTemplate="message">
         <div style="text-align: center">
@@ -155,6 +148,7 @@
         </div>
     </ng-template>
 </p-toast>
+<!--PrimeNG toast which asks for confirmation to delete an indicator.-->
 <p-toast [modal]="true" key="confirmDeleteIndicator" position="center" [baseZIndex]="5000">
     <ng-template let-o let-message pTemplate="message">
         <div style="text-align: center">
@@ -172,6 +166,7 @@
         </div>
     </ng-template>
 </p-toast>
+<!--PrimeNG toast which asks for confirmation to delete a classification.-->
 <p-toast [modal]="true" key="confirmDeleteClassification" position="center" [baseZIndex]="5000">
     <ng-template let-o let-message pTemplate="message">
         <div style="text-align: center">
@@ -189,6 +184,7 @@
         </div>
     </ng-template>
 </p-toast>
+<!--PrimeNG toast which asks for confirmation to delete a calculus module.-->
 <p-toast [modal]="true" key="confirmDeleteModule" position="center" [baseZIndex]="5000">
     <ng-template let-o let-message pTemplate="message">
         <div style="text-align: center">
@@ -206,6 +202,7 @@
         </div>
     </ng-template>
 </p-toast>
+<!--PrimeNG toast which asks for confirmation to delete an assumption.-->
 <p-toast [modal]="true" key="confirmDeleteAssumption" position="center" [baseZIndex]="5000">
     <ng-template let-o let-message pTemplate="message">
         <div style="text-align: center">
@@ -223,6 +220,7 @@
         </div>
     </ng-template>
 </p-toast>
+<!--PrimeNG toast which asks for confirmation to delete an UrbanHotspots Layer.-->
 <p-toast [modal]="true" key="confirmDeleteLayer" position="center" [baseZIndex]="5000">
     <ng-template let-o let-message pTemplate="message">
         <div style="text-align: center">
@@ -240,6 +238,7 @@
         </div>
     </ng-template>
 </p-toast>
+<!--PrimeNG toast which asks for confirmaton to delete an UrbanHotspots Filter-->
 <p-toast [modal]="true" key="confirmDeleteFilter" position="center" [baseZIndex]="5000">
     <ng-template let-o let-message pTemplate="message">
         <div style="text-align: center">
@@ -257,6 +256,7 @@
         </div>
     </ng-template>
 </p-toast>
+<!--PrimeNG toast which asks for confirmation to restore UrbanHotspots settings to default value.-->
 <p-toast [modal]="true" key="confirmDeleteSettings" position="center" [baseZIndex]="5000">
     <ng-template let-o let-message pTemplate="message">
         <div style="text-align: center">
@@ -274,6 +274,7 @@
         </div>
     </ng-template>
 </p-toast>
+<!--PrimeNG dialog which allows the user to create/edit a joinMethod.-->
 <p-dialog header="Operation Method Details" [(visible)]="editJoinMethod" [focusOnShow]="false" [responsive]="true" showEffect="fade" [modal]="true" [style]="{width: '300px'}" [maximizable]="false" [baseZIndex]="1150">
   <div class="suitability">
       <div class="ui-g ui-fluid" *ngIf="manageJoinMethod">
@@ -312,6 +313,7 @@
       </div>
   </p-footer>
 </p-dialog>
+<!--PrimeNG dialog which allows the user to save the results of an UrbanHotspots evaluation into Oskari as a layer.-->
 <p-dialog header="Save Heatmap to Geoportal" [(visible)]="displaySaveHeatmap" [focusOnShow]="false" [responsive]="true" showEffect="fade" [modal]="true" [style]="{width: '450px'}" [maximizable]="false" [baseZIndex]="1150">
     <div class="suitability">
         <div class="ui-g ui-fluid" *ngIf="oskariHeatmap">
@@ -347,6 +349,7 @@
         </div>
     </p-footer>
 </p-dialog>
+<!--PrimeNG dialog that allows the user to create/edit a normMethod.-->
 <p-dialog header="Normalization Method Details" [(visible)]="editNormMethod" [focusOnShow]="false" [responsive]="true" showEffect="fade" [modal]="true" [style]="{width: '300px'}" [maximizable]="false" [baseZIndex]="1150">
   <div class="suitability">
       <div class="ui-g ui-fluid" *ngIf="manageNormMethod">
@@ -385,6 +388,7 @@
       </div>
   </p-footer>
 </p-dialog>
+<!--PrimeNG dialog that allows the user to create/edit the settings of an UrbanHotspots Layer.-->
 <p-dialog header="Settings Details" [(visible)]="editSettings" [focusOnShow]="false" [responsive]="true" showEffect="fade" [modal]="true" [style]="{width: '300px'}" [maximizable]="false" [baseZIndex]="1150">
     <div class="suitability">
         <div class="ui-g ui-fluid" *ngIf="manageSetting">
@@ -450,6 +454,7 @@
         </div>
     </p-footer>
 </p-dialog>
+<!--PrimeNG dialog that allows the user to create/edit an UrbanHotspots Filter.-->
 <p-dialog header="Filter Details" [(visible)]="editFilters" [focusOnShow]="false" [responsive]="true" showEffect="fade" [modal]="true" [style]="{width: '300px'}" [maximizable]="false" [baseZIndex]="1150">
     <div class="suitability">
         <div class="ui-g ui-fluid" *ngIf="manageFilter">
@@ -470,6 +475,7 @@
         </div>
     </p-footer>
 </p-dialog>
+<!--PrimeNG dialog that allows the user to create/edit an UrbanHotspots Layer.-->
 <p-dialog header="Layer Details" [(visible)]="editLayers" [focusOnShow]="false" [responsive]="true" showEffect="fade" [modal]="true" [style]="{width: '300px'}" [maximizable]="false" [baseZIndex]="1150">
     <div class="suitability">
         <div class="ui-g ui-fluid" *ngIf="manageLayer">
@@ -506,6 +512,7 @@
         </div>
     </p-footer>
 </p-dialog>
+<!--PrimeNG dialog that allows the user to create/edit a result label for UP.-->
 <p-dialog header="Result Labeling Details" [(visible)]="editIndResult" [focusOnShow]="false" [responsive]="true" showEffect="fade" [modal]="true" [style]="{width: '300px'}" [maximizable]="false" [baseZIndex]="1150">
     <div class="urbanperformance">
         <div class="ui-g ui-fluid" *ngIf="manageIndResults">
@@ -552,6 +559,7 @@
         </div>
     </p-footer>
 </p-dialog>
+<!--PrimeNG dialog that allows the user to create/edit an indicator.-->
 <p-dialog header="Indicator Details" [(visible)]="editIndicator" [focusOnShow]="false" [responsive]="true" showEffect="fade" [modal]="true" [style]="{width: '300px'}" [maximizable]="false" [baseZIndex]="1150">
     <div class="urbanperformance">
         <div class="ui-g ui-fluid" *ngIf="manageIndicators">
@@ -580,6 +588,7 @@
         </div>
     </p-footer>
 </p-dialog>
+<!--PrimeNG dialog that allows the user to create/edit a calculus module.-->
 <p-dialog header="Module Details" [(visible)]="editModule" [focusOnShow]="false" [responsive]="true" showEffect="fade" [modal]="true" [style]="{width: '400px'}" [maximizable]="false" [baseZIndex]="1150">
     <div class="urbanperformance">
         <div class="ui-g ui-fluid" *ngIf="manageModules">
@@ -616,6 +625,7 @@
         </div>
     </p-footer>
 </p-dialog>
+<!--PrimeNG dialog that allows the user to create/edit a classification.-->
 <p-dialog header="Classification Details" [(visible)]="editClassification" [focusOnShow]="false" [responsive]="true" showEffect="fade" [modal]="true" [style]="{width: '300px'}" [maximizable]="false" [baseZIndex]="1150">
     <div class="urbanperformance">
         <div class="ui-g ui-fluid" *ngIf="manageClassification">
@@ -652,6 +662,7 @@
         </div>
     </p-footer>
 </p-dialog>
+<!--PrimeNG dialog that allows the user to create/edit an assumption.-->
 <p-dialog header="Assumption Details" [(visible)]="editAssumptions" [focusOnShow]="false" [responsive]="true" showEffect="fade" [modal]="true" [style]="{width: '300px'}" [maximizable]="false" [baseZIndex]="1150">
     <div class="urbanperformance">
         <div class="ui-g ui-fluid" *ngIf="assumptionManage">
@@ -706,6 +717,7 @@
         </div>
     </p-footer>
 </p-dialog>
+<!--PrimeNG dialog that allows the user to create/edit a scenario.-->
 <p-dialog [focusOnShow]="false" header="Scenario Details" [(visible)]="editScenario" [modal]="true" [responsive]="true" [style]="{width: '300px'}" [maximizable]="false" [baseZIndex]="1150">
     <div class="ui-g ui-fluid" *ngIf="scenarioManage">
         <div class="ui-g-12">
@@ -737,6 +749,7 @@
         </div>
     </p-footer>
 </p-dialog>
+<!--PrimeNG generic toast used to show generic messages for success, errors and warnings.-->
 <p-toast [baseZIndex]="1500"></p-toast>
 <p-button class="ui-button-secondary" icon="pi pi-angle-left" styleClass="toolbarbtn" (onClick)="displayTools = true" [style]="{'position':'absolute','top':'4em','right':'0px','z-index':980}"></p-button>
 <p-dialog [focusOnShow]="false" classStyle="managaDataModule" header="Manage Data" [(visible)]="displayManageDataUP" [maximizable]="true" [style]="{'width':'45em'}" [contentStyle]="{'max-height':'40em'}" [baseZIndex]="1150">
@@ -780,7 +793,8 @@
         </div>
     </div>
 </p-dialog>
-<p-dialog [focusOnShow]="false" header="Manage WFS" [(visible)]="displayUptWfs" [maximizable]="true" [style]="{'width':'60em'}" [contentStyle]="{'max-height':'40em'}" [baseZIndex]="1150">
+<!--Pending.-->
+<!--<p-dialog [focusOnShow]="false" header="Manage WFS" [(visible)]="displayUptWfs" [maximizable]="true" [style]="{'width':'60em'}" [contentStyle]="{'max-height':'40em'}" [baseZIndex]="1150">
     <div class="gp_modal geoportal-dialog">
         <div class="ui-g ui-fluid">
             <div class="ui-g-5">
@@ -825,10 +839,12 @@
             </div>
         </div>
     </div>
-</p-dialog>
+</p-dialog>-->
+<!--PrimeNG dialog for the advanced functionalities of UrbanHotspots.-->
 <p-dialog [focusOnShow]="false" [baseZIndex]="1150" header="Advanced Options" [positionTop]="0" [maximizable]="true" [(visible)]="displayDataST" [style]="{'width': '75em'}" [contentStyle]="{'max-height':'90vh'}">
     <div class="gp_modal suitability">
         <ngb-tabset type="pills" justify="justified">
+            <!--Section which allows the user to import layers from the geoportal into UrbanHotspots as layers for its own evaluations, as well as viewing UrbanHotspots Layers per study area.-->
             <ngb-tab>
                 <ng-template ngbTabTitle>
                     Layers
@@ -929,6 +945,7 @@
                     </div>
                 </ng-template>
             </ngb-tab>
+            <!--Section which allows the user to import layers from the geoportal into UrbanHotspots as filters for its own evaluations, as well as viewing UrbanHotspots Filters per study area.-->
             <ngb-tab>
                 <ng-template ngbTabTitle>
                     Filters
@@ -1026,6 +1043,7 @@
                     </div>
                 </ng-template>
             </ngb-tab>
+            <!--Section that allows to view the layer settings per study area.-->
             <ngb-tab>
                 <ng-template ngbTabTitle>
                       Settings
@@ -1075,183 +1093,188 @@
                     </ng-container>
                 </ng-template>
             </ngb-tab>
-      <ngb-tab *ngIf="isUPTAdmin">
-          <ng-template ngbTabTitle>Normalization</ng-template>
-          <ng-template ngbTabContent>
-            <div class="ui-g ui-fluid">
-                <p-table #normMethodTable [columns]="colsNormMethod" [value]="normMethodsSTManage" selectionMode="single"
-                    [(selection)]="selNormalization" [paginator]="true" [paginator]="true" [rows]="20"
-                    (onRowSelect)="selectNormMethod($event)">
-                    <ng-template pTemplate="caption">
-                      <div class="ui-g ui-fluid">
-                        <div class="ui-md-3">
-                          <button type="button" pButton icon="fa fa-plus" (click)="addNormMethod()" label="CREATE"></button>
-                        </div>
-                        <div class="ui-md-offset-2 ui-md-1">
-                          <i class="fa fa-search pt-2" style="margin:4px 4px 0 0"></i>
-                        </div>
-                        <div class="ui-md-6">
-                          <input type="text" pInputText size="50" placeholder="Search"
-                          (input)="normMethodTable.filterGlobal($event.target.value, 'contains')">
-                        </div>
-                      </div>
-                    </ng-template>
-                    <ng-template pTemplate="header" let-columns>
-                      <tr>
-                        <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                          {{col.header}}
-                          <p-sortIcon [field]="col.field"></p-sortIcon>
-                        </th>
-                      </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-rowData let-columns="columns">
-                      <tr [pSelectableRow]="rowData">
-                        <td *ngFor="let col of columns">
-                          {{rowData[col.field] | staticMethod:staticNormST}}
-                        </td>
-                      </tr>
-                    </ng-template>
-                    <ng-template pTemplate="summary">
-                        There are {{normMethodsSTManage?.length}} methods
-                    </ng-template>
-                  </p-table>
-              </div>
-          </ng-template>
-      </ngb-tab>
-      <ngb-tab *ngIf="isUPTAdmin">
-        <ng-template ngbTabTitle>Operation</ng-template>
-        <ng-template ngbTabContent>
-            <div class="ui-g ui-fluid">
-                <p-table #joinMethodTable [columns]="colsJoinMethod" [value]="joinMethodsSTManage" selectionMode="single"
-                    [(selection)]="selJoin" [paginator]="true" [paginator]="true" [rows]="20"
-                    (onRowSelect)="selectJoinMethod($event)">
-                    <ng-template pTemplate="caption">
-                      <div class="ui-g ui-fluid">
-                        <div class="ui-md-3">
-                          <button type="button" pButton icon="fa fa-plus" (click)="addJoinMethod()" label="CREATE"></button>
-                        </div>
-                        <div class="ui-md-offset-2 ui-md-1">
-                          <i class="fa fa-search pt-2" style="margin:4px 4px 0 0"></i>
-                        </div>
-                        <div class="ui-md-6">
-                          <input type="text" pInputText size="50" placeholder="Search"
-                          (input)="joinMethodTable.filterGlobal($event.target.value, 'contains')">
-                        </div>
-                      </div>
-                    </ng-template>
-                    <ng-template pTemplate="header" let-columns>
-                      <tr>
-                        <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                          {{col.header}}
-                          <p-sortIcon [field]="col.field"></p-sortIcon>
-                        </th>
-                      </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-rowData let-columns="columns">
-                      <tr [pSelectableRow]="rowData">
-                        <td *ngFor="let col of columns">
-                          {{rowData[col.field] | staticMethod:staticJoinST}}
-                        </td>
-                      </tr>
-                    </ng-template>
-                    <ng-template pTemplate="summary">
-                        There are {{joinMethodsSTManage?.length}} methods
-                    </ng-template>
-                  </p-table>
-              </div>
-        </ng-template>
-    </ngb-tab>
-    <ngb-tab>
-        <ng-template ngbTabTitle>Manage Data</ng-template>
-        <ng-template ngbTabContent>
-            <div class="p-2">
-                <p-fieldset [toggleable]="true">
-                    <p-header>Copy Data
-                    </p-header>
+            <!--Section that allows an admin to view the normMethods-->
+            <ngb-tab *ngIf="isUPTAdmin">
+                <ng-template ngbTabTitle>Normalization</ng-template>
+                <ng-template ngbTabContent>
                     <div class="ui-g ui-fluid">
-                        <div class="ui-g-4">
+                        <p-table #normMethodTable [columns]="colsNormMethod" [value]="normMethodsSTManage" selectionMode="single"
+                            [(selection)]="selNormalization" [paginator]="true" [paginator]="true" [rows]="20"
+                            (onRowSelect)="selectNormMethod($event)">
+                            <ng-template pTemplate="caption">
                             <div class="ui-g ui-fluid">
-                                <p-dropdown [filter]="true" panelStyleClass="suitability" styleClass="suitability" [baseZIndex]="2500" appendTo="body" [options]="studyAreaST" [(ngModel)]="stdAreaSTDistances" optionLabel="name" placeholder="Select a study area" (onHide)="loadSTTables()"
-                                [style]="{'width':'18em'}">
-                                </p-dropdown>
+                                <div class="ui-md-3">
+                                <button type="button" pButton icon="fa fa-plus" (click)="addNormMethod()" label="CREATE"></button>
+                                </div>
+                                <div class="ui-md-offset-2 ui-md-1">
+                                <i class="fa fa-search pt-2" style="margin:4px 4px 0 0"></i>
+                                </div>
+                                <div class="ui-md-6">
+                                <input type="text" pInputText size="50" placeholder="Search"
+                                (input)="normMethodTable.filterGlobal($event.target.value, 'contains')">
+                                </div>
                             </div>
+                            </ng-template>
+                            <ng-template pTemplate="header" let-columns>
+                            <tr>
+                                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                                {{col.header}}
+                                <p-sortIcon [field]="col.field"></p-sortIcon>
+                                </th>
+                            </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                            <tr [pSelectableRow]="rowData">
+                                <td *ngFor="let col of columns">
+                                {{rowData[col.field] | staticMethod:staticNormST}}
+                                </td>
+                            </tr>
+                            </ng-template>
+                            <ng-template pTemplate="summary">
+                                There are {{normMethodsSTManage?.length}} methods
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <!--Section that allows an admin to view the joinMethods-->
+            <ngb-tab *ngIf="isUPTAdmin">
+                <ng-template ngbTabTitle>Operation</ng-template>
+                <ng-template ngbTabContent>
+                    <div class="ui-g ui-fluid">
+                        <p-table #joinMethodTable [columns]="colsJoinMethod" [value]="joinMethodsSTManage" selectionMode="single"
+                            [(selection)]="selJoin" [paginator]="true" [paginator]="true" [rows]="20"
+                            (onRowSelect)="selectJoinMethod($event)">
+                            <ng-template pTemplate="caption">
                             <div class="ui-g ui-fluid">
-                                <p-tree [filter]="true" [value]="tablesST" (onNodeSelect)="loadSTDistancesColumns($event)" selectionMode="single" [(selection)]="selTableST" [style]="{'max-height':'200px','overflow':'auto'}">
-                                    <ng-template let-node pTemplate="layer">
-                                        <span>
-                                            {{node.label}}
-                                        </span>
-                                    </ng-template>
-                                </p-tree>
+                                <div class="ui-md-3">
+                                <button type="button" pButton icon="fa fa-plus" (click)="addJoinMethod()" label="CREATE"></button>
+                                </div>
+                                <div class="ui-md-offset-2 ui-md-1">
+                                <i class="fa fa-search pt-2" style="margin:4px 4px 0 0"></i>
+                                </div>
+                                <div class="ui-md-6">
+                                <input type="text" pInputText size="50" placeholder="Search"
+                                (input)="joinMethodTable.filterGlobal($event.target.value, 'contains')">
+                                </div>
                             </div>
-                        </div>
-                        <div class="ui-g-8" *ngIf="selTableST">
+                            </ng-template>
+                            <ng-template pTemplate="header" let-columns>
+                            <tr>
+                                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                                {{col.header}}
+                                <p-sortIcon [field]="col.field"></p-sortIcon>
+                                </th>
+                            </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                            <tr [pSelectableRow]="rowData">
+                                <td *ngFor="let col of columns">
+                                {{rowData[col.field] | staticMethod:staticJoinST}}
+                                </td>
+                            </tr>
+                            </ng-template>
+                            <ng-template pTemplate="summary">
+                                There are {{joinMethodsSTManage?.length}} methods
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <!--Section that allows the user to copy data into the distance module to evaluate distances and save the results as a layer in Oskari.-->
+            <ngb-tab>
+                <ng-template ngbTabTitle>Manage Data</ng-template>
+                <ng-template ngbTabContent>
+                    <div class="p-2">
+                        <p-fieldset [toggleable]="true">
+                            <p-header>Copy Data
+                            </p-header>
                             <div class="ui-g ui-fluid">
-                                <p-tree [filter]="true" [value]="layersDataST" (onNodeSelect)="loadSTDataDistanceColumns($event)" selectionMode="single" [(selection)]="selDistanceLayerST" [style]="{'max-height':'200px','overflow':'auto'}">
-                                    <ng-template let-node pTemplate="layer">
-                                        <span>
-                                            {{node.label}}
-                                        </span>
-                                    </ng-template>
-                                </p-tree>
+                                <div class="ui-g-4">
+                                    <div class="ui-g ui-fluid">
+                                        <p-dropdown [filter]="true" panelStyleClass="suitability" styleClass="suitability" [baseZIndex]="2500" appendTo="body" [options]="studyAreaST" [(ngModel)]="stdAreaSTDistances" optionLabel="name" placeholder="Select a study area" (onHide)="loadSTTables()"
+                                        [style]="{'width':'18em'}">
+                                        </p-dropdown>
+                                    </div>
+                                    <div class="ui-g ui-fluid">
+                                        <p-tree [filter]="true" [value]="tablesST" (onNodeSelect)="loadSTDistancesColumns($event)" selectionMode="single" [(selection)]="selTableST" [style]="{'max-height':'200px','overflow':'auto'}">
+                                            <ng-template let-node pTemplate="layer">
+                                                <span>
+                                                    {{node.label}}
+                                                </span>
+                                            </ng-template>
+                                        </p-tree>
+                                    </div>
+                                </div>
+                                <div class="ui-g-8" *ngIf="selTableST">
+                                    <div class="ui-g ui-fluid">
+                                        <p-tree [filter]="true" [value]="layersDataST" (onNodeSelect)="loadSTDataDistanceColumns($event)" selectionMode="single" [(selection)]="selDistanceLayerST" [style]="{'max-height':'200px','overflow':'auto'}">
+                                            <ng-template let-node pTemplate="layer">
+                                                <span>
+                                                    {{node.label}}
+                                                </span>
+                                            </ng-template>
+                                        </p-tree>
+                                    </div>
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12">
+                                            <p-table [value]="listDataDistancesST">
+                                                <ng-template pTemplate="header">
+                                                    <tr>
+                                                        <th style="width:2.5em"></th>
+                                                        <th>Required Fields</th>
+                                                        <th>{{columnHeaderDistancesST + ' Fields'}}</th>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="body" let-column let-index="rowIndex">
+                                                    <tr [pReorderableRow]="index">
+                                                        <td>
+                                                        </td>
+                                                        <td>{{column.label}}</td>
+                                                        <td>
+                                                            <p-dropdown [filter]="true" panelStyleClass="suitability" styleClass="suitability" optionLabel="name" [baseZIndex]="2500" appendTo="body" [options]="listManageDistanceST" [(ngModel)]="columnFieldsArrayST[index]" placeholder="Select a field"></p-dropdown>
+                                                        </td>
+                                                    </tr>
+                                                </ng-template>
+                                            </p-table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="ui-g ui-fluid">
                                 <div class="ui-g-12">
-                                    <p-table [value]="listDataDistancesST">
-                                        <ng-template pTemplate="header">
-                                            <tr>
-                                                <th style="width:2.5em"></th>
-                                                <th>Required Fields</th>
-                                                <th>{{columnHeaderDistancesST + ' Fields'}}</th>
-                                            </tr>
-                                        </ng-template>
-                                        <ng-template pTemplate="body" let-column let-index="rowIndex">
-                                            <tr [pReorderableRow]="index">
-                                                <td>
-                                                </td>
-                                                <td>{{column.label}}</td>
-                                                <td>
-                                                    <p-dropdown [filter]="true" panelStyleClass="suitability" styleClass="suitability" optionLabel="name" [baseZIndex]="2500" appendTo="body" [options]="listManageDistanceST" [(ngModel)]="columnFieldsArrayST[index]" placeholder="Select a field"></p-dropdown>
-                                                </td>
-                                            </tr>
-                                        </ng-template>
-                                    </p-table>
+                                    <p-button label="IMPORT" (onClick)="importDataST()" styleClass="ui-button-raised geoportal-btn suitability">
+                                    </p-button>
                                 </div>
                             </div>
-                        </div>
+                        </p-fieldset>
+                        <br>
+                        <p-fieldset [toggleable]="true">
+                            <p-header>Evaluate Distances
+                            </p-header>
+                            <div class="ui-g ui-fluid">
+                                <p-dropdown [filter]="true" panelStyleClass="suitability" styleClass="suitability" [baseZIndex]="2500" appendTo="body" [options]="studyAreaST" [(ngModel)]="stdAreaSTEvalDist" optionLabel="name" placeholder="Select a study area"
+                                        [style]="{'width':'18em'}">
+                                        </p-dropdown>
+                            </div>
+                            <div class="ui-g ui-fluid">
+                                <div class="ui-g-12">
+                                    <p-button label="EVALUATE" [disabled]="!stdAreaSTEvalDist" (onClick)="evaluateDistances()" styleClass="ui-button-raised geoportal-btn suitability">
+                                    </p-button>
+                                </div>
+                            </div>
+                        </p-fieldset>
                     </div>
-                    <div class="ui-g ui-fluid">
-                        <div class="ui-g-12">
-                            <p-button label="IMPORT" (onClick)="importDataST()" styleClass="ui-button-raised geoportal-btn suitability">
-                            </p-button>
-                        </div>
-                    </div>
-                </p-fieldset>
-                <br>
-                <p-fieldset [toggleable]="true">
-                    <p-header>Evaluate Distances
-                    </p-header>
-                    <div class="ui-g ui-fluid">
-                        <p-dropdown [filter]="true" panelStyleClass="suitability" styleClass="suitability" [baseZIndex]="2500" appendTo="body" [options]="studyAreaST" [(ngModel)]="stdAreaSTEvalDist" optionLabel="name" placeholder="Select a study area"
-                                [style]="{'width':'18em'}">
-                                </p-dropdown>
-                    </div>
-                    <div class="ui-g ui-fluid">
-                        <div class="ui-g-12">
-                            <p-button label="EVALUATE" [disabled]="!stdAreaSTEvalDist" (onClick)="evaluateDistances()" styleClass="ui-button-raised geoportal-btn suitability">
-                            </p-button>
-                        </div>
-                    </div>
-                </p-fieldset>
-            </div>
-        </ng-template>
-    </ngb-tab>
-    </ngb-tabset>
-</div>
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
+    </div>
 </p-dialog>
-<p-dialog [focusOnShow]="false" [baseZIndex]="1150" [positionTop]="0" [maximizable]="true" header="Advanced Options" [(visible)]="displayAssumptions" [contentStyle]="{'max-height':'90vh'}" [style]="{'width': '75em'}">
+<!--PrimeNG dialog for the advanced functionalities of UP-->
+<p-dialog [focusOnShow]="false" [baseZIndex]="1150" [positionTop]="0" [maximizable]="true" header="Advanced Options" [(visible)]="displayAdvancedUP" [contentStyle]="{'max-height':'90vh'}" [style]="{'width': '75em'}">
     <div class="gp_modal urbanperformance" id="adminUP">
         <ngb-tabset type="pills" justify="justified" #tabsetUP="ngbTabset">
+            <!--Section that allows the user to upload assumptions and view assumptions per study area.-->
             <ngb-tab id="assumptionsUP">
                 <ng-template ngbTabTitle>
                     Assumptions
@@ -1324,6 +1347,7 @@
                     </div>
                 </ng-template>
             </ngb-tab>
+            <!--Section that allows the user to view the created Scenarios.-->
             <ngb-tab id="scenariosUP">
                 <ng-template ngbTabTitle>
                     Scenarios
@@ -1357,6 +1381,7 @@
                     </p-table>
                 </ng-template>
             </ngb-tab>
+            <!--Section that allows an admin to install new calculus modules and view modules, indicators and result labels.-->
             <ngb-tab id="indicatorsUP" *ngIf="isUPTAdmin">
                 <ng-template ngbTabTitle>
                     Indicators
@@ -1485,6 +1510,7 @@
                     </div>
                 </ng-template>
             </ngb-tab>
+            <!--Section that allows the user to view the classifications.-->
             <ngb-tab id="classificationUP">
                 <ng-template ngbTabTitle>
                     Classification
@@ -1525,6 +1551,7 @@
                     </p-table>
                 </ng-template>
             </ngb-tab>
+            <!--Section that allows the user to clear data from tables belonging to a scenario.-->
             <ngb-tab>
                 <ng-template ngbTabTitle>
                     Clear Tables
@@ -1549,6 +1576,7 @@
         </ngb-tabset>
     </div>
 </p-dialog>
+<!--PrimeNG dialog which contains the main UP tool.-->
 <p-dialog [focusOnShow]="false" [baseZIndex]="1150" [positionTop]="0" header="UrbanPerformance" [(visible)]="displayUP" [contentStyle]="{'max-height':'80vh'}" [style]="{'width':'60em'}">
     <div class="gp_modal container-fluid mb-2 py-2 urbanperformance" id="urbanperformance">
         <p-fieldset [collapsed]="createScenarioCollapsed" [toggleable]="true">
@@ -1739,11 +1767,12 @@
         <div class="urbanperformance ui-g ui-fluid px-2">
             <p-button label="EXPORT RESULTS" (onClick)="exportUPResults()" [disabled]="okayResults" styleClass="tools-geoportal geoportal-btn geoportal-title-btn" icon="pi pi-file">
             </p-button>
-            <p-button label="ADVANCED" class="tools-geoportal geoportal-btn geoportal-title-btn" icon="fas fa-cog" (onClick)="showAssumptions();"></p-button>
+            <p-button label="ADVANCED" class="tools-geoportal geoportal-btn geoportal-title-btn" icon="fas fa-cog" (onClick)="showAdvancedUP();"></p-button>
         </div>
     </p-footer>
 </p-dialog>
-<p-dialog [focusOnShow]="false" [baseZIndex]="1150" [positionTop]="0" [responsive]="true" [maximizable]="true" [style]="{'width': '60em'}" [blockScroll]="true" header="SuitAbility" [(visible)]="displayST" [contentStyle]="{'max-height':'80vh'}">
+<!--PrimeNG which contains the main UrbanHotspot tool.-->
+<p-dialog [focusOnShow]="false" [baseZIndex]="1150" [positionTop]="0" [responsive]="true" [maximizable]="true" [style]="{'width': '60em'}" [blockScroll]="true" header="UrbanHotspots" [(visible)]="displayST" [contentStyle]="{'max-height':'80vh'}">
     <p-accordion (onClose)="closeAccordionST()" (onOpen)="openAccordionST()" [activeIndex]="accordionST" styleClass="suitability" expandIcon="pi pi-fw pi-chevron-down" collapseIcon="pi pi-fw pi-chevron-up">
         <p-accordionTab>
             <div class="gp_modal suitability" id="suitability">
@@ -1910,6 +1939,7 @@
         </div>
     </p-footer>
 </p-dialog>
+<!--PrimeNG sidebar that contains additional functionalities, such as logging, fixing layer data, sharing layers, etc.-->
 <p-sidebar [showCloseIcon]="false" [(visible)]="displayTools" [modal]="false" [dismissible]="false" position="right" [style]="{width: '5em'}">
     <div class="text-left">
         <i class="pi pi-angle-right" style="cursor: pointer;" (click)="displayTools = false"></i>
@@ -2005,10 +2035,11 @@
         </div>
     </ul>
 </p-sidebar>
+<!--PrimeNG overlayPanel which contains additional info about UrbanHotspots.-->
 <p-overlayPanel [baseZIndex]="4000" [style]="{width: '40em'}" #stInfo>
     <h6 class="pt-2 pl-2 text-uppercase results-text">About</h6>
     <div class="results-text mx-3 my-3 text-justify">
-        <p>The Suitability tool identifies optimal locations for a specific activity within a city. To simplify the decision-making process the tool maps multiple variables in one single index. To create such an index, users can select layers and create
+        <p>The Urban Hotspots tool identifies optimal locations for a specific activity within a city. To simplify the decision-making process the tool maps multiple variables in one single index. To create such an index, users can select layers and create
             maps in minutes. Aditionally, they can define their own normalization rules, assign weights to each layer and filter the dataset to redefine their study area.</p>
         <hr class="gp_teal">
         <p>With the tool decision makers and practitioners can perform agile assessments in urban environments to map infrastructure gap hotspots, identify the optimal location for urban services and housing projects or to understand the overall distribution
@@ -2016,11 +2047,13 @@
         <hr class="gp_teal">
     </div>
 </p-overlayPanel>
+<!--PrimeNG overlayPanel which contains additional info about UrbanHotspots.-->
 <p-overlayPanel [baseZIndex]="4000" [style]="{width: '30em'}" #upInfo>
     <div class="results-text mx-3 my-3 text-justify">
         <p>To use this tool you must have uploaded the assumptions and criteria tables in your geoportal.</p>
     </div>
 </p-overlayPanel>
+<!--PrimeNG dialog which contains the error log.-->
 <p-dialog [focusOnShow]="false" styleClass="gp-console" [(visible)]="displayConsole" [style]="{'width': '600px'}" [contentStyle]="{'max-height':'40vh'}" [baseZIndex]="1150">
     <p-header>
         Log
@@ -2037,6 +2070,7 @@
         </div>
     </p-footer>
 </p-dialog>
+<!--PrimeNG dialog which contains the processing log.-->
 <p-dialog [focusOnShow]="false" styleClass="gp-console" [(visible)]="displayEvaluation" [style]="{'width': '750px'}" [contentStyle]="{'max-height':'40vh'}" [baseZIndex]="1150">
     <p-header>
         Processing History

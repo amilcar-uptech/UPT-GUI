@@ -5,16 +5,13 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Settings } from 'src/app/interfaces/settings';
 
-
-
-
 const httpOptions = {
-  
   params: null
 };
 @Injectable({
   providedIn: 'root'
 })
+// Service used to manage UrbanHotspots layer settings (CRUD)
 export class SettingsService {
 
   constructor(private http: HttpClient) { }

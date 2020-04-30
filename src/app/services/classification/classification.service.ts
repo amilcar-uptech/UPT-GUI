@@ -14,6 +14,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
+// Service that manages classifications (CRUD) as well as uploading them.
 export class ClassificationService {
 
   constructor(private http: HttpClient) { }

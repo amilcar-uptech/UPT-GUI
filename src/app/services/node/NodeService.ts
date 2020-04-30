@@ -4,8 +4,8 @@ import {TreeNode} from 'primeng/api';
 import { map } from 'rxjs/operators';
 
 @Injectable()
+// Service used to get data for PrimeNG tree elements
 export class NodeService {
-
     constructor(private http: HttpClient) {}
 
     getUPLayers(id: string) {
@@ -39,18 +39,6 @@ export class NodeService {
     }
 
     getLayersST() {
-        return this.http.get<any>('/action?action_route=LayersSTHandler&action=list_layers')
-                    .toPromise()
-                    .then(res => res.data as TreeNode[]);
-    }
-
-    getFiltersST() {
-        return this.http.get<any>('/action?action_route=LayersSTHandler&action=list_layers')
-                    .toPromise()
-                    .then(res => res.data as TreeNode[]);
-    }
-
-    getMMUST() {
         return this.http.get<any>('/action?action_route=LayersSTHandler&action=list_layers')
                     .toPromise()
                     .then(res => res.data as TreeNode[]);

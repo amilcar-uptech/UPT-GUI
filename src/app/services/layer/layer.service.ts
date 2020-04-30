@@ -8,18 +8,13 @@ import { NormalizationMethod } from 'src/app/interfaces/normalization-method';
 @Injectable({
   providedIn: 'root'
 })
+// Service that requests the study areas for the UPT,
+// and gets the layers and filters for a selected study area for UrbanHotspots.
 export class LayerService {
 
   constructor(private http: HttpClient) { }
 
   getStudyAreas(): Observable<SelectItem[]> {
-    return this.http.get<any>('/action?action_route=study_area')
-                .pipe(
-                  map(res => res as SelectItem[])
-                );
-  }
-
-  getStudyAreasST(): Observable<SelectItem[]> {
     return this.http.get<any>('/action?action_route=study_area')
                 .pipe(
                   map(res => res as SelectItem[])

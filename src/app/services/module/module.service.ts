@@ -18,7 +18,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class ModuleService {
-
+  // Service used to install and manage Calculus Modules (CRUD), manage indicators and manage results labels.
   constructor(private http: HttpClient) { }
 
   installModule(file: any): Observable<any> {

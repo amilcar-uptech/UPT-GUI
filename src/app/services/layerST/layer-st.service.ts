@@ -15,6 +15,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
+// Service used to manage Layers and Filters for UrbanHotspots (CRUD).
 export class LayerSTService {
 
   constructor(private http: HttpClient) { }

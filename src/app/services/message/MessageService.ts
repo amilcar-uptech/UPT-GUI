@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { Message } from './message';
 
 @Injectable()
+// Service used to handle PrimeNG toasts.
 export class MessageService {
 
     private messageSource = new Subject<Message|Message[]>();

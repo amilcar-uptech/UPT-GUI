@@ -14,6 +14,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
+// Pending functionality. Service used to handle WFS.
 export class WfsUptService {
 
   constructor(private http: HttpClient) { }

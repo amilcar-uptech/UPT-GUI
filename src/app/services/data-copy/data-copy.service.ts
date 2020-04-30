@@ -14,6 +14,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
+// Service used to import data from the geoportal into the UPT.
 export class DataCopyService {
 
   constructor(private http: HttpClient) { }
@@ -28,7 +29,6 @@ export class DataCopyService {
     body = body.set('layerUPName', dataCopy.layerUPName);
     body = body.set('layerName', dataCopy.layerName);
     body = body.set('scenarioId', dataCopy.scenarioId.toString());
-    console.log(body);
     try {
       return this.http.post('/action?action_route=copy_data', body);
     } catch (e) {
