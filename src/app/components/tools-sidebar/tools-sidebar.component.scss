@@ -1,63 +1,18 @@
 @import '../../../styles.scss';
-/* .lfr-actions, .lfr-actions ul, button:not([class*="ant-"]).ui-button, input[type="button"]:not([class*="ant-"]).ui-button, input[type="reset"], input[type="submit"] {
-
-    background: none !important;
-    border-color: none !important;
-    border-style: none !important;
-    border-width: 0 !important;
-    color: none !important;
-    font-weight: 300 !important;
-    text-shadow: none !important;
-
+.up-act a {
+    text-decoration: none !important;
+    color: #FF8680 !important;
 }
 
-button:not([class*="ant-"]).ui-button, input[type="button"]:not([class*="ant-"]).ui-button, input[type="reset"], input[type="submit"] {
-
-    cursor: pointer !important;
-    overflow: visible !important;
-    padding: 0 !important;
-    line-height: inherit !important;
-    min-width: 4em !important;
-    width: auto !important;
-
+.st-act a {
+    text-decoration: none !important;
+    color: #61c0bd !important;
 }
 
-.textarea, button.ui-button, input[type="button"]:not([class*="ant-"]).ui-button, input[type="email"], input[type="file"], input[type="number"], input[type="password"], input[type="reset"], input[type="search"], input[type="submit"], input[type="tel"], input[type="text"], input[type="url"], select, textarea {
-
-    border-color: none !important;
-    border-style: none !important;
-    border-width: 0 !important;
-    padding: 0 !important;
-    font-family: inherit !important;
-
+.no-act a {
+    text-decoration: none !important;
+    color: #FFFFFF !important;
 }
-
-.lfr-actions:hover, .lfr-actions:hover ul, button:not([class*="ant-"]).ui-button:hover:enabled, input[type="button"]:not([class*="ant-"]).ui-input:hover:enabled, input[type="reset"]:hover:enabled, input[type="submit"]:hover:enabled {
-
-    background: none !important;
-    background-color: none !important;
-    border-color: none !important;
-    color: none !important;
-
-}
-
-.lfr-actions:focus,
-.lfr-actions:focus ul,
-button:not([class*=ant-]).ui-button:focus,
-input[type=button]:not([class*=ant-]).ui-button:focus,
-input[type=reset]:focus,
-input[type=submit]:focus {
-    background: none !important;
-    border-color: none !important
-}
-
-button:not([class*=ant-]).ui-button:disabled,
-input:disabled,
-select:disabled,
-textarea:disabled {
-    cursor: default !important;
-    opacity: .5 !important
-} */
 
 table.ui-table-scrollable-body-table {
     font-size: 12px !important;

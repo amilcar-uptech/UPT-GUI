@@ -14,6 +14,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
+// Service that handles assumption
 export class AssumptionService {
 
   constructor(private http: HttpClient) { }

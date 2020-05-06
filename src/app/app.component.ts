@@ -27,8 +27,7 @@ export class AppComponent implements OnInit {
   // Used to access variables and methods from tools-sidebar.component
   @ViewChild('tools',  {static: false}) tools: ToolsSidebarComponent;
 
-  constructor(private messageService: MessageService,
-              private roleService: RoleService) {
+  constructor(private messageService: MessageService) {
     this.urbPerActive = false;
     this.suitabilityActive = false;
     this.uptWindow = window;
@@ -84,6 +83,8 @@ export class AppComponent implements OnInit {
     this.tools.hideST();
     this.tools.hideAdvancedUP();
     this.tools.hideDataST();
+    this.tools.upAct = false;
+    this.tools.stAct = false;
   }
 
   ngOnInit() {

@@ -95,8 +95,8 @@ export class ToolsSidebarComponent implements OnInit {
   displayTools: boolean;
 
   // Properties to determine which plugin is active
-  upAct: boolean;
-  stAct: boolean;
+  upAct = false;
+  stAct = false;
 
   // Properties for range sliders
   filterRangeST: number[];
@@ -762,6 +762,8 @@ export class ToolsSidebarComponent implements OnInit {
    */
   // Displays the main UP dialog, as well as sends requests needed for the different elements needed for operations.
   showUP() {
+    this.upAct = true;
+    this.stAct = false;
     this.indSelectItems = [];
     this.indsEditResult = [];
     this.selectedScenarios = [];
@@ -2497,6 +2499,8 @@ export class ToolsSidebarComponent implements OnInit {
 
   // Shows the main ST dialog and loads important variables to run its calculations
   showST() {
+    this.upAct = false;
+    this.stAct = true;
     this.loadDataLayerST();
     this.loadSTColumns();
     this.loadSTMethods();
