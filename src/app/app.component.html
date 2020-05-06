@@ -3,13 +3,13 @@
     <nav class="navbar navbar-expand-lg navbar-light change-index" [ngClass]="{'upnavbar':urbPerActive, 'stnavbar':suitabilityActive,'bg-white':!suitabilityActive&&!urbPerActive}">
         <div class="container-fluid resize-text">
                 <div class="navbar-brand">
-                    <img *ngIf="!suitabilityActive && !urbPerActive; else gpWhite" style="height: 2em;" src="{{oskariUrl}}/PLID/assets/img/GEOPORTAL VERSION COLOR-12.png" class="ml-2 img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}"
+                    <img *ngIf="!suitabilityActive && !urbPerActive; else gpWhite" style="height: 2em;" src="{{oskariUrl}}/PLID/assets/img/GeoPortal.png" class="ml-2 img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}"
                         alt="Geoportal logo">
                     <ng-template #gpWhite>
-                        <img style="height: 2em;" src="{{oskariUrl}}/PLID/assets/img/GEOPORTAL BLANCO-08.png" class="ml-2 img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="Geoportal logo white">
+                        <img style="height: 2em;" src="{{oskariUrl}}/PLID/assets/img/GeoPortal blanco.png" class="ml-2 img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="Geoportal logo white">
                     </ng-template>
-                    <img style="height: 2em;" *ngIf="suitabilityActive && !urbPerActive" src="{{oskariUrl}}/PLID/assets/img/Urban Hotspots_logo blanco.png" class="ml-5 pl-2 img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="UrbanHotspots logo">
-                    <img style="height: 2em;" *ngIf="urbPerActive && !suitabilityActive" src="{{oskariUrl}}/PLID/assets/img/LOGO BN-07.png" class="ml-5 pl-2img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="UrbanPerformance logo">
+                    <img style="height: 2em;" *ngIf="suitabilityActive && !urbPerActive" src="{{oskariUrl}}/PLID/assets/img/UH blanco.png" class="ml-5 pl-2 img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="UrbanHotspots logo">
+                    <img style="height: 2em;" *ngIf="urbPerActive && !suitabilityActive" src="{{oskariUrl}}/PLID/assets/img/UP blanco.png" class="ml-5 pl-2img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="UrbanPerformance logo">
                 </div>
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item dropdown" dropdown>
