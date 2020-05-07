@@ -16,7 +16,7 @@ export class StaticMethodPipe implements PipeTransform {
     if (isNaN(label)) {
       return label;
     } else {
-      return "Select method.";
+      return 'Select method.';
     }
   }
 
