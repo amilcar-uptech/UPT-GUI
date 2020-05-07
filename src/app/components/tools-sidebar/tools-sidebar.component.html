@@ -1079,7 +1079,9 @@
                                 <ng-template pTemplate="body" let-rowData let-columns="columns">
                                     <tr [pSelectableRow]="rowData">
                                         <td *ngFor="let col of columns">
-                                            <span *ngIf="col.field !== 'id'">{{rowData[col.field]}}</span>
+                                            <span *ngIf="col.field === 'label'">{{rowData[col.field]}}</span>
+                                            <span *ngIf="col.field === 'normalization_method'">{{rowData[col.field] | staticMethod:staticNormST}}</span>
+                                            <span *ngIf="col.field !== 'id' || col.field !== 'normalization_method' || col.field !== 'label'">{{rowData[col.field]}}</span>
                                             <span *ngIf="col.field === 'id' && rowData[col.field] > 0"><i class="pi pi-check"></i></span>
                                             <span *ngIf="col.field === 'id' && rowData[col.field] === 0"><i class="pi pi-times"></i></span>
                                         </td>

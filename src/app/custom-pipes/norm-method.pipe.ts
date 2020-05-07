@@ -15,7 +15,7 @@ export class NormMethodPipe implements PipeTransform {
     if (isNaN(label)) {
       return label;
     } else {
-      return "Select method.";
+      return 'Select method.';
     }
   }
 
