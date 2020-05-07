@@ -2901,6 +2901,10 @@ export class ToolsSidebarComponent implements OnInit {
         (layers) => (this.layerSettings = layers),
         (error) => {
           this.logErrorHandler(error);
+        }, () => {
+          this.layerSettings.forEach(
+            stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+          );
         }
       );
       this.filterList = [];
@@ -3267,6 +3271,10 @@ export class ToolsSidebarComponent implements OnInit {
         (settings) => (this.settingsSTManage = settings),
         (error) => {
           this.logErrorHandler(error);
+        }, () => {
+          this.settingsSTManage.forEach(
+            stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+          );
         }
       );
     }
@@ -3317,6 +3325,10 @@ export class ToolsSidebarComponent implements OnInit {
                 (stngs) => (this.settingsSTManage = stngs),
                 (error) => {
                   this.logErrorHandler(error);
+                }, () => {
+                  this.settingsSTManage.forEach(
+                    stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                  );
                 }
               );
           }
@@ -3335,6 +3347,10 @@ export class ToolsSidebarComponent implements OnInit {
               (lyrs) => (this.layerSettings = lyrs),
               (error) => {
                 this.logErrorHandler(error);
+              }, () => {
+                this.layerSettings.forEach(
+                  stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                );
               }
             );
           }
@@ -3365,6 +3381,10 @@ export class ToolsSidebarComponent implements OnInit {
                 (stngs) => (this.settingsSTManage = stngs),
                 (error) => {
                   this.logErrorHandler(error);
+                }, () => {
+                  this.settingsSTManage.forEach(
+                    stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                  );
                 }
               );
           }
@@ -3383,6 +3403,10 @@ export class ToolsSidebarComponent implements OnInit {
               (lyrs) => (this.layerSettings = lyrs),
               (error) => {
                 this.logErrorHandler(error);
+              }, () => {
+                this.layerSettings.forEach(
+                  stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                );
               }
             );
           }
@@ -3442,6 +3466,10 @@ export class ToolsSidebarComponent implements OnInit {
               (stngs) => (this.settingsSTManage = stngs),
               (error) => {
                 this.logErrorHandler(error);
+              }, () => {
+                this.settingsSTManage.forEach(
+                  stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                );
               }
             );
         }
@@ -3456,6 +3484,10 @@ export class ToolsSidebarComponent implements OnInit {
             (layers) => (this.layerSettings = layers),
             (error) => {
               this.logErrorHandler(error);
+            }, () => {
+              this.layerSettings.forEach(
+                stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+              );
             }
           );
         }
@@ -3955,6 +3987,10 @@ export class ToolsSidebarComponent implements OnInit {
               (stngs) => (this.settingsSTManage = stngs),
               (error) => {
                 this.logErrorHandler(error);
+              }, () => {
+                this.settingsSTManage.forEach(
+                  stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                );
               }
             );
           if (this.selectedStudyAreaST) {
@@ -3962,6 +3998,10 @@ export class ToolsSidebarComponent implements OnInit {
               (layers) => (this.layerSettings = layers),
               (error) => {
                 this.logErrorHandler(error);
+              }, () => {
+                this.layerSettings.forEach(
+                  stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                );
               }
             );
           }
@@ -3995,6 +4035,10 @@ export class ToolsSidebarComponent implements OnInit {
               (stngs) => (this.settingsSTManage = stngs),
               (error) => {
                 this.logErrorHandler(error);
+              }, () => {
+                this.settingsSTManage.forEach(
+                  stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                );
               }
             );
           if (this.selectedStudyAreaST) {
@@ -4002,6 +4046,10 @@ export class ToolsSidebarComponent implements OnInit {
               (layers) => (this.layerSettings = layers),
               (error) => {
                 this.logErrorHandler(error);
+              }, () => {
+                this.layerSettings.forEach(
+                  stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                );
               }
             );
           }
@@ -4060,6 +4108,10 @@ export class ToolsSidebarComponent implements OnInit {
             (stngs) => (this.settingsSTManage = stngs),
             (error) => {
               this.logErrorHandler(error);
+            }, () => {
+              this.settingsSTManage.forEach(
+                stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+              );
             }
           );
         if (this.selectedStudyAreaST) {
@@ -4067,6 +4119,10 @@ export class ToolsSidebarComponent implements OnInit {
             (layers) => (this.layerSettings = layers),
             (error) => {
               this.logErrorHandler(error);
+            }, () => {
+              this.layerSettings.forEach(
+                stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+              );
             }
           );
         }

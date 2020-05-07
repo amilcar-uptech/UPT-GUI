@@ -13,7 +13,11 @@ export class StaticMethodPipe implements PipeTransform {
         label = element.label;
       }
     });
-    return label;
+    if (isNaN(label)) {
+      return label;
+    } else {
+      return "Select method.";
+    }
   }
 
 }

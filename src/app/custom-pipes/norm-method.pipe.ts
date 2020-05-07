@@ -8,11 +8,15 @@ export class NormMethodPipe implements PipeTransform {
   transform(value: any, ...args: any[]): any {
     let label = value;
     args[0].forEach(element => {
-      if (value === element.id) {
+      if (value === element.value) {
         label = element.label;
       }
     });
-    return label;
+    if (isNaN(label)) {
+      return label;
+    } else {
+      return "Select method.";
+    }
   }
 
 }
