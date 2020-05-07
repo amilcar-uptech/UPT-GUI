@@ -17,7 +17,7 @@ export class SettingsService {
   constructor(private http: HttpClient) { }
 
   getSettings(id: string): Observable<Settings[]> {
-    return this.http.get<any>('/action?action_route=LayersSTHandler&action=list_st_layers&study_area=' + id)
+    return this.http.get<any>('/action?action_route=st_settings&study_area=' + id)
                 .pipe(
                   map(res => res as Settings[])
                 );
