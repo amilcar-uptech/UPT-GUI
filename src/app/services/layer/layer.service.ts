@@ -22,7 +22,7 @@ export class LayerService {
   }
 
   getLayers(id: number): Observable<SelectItem[]> {
-    return this.http.get<any>('/action?action_route=st_settings&study_area=' + id)
+    return this.http.get<any>('/action?action_route=LayersSTHandler&action=list_st_layers&study_area=' + id)
                 .pipe(
                   map(res => res as SelectItem[])
                 );
