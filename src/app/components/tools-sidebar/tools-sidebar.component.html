@@ -1082,7 +1082,7 @@
                                             <span *ngIf="col.field === 'label'">{{rowData[col.field]}}</span>
                                             <span *ngIf="col.field === 'normalization_method'">{{rowData[col.field] | normMethod:settingsType}}</span>
                                             <span *ngIf="col.field !== 'id' && col.field !== 'normalization_method' && col.field !== 'label' && col.field !== 'smaller_better'">{{rowData[col.field]}}</span>
-                                            <span *ngIf="col.field === 'normalization_method'">{{rowData[col.field] ? 'true' : 'false'}}</span>
+                                            <span *ngIf="col.field === 'smaller_better'">{{rowData[col.field] ? 'true' : 'false'}}</span>
                                             <span *ngIf="col.field === 'id' && rowData[col.field] > 0"><i class="pi pi-check"></i></span>
                                             <span *ngIf="col.field === 'id' && rowData[col.field] === 0"><i class="pi pi-times"></i></span>
                                         </td>
