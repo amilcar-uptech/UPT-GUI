@@ -66,6 +66,9 @@ export class ToolsSidebarComponent implements OnInit {
 
   oskariUrl = '/Oskari/dist/1.2.1/geoportal';
 
+  geojsonTest;
+  numArrTest = [];
+
   dateGP: Date;
   dateStringGP = '';
 
@@ -435,16 +438,6 @@ export class ToolsSidebarComponent implements OnInit {
   filtersDataST: TreeNode[];
   listFiltersDataST: StColumn[];
 
-  // Color scaling for the heatmap
-  colors = chroma.scale([
-    '#C70039',
-    '#fd8702',
-    '#fdc002',
-    '#a2fd02',
-    '#02e2fd',
-    '#0265fd'
-  ]);
-
   // Colors used for the color scale dialog
   scaleColorsST = [
     '#C70039',
@@ -455,8 +448,11 @@ export class ToolsSidebarComponent implements OnInit {
     '#0265fd'
   ];
 
+  // Color scaling for the heatmap
+  colors = chroma.scale(this.scaleColorsST);
+
   // Numbers used for the color scale dialog
-  scaleNumbersST = [0, 20, 40, 60, 80, 100];
+  scaleNumbersST: any[] = ['0', '20', '40', '60', '80', '100'];
 
   // LayersST
   isNewLayer = false;
@@ -505,8 +501,12 @@ export class ToolsSidebarComponent implements OnInit {
   geojsonObject: any;
   fullGeojson: any;
 
-  // Values for
+  // Status of free scale
+  isFreeScaleST = false;
+
+  // Values for the Color Scale
   valuesST = [];
+  freeValuesST = [];
 
   oskariHeatmap: Heatmap;
   oskariResponse: any;
@@ -2477,6 +2477,22 @@ export class ToolsSidebarComponent implements OnInit {
   /**
    * Functions for ST
    */
+  // Reverses color scale
+  reverseColorScaleST() {
+    this.scaleColorsST = this.scaleColorsST.reverse();
+    this.colors = chroma.scale(this.scaleColorsST);
+  }
+
+  // Changes to fix or free scale
+  changeScaleModeST(event) {
+    this.scaleNumbersST = []
+    if(event.checked) {
+      this.scaleNumbersST = ['Min', '', '', '', '', 'Max'];
+    } else {
+      this.scaleNumbersST = ['0', '20', '40', '60', '80', '100'];
+    }
+  }
+
   // Closes the accordion element of the main ST dialog
   closeAccordionST() {
     this.accordionST = -1;
@@ -3068,8 +3084,16 @@ export class ToolsSidebarComponent implements OnInit {
 
   // Prints the result from the ST evaluation process into the map
   printGeoJSON() {
+    let geoVals = [];
     if (this.geojsonObject['features'] !== null) {
       const heatmapStdArea = this.selectedStudyAreaST.id;
+      this.geojsonObject['features'].forEach(feature => {
+        geoVals.push(feature.properties.value);
+      });
+      const set = new Set(geoVals);
+      geoVals = [];
+      geoVals = [...set];
+      geoVals.sort((a, b) => a - b);
       this.oskariHeatmap = {
         name: '',
         study_area: heatmapStdArea,
@@ -3093,6 +3117,11 @@ export class ToolsSidebarComponent implements OnInit {
         centerTo: true,
         optionalStyles: [],
       };
+      if(this.isFreeScaleST) {
+        this.colors = this.colors.domain([geoVals[0], geoVals[-1]]);
+      } else {
+        this.colors = this.colors.domain([0,100]);
+      }
       this.valuesST.forEach((val) => {
         if (val >= this.filterRangeST[0] && val <= this.filterRangeST[1]) {
           this.layerOptions['optionalStyles'].push({

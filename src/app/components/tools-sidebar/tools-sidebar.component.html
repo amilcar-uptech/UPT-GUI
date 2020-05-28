@@ -1937,8 +1937,10 @@
     <p-footer>
         <div class="suitability ui-g ui-fluid px-2">
             <p-button label="EVALUATE" (onClick)="evaluateLayer()" styleClass="geoportal-btn suitability"></p-button>
+            <p-button label="REVERSE SCALE" class="tools-geoportal geoportal-btn geoportal-title-btn" icon="fas fa-cog" (onClick)="reverseColorScaleST();"></p-button>
             <p-button label="SAVE TO GEOPORTAL" [disabled]="stResult" class="tools-geoportal geoportal-btn geoportal-title-btn" icon="pi pi-save" (onClick)="showSaveHeatmap();"></p-button>
             <p-button label="ADVANCED" class="tools-geoportal geoportal-btn geoportal-title-btn" icon="fas fa-cog" (onClick)="showDataST();"></p-button>
+            <p-toggleButton [(ngModel)]="isFreeScaleST" (onChange)="changeScaleModeST($event)" onLabel="FREE SCALE" offLabel="FIXED SCALE" onIcon="pi pi-lock-open" offIcon="pi pi-lock"></p-toggleButton>
         </div>
     </p-footer>
 </p-dialog>

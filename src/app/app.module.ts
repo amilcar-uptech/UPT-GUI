@@ -38,6 +38,7 @@ import {InputSwitchModule} from 'primeng/inputswitch';
 import { MessageService } from './services/message/MessageService';
 import { NodeService } from './services/node/NodeService';
 import {InputTextareaModule} from 'primeng/inputtextarea';
+import {ToggleButtonModule} from 'primeng/togglebutton';
 import { HttpClient, HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 import { ListService } from './services/list/list.service';
 import { SquareKilometersPipe } from './custom-pipes/square-kilometers.pipe';
@@ -89,6 +90,7 @@ import { StaticMethodPipe } from './custom-pipes/static-method.pipe';
     KeyFilterModule,
     InputSwitchModule,
     InputTextareaModule,
+    ToggleButtonModule,
     HttpClientModule,
     HttpClientXsrfModule.withOptions({
       cookieName: 'XSRF-TOKEN',
