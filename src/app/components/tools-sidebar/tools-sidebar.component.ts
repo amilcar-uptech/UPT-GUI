@@ -3127,7 +3127,7 @@ export class ToolsSidebarComponent implements OnInit {
         this.valuesST.forEach((val) => {
           if (val >= this.filterRangeST[0] && val <= this.filterRangeST[1]) {
             console.log(val);
-            /* this.layerOptions['optionalStyles'].push({
+            this.layerOptions['optionalStyles'].push({
               property: { key: 'value', value: val },
               stroke: {
                 color: this.colors(val).toString(),
@@ -3135,7 +3135,8 @@ export class ToolsSidebarComponent implements OnInit {
               fill: {
                 color: this.colors(val).toString(),
               },
-            }); */
+            });
+            console.log(this.layerOptions);
           } else {
             this.layerOptions['optionalStyles'].push({
               property: { key: 'value', value: val },
