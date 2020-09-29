@@ -3095,7 +3095,6 @@ export class ToolsSidebarComponent implements OnInit {
       geoVals = [];
       geoVals = [...set];
       geoVals.sort((a, b) => a - b);
-      console.log(geoVals);
       this.oskariHeatmap = {
         name: '',
         study_area: heatmapStdArea,
@@ -3124,49 +3123,59 @@ export class ToolsSidebarComponent implements OnInit {
       } else {
         this.colors = this.colors.domain([0,100]);
       }
-      this.valuesST.forEach((val) => {
-        if (val >= this.filterRangeST[0] && val <= this.filterRangeST[1]) {
-          this.layerOptions['optionalStyles'].push({
-            property: { key: 'value', value: val },
-            stroke: {
-              color: this.colors(val).toString(),
-            },
-            fill: {
-              color: this.colors(val).toString(),
-            },
-          });
-        } else {
-          this.layerOptions['optionalStyles'].push({
-            property: { key: 'value', value: val },
-            stroke: {
-              color: 'transparent',
-            },
-            fill: {
-              color: 'transparent',
-            },
-          });
-        }
-      });
-      console.log(this.layerOptions);
-      Oskari.getSandbox().postRequestByName('VectorLayerRequest', [
-        this.layerOptions,
-      ]);
-      Oskari.getSandbox().postRequestByName(
-        'MapModulePlugin.RemoveFeaturesFromMapRequest',
-        [null, null, 'ST_VECTOR_LAYER']
-      );
-      Oskari.getSandbox().postRequestByName(this.rn, [
-        this.geojsonObject,
-        this.layerOptions,
-      ]);
-      this.stResult = false;
-      this.closeAccordionST();
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Success!',
-        detail: 'Process completed successfully!',
-      });
-      this.unblockDocument();
+      try {
+        this.valuesST.forEach((val) => {
+          if (val >= this.filterRangeST[0] && val <= this.filterRangeST[1]) {
+            this.layerOptions['optionalStyles'].push({
+              property: { key: 'value', value: val },
+              stroke: {
+                color: this.colors(val).toString(),
+              },
+              fill: {
+                color: this.colors(val).toString(),
+              },
+            });
+          } else {
+            this.layerOptions['optionalStyles'].push({
+              property: { key: 'value', value: val },
+              stroke: {
+                color: 'transparent',
+              },
+              fill: {
+                color: 'transparent',
+              },
+            });
+          }
+        });
+        console.log(this.layerOptions);
+        Oskari.getSandbox().postRequestByName('VectorLayerRequest', [
+          this.layerOptions,
+        ]);
+        Oskari.getSandbox().postRequestByName(
+          'MapModulePlugin.RemoveFeaturesFromMapRequest',
+          [null, null, 'ST_VECTOR_LAYER']
+        );
+        Oskari.getSandbox().postRequestByName(this.rn, [
+          this.geojsonObject,
+          this.layerOptions,
+        ]);
+        this.stResult = false;
+        this.closeAccordionST();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success!',
+          detail: 'Process completed successfully!',
+        });
+        this.unblockDocument();
+      } catch(e) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error!',
+          detail:
+            'Error: ' + e,
+        });
+      }
+      
     } else {
       this.unblockDocument();
       this.closeAccordionST();
