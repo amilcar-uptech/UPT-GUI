@@ -3110,13 +3110,9 @@ export class ToolsSidebarComponent implements OnInit {
       } else {
         this.colors = this.colors.domain([0,100]);
       }
-      console.log(geoVals[0]);
-      console.log(geoVals[geoVals.length - 1]);
       try {
         this.valuesST.forEach((val) => {
-          console.log(this.colors(val).toString());
           if (val >= this.filterRangeST[0] && val <= this.filterRangeST[1]) {
-            /* console.log(val);
             this.optionalStyles.push({
               property: { key: 'value', value: val },
               stroke: {
@@ -3125,7 +3121,7 @@ export class ToolsSidebarComponent implements OnInit {
               fill: {
                 color: this.colors(val).toString(),
               },
-            }); */
+            });
           } else {
             this.optionalStyles.push({
               property: { key: 'value', value: val },
@@ -3137,9 +3133,8 @@ export class ToolsSidebarComponent implements OnInit {
               },
             });
           }
-          // console.log(this.optionalStyles);
         });
-        /* this.layerOptions = {
+        this.layerOptions = {
           layerId: 'ST_VECTOR_LAYER',
           layerInspireName: 'Inspire theme name',
           layerOrganizationName: 'Organization name',
@@ -3171,7 +3166,7 @@ export class ToolsSidebarComponent implements OnInit {
           summary: 'Success!',
           detail: 'Process completed successfully!',
         });
-        this.unblockDocument(); */
+        this.unblockDocument();
       } catch(e) {
         this.unblockDocument();
         this.messageService.add({
