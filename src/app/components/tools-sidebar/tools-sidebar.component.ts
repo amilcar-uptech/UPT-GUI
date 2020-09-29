@@ -3085,7 +3085,6 @@ export class ToolsSidebarComponent implements OnInit {
   // Prints the result from the ST evaluation process into the map
   printGeoJSON() {
     let geoVals = [];
-    console.log(this.colors);
     if (this.geojsonObject['features'] !== null) {
       const heatmapStdArea = this.selectedStudyAreaST.id;
       this.geojsonObject['features'].forEach(feature => {
@@ -3168,6 +3167,7 @@ export class ToolsSidebarComponent implements OnInit {
         });
         this.unblockDocument();
       } catch(e) {
+        this.unblockDocument();
         this.messageService.add({
           severity: 'error',
           summary: 'Error!',
