@@ -3126,6 +3126,7 @@ export class ToolsSidebarComponent implements OnInit {
         console.log(this.geojsonObject);
         this.valuesST.forEach((val) => {
           if (val >= this.filterRangeST[0] && val <= this.filterRangeST[1]) {
+            console.log(val);
             this.layerOptions['optionalStyles'].push({
               property: { key: 'value', value: val },
               stroke: {
