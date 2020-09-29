@@ -3107,6 +3107,8 @@ export class ToolsSidebarComponent implements OnInit {
       };
       if(this.isFreeScaleST) {
         this.colors = this.colors.domain([geoVals[0], geoVals[geoVals.length - 1]]);
+        this.filterRangeST[0] = geoVals[0],
+        this.filterRangeST[1] = geoVals[geoVals.length - 1];
       } else {
         this.colors = this.colors.domain([0,100]);
       }
@@ -3146,7 +3148,7 @@ export class ToolsSidebarComponent implements OnInit {
             publish: 'publication_permission_ok',
           },
           centerTo: true,
-          optionalStyles: [this.optionalStyles],
+          optionalStyles: this.optionalStyles,
         };
         Oskari.getSandbox().postRequestByName('VectorLayerRequest', [
           this.layerOptions,
