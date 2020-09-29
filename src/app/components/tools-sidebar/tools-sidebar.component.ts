@@ -3122,7 +3122,7 @@ export class ToolsSidebarComponent implements OnInit {
       } else {
         this.colors = this.colors.domain([0,100]);
       }
-      console.log(this.colors.scale.colors);
+      console.log(this.colors.scale);
       try {
         this.valuesST.forEach((val) => {
           if (val >= this.filterRangeST[0] && val <= this.filterRangeST[1]) {
