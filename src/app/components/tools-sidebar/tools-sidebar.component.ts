@@ -3129,10 +3129,10 @@ export class ToolsSidebarComponent implements OnInit {
           this.layerOptions['optionalStyles'].push({
             property: { key: 'value', value: val },
             stroke: {
-              color: this.colors(val / 100).toString(),
+              color: this.colors(val).toString(),
             },
             fill: {
-              color: this.colors(val / 100).toString(),
+              color: this.colors(val).toString(),
             },
           });
         } else {
@@ -3205,10 +3205,10 @@ export class ToolsSidebarComponent implements OnInit {
           this.layerOptions['optionalStyles'].push({
             property: { key: 'value', value: val },
             stroke: {
-              color: this.colors(val / 100).toString(),
+              color: this.colors(val).toString(),
             },
             fill: {
-              color: this.colors(val / 100).toString(),
+              color: this.colors(val).toString(),
             },
           });
         } else {
