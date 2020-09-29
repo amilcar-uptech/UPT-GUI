@@ -3111,10 +3111,10 @@ export class ToolsSidebarComponent implements OnInit {
         this.colors = this.colors.domain([0,100]);
       }
       try {
-        console.log(this.valuesST);
         this.valuesST.forEach((val) => {
+          console.log(this.colors(val).toString());
           if (val >= this.filterRangeST[0] && val <= this.filterRangeST[1]) {
-            console.log(val);
+            /* console.log(val);
             this.optionalStyles.push({
               property: { key: 'value', value: val },
               stroke: {
@@ -3123,8 +3123,7 @@ export class ToolsSidebarComponent implements OnInit {
               fill: {
                 color: this.colors(val).toString(),
               },
-            });
-            console.log(this.layerOptions);
+            }); */
           } else {
             this.optionalStyles.push({
               property: { key: 'value', value: val },
@@ -3136,7 +3135,7 @@ export class ToolsSidebarComponent implements OnInit {
               },
             });
           }
-          console.log(this.optionalStyles);
+          // console.log(this.optionalStyles);
         });
         /* this.layerOptions = {
           layerId: 'ST_VECTOR_LAYER',
