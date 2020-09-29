@@ -3085,6 +3085,7 @@ export class ToolsSidebarComponent implements OnInit {
   // Prints the result from the ST evaluation process into the map
   printGeoJSON() {
     let geoVals = [];
+    console.log(this.colors);
     if (this.geojsonObject['features'] !== null) {
       const heatmapStdArea = this.selectedStudyAreaST.id;
       this.geojsonObject['features'].forEach(feature => {
@@ -3094,6 +3095,7 @@ export class ToolsSidebarComponent implements OnInit {
       geoVals = [];
       geoVals = [...set];
       geoVals.sort((a, b) => a - b);
+      console.log(geoVals);
       this.oskariHeatmap = {
         name: '',
         study_area: heatmapStdArea,
@@ -3145,6 +3147,7 @@ export class ToolsSidebarComponent implements OnInit {
           });
         }
       });
+      console.log(this.layerOptions);
       Oskari.getSandbox().postRequestByName('VectorLayerRequest', [
         this.layerOptions,
       ]);
