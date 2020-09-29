@@ -3110,6 +3110,7 @@ export class ToolsSidebarComponent implements OnInit {
       } else {
         this.colors = this.colors.domain([0,100]);
       }
+      console.log(geoVals);
       try {
         this.valuesST.forEach((val) => {
           console.log(this.colors(val).toString());
