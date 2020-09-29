@@ -3106,6 +3106,20 @@ export class ToolsSidebarComponent implements OnInit {
         style: '',
         geojson: JSON.stringify({ 0: this.geojsonObject }),
       };
+      this.layerOptions = {
+        layerId: 'ST_VECTOR_LAYER',
+        layerInspireName: 'Inspire theme name',
+        layerOrganizationName: 'Organization name',
+        showLayer: true,
+        opacity: 60,
+        layerName: 'Index Values',
+        layerDescription: 'Displays index values of Suitability evaluations.',
+        layerPermissions: {
+          publish: 'publication_permission_ok',
+        },
+        centerTo: true,
+        optionalStyles: [],
+      };
       if(this.isFreeScaleST) {
         this.colors = this.colors.domain([geoVals[0], geoVals[geoVals.length - 1]]);
         this.filterRangeST[0] = geoVals[0],
@@ -3116,7 +3130,7 @@ export class ToolsSidebarComponent implements OnInit {
       try {
         this.valuesST.forEach((val) => {
           if (val >= this.filterRangeST[0] && val <= this.filterRangeST[1]) {
-            this.optionalStyles.push({
+            this.layerOptions['optionalStyles'].push({
               property: { key: 'value', value: val },
               stroke: {
                 color: this.colors(val).toString(),
@@ -3126,7 +3140,7 @@ export class ToolsSidebarComponent implements OnInit {
               },
             });
           } else {
-            this.optionalStyles.push({
+            this.layerOptions['optionalStyles'].push({
               property: { key: 'value', value: val },
               stroke: {
                 color: 'transparent',
@@ -3137,20 +3151,6 @@ export class ToolsSidebarComponent implements OnInit {
             });
           }
         });
-        this.layerOptions = {
-          layerId: 'ST_VECTOR_LAYER',
-          layerInspireName: 'Inspire theme name',
-          layerOrganizationName: 'Organization name',
-          showLayer: true,
-          opacity: 60,
-          layerName: 'Index Values',
-          layerDescription: 'Displays index values of Suitability evaluations.',
-          layerPermissions: {
-            publish: 'publication_permission_ok',
-          },
-          centerTo: true,
-          optionalStyles: this.optionalStyles,
-        };
         Oskari.getSandbox().postRequestByName('VectorLayerRequest', [
           this.layerOptions,
         ]);
