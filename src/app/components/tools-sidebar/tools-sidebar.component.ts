@@ -3106,12 +3106,12 @@ export class ToolsSidebarComponent implements OnInit {
         geojson: JSON.stringify({ 0: this.geojsonObject }),
       };
       if(this.isFreeScaleST) {
-        this.colors = this.colors.domain([geoVals[0], geoVals[-1]]);
+        this.colors = this.colors.domain([geoVals[0], geoVals[geoVals.length - 1]]);
       } else {
         this.colors = this.colors.domain([0,100]);
       }
       console.log(geoVals[0]);
-      console.log(geoVals[-1]);
+      console.log(geoVals[geoVals.length - 1]);
       try {
         this.valuesST.forEach((val) => {
           console.log(this.colors(val).toString());
