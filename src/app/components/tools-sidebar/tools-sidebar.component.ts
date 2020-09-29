@@ -3096,6 +3096,7 @@ export class ToolsSidebarComponent implements OnInit {
       geoVals = [];
       geoVals = [...set];
       geoVals.sort((a, b) => a - b);
+      console.log(geoVals);
       this.oskariHeatmap = {
         name: '',
         study_area: heatmapStdArea,
