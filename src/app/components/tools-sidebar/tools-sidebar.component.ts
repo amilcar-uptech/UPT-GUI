@@ -3123,7 +3123,7 @@ export class ToolsSidebarComponent implements OnInit {
         this.colors = this.colors.domain([0,100]);
       }
       try {
-        console.log(this.geojsonObject);
+        console.log(this.valuesST);
         this.valuesST.forEach((val) => {
           if (val >= this.filterRangeST[0] && val <= this.filterRangeST[1]) {
             console.log(val);
