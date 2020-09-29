@@ -3085,7 +3085,6 @@ export class ToolsSidebarComponent implements OnInit {
   // Prints the result from the ST evaluation process into the map
   printGeoJSON() {
     let geoVals = [];
-    console.log(this.colors);
     if (this.geojsonObject['features'] !== null) {
       const heatmapStdArea = this.selectedStudyAreaST.id;
       this.geojsonObject['features'].forEach(feature => {
@@ -3124,6 +3123,7 @@ export class ToolsSidebarComponent implements OnInit {
         this.colors = this.colors.domain([0,100]);
       }
       try {
+        console.log(this.geojsonObject);
         this.valuesST.forEach((val) => {
           if (val >= this.filterRangeST[0] && val <= this.filterRangeST[1]) {
             this.layerOptions['optionalStyles'].push({
@@ -3146,6 +3146,7 @@ export class ToolsSidebarComponent implements OnInit {
               },
             });
           }
+          console.log(this.layerOptions);
         });
         /* Oskari.getSandbox().postRequestByName('VectorLayerRequest', [
           this.layerOptions,
