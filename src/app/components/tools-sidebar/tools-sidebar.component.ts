@@ -3096,7 +3096,6 @@ export class ToolsSidebarComponent implements OnInit {
       geoVals = [];
       geoVals = [...set];
       geoVals.sort((a, b) => a - b);
-      console.log(geoVals);
       this.oskariHeatmap = {
         name: '',
         study_area: heatmapStdArea,
@@ -3111,7 +3110,7 @@ export class ToolsSidebarComponent implements OnInit {
         layerInspireName: 'Inspire theme name',
         layerOrganizationName: 'Organization name',
         showLayer: true,
-        opacity: 60,
+        opacity: 85,
         layerName: 'Index Values',
         layerDescription: 'Displays index values of Suitability evaluations.',
         layerPermissions: {
