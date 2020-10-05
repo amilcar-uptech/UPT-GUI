@@ -30,19 +30,18 @@ The Urban Planning Tool Urban Performance assesses the city's present and future
 ## How To Use
 
 ### Installation
-Run `npm install` to install the projects dependencies.
+Run `npm install` to install the project's dependencies.
 
 ### Development Server
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ### Build
-Run `ng build --prod` for a production build of the project. The build artifacts will be stored in the `dist/UPT-GUI` directory.
+Run `ng build --prod --output-hashing none` for a production build of the project. The build artifacts will be stored in the `dist/PLID` directory.
 
 ### Deploy to Oskari (requires build)
-**Disclaimer:** This code has only been tested with Oskari 1.54.
-
-- After building the app, copy the `dist/UPT-GUI/` contents into `/Oskari${path}` in your server. If you're unsure of the path that `/Oskari${path}` refers to in the server, please visit [this link](https://github.com/oskariorg/sample-configs/blob/master/nginx/conf.d/default.conf) for help.
-- From the `docs/index.html` file, copy the `<style>` element that contains an `href` similar to `styles.yyyyyyyyyyyyyyyy.css` and all the `<script>` elements within the `<body>` tag except the one that contains `scripts` in its `href` and add them into the `UPT-Server-Extension/webapp-map/src/main/webapp/WEB-INF/jsp/geoportal.jsp` file, adding to their respective `src` and `href` the following `/Oskari${path}` to the start of the path.
+**Disclaimer:** This code has only been tested with Oskari 1.55.1.
+- After building the app, copy the `dist/PLID/` contents into `/Oskari${path}` in your server. If you're unsure of the path that `/Oskari${path}` refers to in the server, please visit [this link](https://github.com/oskariorg/sample-configs/blob/master/nginx/conf.d/default.conf) for help.
+- If the GUI is not showing up or is showing a previous version, reload the page bypassing the cache (on most browsers, the shortcut should be `Ctrl + Shift + F5`).
 
 ## References
 - [UPT-Server-Extension](https://github.com/UPTechMX/UPT-Server-Extension)
