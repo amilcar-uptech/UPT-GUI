@@ -64,7 +64,7 @@ export class ToolsSidebarComponent implements OnInit {
     __session_active?: boolean;
   };
 
-  oskariUrl = '/Oskari/dist/1.2.1/geoportal';
+  oskariUrl = '/Oskari/dist/wbidp/geoportal';
 
   geojsonTest;
   numArrTest = [];

@@ -12,7 +12,7 @@ import { ToolsSidebarComponent } from './components/tools-sidebar/tools-sidebar.
 
 export class AppComponent implements OnInit {
   // URL for the directory where most assets will be found
-  oskariUrl = '/Oskari/dist/1.2.1/geoportal';
+  oskariUrl = '/Oskari/dist/wbidp/geoportal';
   title = 'UPT-GUI-app';
   // Status of UPT
   urbPerActive: boolean;
