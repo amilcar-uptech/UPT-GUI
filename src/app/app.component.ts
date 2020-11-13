@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
 
   constructor(private messageService: MessageService) {
     this.urbPerActive = false;
-    this.suitabilityActive = false;
+    this.suitabilityActive = true;
     this.uptWindow = window;
   }
 

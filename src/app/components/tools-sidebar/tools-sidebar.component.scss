@@ -20,8 +20,7 @@ table.ui-table-scrollable-body-table {
     margin: 0 !important;
     width: 100% !important;
     border-collapse: collapse !important;
-    border-top: 1px solid
-    #3c3c3c !important;
+    border-top: 1px solid #3c3c3c !important;
 }
 
 .up-link {
@@ -62,16 +61,20 @@ table.ui-table-scrollable-body-table {
     border-top: black 0.5px solid;
 }
 
+
 /* Chrome, Safari, Edge, Opera */
+
 ::ng-deep .ui-dialog input::-webkit-outer-spin-button,
 ::ng-deep .ui-dialog input::-webkit-inner-spin-button {
-  -webkit-appearance: none !important;
-  margin: 0 !important;
+    -webkit-appearance: none !important;
+    margin: 0 !important;
 }
 
+
 /* Firefox */
+
 input[type=number] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
 }
 
 ::ng-deep .ui-dialog.pluginGP .ui-dialog-content:has(.suitability) {
@@ -123,7 +126,7 @@ input[type=number] {
 }
 
 .scenario-active {
-    color: $geo-teal;
+    color: #f5ad3c;
 }
 
 .scenario-inactive {
@@ -141,7 +144,7 @@ input[type=number] {
 }
 
 .gp_modal {
-    background: #343E46;
+    background: #4b565f;
     color: #FEFEFE;
     height: 100%;
     font-family: $main-font;
@@ -156,7 +159,7 @@ input[type=number] {
 }
 
 #up_settings .gp_modal .badge-dark {
-    background: #343E46;
+    background: #4b565f;
     color: #5A6C79;
 }
 
@@ -180,13 +183,13 @@ input[type=number] {
 }
 
 ::ng-deep .gp_modal.urbanperformance .nav-item .nav-link {
-    background: #343E46 !important;
+    background: #4b565f !important;
     color: #FF8680 !important;
 }
 
 ::ng-deep #suitability.gp_modal .nav-item .nav-link,
 ::ng-deep .suitability.gp_modal .nav-item .nav-link {
-    background: #343E46 !important;
+    background: #4b565f !important;
     color: $geo-teal !important;
 }
 
@@ -201,7 +204,21 @@ input[type=number] {
 ::ng-deep .suitability.gp_modal .nav-item .active,
 ::ng-deep .suitability .tab-content .active {
     background: #4B565F !important;
-    color: $geo-teal !important;
+    color: #6ab1e2 !important;
+}
+
+::ng-deep #suitability.gp_modal .nav-item i,
+::ng-deep .suitability.gp_modal .nav-item i,
+::ng-deep #suitability .tab-content i,
+::ng-deep .suitability .tab-content i {
+    opacity: 0.6 !important;
+}
+
+::ng-deep #suitability.gp_modal .nav-item .active i,
+::ng-deep .suitability.gp_modal .nav-item .active i,
+::ng-deep #suitability .tab-content .active i,
+::ng-deep .suitability .tab-content .active i {
+    opacity: 1 !important;
 }
 
 .table-title {
@@ -237,12 +254,12 @@ input[type=number] {
 
 ::ng-deep #suitability .ui-slider:not(.ui-state-disabled) .ui-slider-handle:hover,
 #suitability .custom-control-input:checked~.custom-control-label::before {
-    background-color: $geo-teal;
-    border-color: $geo-teal;
+    background-color: #6ab1e2;
+    border-color: #6ab1e2;
 }
 
 ::ng-deep #suitability .ui-slider .ui-slider-range {
-    background-color: $geo-teal;
+    background-color: #6ab1e2;
 }
 
 ::ng-deep .ui-sidebar-right {
@@ -313,7 +330,7 @@ body .booleanCheckbox .ui-chkbox-label {
 
 ::ng-deep .urbanperformance .ui-fieldset-legend a:hover,
 ::ng-deep .urbanperformance .ui-table .ui-sortable-column.ui-state-highlight,
-::ng-deep .urbanperformance .ui-table .ui-table-tbody > tr.ui-state-highlight,
+::ng-deep .urbanperformance .ui-table .ui-table-tbody>tr.ui-state-highlight,
 ::ng-deep .urbanperformance .ui-paginator-page.ui-state-active,
 ::ng-deep .urbanperformance .ui-progressbar .ui-progressbar-value {
     background-color: #FF8680 !important;
@@ -321,7 +338,7 @@ body .booleanCheckbox .ui-chkbox-label {
 
 ::ng-deep .suitability .ui-fieldset-legend a:hover,
 ::ng-deep .suitability .ui-table .ui-sortable-column.ui-state-highlight,
-::ng-deep .suitability .ui-table .ui-table-tbody > tr.ui-state-highlight,
+::ng-deep .suitability .ui-table .ui-table-tbody>tr.ui-state-highlight,
 ::ng-deep .suitability .ui-paginator-page.ui-state-active,
 ::ng-deep .suitability .ui-progressbar .ui-progressbar-value {
     background-color: $geo-teal !important;
@@ -345,6 +362,7 @@ body .booleanCheckbox .ui-chkbox-label {
 
 ::ng-deep .ui-fieldset {
     background-color: transparent !important;
+    border: 1px solid #6ab1e2;
 }
 
 ::ng-deep .urbanperformance .ui-button,
@@ -358,6 +376,21 @@ body .booleanCheckbox .ui-chkbox-label {
 ::ng-deep .suitability .ui-chkbox-box.ui-state-active {
     background-color: $geo-teal !important;
     border-color: $geo-teal !important;
+}
+
+::ng-deep .suitability .ui-button.uh-delete-btn,
+::ng-deep .suitability .ui-button:enabled:focus {
+    background-color: #B71C2A !important;
+    border-color: #B71C2A !important;
+}
+
+::ng-deep .suitability .ui-button.uh-save-btn,
+::ng-deep .suitability .ui-button:enabled:focus,
+::ng-deep .suitability .ui-button.uh-save-btn:hover,
+::ng-deep .suitability .ui-button.uh-save-btn:focus {
+    background-color: #f5ad3c!important;
+    border: 1px solid #f5ad3c!important;
+    color: #ffffff!important;
 }
 
 ::ng-deep .urbanperformance .ui-inputtext:hover,
@@ -508,17 +541,27 @@ body .booleanCheckbox .ui-chkbox-label {
     min-width: 0 !important;
 }
 
-::ng-deep .geoportal-btn.tools-geoportal .ui-button,
-::ng-deep .geoportal-btn.tools-geoportal .ui-button:hover,
-::ng-deep .geoportal-btn.tools-geoportal .ui-button:focus,
-::ng-deep .geoportal-btn.tools-geoportal.ui-button,
-::ng-deep .geoportal-btn.tools-geoportal.ui-button:hover,
-::ng-deep .geoportal-btn.tools-geoportal.ui-button:focus,
 ::ng-deep .geoportal-btn.advanced-geoportal .ui-button,
 ::ng-deep .geoportal-btn.advanced-geoportal .ui-button:hover,
 ::ng-deep .geoportal-btn.advanced-geoportal .ui-button:focus {
-    background-color: #4E565E !important;
-    border: #4E565E !important;
+    background-color: #343e46 !important;
+    border: #343e46 !important;
+}
+
+::ng-deep .geoportal-btn.tools-geoportal .ui-button,
+::ng-deep .geoportal-btn.tools-geoportal.ui-button {
+    background-color: #d9d9d9!important;
+    border: 1px solid #d9d9d9!important;
+    color: #196480!important;
+}
+
+::ng-deep .geoportal-btn.tools-geoportal .ui-button:hover,
+::ng-deep .geoportal-btn.tools-geoportal .ui-button:focus,
+::ng-deep .geoportal-btn.tools-geoportal.ui-button:hover,
+::ng-deep .geoportal-btn.tools-geoportal.ui-button:focus {
+    background-color: #f5ad3c!important;
+    border: 1px solid #f5ad3c!important;
+    color: #ffffff!important;
 }
 
 ::ng-deep .toolbarbtn.ui-button {
@@ -526,6 +569,7 @@ body .booleanCheckbox .ui-chkbox-label {
     color: #FFFFFF !important;
     border: none !important;
 }
+
 
 /* ::ng-deep .calculateUP .ui-button-icon-left {
     left: 12.5em !important;
@@ -567,20 +611,20 @@ body .booleanCheckbox .ui-chkbox-label {
 
 ::ng-deep .ui-dropdown,
 ::ng-deep .ui-multiselect {
-    background-color: #2B2B2B !important;
-    border-color: #2B2B2B !important;
+    background-color: #343e46 !important;
+    border-color: #343e46 !important;
 }
 
 ::ng-deep .ui-dropdown-trigger,
 ::ng-deep .ui-inputtext,
 ::ng-deep .ui-multiselect-trigger,
 ::ng-deep .ui-chkbox-box.ui-state-default {
-    background-color: #2B2B2B !important;
-    border-color: #2B2B2B !important;
+    background-color: #343e46 !important;
+    border-color: #343e46 !important;
 }
 
 ::ng-deep .ui-slider:not(.ui-slider-range) {
-    background-color: #2B2B2B !important;
+    background-color: #343e46 !important;
 }
 
 .gp-icon:hover {
@@ -613,17 +657,16 @@ body .booleanCheckbox .ui-chkbox-label {
     overflow: unset !important;
 }
 
-::ng-deep .gp-console.ui-dialog > * {
+::ng-deep .gp-console.ui-dialog>* {
     background-color: black !important;
     color: white !important;
     font-size: 12px !important;
     border: none !important;
 }
 
-::ng-deep .colorScaleST.ui-dialog > * {
+::ng-deep .colorScaleST.ui-dialog>* {
     background-color: #323232 !important;
     color: #fff !important;
-
 }
 
 ::ng-deep .colorScaleST.ui-dialog {
