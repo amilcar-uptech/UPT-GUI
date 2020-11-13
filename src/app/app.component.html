@@ -16,7 +16,7 @@
                     <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light">Tools<span
                     class="caret"></span></a>
                     <div class="ml-auto">
-                        <p-button pButton class="suitability geoportal-btn" label="Start Analysing" (onClick)="stStatus();" *ngIf="uptWindow.__session_active; else loggedOut"></p-button>
+                        <p-button pButton class="suitability geoportal-btn" label="Start Analysing" (onClick)="stStatus();" *ngIf="uptWindow.__session_active;"></p-button>
                         <!--<ng-template #loggedOut>
                             <p-button pButton class="suitability geoportal-btn" label="Start Analysing" (onClick)="promptLogin();" *ngIf="uptWindow.__session_active; else loggedOut"></p-button>
                         </ng-template>-->
