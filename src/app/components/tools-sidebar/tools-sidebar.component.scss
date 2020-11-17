@@ -254,12 +254,12 @@ input[type=number] {
 
 ::ng-deep #suitability .ui-slider:not(.ui-state-disabled) .ui-slider-handle:hover,
 #suitability .custom-control-input:checked~.custom-control-label::before {
-    background-color: #6ab1e2;
-    border-color: #6ab1e2;
+    background-color: #6ab1e2 !important;
+    border-color: #6ab1e2 !important;
 }
 
 ::ng-deep #suitability .ui-slider .ui-slider-range {
-    background-color: #6ab1e2;
+    background-color: #6ab1e2 !important;
 }
 
 ::ng-deep .ui-sidebar-right {
@@ -625,10 +625,6 @@ body .booleanCheckbox .ui-chkbox-label {
 
 ::ng-deep .ui-slider:not(.ui-slider-range) {
     background-color: #343e46 !important;
-}
-
-.gp-icon:hover {
-    filter: brightness(175%);
 }
 
 ::ng-deep .ui-placeholder,
