@@ -700,3 +700,7 @@ body .booleanCheckbox .ui-chkbox-label {
 ::ng-deep svg:hover .cls-2 {
     fill: #ffffff !important;
 }
+
+::ng-deep svg {
+    max-width: 2.5em;
+}
