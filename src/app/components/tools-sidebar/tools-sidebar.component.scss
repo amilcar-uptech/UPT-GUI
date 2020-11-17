@@ -689,6 +689,10 @@ body .booleanCheckbox .ui-chkbox-label {
     background-color: #196480 !important;
 }
 
+::ng-deep .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-icon {
+    color: #dedede !important;
+}
+
 ::ng-deep svg:hover .cls-1 {
     fill: #f5ad3c !important;
 }
