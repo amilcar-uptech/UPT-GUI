@@ -12,7 +12,8 @@
                 <!--<img style="height: 2em;" *ngIf="urbPerActive && !suitabilityActive" src="{{oskariUrl}}/PLID/assets/img/UP blanco.png" class="ml-5 pl-2img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="UrbanPerformance logo">-->
             </div>
             <div class="ml-auto" *ngIf="uptWindow.__session_active;">
-                <p-button styleClass="suitability geoportal-btn" label="Start Analysing" (onClick)="stStatus();"></p-button>
+                <!--<p-button styleClass="suitability geoportal-btn" label="Start Analysing" (onClick)="stStatus();"></p-button>-->
+                <button pButton id="analysis" class="suitability geoportal-btn" type="button" label="Start Analysing" (click)="stStatus();"></button>
             </div>
             <!--<ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown" dropdown>-->

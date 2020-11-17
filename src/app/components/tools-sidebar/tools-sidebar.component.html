@@ -830,7 +830,7 @@
     </div>
 </p-dialog>-->
 <!--PrimeNG dialog for the advanced functionalities of UrbanHotspots.-->
-<p-dialog [focusOnShow]="false" [baseZIndex]="1150" header="Advanced Options" [positionTop]="0" [maximizable]="true" [(visible)]="displayDataST" [style]="{'width': '75em'}" [contentStyle]="{'max-height':'90vh'}">
+<p-dialog [focusOnShow]="false" [baseZIndex]="1150" styleClass="suitability" header="Advanced Options" [positionTop]="0" [maximizable]="true" [(visible)]="displayDataST" [style]="{'width': '75em'}" [contentStyle]="{'max-height':'90vh'}">
     <div class="gp_modal suitability">
         <ngb-tabset type="pills" justify="justified">
             <!--Section which allows the user to import layers from the geoportal into UrbanHotspots as layers for its own evaluations, as well as viewing UrbanHotspots Layers per study area.-->
@@ -1756,7 +1756,7 @@
     </p-footer>
 </p-dialog>
 <!--PrimeNG which contains the main UrbanHotspot tool.-->
-<p-dialog [focusOnShow]="false" [baseZIndex]="1150" [positionTop]="0" [responsive]="true" [maximizable]="true" [style]="{'width': '60em'}" [blockScroll]="true" header="UrbanHotspots" [(visible)]="displayST" [contentStyle]="{'max-height':'80vh'}">
+<p-dialog [focusOnShow]="false" [baseZIndex]="1150" [positionTop]="0" [responsive]="true" [maximizable]="true" [style]="{'width': '60em'}" [blockScroll]="true" styleClass="suitability" header="UrbanHotspots" [(visible)]="displayST" [contentStyle]="{'max-height':'80vh'}">
     <p-accordion (onClose)="closeAccordionST()" (onOpen)="openAccordionST()" [activeIndex]="accordionST" styleClass="suitability" expandIcon="pi pi-fw pi-chevron-down" collapseIcon="pi pi-fw pi-chevron-up">
         <p-accordionTab>
             <div class="gp_modal suitability" id="suitability">

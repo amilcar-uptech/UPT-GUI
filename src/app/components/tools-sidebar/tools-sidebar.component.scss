@@ -675,3 +675,28 @@ body .booleanCheckbox .ui-chkbox-label {
     left: auto !important;
     top: auto !important;
 }
+
+::ng-deep .suitability .ui-dialog-titlebar.ui-widget-header {
+    border: 1px solid #196480 !important;
+    background-color: #196480 !important;
+}
+
+::ng-deep #analysis.suitability.geoportal-btn.ui-button {
+    border: 1px solid #196480 !important;
+    background-color: #196480 !important;
+}
+
+::ng-deep #analysis.suitability.geoportal-btn.ui-button:hover,
+::ng-deep #analysis.suitability.geoportal-btn.ui-button:focus,
+::ng-deep #analysis.suitability.geoportal-btn.ui-button:active {
+    border: 1px solid #196480 !important;
+    background-color: #196480 !important;
+}
+
+::ng-deep svg:hover .cls-1 {
+    fill: #f5ad3c !important;
+}
+
+::ng-deep svg:hover .cls-2 {
+    fill: #ffffff !important;
+}
