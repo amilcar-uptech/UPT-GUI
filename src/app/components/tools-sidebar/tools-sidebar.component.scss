@@ -190,7 +190,7 @@ input[type=number] {
 ::ng-deep #suitability.gp_modal .nav-item .nav-link,
 ::ng-deep .suitability.gp_modal .nav-item .nav-link {
     background: #4b565f !important;
-    color: $geo-teal !important;
+    color: #6ab1e2 !important;
 }
 
 ::ng-deep .urbanperformance.gp_modal .nav-item .active,
@@ -362,7 +362,7 @@ body .booleanCheckbox .ui-chkbox-label {
 
 ::ng-deep .ui-fieldset {
     background-color: transparent !important;
-    border: 1px solid #6ab1e2;
+    border: 1px solid #6ab1e2 !important;
 }
 
 ::ng-deep .urbanperformance .ui-button,
@@ -522,7 +522,7 @@ body .booleanCheckbox .ui-chkbox-label {
 
 ::ng-deep .geoportal-btn.tools-geoportal .ui-button:enabled:focus,
 ::ng-deep .geoportal-btn.advanced-geoportal .ui-button:enabled:focus {
-    box-shadow: 0 0 0 0.2em #4E565E !important;
+    box-shadow: 0 0 0 0.2em #2e2f2f !important;
 }
 
 ::ng-deep .geoportal-btn.urbanperformance,
@@ -544,8 +544,8 @@ body .booleanCheckbox .ui-chkbox-label {
 ::ng-deep .geoportal-btn.advanced-geoportal .ui-button,
 ::ng-deep .geoportal-btn.advanced-geoportal .ui-button:hover,
 ::ng-deep .geoportal-btn.advanced-geoportal .ui-button:focus {
-    background-color: #343e46 !important;
-    border: #343e46 !important;
+    background-color: #2e2f2f !important;
+    border: #2e2f2f !important;
 }
 
 ::ng-deep .geoportal-btn.tools-geoportal .ui-button,
