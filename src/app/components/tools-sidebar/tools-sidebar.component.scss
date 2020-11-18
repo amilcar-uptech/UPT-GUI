@@ -702,5 +702,6 @@ body .booleanCheckbox .ui-chkbox-label {
 }
 
 ::ng-deep svg {
-    max-width: 2.5em;
+    max-width: 2.5em !important;
+    cursor: pointer !important;
 }
