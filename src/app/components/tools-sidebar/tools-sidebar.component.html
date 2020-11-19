@@ -4,8 +4,7 @@
     </p-progressSpinner>
 </p-blockUI>
 <!--PrimeNG dialog which allows users to share layers so that other UPT users may access them for their evaluations.-->
-<p-dialog header="Share User Layers" [(visible)]="displayShare" [modal]="false" [style]="{width: 'width', minWidth: 'minWidth'}" 
-[maximizable]="false" [baseZIndex]="1150">
+<p-dialog header="Share User Layers" [(visible)]="displayShare" [modal]="false" [style]="{width: 'width', minWidth: 'minWidth'}" [maximizable]="false" [baseZIndex]="1150">
     <div class="ui-g ui-fluid p-3">
         <p-dropdown (onChange)="shareLayerStatus($event)" placeholder="Select a layer" optionLabel="name" [baseZIndex]="2500" appendTo="body" [options]="shareLayersList" [(ngModel)]="shareLayer" [filter]="true" styleClass="geoportal-dialog" panelStyleClass="geoportal-dialog"></p-dropdown>
     </div>
@@ -29,8 +28,7 @@
     </ng-template>
 </p-toast>
 <!--PrimeNG dialog which shows the color scale used for UrbanHotspots-->
-<p-dialog [showHeader]="false" [(visible)]="displayColorScaleST"
-[maximizable]="false" [resizable]="false" [draggable]="false" [baseZIndex]="1150" styleClass="colorScaleST" [contentStyle]="{'opacity': 0.75}">
+<p-dialog [showHeader]="false" [(visible)]="displayColorScaleST" [maximizable]="false" [resizable]="false" [draggable]="false" [baseZIndex]="1150" styleClass="colorScaleST" [contentStyle]="{'opacity': 0.75}">
     <div class="ui-g ui-fluid ui-rtl" dir="rtl" style="font-size: 12px;">
         INDEX
     </div>
@@ -78,21 +76,21 @@
 </p-toast>
 <!--PrimeNG toast which asks for confirmation to delete a normMethod-->
 <p-toast [modal]="true" key="confirmDeleteNormMethod" position="center" [baseZIndex]="5000">
-  <ng-template let-o let-message pTemplate="message">
-      <div style="text-align: center">
-          <i class="pi pi-exclamation-triangle" style="font-size: 3em"></i>
-          <h3>{{message.summary}}</h3>
-          <p>{{message.detail}}</p>
-      </div>
-      <div class="ui-g ui-fluid">
-          <div class="ui-g-6">
-              <button type="button" pButton label="CONFIRM" class="ui-button-success" (click)="confirmDeleteNormMethod()"></button>
-          </div>
-          <div class="ui-g-6">
-              <button type="button" pButton label="CANCEL" class="ui-button-secondary" (click)="cancelDeleteNormMethod()"></button>
-          </div>
-      </div>
-  </ng-template>
+    <ng-template let-o let-message pTemplate="message">
+        <div style="text-align: center">
+            <i class="pi pi-exclamation-triangle" style="font-size: 3em"></i>
+            <h3>{{message.summary}}</h3>
+            <p>{{message.detail}}</p>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-6">
+                <button type="button" pButton label="CONFIRM" class="ui-button-success" (click)="confirmDeleteNormMethod()"></button>
+            </div>
+            <div class="ui-g-6">
+                <button type="button" pButton label="CANCEL" class="ui-button-secondary" (click)="cancelDeleteNormMethod()"></button>
+            </div>
+        </div>
+    </ng-template>
 </p-toast>
 <!--PrimeNG toast which asks for confirmation to delete the data from the selected UP table.-->
 <p-toast [modal]="true" key="confirmDeleteTableUP" position="center" [baseZIndex]="5000">
@@ -276,42 +274,40 @@
 </p-toast>
 <!--PrimeNG dialog which allows the user to create/edit a joinMethod.-->
 <p-dialog header="Operation Method Details" [(visible)]="editJoinMethod" [focusOnShow]="false" [responsive]="true" showEffect="fade" [modal]="true" [style]="{width: '300px'}" [maximizable]="false" [baseZIndex]="1150">
-  <div class="suitability">
-      <div class="ui-g ui-fluid" *ngIf="manageJoinMethod">
-          <div class="ui-g-12">
-              <div class="ui-g-4">
-                  <label for="joinMethodLabel">Label:</label>
-              </div>
-              <div class="ui-g-8">
-                  <input pInputText id="joinMethodLabel" maxlength="60" [(ngModel)]="manageJoinMethod.label" />
-              </div>
+    <div class="suitability">
+        <div class="ui-g ui-fluid" *ngIf="manageJoinMethod">
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="joinMethodLabel">Label:</label>
+                </div>
+                <div class="ui-g-8">
+                    <input pInputText id="joinMethodLabel" maxlength="60" [(ngModel)]="manageJoinMethod.label" />
+                </div>
             </div>
-           <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="joinMethodLanguage">Language:</label>
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="joinMethodLanguage">Language:</label>
+                </div>
+                <div class="ui-g-8">
+                    <input pInputText id="joinMethodLanguage" maxlength="60" [(ngModel)]="manageJoinMethod.language" />
+                </div>
             </div>
-            <div class="ui-g-8">
-                <input pInputText id="joinMethodLanguage" maxlength="60" [(ngModel)]="manageJoinMethod.language" />
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="joinMethodType">Method:</label>
+                </div>
+                <div class="ui-g-8">
+                    <p-dropdown [filter]="true" [baseZIndex]="2500" appendTo="body" [options]="staticJoinST" [(ngModel)]="manageJoinMethod.value" styleClass="suitability" panelStyleClass="suitability" placeholder="Select method"></p-dropdown>
+                </div>
             </div>
         </div>
-          <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="joinMethodType">Method:</label>
-            </div>
-            <div class="ui-g-8">
-                <p-dropdown [filter]="true" [baseZIndex]="2500" appendTo="body"
-                                                        [options]="staticJoinST" [(ngModel)]="manageJoinMethod.value" styleClass="suitability"
-                                                        panelStyleClass="suitability" placeholder="Select method"></p-dropdown>
-            </div>
-          </div>
-      </div>
-  </div>
-  <p-footer>
-      <div class="ui-dialog-buttonpane ui-helper-clearfix suitability">
-          <button type="button" pButton icon="pi pi-check" (click)="saveJoinMethod()" label="SAVE"></button>
-          <button *ngIf="!isNewJoinMethod" type="button" pButton icon="pi pi-trash" (click)="deleteJoinMethod()" label="DELETE"></button>
-      </div>
-  </p-footer>
+    </div>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix suitability">
+            <button type="button" pButton icon="pi pi-check" (click)="saveJoinMethod()" label="SAVE"></button>
+            <button *ngIf="!isNewJoinMethod" type="button" pButton icon="pi pi-trash" (click)="deleteJoinMethod()" label="DELETE"></button>
+        </div>
+    </p-footer>
 </p-dialog>
 <!--PrimeNG dialog which allows the user to save the results of an UrbanHotspots evaluation into Oskari as a layer.-->
 <p-dialog header="Save Heatmap to Geoportal" [(visible)]="displaySaveHeatmap" [focusOnShow]="false" [responsive]="true" showEffect="fade" [modal]="true" [style]="{width: '450px'}" [maximizable]="false" [baseZIndex]="1150">
@@ -326,20 +322,20 @@
                 </div>
             </div>
             <div class="ui-g-12">
-              <div class="ui-g-4">
-                  <label for="heatmapDesc">Description:</label>
-              </div>
-              <div class="ui-g-8">
-                <textarea pInputTextarea id="heatmapDesc" [(ngModel)]="oskariHeatmap.description"></textarea>
-              </div>
-          </div>
+                <div class="ui-g-4">
+                    <label for="heatmapDesc">Description:</label>
+                </div>
+                <div class="ui-g-8">
+                    <textarea pInputTextarea id="heatmapDesc" [(ngModel)]="oskariHeatmap.description"></textarea>
+                </div>
+            </div>
             <div class="ui-g-12">
-              <div class="ui-g-4">
-                  <label for="heatmapSource">Source:</label>
-              </div>
-              <div class="ui-g-8">
-                <textarea pInputTextarea id="heatmapSource" [(ngModel)]="oskariHeatmap.source"></textarea>
-              </div>
+                <div class="ui-g-4">
+                    <label for="heatmapSource">Source:</label>
+                </div>
+                <div class="ui-g-8">
+                    <textarea pInputTextarea id="heatmapSource" [(ngModel)]="oskariHeatmap.source"></textarea>
+                </div>
             </div>
         </div>
     </div>
@@ -351,42 +347,40 @@
 </p-dialog>
 <!--PrimeNG dialog that allows the user to create/edit a normMethod.-->
 <p-dialog header="Normalization Method Details" [(visible)]="editNormMethod" [focusOnShow]="false" [responsive]="true" showEffect="fade" [modal]="true" [style]="{width: '300px'}" [maximizable]="false" [baseZIndex]="1150">
-  <div class="suitability">
-      <div class="ui-g ui-fluid" *ngIf="manageNormMethod">
-          <div class="ui-g-12">
-              <div class="ui-g-4">
-                  <label for="normMethodLabel">Label:</label>
-              </div>
-              <div class="ui-g-8">
-                  <input pInputText id="normMethodLabel" maxlength="60" [(ngModel)]="manageNormMethod.label" />
-              </div>
-          </div>
-          <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="normMethodLanguage">Language:</label>
+    <div class="suitability">
+        <div class="ui-g ui-fluid" *ngIf="manageNormMethod">
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="normMethodLabel">Label:</label>
+                </div>
+                <div class="ui-g-8">
+                    <input pInputText id="normMethodLabel" maxlength="60" [(ngModel)]="manageNormMethod.label" />
+                </div>
             </div>
-            <div class="ui-g-8">
-                <input pInputText id="normMethodLanguage" maxlength="60" [(ngModel)]="manageNormMethod.language" />
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="normMethodLanguage">Language:</label>
+                </div>
+                <div class="ui-g-8">
+                    <input pInputText id="normMethodLanguage" maxlength="60" [(ngModel)]="manageNormMethod.language" />
+                </div>
+            </div>
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="normMethodMethod">Method:</label>
+                </div>
+                <div class="ui-g-8">
+                    <p-dropdown [filter]="true" [baseZIndex]="2500" appendTo="body" [options]="staticNormST" [(ngModel)]="manageNormMethod.value" styleClass="suitability" panelStyleClass="suitability" placeholder="Select method"></p-dropdown>
+                </div>
             </div>
         </div>
-          <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="normMethodMethod">Method:</label>
-            </div>
-            <div class="ui-g-8">
-                <p-dropdown [filter]="true" [baseZIndex]="2500" appendTo="body"
-                                                        [options]="staticNormST" [(ngModel)]="manageNormMethod.value" styleClass="suitability"
-                                                        panelStyleClass="suitability" placeholder="Select method"></p-dropdown>
-            </div>
-          </div>
-      </div>
-  </div>
-  <p-footer>
-      <div class="ui-dialog-buttonpane ui-helper-clearfix suitability">
-          <button type="button" pButton icon="pi pi-check" (click)="saveNormMethod()" label="SAVE"></button>
-          <button *ngIf="!isNewNormMethod" type="button" pButton icon="pi pi-trash" (click)="deleteNormMethod()" label="DELETE"></button>
-      </div>
-  </p-footer>
+    </div>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix suitability">
+            <button type="button" pButton icon="pi pi-check" (click)="saveNormMethod()" label="SAVE"></button>
+            <button *ngIf="!isNewNormMethod" type="button" pButton icon="pi pi-trash" (click)="deleteNormMethod()" label="DELETE"></button>
+        </div>
+    </p-footer>
 </p-dialog>
 <!--PrimeNG dialog that allows the user to create/edit the settings of an UrbanHotspots Layer.-->
 <p-dialog header="Settings Details" [(visible)]="editSettings" [focusOnShow]="false" [responsive]="true" showEffect="fade" [modal]="true" [style]="{width: '300px'}" [maximizable]="false" [baseZIndex]="1150">
@@ -405,9 +399,7 @@
                     <label for="lyrField">Normalization Method:</label>
                 </div>
                 <div class="ui-g-8">
-                    <p-dropdown [filter]="true" [baseZIndex]="2500" appendTo="body"
-                                                        [options]="settingsType" [(ngModel)]="manageSetting.normalization_method" styleClass="suitability"
-                                                        panelStyleClass="suitability" placeholder="Select method"></p-dropdown>
+                    <p-dropdown [filter]="true" [baseZIndex]="2500" appendTo="body" [options]="settingsType" [(ngModel)]="manageSetting.normalization_method" styleClass="suitability" panelStyleClass="suitability" placeholder="Select method"></p-dropdown>
                 </div>
             </div>
             <div class="ui-g-12">
@@ -524,14 +516,13 @@
                     <input pInputText id="indResultLabel" maxlength="60" [(ngModel)]="manageIndResults.label" autofocus />
                 </div>
             </div>
-            
+
             <div class="ui-g-12">
                 <div class="ui-g-4">
                     <label for="indResultInd">Indicator:</label>
                 </div>
                 <div class="ui-g-8">
-                    <p-dropdown placeholder="Select an indicator" [baseZIndex]="2500" appendTo="body" [options]="indsEditResult" [(ngModel)]="manageIndResults.up_indicators_id" [filter]="true" styleClass="urbanperformance" panelStyleClass="urbanperformance"
-                        ></p-dropdown>
+                    <p-dropdown placeholder="Select an indicator" [baseZIndex]="2500" appendTo="body" [options]="indsEditResult" [(ngModel)]="manageIndResults.up_indicators_id" [filter]="true" styleClass="urbanperformance" panelStyleClass="urbanperformance"></p-dropdown>
                 </div>
             </div>
             <div class="ui-g-12">
@@ -679,8 +670,7 @@
                     <label for="asmptStdArea">Study Area:</label>
                 </div>
                 <div class="ui-g-8">
-                    <p-dropdown placeholder="Select a study area" optionLabel="name" [baseZIndex]="2500" appendTo="body" [options]="studyArea" [(ngModel)]="assumptionManage.study_area" [filter]="true" styleClass="urbanperformance" panelStyleClass="urbanperformance"
-                        ></p-dropdown>
+                    <p-dropdown placeholder="Select a study area" optionLabel="name" [baseZIndex]="2500" appendTo="body" [options]="studyArea" [(ngModel)]="assumptionManage.study_area" [filter]="true" styleClass="urbanperformance" panelStyleClass="urbanperformance"></p-dropdown>
                 </div>
             </div>
             <div class="ui-g-12" *ngIf="isNewAssumption">
@@ -688,8 +678,7 @@
                     <label for="asmptScen">Scenario:</label>
                 </div>
                 <div class="ui-g-8">
-                    <p-dropdown placeholder="Select a scenario" optionLabel="name" [baseZIndex]="2500" appendTo="body" [options]="scenarios" [(ngModel)]="assumptionManage.scenario" [filter]="true" styleClass="urbanperformance" panelStyleClass="urbanperformance"
-                        ></p-dropdown>
+                    <p-dropdown placeholder="Select a scenario" optionLabel="name" [baseZIndex]="2500" appendTo="body" [options]="scenarios" [(ngModel)]="assumptionManage.scenario" [filter]="true" styleClass="urbanperformance" panelStyleClass="urbanperformance"></p-dropdown>
                 </div>
             </div>
             <div class="ui-g-12">
@@ -706,6 +695,22 @@
                 </div>
                 <div class="ui-g-8">
                     <input type="number" pInputText [(ngModel)]="assumptionManage.value" />
+                </div>
+            </div>
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="asmptDesc">Description:</label>
+                </div>
+                <div class="ui-g-8">
+                    <textarea id="asmptDesc" pInputTextarea [(ngModel)]="assumptionManage.description"></textarea>
+                </div>
+            </div>
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="asmptSource">Source:</label>
+                </div>
+                <div class="ui-g-8">
+                    <textarea id="asmptSource" pInputTextarea [(ngModel)]="assumptionManage.source"></textarea>
                 </div>
             </div>
         </div>
@@ -1000,8 +1005,7 @@
                             <p-header>Registered Filters
                             </p-header>
                             <div class="ui-g ui-fluid p-4">
-                                <p-dropdown placeholder="Select a study area" (onHide)="loadManageFilters()" [baseZIndex]="2500" [options]="studyAreaST" [(ngModel)]="stdAreaManageFilter" [filter]="true" appendTo="body" styleClass="suitability" panelStyleClass="suitability"
-                                    optionLabel="name"></p-dropdown>
+                                <p-dropdown placeholder="Select a study area" (onHide)="loadManageFilters()" [baseZIndex]="2500" [options]="studyAreaST" [(ngModel)]="stdAreaManageFilter" [filter]="true" appendTo="body" styleClass="suitability" panelStyleClass="suitability" optionLabel="name"></p-dropdown>
                             </div>
                             <ng-container *ngIf="stdAreaManageFilter">
                                 <div class="ui-g ui-fluid">
@@ -1046,12 +1050,11 @@
             <!--Section that allows to view the layer settings per study area.-->
             <ngb-tab>
                 <ng-template ngbTabTitle>
-                      Settings
+                    Settings
                 </ng-template>
                 <ng-template ngbTabContent>
                     <div class="ui-g ui-fluid p-4">
-                        <p-dropdown placeholder="Select a study area" (onHide)="loadManageSettings()" [baseZIndex]="2500" [options]="studyAreaST" [(ngModel)]="stdAreaManageSetting" [filter]="true" appendTo="body" styleClass="suitability" panelStyleClass="suitability"
-                            optionLabel="name"></p-dropdown>
+                        <p-dropdown placeholder="Select a study area" (onHide)="loadManageSettings()" [baseZIndex]="2500" [options]="studyAreaST" [(ngModel)]="stdAreaManageSetting" [filter]="true" appendTo="body" styleClass="suitability" panelStyleClass="suitability" optionLabel="name"></p-dropdown>
                     </div>
                     <ng-container *ngIf="stdAreaManageSetting">
                         <div class="ui-g ui-fluid">
@@ -1101,37 +1104,34 @@
                 <ng-template ngbTabTitle>Normalization</ng-template>
                 <ng-template ngbTabContent>
                     <div class="ui-g ui-fluid">
-                        <p-table #normMethodTable [columns]="colsNormMethod" [value]="normMethodsSTManage" selectionMode="single"
-                            [(selection)]="selNormalization" [paginator]="true" [paginator]="true" [rows]="20"
-                            (onRowSelect)="selectNormMethod($event)">
+                        <p-table #normMethodTable [columns]="colsNormMethod" [value]="normMethodsSTManage" selectionMode="single" [(selection)]="selNormalization" [paginator]="true" [paginator]="true" [rows]="20" (onRowSelect)="selectNormMethod($event)">
                             <ng-template pTemplate="caption">
-                            <div class="ui-g ui-fluid">
-                                <div class="ui-md-3">
-                                <button type="button" pButton icon="fa fa-plus" (click)="addNormMethod()" label="CREATE"></button>
+                                <div class="ui-g ui-fluid">
+                                    <div class="ui-md-3">
+                                        <button type="button" pButton icon="fa fa-plus" (click)="addNormMethod()" label="CREATE"></button>
+                                    </div>
+                                    <div class="ui-md-offset-2 ui-md-1">
+                                        <i class="fa fa-search pt-2" style="margin:4px 4px 0 0"></i>
+                                    </div>
+                                    <div class="ui-md-6">
+                                        <input type="text" pInputText size="50" placeholder="Search" (input)="normMethodTable.filterGlobal($event.target.value, 'contains')">
+                                    </div>
                                 </div>
-                                <div class="ui-md-offset-2 ui-md-1">
-                                <i class="fa fa-search pt-2" style="margin:4px 4px 0 0"></i>
-                                </div>
-                                <div class="ui-md-6">
-                                <input type="text" pInputText size="50" placeholder="Search"
-                                (input)="normMethodTable.filterGlobal($event.target.value, 'contains')">
-                                </div>
-                            </div>
                             </ng-template>
                             <ng-template pTemplate="header" let-columns>
-                            <tr>
-                                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                                {{col.header}}
-                                <p-sortIcon [field]="col.field"></p-sortIcon>
-                                </th>
-                            </tr>
+                                <tr>
+                                    <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                                        {{col.header}}
+                                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                                    </th>
+                                </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-rowData let-columns="columns">
-                            <tr [pSelectableRow]="rowData">
-                                <td *ngFor="let col of columns">
-                                {{rowData[col.field] | staticMethod:staticNormST}}
-                                </td>
-                            </tr>
+                                <tr [pSelectableRow]="rowData">
+                                    <td *ngFor="let col of columns">
+                                        {{rowData[col.field] | staticMethod:staticNormST}}
+                                    </td>
+                                </tr>
                             </ng-template>
                             <ng-template pTemplate="summary">
                                 There are {{normMethodsSTManage?.length}} methods
@@ -1145,37 +1145,34 @@
                 <ng-template ngbTabTitle>Operation</ng-template>
                 <ng-template ngbTabContent>
                     <div class="ui-g ui-fluid">
-                        <p-table #joinMethodTable [columns]="colsJoinMethod" [value]="joinMethodsSTManage" selectionMode="single"
-                            [(selection)]="selJoin" [paginator]="true" [paginator]="true" [rows]="20"
-                            (onRowSelect)="selectJoinMethod($event)">
+                        <p-table #joinMethodTable [columns]="colsJoinMethod" [value]="joinMethodsSTManage" selectionMode="single" [(selection)]="selJoin" [paginator]="true" [paginator]="true" [rows]="20" (onRowSelect)="selectJoinMethod($event)">
                             <ng-template pTemplate="caption">
-                            <div class="ui-g ui-fluid">
-                                <div class="ui-md-3">
-                                <button type="button" pButton icon="fa fa-plus" (click)="addJoinMethod()" label="CREATE"></button>
+                                <div class="ui-g ui-fluid">
+                                    <div class="ui-md-3">
+                                        <button type="button" pButton icon="fa fa-plus" (click)="addJoinMethod()" label="CREATE"></button>
+                                    </div>
+                                    <div class="ui-md-offset-2 ui-md-1">
+                                        <i class="fa fa-search pt-2" style="margin:4px 4px 0 0"></i>
+                                    </div>
+                                    <div class="ui-md-6">
+                                        <input type="text" pInputText size="50" placeholder="Search" (input)="joinMethodTable.filterGlobal($event.target.value, 'contains')">
+                                    </div>
                                 </div>
-                                <div class="ui-md-offset-2 ui-md-1">
-                                <i class="fa fa-search pt-2" style="margin:4px 4px 0 0"></i>
-                                </div>
-                                <div class="ui-md-6">
-                                <input type="text" pInputText size="50" placeholder="Search"
-                                (input)="joinMethodTable.filterGlobal($event.target.value, 'contains')">
-                                </div>
-                            </div>
                             </ng-template>
                             <ng-template pTemplate="header" let-columns>
-                            <tr>
-                                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                                {{col.header}}
-                                <p-sortIcon [field]="col.field"></p-sortIcon>
-                                </th>
-                            </tr>
+                                <tr>
+                                    <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                                        {{col.header}}
+                                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                                    </th>
+                                </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-rowData let-columns="columns">
-                            <tr [pSelectableRow]="rowData">
-                                <td *ngFor="let col of columns">
-                                {{rowData[col.field] | staticMethod:staticJoinST}}
-                                </td>
-                            </tr>
+                                <tr [pSelectableRow]="rowData">
+                                    <td *ngFor="let col of columns">
+                                        {{rowData[col.field] | staticMethod:staticJoinST}}
+                                    </td>
+                                </tr>
                             </ng-template>
                             <ng-template pTemplate="summary">
                                 There are {{joinMethodsSTManage?.length}} methods
@@ -1196,7 +1193,7 @@
                                 <div class="ui-g-4">
                                     <div class="ui-g ui-fluid">
                                         <p-dropdown [filter]="true" panelStyleClass="suitability" styleClass="suitability" [baseZIndex]="2500" appendTo="body" [options]="studyAreaST" [(ngModel)]="stdAreaSTDistances" optionLabel="name" placeholder="Select a study area" (onHide)="loadSTTables()"
-                                        [style]="{'width':'18em'}">
+                                            [style]="{'width':'18em'}">
                                         </p-dropdown>
                                     </div>
                                     <div class="ui-g ui-fluid">
@@ -1256,9 +1253,8 @@
                             <p-header>Evaluate Distances
                             </p-header>
                             <div class="ui-g ui-fluid">
-                                <p-dropdown [filter]="true" panelStyleClass="suitability" styleClass="suitability" [baseZIndex]="2500" appendTo="body" [options]="studyAreaST" [(ngModel)]="stdAreaSTEvalDist" optionLabel="name" placeholder="Select a study area"
-                                        [style]="{'width':'18em'}">
-                                        </p-dropdown>
+                                <p-dropdown [filter]="true" panelStyleClass="suitability" styleClass="suitability" [baseZIndex]="2500" appendTo="body" [options]="studyAreaST" [(ngModel)]="stdAreaSTEvalDist" optionLabel="name" placeholder="Select a study area" [style]="{'width':'18em'}">
+                                </p-dropdown>
                             </div>
                             <div class="ui-g ui-fluid">
                                 <div class="ui-g-12">
@@ -1607,7 +1603,8 @@
                         </div>
                         <div class="ui-inputgroup ui-md-6">
                             <span class="ui-inputgroup-addon"><i class="fa fa-layer-group"></i></span>
-                            <p-multiSelect (onChange)="changeIndicator($event)" [filter]="true" defaultLabel="Select indicators" panelStyleClass="urbanperformance" styleClass="urbanperformance" [maxSelectedLabels]="4" [baseZIndex]="2500" appendTo="body" [options]="indSelectItems" [(ngModel)]="selectedIndicators">
+                            <p-multiSelect (onChange)="changeIndicator($event)" [filter]="true" defaultLabel="Select indicators" panelStyleClass="urbanperformance" styleClass="urbanperformance" [maxSelectedLabels]="4" [baseZIndex]="2500" appendTo="body" [options]="indSelectItems"
+                                [(ngModel)]="selectedIndicators">
                                 <ng-template let-value pTemplate="item">
                                     <div pTooltip="{{value.value.dependencies | dependencies:indSelectItems}}" [tooltipZIndex]="5000" style="width: 100%; display:inline-block;vertical-align:middle;">{{value.label}}</div>
                                 </ng-template>
@@ -1630,7 +1627,7 @@
             </p-header>
             <div class="ui-g ui-fluid">
                 <p-dropdown [filter]="true" panelStyleClass="urbanperformance" styleClass="urbanperformance" #scenUP [baseZIndex]="2500" appendTo="body" [options]="scenarios" [(ngModel)]="scenarioManage" optionLabel="name" placeholder="Select a scenario" (onHide)="loadUPLayers()"
-                [style]="{'width':'18em'}">
+                    [style]="{'width':'18em'}">
                 </p-dropdown>
             </div>
             <div class="ui-g ui-fluid">
@@ -1650,8 +1647,8 @@
             </p-header>
             <div class="ui-g ui-fluid">
                 <div class="ui-md-12">
-                    <p-multiSelect (onPanelHide)="getUPResults()" [filter]="true" panelStyleClass="urbanperformance" styleClass="urbanperformance" #scenUPMulti [baseZIndex]="2500" appendTo="body" [options]="scenarios" [(ngModel)]="selectedScenarios" optionLabel="name" defaultLabel="Select up to 4 Scenarios" [maxSelectedLabels]="4"
-                        [selectionLimit]="4"></p-multiSelect>
+                    <p-multiSelect (onPanelHide)="getUPResults()" [filter]="true" panelStyleClass="urbanperformance" styleClass="urbanperformance" #scenUPMulti [baseZIndex]="2500" appendTo="body" [options]="scenarios" [(ngModel)]="selectedScenarios" optionLabel="name" defaultLabel="Select up to 4 Scenarios"
+                        [maxSelectedLabels]="4" [selectionLimit]="4"></p-multiSelect>
                 </div>
             </div>
             <div class="ui-g ui-fluid">
@@ -1677,7 +1674,7 @@
                                     <thead>
                                         <tr>
                                             <th></th>
-                                        <th class="text-center align-middle" *ngFor="let rslt of scenarioResults; let i = index"><span [ngStyle]="{color: dataColorsUP[i]}">{{rslt.name}}</span></th>
+                                            <th class="text-center align-middle" *ngFor="let rslt of scenarioResults; let i = index"><span [ngStyle]="{color: dataColorsUP[i]}">{{rslt.name}}</span></th>
                                         </tr>
                                     </thead>
                                     <tbody class="table-title results-table">
@@ -1691,14 +1688,14 @@
                                                         <p>{{label.units}}</p>
                                                     </div>
                                                 </th>
-                                                    <ng-container *ngFor="let value of label.value[0]">
-                                                        <td class="text-center align-middle">
-                                                            {{value}}
-                                                        </td>
-                                                    </ng-container>
+                                                <ng-container *ngFor="let value of label.value[0]">
+                                                    <td class="text-center align-middle">
+                                                        {{value}}
+                                                    </td>
+                                                </ng-container>
                                             </tr>
                                         </ng-container>
-                                        
+
                                     </tbody>
                                 </table>
                             </div>
@@ -1748,21 +1745,21 @@
                                                         <p>{{g.units}}</p>
                                                     </div>
                                                 </th>
-                                                    <ng-container *ngFor="let value of g.value; let in = index;">
-                                                        <td class="text-center align-middle">
-                                                            {{value}}
-                                                        </td>
-                                                    </ng-container>
+                                                <ng-container *ngFor="let value of g.value; let in = index;">
+                                                    <td class="text-center align-middle">
+                                                        {{value}}
+                                                    </td>
+                                                </ng-container>
                                             </tr>
                                         </ng-container>
-                                        
+
                                     </tbody>
                                 </table>
                             </div>
                             <hr class="gp_orange">
                         </div>
                     </ng-template>
-                </ngb-tab>
+                    </ngb-tab>
             </ngb-tabset>
         </p-fieldset>
     </div>
@@ -1788,8 +1785,7 @@
                             <div class="ui-g ui-fluid p-4">
                                 <div class="form-group ui-md-6">
                                     <h6 class="results-text"><label class="text-uppercase">select study area</label></h6>
-                                    <p-dropdown placeholder="Select a study area" (onHide)="loadSTOptions()" [baseZIndex]="2500" [options]="studyAreaST" [(ngModel)]="selectedStudyAreaST" [filter]="true" appendTo="body" styleClass="suitability" panelStyleClass="suitability"
-                                        optionLabel="name"></p-dropdown>
+                                    <p-dropdown placeholder="Select a study area" (onHide)="loadSTOptions()" [baseZIndex]="2500" [options]="studyAreaST" [(ngModel)]="selectedStudyAreaST" [filter]="true" appendTo="body" styleClass="suitability" panelStyleClass="suitability" optionLabel="name"></p-dropdown>
                                 </div>
                             </div>
                             <ng-container *ngIf="layerSettings; else noLayers">
@@ -1804,7 +1800,7 @@
                                             </th>
                                         </tr>
                                     </ng-template>
-                                    <ng-template pTemplate="body" let-rowData let-ri="rowIndex" let-columns="columns" >
+                                    <ng-template pTemplate="body" let-rowData let-ri="rowIndex" let-columns="columns">
                                         <tr [pSelectableRow]="rowData">
                                             <td style="width: 3em;">
                                                 <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
@@ -1815,9 +1811,7 @@
                                             <td pEditableColumn style="width: 15em;">
                                                 <p-cellEditor>
                                                     <ng-template pTemplate="input">
-                                                        <p-dropdown [filter]="true" [baseZIndex]="2500" appendTo="body"
-                                                        [options]="settingsType" [(ngModel)]="rowData.normalization_method" styleClass="suitability"
-                                                        panelStyleClass="suitability" placeholder="Select method"></p-dropdown>
+                                                        <p-dropdown [filter]="true" [baseZIndex]="2500" appendTo="body" [options]="settingsType" [(ngModel)]="rowData.normalization_method" styleClass="suitability" panelStyleClass="suitability" placeholder="Select method"></p-dropdown>
                                                     </ng-template>
                                                     <ng-template pTemplate="output">
                                                         {{rowData.normalization_method | normMethod:settingsType}}
@@ -1913,7 +1907,7 @@
                                     <p-dropdown [filter]="true" [baseZIndex]="2500" appendTo="body" [options]="joinType" [(ngModel)]="joinMethod" optionLabel="label" styleClass="suitability" panelStyleClass="suitability" placeholder="Select operation method"></p-dropdown>
                                 </div>
                             </div>
-                            
+
                             <ng-container *ngIf="filterList; else noFilters">
                                 <div class="py-2 px-5 results-text">
                                     <ng-container *ngFor="let filter of filterList; index as i">
@@ -1996,22 +1990,22 @@
               </g>
             </g>
           </switch>
-        </svg>    
-    </li>
-        <hr style="color: #4B565F;background-color: #4B565F;" />
-        <li>
-            <small class="text-uppercase">Error Log</small>
-        </li>
-        <li>
-            <button (click)="toggleErrorConsole()" pButton [disabled]="!errHtml" type="button" icon="pi pi-exclamation-triangle" [ngClass]="{'ui-button-warning': errHtml, 'tools-geoportal geoportal-btn': !errHtml}"></button>
-        </li>
-        <hr style="color: #4B565F;background-color: #4B565F;" />
-        <li>
-            <small class="text-uppercase">Process Log</small>
-        </li>
-        <li>
-            <p-button icon="fas fa-tasks" styleClass="tools-geoportal geoportal-btn" [disabled]="!procHtml" (onClick)="toggleProgressConsole()"></p-button>
-        </li>
+        </svg>
+            </li>
+            <hr style="color: #4B565F;background-color: #4B565F;" />
+            <li>
+                <small class="text-uppercase">Error Log</small>
+            </li>
+            <li>
+                <button (click)="toggleErrorConsole()" pButton [disabled]="!errHtml" type="button" icon="pi pi-exclamation-triangle" [ngClass]="{'ui-button-warning': errHtml, 'tools-geoportal geoportal-btn': !errHtml}"></button>
+            </li>
+            <hr style="color: #4B565F;background-color: #4B565F;" />
+            <li>
+                <small class="text-uppercase">Process Log</small>
+            </li>
+            <li>
+                <p-button icon="fas fa-tasks" styleClass="tools-geoportal geoportal-btn" [disabled]="!procHtml" (onClick)="toggleProgressConsole()"></p-button>
+            </li>
         </div>
         <div *ngIf="uptWindow.__session_active && hasUPTRole">
             <hr style="color: #4B565F;background-color: #4B565F;" />
@@ -2039,12 +2033,12 @@
             </li>
         </div>
         <hr style="color: #4B565F;background-color: #4B565F;" />
-            <li>
-                <small class="text-uppercase">About</small>
-            </li>
-            <li pTooltip="Special thanks" tooltipPosition="left" #aboutBtn>
-                <p-button icon="pi pi-ellipsis-h" (onClick)="about.show($event, aboutBtn)" styleClass="tools-geoportal geoportal-btn"></p-button>
-            </li>
+        <li>
+            <small class="text-uppercase">About</small>
+        </li>
+        <li pTooltip="Special thanks" tooltipPosition="left" #aboutBtn>
+            <p-button icon="pi pi-ellipsis-h" (onClick)="about.show($event, aboutBtn)" styleClass="tools-geoportal geoportal-btn"></p-button>
+        </li>
     </ul>
 </p-sidebar>
 <!--PrimeNG overlayPanel which contains additional info about UrbanHotspots.-->
@@ -2077,7 +2071,8 @@
     <hr style="color: #4B565F;background-color: #4B565F;">
     <div class="ui-g ui-fluid results-text text-justify" [ngClass]="{'up-act':upAct, 'st-act':stAct,'no-act':!stAct&&!upAct}">
         <p>We acknowledge the invaluable support of the <a target="_blank" href="https://worldbank.org/">World Bank’s Trust Fund for Statistical Capacity Building (TFSCB)</a> in making this project.</p>
-        <p>This tool was conceptualized at <a target="_blank" href="https://collaboration.worldbank.org/content/sites/collaboration-for-development/en/groups/city-planning-labs.html">City Planning Labs</a> with the technical support from <a target="_blank" href="https://www.sitowise.com/en">SITOWise</a>.</p>
+        <p>This tool was conceptualized at <a target="_blank" href="https://collaboration.worldbank.org/content/sites/collaboration-for-development/en/groups/city-planning-labs.html">City Planning Labs</a> with the technical support from <a target="_blank"
+                href="https://www.sitowise.com/en">SITOWise</a>.</p>
         <p>The tools were developed by <a target="_blank" href="http://capsus.mx/">CAPSUS</a> and are maintained by <a target="_blank" href="http://up.technology/">UPTech</a> and a community of developers.</p>
     </div>
 </p-overlayPanel>
