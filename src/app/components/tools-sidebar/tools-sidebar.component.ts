@@ -440,19 +440,23 @@ export class ToolsSidebarComponent implements OnInit {
 
   // Colors used for the color scale dialog
   scaleColorsST = [
-    '#C70039',
-    '#fd8702',
-    '#fdc002',
-    '#a2fd02',
-    '#02e2fd',
-    '#0265fd'
+    "#630000",
+    "#9e0142",
+    "#d53e4f",
+    "#f46d43",
+    "#fee08b",
+    "#abdda4",
+    "#66c2a5",
+    "#3288bd",
+    "#5e4fa2",
+    "#240058"
   ];
 
   // Color scaling for the heatmap
   colors = chroma.scale(this.scaleColorsST);
 
   // Numbers used for the color scale dialog
-  scaleNumbersST: any[] = ['0', '20', '40', '60', '80', '100'];
+  scaleNumbersST: any[] = ['10', '20', '30', '40', '50', '60', '70', '80', '90', '100'];
 
   // LayersST
   isNewLayer = false;
@@ -2489,9 +2493,9 @@ export class ToolsSidebarComponent implements OnInit {
   changeScaleModeST(event) {
     this.scaleNumbersST = []
     if(event.checked) {
-      this.scaleNumbersST = ['Min', '', '', '', '', 'Max'];
+      this.scaleNumbersST = ['Min', '', '', '', '', '', '', '', '', 'Max'];
     } else {
-      this.scaleNumbersST = ['0', '20', '40', '60', '80', '100'];
+      this.scaleNumbersST = ['10', '20', '30', '40', '50', '60', '70', '80', '90', '100'];
     }
   }
 
