@@ -456,7 +456,7 @@ export class ToolsSidebarComponent implements OnInit {
   colors = chroma.scale(this.scaleColorsST);
 
   // Numbers used for the color scale dialog
-  scaleNumbersST: any[] = ['0', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100'];
+  scaleNumbersST: any[] = ['10', '20', '30', '40', '50', '60', '70', '80', '90', '100'];
 
   // LayersST
   isNewLayer = false;
@@ -2493,9 +2493,9 @@ export class ToolsSidebarComponent implements OnInit {
   changeScaleModeST(event) {
     this.scaleNumbersST = []
     if(event.checked) {
-      this.scaleNumbersST = ['Min', '', '', '', '', '', '', '', '', '', 'Max'];
+      this.scaleNumbersST = ['Min', '', '', '', '', '', '', '', '', 'Max'];
     } else {
-      this.scaleNumbersST = ['0', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100'];
+      this.scaleNumbersST = ['10', '20', '30', '40', '50', '60', '70', '80', '90', '100'];
     }
   }
 
