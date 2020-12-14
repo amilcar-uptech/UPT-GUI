@@ -3110,13 +3110,13 @@ export class ToolsSidebarComponent implements OnInit {
         geojson: JSON.stringify({ 0: this.geojsonObject }),
       };
       this.layerOptions = {
-        layerId: 'ST_VECTOR_LAYER',
-        layerInspireName: 'Inspire theme name',
-        layerOrganizationName: 'Organization name',
+        layerId: 'UH_OUTPUT',
+        layerInspireName: 'Contagion Hotspots',
+        layerOrganizationName: 'World Bank Group',
         showLayer: true,
         opacity: 85,
-        layerName: 'Index Values',
-        layerDescription: 'Displays index values of Suitability evaluations.',
+        layerName: 'Contagion Hotspots',
+        layerDescription: 'Displays predicted contagion hotspots.',
         layerPermissions: {
           publish: 'publication_permission_ok',
         },
@@ -3159,7 +3159,7 @@ export class ToolsSidebarComponent implements OnInit {
         ]);
         Oskari.getSandbox().postRequestByName(
           'MapModulePlugin.RemoveFeaturesFromMapRequest',
-          [null, null, 'ST_VECTOR_LAYER']
+          [null, null, 'UH_OUTPUT']
         );
         Oskari.getSandbox().postRequestByName(this.rn, [
           this.geojsonObject,
@@ -3195,7 +3195,7 @@ export class ToolsSidebarComponent implements OnInit {
       });
       Oskari.getSandbox().postRequestByName(
         'MapModulePlugin.RemoveFeaturesFromMapRequest',
-        [null, null, 'ST_VECTOR_LAYER']
+        [null, null, 'UH_OUTPUT']
       );
     }
   }
@@ -3204,16 +3204,17 @@ export class ToolsSidebarComponent implements OnInit {
   filterGeoJSON(event) {
     if (this.geojsonObject != null && this.geojsonObject['features'] != null) {
       this.layerOptions = {
-        layerId: 'ST_VECTOR_LAYER',
-        layerInspireName: 'Inspire theme name',
-        layerOrganizationName: 'Organization name',
+        layerId: 'UH_OUTPUT',
+        layerInspireName: 'Contagion Hotspots',
+        layerOrganizationName: 'World Bank Group',
         showLayer: true,
-        opacity: 60,
-        layerName: 'Index Values',
-        layerDescription: 'Displays index values of Suitability evaluations.',
+        opacity: 85,
+        layerName: 'Contagion Hotspots',
+        layerDescription: 'Displays predicted contagion hotspots.',
         layerPermissions: {
           publish: 'publication_permission_ok',
         },
+        centerTo: true,
         optionalStyles: [],
       };
       this.valuesST.forEach((val) => {
@@ -3244,7 +3245,7 @@ export class ToolsSidebarComponent implements OnInit {
       ]);
       Oskari.getSandbox().postRequestByName(
         'MapModulePlugin.RemoveFeaturesFromMapRequest',
-        [null, null, 'ST_VECTOR_LAYER']
+        [null, null, 'UH_OUTPUT']
       );
       Oskari.getSandbox().postRequestByName(this.rn, [
         this.geojsonObject,
