@@ -3173,6 +3173,7 @@ export class ToolsSidebarComponent implements OnInit {
           detail: 'Process completed successfully!',
         });
         this.unblockDocument();
+        this.oskariHeatmap['style'] = JSON.stringify(this.layerOptions['optionalStyles']);
       } catch(e) {
         this.unblockDocument();
         this.messageService.add({
@@ -3251,6 +3252,7 @@ export class ToolsSidebarComponent implements OnInit {
         this.geojsonObject,
         this.layerOptions,
       ]);
+      this.oskariHeatmap['style'] = JSON.stringify(this.layerOptions['optionalStyles']);
     }
   }
 
