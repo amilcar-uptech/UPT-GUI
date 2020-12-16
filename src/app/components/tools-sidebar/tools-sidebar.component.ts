@@ -3174,6 +3174,7 @@ export class ToolsSidebarComponent implements OnInit {
         });
         this.unblockDocument();
         this.oskariHeatmap['style'] = JSON.stringify(this.layerOptions['optionalStyles']);
+        console.log(this.oskariHeatmap);
       } catch(e) {
         this.unblockDocument();
         this.messageService.add({
@@ -3253,6 +3254,7 @@ export class ToolsSidebarComponent implements OnInit {
         this.layerOptions,
       ]);
       this.oskariHeatmap['style'] = JSON.stringify(this.layerOptions['optionalStyles']);
+      console.log(this.oskariHeatmap);
     }
   }
 
