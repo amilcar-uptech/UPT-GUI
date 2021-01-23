@@ -2705,8 +2705,8 @@ export class ToolsSidebarComponent implements OnInit {
   // Sends a request to fill the dropdown elements for the Register Layers tab in the Advanced dialog for ST
   loadDataColumnST(event) {
     if (event.node.type.toLowerCase() !== 'directory') {
-      let layerId = event.node.data;
-      let directory = event.node.parent.data;
+      let layerId = event.node.data.toString();
+      let directory = event.node.parent.data.toString();
       if(directory.contains("my_data")) {
         layerId.replace("priv_","");
         this.listService.getSTColumnWithId(layerId).subscribe(
