@@ -54,26 +54,49 @@ export class DataCopyService {
   }
 
 public copyLayersST(matchLayer: MatchLayer): Observable<MatchLayer> {
-  let body = new HttpParams();
-  body = body.set('layerId', matchLayer.layerId.toString());
-  body = body.set('layerLabel', matchLayer.layerLabel.toString());
-  body = body.set('field', matchLayer.field.toString());
-  body = body.set('mmuCode', matchLayer.mmuCode.toString());
-  try {
-    return this.http.post('/action?action_route=st_layers', body);
-  } catch (e) {
-    console.log(e);
+  matchLayer.layerId = matchLayer.toString();
+  if(matchLayer.layerId.contains("pub_")) {
+    matchLayer.layerId.replace("pub_", "");
+    let body = new HttpParams();
+    body = body.set('layerId', matchLayer.layerId.toString());
+    body = body.set('layerLabel', matchLayer.layerLabel.toString());
+    body = body.set('field', matchLayer.field.toString());
+    body = body.set('mmuCode', matchLayer.mmuCode.toString());
+    try {
+      return this.http.post('/action?action_route=st_layers', body);
+    } catch (e) {
+      console.log(e);
+    }
+  } else if(matchLayer.layerId.contains("priv_")) {
+    matchLayer.layerId.replace("priv_", "");
+    let body = new HttpParams();
+    body = body.set('layerId', matchLayer.layerId.toString());
+    body = body.set('layerLabel', matchLayer.layerLabel.toString());
+    body = body.set('field', matchLayer.field.toString());
+    body = body.set('mmuCode', matchLayer.mmuCode.toString());
+    try {
+      return this.http.post('/action?action_route=st_layers', body);
+    } catch (e) {
+      console.log(e);
+    }
   }
+  
 }
 
 public copyFiltersST(matchFilter: MatchLayer): Observable<MatchLayer> {
-  let body = new HttpParams();
-  body = body.set('filterId', matchFilter.filterId.toString());
-  body = body.set('filterLabel', matchFilter.filterLabel.toString());
-  try {
-    return this.http.post('/action?action_route=st_filters', body);
-  } catch (e) {
-    console.log(e);
+  matchFilter.filterId = matchFilter.toString();
+  if(matchFilter.filterId.contains("pub_")) {
+    matchFilter.filterId.replace("pub_", "");
+    let body = new HttpParams();
+    body = body.set('filterId', matchFilter.filterId.toString());
+    body = body.set('filterLabel', matchFilter.filterLabel.toString());
+    try {
+      return this.http.post('/action?action_route=st_filters', body);
+    } catch (e) {
+      console.log(e);
+    } 
+  } else if(matchFilter.filterId.contains("priv_")) {
+    matchFilter.filterId.replace("priv_", "");
   }
 }
 }
