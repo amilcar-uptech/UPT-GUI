@@ -2709,7 +2709,7 @@ export class ToolsSidebarComponent implements OnInit {
       let directory = event.node.parent.data.toString();
       console.log(directory);
       if(directory.includes("my_data")) {
-        layerId.replace("priv_","");
+        layerId = layerId.replace("priv_","");
         this.listService.getSTColumnWithId(layerId).subscribe(
           (listManageDataST) => {
             this.colFieldsNameArrayST = [];
@@ -2726,7 +2726,7 @@ export class ToolsSidebarComponent implements OnInit {
           }
         );
       } else if(directory.includes("public_data")) {
-        layerId.replace("pub_","");
+        layerId = layerId.replace("pub_","");
         this.listService.getSTPublicColumnWithId(layerId).subscribe(
           (listManageDataST) => {
             this.colFieldsNameArrayST = [];
