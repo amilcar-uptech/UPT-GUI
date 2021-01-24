@@ -2707,7 +2707,7 @@ export class ToolsSidebarComponent implements OnInit {
     if (event.node.type.toLowerCase() !== 'directory') {
       let layerId = event.node.data.toString();
       let directory = event.node.parent.data.toString();
-      if(directory.contains("my_data")) {
+      if(directory.includes("my_data")) {
         layerId.replace("priv_","");
         this.listService.getSTColumnWithId(layerId).subscribe(
           (listManageDataST) => {
@@ -2724,7 +2724,7 @@ export class ToolsSidebarComponent implements OnInit {
             this.logErrorHandler(error);
           }
         );
-      } else if(directory.contains("public_data")) {
+      } else if(directory.includes("public_data")) {
         layerId.replace("pub_","");
         this.listService.getSTPublicColumnWithId(layerId).subscribe(
           (listManageDataST) => {
