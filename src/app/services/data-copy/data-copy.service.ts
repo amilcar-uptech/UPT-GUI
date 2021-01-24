@@ -55,8 +55,8 @@ export class DataCopyService {
 
 public copyLayersST(matchLayer: MatchLayer): Observable<MatchLayer> {
   matchLayer.layerId = matchLayer.toString();
-  if(matchLayer.layerId.contains("pub_")) {
-    matchLayer.layerId.replace("pub_", "");
+  if(matchLayer.layerId.includes("pub_")) {
+    matchLayer.layerId = matchLayer.layerId.replace("pub_", "");
     let body = new HttpParams();
     body = body.set('layerId', matchLayer.layerId.toString());
     body = body.set('layerLabel', matchLayer.layerLabel.toString());
@@ -67,15 +67,15 @@ public copyLayersST(matchLayer: MatchLayer): Observable<MatchLayer> {
     } catch (e) {
       console.log(e);
     }
-  } else if(matchLayer.layerId.contains("priv_")) {
-    matchLayer.layerId.replace("priv_", "");
+  } else if(matchLayer.layerId.includes("priv_")) {
+    matchLayer.layerId = matchLayer.layerId.replace("priv_", "");
     let body = new HttpParams();
     body = body.set('layerId', matchLayer.layerId.toString());
     body = body.set('layerLabel', matchLayer.layerLabel.toString());
     body = body.set('field', matchLayer.field.toString());
     body = body.set('mmuCode', matchLayer.mmuCode.toString());
     try {
-      return this.http.post('/action?action_route=st_layers', body);
+      return this.http.post('/action?action_route=st_public_layers', body);
     } catch (e) {
       console.log(e);
     }
@@ -85,8 +85,8 @@ public copyLayersST(matchLayer: MatchLayer): Observable<MatchLayer> {
 
 public copyFiltersST(matchFilter: MatchLayer): Observable<MatchLayer> {
   matchFilter.filterId = matchFilter.toString();
-  if(matchFilter.filterId.contains("pub_")) {
-    matchFilter.filterId.replace("pub_", "");
+  if(matchFilter.filterId.includes("pub_")) {
+    matchFilter.filterId = matchFilter.filterId.replace("pub_", "");
     let body = new HttpParams();
     body = body.set('filterId', matchFilter.filterId.toString());
     body = body.set('filterLabel', matchFilter.filterLabel.toString());
@@ -95,8 +95,16 @@ public copyFiltersST(matchFilter: MatchLayer): Observable<MatchLayer> {
     } catch (e) {
       console.log(e);
     } 
-  } else if(matchFilter.filterId.contains("priv_")) {
-    matchFilter.filterId.replace("priv_", "");
+  } else if(matchFilter.filterId.includes("priv_")) {
+    matchFilter.filterId = matchFilter.filterId.replace("priv_", "");
+    let body = new HttpParams();
+    body = body.set('filterId', matchFilter.filterId.toString());
+    body = body.set('filterLabel', matchFilter.filterLabel.toString());
+    try {
+      return this.http.post('/action?action_route=st_public_filters', body);
+    } catch (e) {
+      console.log(e);
+    } 
   }
 }
 }
