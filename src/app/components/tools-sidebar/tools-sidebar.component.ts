@@ -2707,6 +2707,7 @@ export class ToolsSidebarComponent implements OnInit {
     if (event.node.type.toLowerCase() !== 'directory') {
       let layerId = event.node.data.toString();
       let directory = event.node.parent.data.toString();
+      console.log(directory);
       if(directory.includes("my_data")) {
         layerId.replace("priv_","");
         this.listService.getSTColumnWithId(layerId).subscribe(
