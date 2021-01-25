@@ -106,5 +106,5 @@ public copyFiltersST(matchFilter: MatchLayer): Observable<MatchLayer> {
       console.log(e);
     } 
   }
-}
+  }
 }

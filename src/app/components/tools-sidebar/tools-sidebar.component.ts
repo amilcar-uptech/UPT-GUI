@@ -2843,6 +2843,7 @@ export class ToolsSidebarComponent implements OnInit {
         field: this.layerSTField.name,
         mmuCode: this.layerSTMMU.name,
       };
+      console.log(this.matchLayer);
       this.dataCopyService.copyLayersST(this.matchLayer).subscribe(
         (data) => {
           this.matchLayer = {
