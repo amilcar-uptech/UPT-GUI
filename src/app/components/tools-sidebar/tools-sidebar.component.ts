@@ -2568,16 +2568,29 @@ export class ToolsSidebarComponent implements OnInit {
 
   // Sends a request to get the study areas for ST
   loadSTStudyArea() {
+    let privStdArea;
+    let pubStdArea;
+    let stdAreaArray;
     this.layersService.getStudyAreas().subscribe(
       (studyArea) => {
-        this.studyAreaST = studyArea;
-        this.stdAreaLayer = studyArea;
-        this.stdAreaFilter = studyArea;
+        privStdArea = studyArea;
       },
       (error) => {
         this.logErrorHandler(error);
       }
     );
+    this.layersService.getPublicStudyAreas().subscribe(
+      (studyArea) => {
+        pubStdArea = studyArea;
+      },
+      (error) => {
+        this.logErrorHandler(error);
+      }
+    );
+    stdAreaArray = privStdArea.concat(pubStdArea);
+    this.studyAreaST = stdAreaArray;
+    this.stdAreaLayer = stdAreaArray;
+    this.stdAreaFilter = stdAreaArray;
   }
 
   // Sends requests to get the normalization and operation methods for ST

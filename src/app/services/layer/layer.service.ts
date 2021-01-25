@@ -21,6 +21,13 @@ export class LayerService {
                 );
   }
 
+  getPublicStudyAreas(): Observable<SelectItem[]> {
+    return this.http.get<any>('/action?action_route=study_area')
+                .pipe(
+                  map(res => res as SelectItem[])
+                );
+  }
+
   getLayers(id: number): Observable<SelectItem[]> {
     return this.http.get<any>('/action?action_route=LayersSTHandler&action=list_st_layers&study_area=' + id)
                 .pipe(
