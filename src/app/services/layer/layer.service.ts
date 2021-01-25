@@ -22,7 +22,7 @@ export class LayerService {
   }
 
   getPublicStudyAreas(): Observable<SelectItem[]> {
-    return this.http.get<any>('/action?action_route=study_area')
+    return this.http.get<any>('/action?action_route=public_study_area')
                 .pipe(
                   map(res => res as SelectItem[])
                 );
