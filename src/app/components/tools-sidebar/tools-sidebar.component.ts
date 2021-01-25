@@ -109,6 +109,8 @@ export class ToolsSidebarComponent implements OnInit {
   shareLayersList: any[];
   shareLayer: any;
 
+  tmpLayerId: string;
+
   /**
    * UP Variables
    */
@@ -2707,6 +2709,7 @@ export class ToolsSidebarComponent implements OnInit {
     if (event.node.type.toLowerCase() !== 'directory') {
       let layerId = event.node.data.toString();
       let directory = event.node.parent.data.toString();
+      this.tmpLayerId = event.node.data.toString();
       if(directory.includes("my_data")) {
         layerId = layerId.replace("priv_","");
         this.listService.getSTColumnWithId(layerId).subscribe(
@@ -2838,47 +2841,86 @@ export class ToolsSidebarComponent implements OnInit {
         detail: 'Your operation is being processed.',
       });
       this.matchLayer = {
-        layerId: this.layerSTId,
+        layerId: this.tmpLayerId,
         layerLabel: this.layerSTLabel,
         field: this.layerSTField.name,
         mmuCode: this.layerSTMMU.name,
       };
-      console.log(this.matchLayer);
-      this.dataCopyService.copyLayersST(this.matchLayer).subscribe(
-        (data) => {
-          this.matchLayer = {
-            layerId: data.layerId,
-            layerLabel: data.layerLabel,
-            field: data.field,
-            mmuCode: data.mmuCode,
-          };
-        },
-        (error) => {
-          this.unblockDocument();
-          this.logErrorHandler(error);
-        },
-        () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success!',
-            detail: 'Process completed successfully.',
-          });
-          if (this.selectedStudyAreaST) {
-            this.loadSTOptions();
+      if(this.tmpLayerId.includes("priv_")) {
+        this.matchLayer.layerId = this.matchLayer.layerId.replace("priv_","");
+        this.dataCopyService.copyLayersST(this.matchLayer).subscribe(
+          (data) => {
+            this.matchLayer = {
+              layerId: data.layerId,
+              layerLabel: data.layerLabel,
+              field: data.field,
+              mmuCode: data.mmuCode,
+            };
+          },
+          (error) => {
+            this.unblockDocument();
+            this.logErrorHandler(error);
+          },
+          () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success!',
+              detail: 'Process completed successfully.',
+            });
+            if (this.selectedStudyAreaST) {
+              this.loadSTOptions();
+            }
+            if (this.stdAreaManageLayer) {
+              this.layerSTService
+                .getLayerST(this.stdAreaManageLayer.id)
+                .subscribe(
+                  (layers) => (this.layersSTManage = layers),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }
+                );
+            }
+            this.unblockDocument();
           }
-          if (this.stdAreaManageLayer) {
-            this.layerSTService
-              .getLayerST(this.stdAreaManageLayer.id)
-              .subscribe(
-                (layers) => (this.layersSTManage = layers),
-                (error) => {
-                  this.logErrorHandler(error);
-                }
-              );
+        );
+      } else if(this.tmpLayerId.includes("pub_")) {
+        this.matchLayer.layerId.replace("pub_","");
+        this.dataCopyService.copyPublicLayersST(this.matchLayer).subscribe(
+          (data) => {
+            this.matchLayer = {
+              layerId: data.layerId,
+              layerLabel: data.layerLabel,
+              field: data.field,
+              mmuCode: data.mmuCode,
+            };
+          },
+          (error) => {
+            this.unblockDocument();
+            this.logErrorHandler(error);
+          },
+          () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success!',
+              detail: 'Process completed successfully.',
+            });
+            if (this.selectedStudyAreaST) {
+              this.loadSTOptions();
+            }
+            if (this.stdAreaManageLayer) {
+              this.layerSTService
+                .getLayerST(this.stdAreaManageLayer.id)
+                .subscribe(
+                  (layers) => (this.layersSTManage = layers),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }
+                );
+            }
+            this.unblockDocument();
           }
-          this.unblockDocument();
-        }
-      );
+        );
+      }
     } else {
       this.messageService.add({
         severity: 'error',
