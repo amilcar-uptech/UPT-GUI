@@ -2884,7 +2884,7 @@ export class ToolsSidebarComponent implements OnInit {
           }
         );
       } else if(this.tmpLayerId.includes("pub_")) {
-        this.matchLayer.layerId.replace("pub_","");
+        this.matchLayer.layerId = this.matchLayer.layerId.replace("pub_","");
         this.dataCopyService.copyPublicLayersST(this.matchLayer).subscribe(
           (data) => {
             this.matchLayer = {
