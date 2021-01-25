@@ -1,5 +1,5 @@
 export interface LayerST {
-    id?: number;
+    id?: string;
     study_area?: number;
     user_layer_id?: number;
     layer_field?: any;
