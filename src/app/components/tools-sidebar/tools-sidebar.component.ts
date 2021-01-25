@@ -2568,9 +2568,9 @@ export class ToolsSidebarComponent implements OnInit {
 
   // Sends a request to get the study areas for ST
   loadSTStudyArea() {
-    let privStdArea;
-    let pubStdArea;
-    let stdAreaArray;
+    let privStdArea = [];
+    let pubStdArea = [];
+    let stdAreaArray = [];
     this.layersService.getStudyAreas().subscribe(
       (studyArea) => {
         privStdArea = studyArea;
