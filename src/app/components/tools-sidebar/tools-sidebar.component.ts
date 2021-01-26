@@ -2574,6 +2574,7 @@ export class ToolsSidebarComponent implements OnInit {
     this.layersService.getStudyAreas().subscribe(
       (studyArea) => {
         privStdArea = studyArea;
+        stdAreaArray = stdAreaArray.concat(privStdArea);
       },
       (error) => {
         this.logErrorHandler(error);
@@ -2582,12 +2583,14 @@ export class ToolsSidebarComponent implements OnInit {
     this.layersService.getPublicStudyAreas().subscribe(
       (studyArea) => {
         pubStdArea = studyArea;
+        stdAreaArray = stdAreaArray.concat(pubStdArea);
       },
       (error) => {
         this.logErrorHandler(error);
       }
     );
-    stdAreaArray = privStdArea.concat(pubStdArea);
+    // stdAreaArray = privStdArea.concat(pubStdArea);
+    console.log(stdAreaArray);
     this.studyAreaST = stdAreaArray;
     this.stdAreaLayer = stdAreaArray;
     this.stdAreaFilter = stdAreaArray;
