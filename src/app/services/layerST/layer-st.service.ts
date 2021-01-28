@@ -160,7 +160,7 @@ export class LayerSTService {
         field: layerST.layer_field.name
       };
     }
-    return this.http.delete<any>('/action?action_route=st_layers', httpOptions)
+    return this.http.delete<any>('/action?action_route=st_public_layers', httpOptions)
             .pipe(
               map(res => res as LayerST)
             );
