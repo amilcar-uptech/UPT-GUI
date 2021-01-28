@@ -3435,7 +3435,37 @@ export class ToolsSidebarComponent implements OnInit {
   selectLayer(event) {
     this.isNewLayer = false;
     this.manageLayer = this.cloneLayer(event.data);
-    this.listService.getSTColumnWithId(event.data.user_layer_id).subscribe(
+    let tmpId = event.data.user_layer_id.toString();
+    if(tmpId.includes("priv_")) {
+      tmpId = tmpId.replace("priv_","");
+      this.listService.getSTColumnWithId(tmpId).subscribe(
+        (columns) => {
+          this.colFieldsNameArrayST = [];
+          columns.forEach((data) =>
+            this.colFieldsNameArrayST.push({ name: data })
+          );
+          this.selLayerColumns = this.colFieldsNameArrayST;
+        },
+        (error) => {
+          this.logErrorHandler(error);
+        }
+      );
+    } else if(tmpId.includes("pub_")) {
+      tmpId = tmpId.replace("pub_","");
+      this.listService.getSTPublicColumnWithId(tmpId).subscribe(
+        (columns) => {
+          this.colFieldsNameArrayST = [];
+          columns.forEach((data) =>
+            this.colFieldsNameArrayST.push({ name: data })
+          );
+          this.selLayerColumns = this.colFieldsNameArrayST;
+        },
+        (error) => {
+          this.logErrorHandler(error);
+        }
+      );
+    }
+    /* this.listService.getSTColumnWithId(event.data.user_layer_id).subscribe(
       (columns) => {
         this.colFieldsNameArrayST = [];
         columns.forEach((data) =>
@@ -3446,125 +3476,248 @@ export class ToolsSidebarComponent implements OnInit {
       (error) => {
         this.logErrorHandler(error);
       }
-    );
+    ); */
     this.editLayers = true;
   }
 
   // Sends a request to save the selected layer
   saveLayer() {
     if (this.isNewLayer) {
-      this.layerSTService.createLayerST(this.manageLayer).subscribe(
-        () =>
-          this.messageService.add({
-            severity: 'info',
-            summary: 'In process!',
-            detail: 'Your layer is being created!',
-          }),
-        (error) => {
-          this.logErrorHandler(error);
-        },
-        () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success!',
-            detail: 'Layer created successfully!',
-          });
-          if (this.stdAreaManageSetting) {
-            this.settingsService
-              .getSettings(this.stdAreaManageSetting.id)
-              .subscribe(
-                (stngs) => (this.settingsSTManage = stngs),
+      let tmpId = this.manageLayer.user_layer_id.toString();
+      if(tmpId.includes("priv_")) {
+        this.manageLayer.user_layer_id = parseInt(tmpId.replace("priv_",""),10);
+        this.layerSTService.createLayerST(this.manageLayer).subscribe(
+          () =>
+            this.messageService.add({
+              severity: 'info',
+              summary: 'In process!',
+              detail: 'Your layer is being created!',
+            }),
+          (error) => {
+            this.logErrorHandler(error);
+          },
+          () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success!',
+              detail: 'Layer created successfully!',
+            });
+            if (this.stdAreaManageSetting) {
+              this.settingsService
+                .getSettings(this.stdAreaManageSetting.id.toString().replace("pub_",""))
+                .subscribe(
+                  (stngs) => (this.settingsSTManage = stngs),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }, () => {
+                    this.settingsSTManage.forEach(
+                      stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                    );
+                  }
+                );
+            }
+            if (this.stdAreaManageLayer) {
+              this.layerSTService
+                .getLayerST(this.stdAreaManageLayer.id.toString().replace("pub_",""))
+                .subscribe(
+                  (lyrs) => (this.layersSTManage = lyrs),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }
+                );
+            }
+            if (this.selectedStudyAreaST) {
+              this.layersService.getLayers(this.selectedStudyAreaST.id.toString().replace("pub_","")).subscribe(
+                (lyrs) => (this.layerSettings = lyrs),
                 (error) => {
                   this.logErrorHandler(error);
                 }, () => {
-                  this.settingsSTManage.forEach(
+                  this.layerSettings.forEach(
                     stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
                   );
                 }
               );
+            }
+            this.editLayers = false;
           }
-          if (this.stdAreaManageLayer) {
-            this.layerSTService
-              .getLayerST(this.stdAreaManageLayer.id)
-              .subscribe(
-                (lyrs) => (this.layersSTManage = lyrs),
+        );
+      } else if(tmpId.includes("pub_")) {
+        this.manageLayer.user_layer_id = parseInt(tmpId.replace("pub_",""),10);
+        this.layerSTService.createPublicLayerST(this.manageLayer).subscribe(
+          () =>
+            this.messageService.add({
+              severity: 'info',
+              summary: 'In process!',
+              detail: 'Your layer is being created!',
+            }),
+          (error) => {
+            this.logErrorHandler(error);
+          },
+          () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success!',
+              detail: 'Layer created successfully!',
+            });
+            if (this.stdAreaManageSetting) {
+              this.settingsService
+                .getSettings(this.stdAreaManageSetting.id.toString().replace("pub_",""))
+                .subscribe(
+                  (stngs) => (this.settingsSTManage = stngs),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }, () => {
+                    this.settingsSTManage.forEach(
+                      stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                    );
+                  }
+                );
+            }
+            if (this.stdAreaManageLayer) {
+              this.layerSTService
+                .getPublicLayerST(this.stdAreaManageLayer.id.toString().replace("pub_",""))
+                .subscribe(
+                  (lyrs) => (this.layersSTManage = lyrs),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }
+                );
+            }
+            if (this.selectedStudyAreaST) {
+              this.layersService.getLayers(this.selectedStudyAreaST.id.toString().replace("pub_","")).subscribe(
+                (lyrs) => (this.layerSettings = lyrs),
                 (error) => {
                   this.logErrorHandler(error);
+                }, () => {
+                  this.layerSettings.forEach(
+                    stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                  );
                 }
               );
+            }
+            this.editLayers = false;
           }
-          if (this.selectedStudyAreaST) {
-            this.layersService.getLayers(this.selectedStudyAreaST.id).subscribe(
-              (lyrs) => (this.layerSettings = lyrs),
-              (error) => {
-                this.logErrorHandler(error);
-              }, () => {
-                this.layerSettings.forEach(
-                  stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
-                );
-              }
-            );
-          }
-          this.editLayers = false;
-        }
-      );
+        );
+      }
     } else {
-      this.layerSTService.updateLayerST(this.manageLayer).subscribe(
-        () =>
-          this.messageService.add({
-            severity: 'info',
-            summary: 'In process!',
-            detail: 'Your layer is being updated!',
-          }),
-        (error) => {
-          this.logErrorHandler(error);
-        },
-        () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success!',
-            detail: 'Layer updated successfully!',
-          });
-          if (this.stdAreaManageSetting) {
-            this.settingsService
-              .getSettings(this.stdAreaManageSetting.id)
-              .subscribe(
-                (stngs) => (this.settingsSTManage = stngs),
+      let tmpId = this.manageLayer.user_layer_id.toString();
+      if(tmpId.includes("priv_")) {
+        this.manageLayer.user_layer_id = parseInt(tmpId.replace("priv_",""),10);
+        this.layerSTService.updateLayerST(this.manageLayer).subscribe(
+          () =>
+            this.messageService.add({
+              severity: 'info',
+              summary: 'In process!',
+              detail: 'Your layer is being updated!',
+            }),
+          (error) => {
+            this.logErrorHandler(error);
+          },
+          () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success!',
+              detail: 'Layer updated successfully!',
+            });
+            if (this.stdAreaManageSetting) {
+              this.settingsService
+                .getSettings(this.stdAreaManageSetting.id.toString().replace("pub_",""))
+                .subscribe(
+                  (stngs) => (this.settingsSTManage = stngs),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }, () => {
+                    this.settingsSTManage.forEach(
+                      stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                    );
+                  }
+                );
+            }
+            if (this.stdAreaManageLayer) {
+              this.layerSTService
+                .getLayerST(this.stdAreaManageLayer.id)
+                .subscribe(
+                  (lyrs) => (this.layersSTManage = lyrs),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }
+                );
+            }
+            if (this.selectedStudyAreaST) {
+              this.layersService.getLayers(this.selectedStudyAreaST.id.toString().replace("pub_","")).subscribe(
+                (lyrs) => (this.layerSettings = lyrs),
                 (error) => {
                   this.logErrorHandler(error);
                 }, () => {
-                  this.settingsSTManage.forEach(
+                  this.layerSettings.forEach(
                     stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
                   );
                 }
               );
+            }
+            this.manageLayer = null;
+            this.editLayers = false;
           }
-          if (this.stdAreaManageLayer) {
-            this.layerSTService
-              .getLayerST(this.stdAreaManageLayer.id)
-              .subscribe(
-                (lyrs) => (this.layersSTManage = lyrs),
+        );
+      } else if(tmpId.includes("pub_")) {
+        this.manageLayer.user_layer_id = parseInt(tmpId.replace("pub_",""),10);
+        this.layerSTService.updatePublicLayerST(this.manageLayer).subscribe(
+          () =>
+            this.messageService.add({
+              severity: 'info',
+              summary: 'In process!',
+              detail: 'Your layer is being updated!',
+            }),
+          (error) => {
+            this.logErrorHandler(error);
+          },
+          () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success!',
+              detail: 'Layer updated successfully!',
+            });
+            if (this.stdAreaManageSetting) {
+              this.settingsService
+                .getSettings(this.stdAreaManageSetting.id.toString().replace("pub_",""))
+                .subscribe(
+                  (stngs) => (this.settingsSTManage = stngs),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }, () => {
+                    this.settingsSTManage.forEach(
+                      stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                    );
+                  }
+                );
+            }
+            if (this.stdAreaManageLayer) {
+              this.layerSTService
+                .getPublicLayerST(this.stdAreaManageLayer.id.toString().replace("pub_",""))
+                .subscribe(
+                  (lyrs) => (this.layersSTManage = lyrs),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }
+                );
+            }
+            if (this.selectedStudyAreaST) {
+              this.layersService.getLayers(this.selectedStudyAreaST.id.toString().replace("pub_","")).subscribe(
+                (lyrs) => (this.layerSettings = lyrs),
                 (error) => {
                   this.logErrorHandler(error);
+                }, () => {
+                  this.layerSettings.forEach(
+                    stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                  );
                 }
               );
+            }
+            this.manageLayer = null;
+            this.editLayers = false;
           }
-          if (this.selectedStudyAreaST) {
-            this.layersService.getLayers(this.selectedStudyAreaST.id).subscribe(
-              (lyrs) => (this.layerSettings = lyrs),
-              (error) => {
-                this.logErrorHandler(error);
-              }, () => {
-                this.layerSettings.forEach(
-                  stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
-                );
-              }
-            );
-          }
-          this.manageLayer = null;
-          this.editLayers = false;
-        }
-      );
+        );
+      }
     }
   }
 
@@ -3592,59 +3745,118 @@ export class ToolsSidebarComponent implements OnInit {
 
   // Sends a request to delete the selected layer
   confirmDeleteLayer() {
-    this.layerSTService.deleteLayerST(this.manageLayer).subscribe(
-      () =>
-        this.messageService.add({
-          severity: 'info',
-          summary: 'In process!',
-          detail: 'Your layer is being deleted!',
-        }),
-      (error) => {
-        this.logErrorHandler(error);
-      },
-      () => {
-        this.manageLayer = null;
-        this.messageService.clear('confirmDeleteLayer');
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success!',
-          detail: 'Layer deleted successfully!',
-        });
-        if (this.stdAreaManageSetting) {
-          this.settingsService
-            .getSettings(this.stdAreaManageSetting.id)
-            .subscribe(
-              (stngs) => (this.settingsSTManage = stngs),
+    let tmpId = this.manageLayer.user_layer_id.toString();
+    if(tmpId.includes("priv_")) {
+      this.manageLayer.user_layer_id = parseInt(tmpId.replace("priv_",""),10);
+      this.layerSTService.deleteLayerST(this.manageLayer).subscribe(
+        () =>
+          this.messageService.add({
+            severity: 'info',
+            summary: 'In process!',
+            detail: 'Your layer is being deleted!',
+          }),
+        (error) => {
+          this.logErrorHandler(error);
+        },
+        () => {
+          this.manageLayer = null;
+          this.messageService.clear('confirmDeleteLayer');
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success!',
+            detail: 'Layer deleted successfully!',
+          });
+          if (this.stdAreaManageSetting) {
+            this.settingsService
+              .getSettings(this.stdAreaManageSetting.id)
+              .subscribe(
+                (stngs) => (this.settingsSTManage = stngs),
+                (error) => {
+                  this.logErrorHandler(error);
+                }, () => {
+                  this.settingsSTManage.forEach(
+                    stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                  );
+                }
+              );
+          }
+          this.layerSTService.getLayerST(this.stdAreaManageLayer.id).subscribe(
+            (lyrs) => (this.layersSTManage = lyrs),
+            (error) => {
+              this.logErrorHandler(error);
+            }
+          );
+          if (this.selectedStudyAreaST) {
+            this.layersService.getLayers(this.selectedStudyAreaST.id).subscribe(
+              (layers) => (this.layerSettings = layers),
               (error) => {
                 this.logErrorHandler(error);
               }, () => {
-                this.settingsSTManage.forEach(
+                this.layerSettings.forEach(
                   stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
                 );
               }
             );
-        }
-        this.layerSTService.getLayerST(this.stdAreaManageLayer.id).subscribe(
-          (lyrs) => (this.layersSTManage = lyrs),
-          (error) => {
-            this.logErrorHandler(error);
           }
-        );
-        if (this.selectedStudyAreaST) {
-          this.layersService.getLayers(this.selectedStudyAreaST.id).subscribe(
-            (layers) => (this.layerSettings = layers),
+          this.editLayers = false;
+        }
+      );
+    } else if(tmpId.includes("pub_")) {
+      this.manageLayer.user_layer_id = parseInt(tmpId.replace("pub_",""),10);
+      this.layerSTService.deletePublicLayerST(this.manageLayer).subscribe(
+        () =>
+          this.messageService.add({
+            severity: 'info',
+            summary: 'In process!',
+            detail: 'Your layer is being deleted!',
+          }),
+        (error) => {
+          this.logErrorHandler(error);
+        },
+        () => {
+          this.manageLayer = null;
+          this.messageService.clear('confirmDeleteLayer');
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success!',
+            detail: 'Layer deleted successfully!',
+          });
+          if (this.stdAreaManageSetting) {
+            this.settingsService
+              .getSettings(this.stdAreaManageSetting.id)
+              .subscribe(
+                (stngs) => (this.settingsSTManage = stngs),
+                (error) => {
+                  this.logErrorHandler(error);
+                }, () => {
+                  this.settingsSTManage.forEach(
+                    stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                  );
+                }
+              );
+          }
+          this.layerSTService.getPublicLayerST(this.stdAreaManageLayer.id).subscribe(
+            (lyrs) => (this.layersSTManage = lyrs),
             (error) => {
               this.logErrorHandler(error);
-            }, () => {
-              this.layerSettings.forEach(
-                stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
-              );
             }
           );
+          if (this.selectedStudyAreaST) {
+            this.layersService.getLayers(this.selectedStudyAreaST.id).subscribe(
+              (layers) => (this.layerSettings = layers),
+              (error) => {
+                this.logErrorHandler(error);
+              }, () => {
+                this.layerSettings.forEach(
+                  stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                );
+              }
+            );
+          }
+          this.editLayers = false;
         }
-        this.editLayers = false;
-      }
-    );
+      );
+    }
   }
 
   // Closes the confirmDeleteLayer message

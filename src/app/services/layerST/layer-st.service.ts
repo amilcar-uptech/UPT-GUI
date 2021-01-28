@@ -42,6 +42,14 @@ export class LayerSTService {
             );
   }
 
+  createPublicLayerST(layerST: LayerST): Observable<LayerST> {
+    httpOptions['params'] = layerST;
+    return this.http.post<any>('/action?action_route=st_public_layers', {}, httpOptions)
+            .pipe(
+              map(res => res as LayerST)
+            );
+  }
+
   updateLayerST(layerST: LayerST): Observable<LayerST> {
     let body = new HttpParams();
     if (isUndefined(layerST.layer_field.name) && isUndefined(layerST.layer_mmu_code.name)) {
@@ -80,7 +88,65 @@ export class LayerSTService {
             );
   }
 
+  updatePublicLayerST(layerST: LayerST): Observable<LayerST> {
+    let body = new HttpParams();
+    if (isUndefined(layerST.layer_field.name) && isUndefined(layerST.layer_mmu_code.name)) {
+      body = body.set('layerId', layerST.id.toString());
+      body = body.set('layerLabel', layerST.st_layer_label);
+      body = body.set('field', layerST.layer_field);
+      body = body.set('mmuCode', layerST.layer_mmu_code);
+    } else if (!isUndefined(layerST.layer_field.name)) {
+      if (!isUndefined(layerST.layer_mmu_code.name)) {
+        body = body.set('layerId', layerST.id.toString());
+        body = body.set('layerLabel', layerST.st_layer_label);
+        body = body.set('field', layerST.layer_field.name);
+        body = body.set('mmuCode', layerST.layer_mmu_code.name);
+      } else {
+        body = body.set('layerId', layerST.id.toString());
+        body = body.set('layerLabel', layerST.st_layer_label);
+        body = body.set('field', layerST.layer_field.name);
+        body = body.set('mmuCode', layerST.layer_mmu_code);
+      }
+    } else if (!isUndefined(layerST.layer_mmu_code.name)) {
+      if(!isUndefined(layerST.layer_field.name)) {
+        body = body.set('layerId', layerST.id.toString());
+        body = body.set('layerLabel', layerST.st_layer_label);
+        body = body.set('field', layerST.layer_field.name);
+        body = body.set('mmuCode', layerST.layer_mmu_code.name);
+      } else {
+        body = body.set('layerId', layerST.id.toString());
+        body = body.set('layerLabel', layerST.st_layer_label);
+        body = body.set('field', layerST.layer_field);
+        body = body.set('mmuCode', layerST.layer_mmu_code.name);
+      }
+    }
+    return this.http.put<any>('/action?action_route=st_public_layers', body)
+            .pipe(
+              map(res => res as LayerST)
+            );
+  }
+
   deleteLayerST(layerST: LayerST): Observable<LayerST> {
+    if(isUndefined(layerST.layer_field.name)) {
+      httpOptions['params'] = {
+          layerId: layerST.id,
+          layerLabel: layerST.st_layer_label,
+          field: layerST.layer_field
+      };
+    } else if(!isUndefined(layerST.layer_field.name)) {
+      httpOptions['params'] = {
+        layerId: layerST.id,
+        layerLabel: layerST.st_layer_label,
+        field: layerST.layer_field.name
+      };
+    }
+    return this.http.delete<any>('/action?action_route=st_layers', httpOptions)
+            .pipe(
+              map(res => res as LayerST)
+            );
+  }
+
+  deletePublicLayerST(layerST: LayerST): Observable<LayerST> {
     if(isUndefined(layerST.layer_field.name)) {
       httpOptions['params'] = {
           layerId: layerST.id,
