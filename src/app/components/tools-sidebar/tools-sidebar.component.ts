@@ -3382,7 +3382,7 @@ export class ToolsSidebarComponent implements OnInit {
     if (this.stdAreaManageLayer) {
       let tmpId = this.stdAreaManageLayer.id.toString();
       let corrId;
-      if(tmpId.contains("priv_")) {
+      if(tmpId.includes("priv_")) {
         corrId = tmpId.replace("priv_","");
         this.layerSTService.getLayerST(corrId).subscribe(
           (layers) => (this.layersSTManage = layers),
@@ -3391,7 +3391,7 @@ export class ToolsSidebarComponent implements OnInit {
           }
         );
       }
-      else if(tmpId.contains("pub_")) {
+      else if(tmpId.includes("pub_")) {
         corrId = tmpId.replace("pub_","");
         this.layerSTService.getPublicLayerST(corrId).subscribe(
           (layers) => (this.layersSTManage = layers),
