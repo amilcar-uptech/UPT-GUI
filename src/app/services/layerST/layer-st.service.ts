@@ -27,6 +27,13 @@ export class LayerSTService {
             );
   }
 
+  getPublicLayerST(id: string): Observable<LayerST[]> {
+    return this.http.get<any>('/action?action_route=st_public_layers&study_area=' + id)
+            .pipe(
+              map(res => res as LayerST[])
+            );
+  }
+
   createLayerST(layerST: LayerST): Observable<LayerST> {
     httpOptions['params'] = layerST;
     return this.http.post<any>('/action?action_route=st_layers', {}, httpOptions)

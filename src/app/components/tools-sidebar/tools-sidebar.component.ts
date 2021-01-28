@@ -3380,12 +3380,26 @@ export class ToolsSidebarComponent implements OnInit {
   // Sends a request to load the registered layers for the selected study area
   loadManageLayers() {
     if (this.stdAreaManageLayer) {
-      this.layerSTService.getLayerST(this.stdAreaManageLayer.id).subscribe(
-        (layers) => (this.layersSTManage = layers),
-        (error) => {
-          this.logErrorHandler(error);
-        }
-      );
+      let tmpId = this.stdAreaManageLayer.id.toString();
+      let corrId;
+      if(tmpId.contains("priv_")) {
+        corrId = tmpId.replace("priv_","");
+        this.layerSTService.getLayerST(corrId).subscribe(
+          (layers) => (this.layersSTManage = layers),
+          (error) => {
+            this.logErrorHandler(error);
+          }
+        );
+      }
+      else if(tmpId.contains("pub_")) {
+        corrId = tmpId.replace("pub_","");
+        this.layerSTService.getPublicLayerST(corrId).subscribe(
+          (layers) => (this.layersSTManage = layers),
+          (error) => {
+            this.logErrorHandler(error);
+          }
+        );
+      }
     }
   }
 
