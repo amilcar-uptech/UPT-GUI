@@ -5,4 +5,5 @@ export interface MatchLayer {
     filterId?: any;
     filterLabel?: any;
     mmuCode?: any;
+    is_public?: boolean;
 }

@@ -8,4 +8,5 @@ export interface LayerST {
     user_filter_id?: number;
     st_filter_label?: string;
     filter_mmu_code?: string;
+    is_public?: boolean;
 }

@@ -2859,14 +2859,15 @@ export class ToolsSidebarComponent implements OnInit {
         summary: 'In Progress!',
         detail: 'Your operation is being processed.',
       });
-      this.matchLayer = {
-        layerId: this.tmpLayerId,
-        layerLabel: this.layerSTLabel,
-        field: this.layerSTField.name,
-        mmuCode: this.layerSTMMU.name,
-      };
       if(this.tmpLayerId.includes("priv_")) {
-        this.matchLayer.layerId = this.matchLayer.layerId.replace("priv_","");
+        
+        this.matchLayer = {
+          layerId: this.tmpLayerId,
+          layerLabel: this.layerSTLabel,
+          field: this.layerSTField.name,
+          mmuCode: this.layerSTMMU.name,
+          is_public: false,
+        };
         this.dataCopyService.copyLayersST(this.matchLayer).subscribe(
           (data) => {
             this.matchLayer = {
@@ -2874,6 +2875,7 @@ export class ToolsSidebarComponent implements OnInit {
               layerLabel: data.layerLabel,
               field: data.field,
               mmuCode: data.mmuCode,
+              is_public: data.is_public,
             };
           },
           (error) => {
@@ -2903,7 +2905,13 @@ export class ToolsSidebarComponent implements OnInit {
           }
         );
       } else if(this.tmpLayerId.includes("pub_")) {
-        this.matchLayer.layerId = this.matchLayer.layerId.replace("pub_","");
+        this.matchLayer = {
+          layerId: this.tmpLayerId,
+          layerLabel: this.layerSTLabel,
+          field: this.layerSTField.name,
+          mmuCode: this.layerSTMMU.name,
+          is_public: true,
+        };
         this.dataCopyService.copyPublicLayersST(this.matchLayer).subscribe(
           (data) => {
             this.matchLayer = {
@@ -2911,6 +2919,7 @@ export class ToolsSidebarComponent implements OnInit {
               layerLabel: data.layerLabel,
               field: data.field,
               mmuCode: data.mmuCode,
+              is_public: data.is_public,
             };
           },
           (error) => {
