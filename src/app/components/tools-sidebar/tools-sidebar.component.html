@@ -864,7 +864,6 @@
                                     <ng-template pTemplate="body" let-column let-index="rowIndex">
                                         <tr>
                                             <td *ngIf="column.name !== 'user_layer_id'">{{column.label}}</td>
-                                            <td *ngIf="column.name !== 'is_public'">{{column.label}}</td>
                                             <td *ngIf="column.name === 'layer_field'">
                                                 <p-dropdown [filter]="true" optionLabel="name" [baseZIndex]="2500" appendTo="body" [options]="listManageDataST" [(ngModel)]="layerSTField" placeholder="Select a field" styleClass="suitability" panelStyleClass="suitability"></p-dropdown>
                                             </td>
