@@ -2862,7 +2862,7 @@ export class ToolsSidebarComponent implements OnInit {
       if(this.tmpLayerId.includes("priv_")) {
         
         this.matchLayer = {
-          layerId: this.tmpLayerId,
+          layerId: this.tmpLayerId.replace("priv_",""),
           layerLabel: this.layerSTLabel,
           field: this.layerSTField.name,
           mmuCode: this.layerSTMMU.name,
@@ -2906,7 +2906,7 @@ export class ToolsSidebarComponent implements OnInit {
         );
       } else if(this.tmpLayerId.includes("pub_")) {
         this.matchLayer = {
-          layerId: this.tmpLayerId,
+          layerId: this.tmpLayerId.replace("pub_",""),
           layerLabel: this.layerSTLabel,
           field: this.layerSTField.name,
           mmuCode: this.layerSTMMU.name,
