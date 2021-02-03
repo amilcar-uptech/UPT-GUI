@@ -81,7 +81,6 @@ export class DataCopyService {
     body = body.set('layerLabel', matchLayer.layerLabel.toString());
     body = body.set('field', matchLayer.field.toString());
     body = body.set('mmuCode', matchLayer.mmuCode.toString());
-    body = body.set('isPublic', matchLayer.is_public.toString());
     try {
       return this.http.post('/action?action_route=st_layers', body);
     } catch (e) {
@@ -96,7 +95,6 @@ export class DataCopyService {
     body = body.set('layerLabel', matchLayer.layerLabel.toString());
     body = body.set('field', matchLayer.field.toString());
     body = body.set('mmuCode', matchLayer.mmuCode.toString());
-    body = body.set('isPublic', matchLayer.is_public.toString());
     try {
       return this.http.post('/action?action_route=st_public_layers', body);
     } catch (e) {
