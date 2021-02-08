@@ -2866,7 +2866,6 @@ export class ToolsSidebarComponent implements OnInit {
           layerLabel: this.layerSTLabel,
           field: this.layerSTField.name,
           mmuCode: this.layerSTMMU.name,
-          is_public: false,
         };
         this.dataCopyService.copyLayersST(this.matchLayer).subscribe(
           (data) => {
@@ -2875,7 +2874,6 @@ export class ToolsSidebarComponent implements OnInit {
               layerLabel: data.layerLabel,
               field: data.field,
               mmuCode: data.mmuCode,
-              is_public: data.is_public,
             };
           },
           (error) => {
@@ -2910,7 +2908,6 @@ export class ToolsSidebarComponent implements OnInit {
           layerLabel: this.layerSTLabel,
           field: this.layerSTField.name,
           mmuCode: this.layerSTMMU.name,
-          is_public: true,
         };
         this.dataCopyService.copyPublicLayersST(this.matchLayer).subscribe(
           (data) => {
@@ -2919,7 +2916,6 @@ export class ToolsSidebarComponent implements OnInit {
               layerLabel: data.layerLabel,
               field: data.field,
               mmuCode: data.mmuCode,
-              is_public: data.is_public,
             };
           },
           (error) => {
@@ -2966,43 +2962,84 @@ export class ToolsSidebarComponent implements OnInit {
       summary: 'In Progress!',
       detail: 'Your operation is being processed.',
     });
-    this.matchFilter = {
-      filterId: this.filterSTId,
-      filterLabel: this.filterSTLabel,
-    };
-    this.dataCopyService.copyFiltersST(this.matchFilter).subscribe(
-      (data) => {
+    if(this.tmpLayerId.includes("priv_")) {
+      this.matchFilter = {
+        filterId: this.tmpLayerId.replace("priv_",""),
+        filterLabel: this.filterSTLabel,
+      };
+      this.dataCopyService.copyFiltersST(this.matchFilter).subscribe(
+        (data) => {
+          this.matchFilter = {
+            filterId: data.layerId,
+            filterLabel: data.layerLabel,
+          };
+        },
+        (error) => {
+          this.unblockDocument();
+          this.logErrorHandler(error);
+        },
+        () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success!',
+            detail: 'Process completed successfully.',
+          });
+          if (this.selectedStudyAreaST) {
+            this.loadSTOptions();
+          }
+          if (this.stdAreaManageFilter) {
+            this.layerSTService
+              .getFiltersST(this.stdAreaManageFilter.id)
+              .subscribe(
+                (layers) => (this.filtersSTManage = layers),
+                (error) => {
+                  this.logErrorHandler(error);
+                }
+              );
+          }
+          this.unblockDocument();
+        }
+      );
+      if(this.tmpLayerId.includes("pub_")) {
         this.matchFilter = {
-          filterId: data.layerId,
-          filterLabel: data.layerLabel,
+          filterId: this.tmpLayerId.replace("pub_",""),
+          filterLabel: this.filterSTLabel,
         };
-      },
-      (error) => {
-        this.unblockDocument();
-        this.logErrorHandler(error);
-      },
-      () => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success!',
-          detail: 'Process completed successfully.',
-        });
-        if (this.selectedStudyAreaST) {
-          this.loadSTOptions();
-        }
-        if (this.stdAreaManageFilter) {
-          this.layerSTService
-            .getFiltersST(this.stdAreaManageFilter.id)
-            .subscribe(
-              (layers) => (this.filtersSTManage = layers),
-              (error) => {
-                this.logErrorHandler(error);
-              }
-            );
-        }
-        this.unblockDocument();
+        this.dataCopyService.copyPublicFiltersST(this.matchFilter).subscribe(
+          (data) => {
+            this.matchFilter = {
+              filterId: data.layerId,
+              filterLabel: data.layerLabel,
+            };
+          },
+          (error) => {
+            this.unblockDocument();
+            this.logErrorHandler(error);
+          },
+          () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success!',
+              detail: 'Process completed successfully.',
+            });
+            if (this.selectedStudyAreaST) {
+              this.loadSTOptions();
+            }
+            if (this.stdAreaManageFilter) {
+              this.layerSTService
+                .getFiltersST(this.stdAreaManageFilter.id)
+                .subscribe(
+                  (layers) => (this.filtersSTManage = layers),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }
+                );
+            }
+            this.unblockDocument();
+          }
+        );
       }
-    );
+    }
   }
 
   // Sends requests to load Layers, Settings and Filters pertaining to the selected study area
