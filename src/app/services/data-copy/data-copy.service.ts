@@ -96,7 +96,7 @@ export class DataCopyService {
     body = body.set('field', matchLayer.field.toString());
     body = body.set('mmuCode', matchLayer.mmuCode.toString());
     try {
-      return this.http.post('/action?action_route=st_public_layers', body);
+      return this.http.post('/action?action_route=st_layers_pub_lyr', body);
     } catch (e) {
       console.log(e);
     }

@@ -464,6 +464,7 @@ export class ToolsSidebarComponent implements OnInit {
   isNewLayer = false;
   stdAreaLayer: SelectItem[];
   stdAreaManageLayer: Layer;
+  stdAreaManagePublicLayer: Layer;
   manageLayer: LayerST;
   selLayer: LayerST;
   selLayerColumns: any[];
@@ -3431,9 +3432,80 @@ export class ToolsSidebarComponent implements OnInit {
       if(tmpId.includes("priv_")) {
         corrId = tmpId.replace("priv_","");
         this.layerSTService.getLayerST(corrId).subscribe(
+          (layers) => {
+            layers.forEach(
+              (layer) => layer.id = "".concat("priv_", layer.id)
+            );
+            this.layersSTManage = layers;
+          },
+          (error) => {
+            this.logErrorHandler(error);
+          },
+          () => {
+            this.layerSTService.getPublicLayerST(corrId).subscribe(
+              (layers) => {
+                layers.forEach(
+                  (layer) => layer.id = "".concat("pub_", layer.id)
+                );
+                this.layersSTManage = this.layersSTManage.concat(layers);
+              },
+              (error) => {
+                this.logErrorHandler(error);
+              },
+            );
+          }
+        );
+      }
+      else if(tmpId.includes("pub_")) {
+        corrId = tmpId.replace("pub_","");
+        this.layerSTService.getLayerSTPubStdArea(corrId).subscribe(
+          (layers) => {
+            layers.forEach(
+              (layer) => layer.id = "".concat("priv_", layer.id)
+            );
+            this.layersSTManage = layers;
+          },
+          (error) => {
+            this.logErrorHandler(error);
+          },
+          () => {
+            this.layerSTService.getPublicLayerSTPubStdArea(corrId).subscribe(
+              (layers) => {
+                layers.forEach(
+                  (layer) => layer.id = "".concat("pub_", layer.id)
+                );
+                this.layersSTManage = this.layersSTManage.concat(layers);
+              },
+              (error) => {
+                this.logErrorHandler(error);
+              },
+            );
+          }
+        );
+      }
+    }
+  }
+
+  /* loadManagePublicLayers() {
+    if (this.stdAreaManagePublicLayer) {
+      let tmpId = this.stdAreaManagePublicLayer.id.toString();
+      let corrId;
+      if(tmpId.includes("priv_")) {
+        corrId = tmpId.replace("priv_","");
+        this.layerSTService.getLayerST(corrId).subscribe(
           (layers) => (this.layersSTManage = layers),
           (error) => {
             this.logErrorHandler(error);
+          },
+          () => {
+            this.layerSTService.getLayerSTPubStdArea(corrId).subscribe(
+              (layers) => {
+                this.layersSTManage = this.layersSTManage.concat(layers);
+              },
+              (error) => {
+                this.logErrorHandler(error);
+              }
+            );
           }
         );
       }
@@ -3447,7 +3519,7 @@ export class ToolsSidebarComponent implements OnInit {
         );
       }
     }
-  }
+  } */
 
   // Sends a request to load the registered filters for the selected study area
   loadManageFilters() {

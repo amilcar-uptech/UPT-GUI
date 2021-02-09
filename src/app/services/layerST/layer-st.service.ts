@@ -27,8 +27,22 @@ export class LayerSTService {
             );
   }
 
-  getPublicLayerST(id: string): Observable<LayerST[]> {
+  getLayerSTPubStdArea(id: string): Observable<LayerST[]> {
     return this.http.get<any>('/action?action_route=st_public_layers&study_area=' + id)
+            .pipe(
+              map(res => res as LayerST[])
+            );
+  }
+
+  getPublicLayerST(id: string): Observable<LayerST[]> {
+    return this.http.get<any>('/action?action_route=st_layers_pub_lyr&study_area=' + id)
+            .pipe(
+              map(res => res as LayerST[])
+            );
+  }
+
+  getPublicLayerSTPubStdArea(id: string): Observable<LayerST[]> {
+    return this.http.get<any>('/action?action_route=st_public_layers_pub_lyr&study_area=' + id)
             .pipe(
               map(res => res as LayerST[])
             );
