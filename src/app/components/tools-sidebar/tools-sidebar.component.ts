@@ -45,6 +45,7 @@ import { WfsUptService } from 'src/app/services/wfs-upt.service';
 import { saveAs } from 'file-saver';
 import { ShareLayersService } from 'src/app/services/share-layers.service';
 import { RoleService } from 'src/app/services/role.service';
+import { isNullOrUndefined, isUndefined } from 'util';
 
 declare var Oskari: any;
 
@@ -3553,9 +3554,9 @@ export class ToolsSidebarComponent implements OnInit {
   selectLayer(event) {
     this.isNewLayer = false;
     this.manageLayer = this.cloneLayer(event.data);
-    let tmpId = event.data.user_layer_id.toString();
-    if(tmpId.includes("priv_")) {
-      tmpId = tmpId.replace("priv_","");
+    let cpLayer = event.data;
+    if(isUndefined(cpLayer.user_layer_id)) {
+      let tmpId = cpLayer.user_layer_id;
       this.listService.getSTColumnWithId(tmpId).subscribe(
         (columns) => {
           this.colFieldsNameArrayST = [];
@@ -3568,8 +3569,8 @@ export class ToolsSidebarComponent implements OnInit {
           this.logErrorHandler(error);
         }
       );
-    } else if(tmpId.includes("pub_")) {
-      tmpId = tmpId.replace("pub_","");
+    } else if(isUndefined(cpLayer.public_layer_id)) {
+      let tmpId = cpLayer.user_layer_id;
       this.listService.getSTPublicColumnWithId(tmpId).subscribe(
         (columns) => {
           this.colFieldsNameArrayST = [];
@@ -3583,7 +3584,16 @@ export class ToolsSidebarComponent implements OnInit {
         }
       );
     }
-    /* this.listService.getSTColumnWithId(event.data.user_layer_id).subscribe(
+    /* if(tmpId.includes("priv_")) {
+      tmpId = tmpId.replace("priv_","");
+      
+    } else if(tmpId.includes("pub_")) {
+      tmpId = tmpId.replace("pub_","");
+      
+    } */
+    /* this.listService.getS
+    
+    TColumnWithId(event.data.user_layer_id).subscribe(
       (columns) => {
         this.colFieldsNameArrayST = [];
         columns.forEach((data) =>
@@ -3601,9 +3611,7 @@ export class ToolsSidebarComponent implements OnInit {
   // Sends a request to save the selected layer
   saveLayer() {
     if (this.isNewLayer) {
-      let tmpId = this.manageLayer.user_layer_id.toString();
-      if(tmpId.includes("priv_")) {
-        this.manageLayer.user_layer_id = parseInt(tmpId.replace("priv_",""),10);
+      if(!isUndefined(this.manageLayer.user_layer_id)) {
         this.layerSTService.createLayerST(this.manageLayer).subscribe(
           () =>
             this.messageService.add({
@@ -3659,8 +3667,7 @@ export class ToolsSidebarComponent implements OnInit {
             this.editLayers = false;
           }
         );
-      } else if(tmpId.includes("pub_")) {
-        this.manageLayer.user_layer_id = parseInt(tmpId.replace("pub_",""),10);
+      } else if(!isUndefined(this.manageLayer.public_layer_id)) {
         this.layerSTService.createPublicLayerST(this.manageLayer).subscribe(
           () =>
             this.messageService.add({
@@ -3718,9 +3725,7 @@ export class ToolsSidebarComponent implements OnInit {
         );
       }
     } else {
-      let tmpId = this.manageLayer.user_layer_id.toString();
-      if(tmpId.includes("priv_")) {
-        this.manageLayer.user_layer_id = parseInt(tmpId.replace("priv_",""),10);
+      if(!isUndefined(this.manageLayer.user_layer_id)) {
         this.layerSTService.updateLayerST(this.manageLayer).subscribe(
           () =>
             this.messageService.add({
@@ -3777,8 +3782,7 @@ export class ToolsSidebarComponent implements OnInit {
             this.editLayers = false;
           }
         );
-      } else if(tmpId.includes("pub_")) {
-        this.manageLayer.user_layer_id = parseInt(tmpId.replace("pub_",""),10);
+      } else if(!isUndefined(this.manageLayer.public_layer_id)) {
         this.layerSTService.updatePublicLayerST(this.manageLayer).subscribe(
           () =>
             this.messageService.add({
@@ -3863,9 +3867,7 @@ export class ToolsSidebarComponent implements OnInit {
 
   // Sends a request to delete the selected layer
   confirmDeleteLayer() {
-    let tmpId = this.manageLayer.user_layer_id.toString();
-    if(tmpId.includes("priv_")) {
-      this.manageLayer.user_layer_id = parseInt(tmpId.replace("priv_",""),10);
+    if(!isUndefined(this.manageLayer.user_layer_id)) {
       this.layerSTService.deleteLayerST(this.manageLayer).subscribe(
         () =>
           this.messageService.add({
@@ -3919,8 +3921,7 @@ export class ToolsSidebarComponent implements OnInit {
           this.editLayers = false;
         }
       );
-    } else if(tmpId.includes("pub_")) {
-      this.manageLayer.user_layer_id = parseInt(tmpId.replace("pub_",""),10);
+    } else if(!isUndefined(this.manageLayer.public_layer_id)) {
       this.layerSTService.deletePublicLayerST(this.manageLayer).subscribe(
         () =>
           this.messageService.add({

@@ -6,6 +6,7 @@ export interface LayerST {
     st_layer_label?: string;
     layer_mmu_code?: any;
     user_filter_id?: number;
+    public_layer_id?: number;
     st_filter_label?: string;
     filter_mmu_code?: string;
     is_public?: boolean;

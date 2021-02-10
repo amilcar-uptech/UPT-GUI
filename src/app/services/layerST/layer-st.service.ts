@@ -58,7 +58,7 @@ export class LayerSTService {
 
   createPublicLayerST(layerST: LayerST): Observable<LayerST> {
     httpOptions['params'] = layerST;
-    return this.http.post<any>('/action?action_route=st_public_layers', {}, httpOptions)
+    return this.http.post<any>('/action?action_route=st_layers_pub_lyr', {}, httpOptions)
             .pipe(
               map(res => res as LayerST)
             );
@@ -134,7 +134,7 @@ export class LayerSTService {
         body = body.set('mmuCode', layerST.layer_mmu_code.name);
       }
     }
-    return this.http.put<any>('/action?action_route=st_public_layers', body)
+    return this.http.put<any>('/action?action_route=st_layers_pub_lyr', body)
             .pipe(
               map(res => res as LayerST)
             );
@@ -174,7 +174,7 @@ export class LayerSTService {
         field: layerST.layer_field.name
       };
     }
-    return this.http.delete<any>('/action?action_route=st_public_layers', httpOptions)
+    return this.http.delete<any>('/action?action_route=st_layers_pub_lyr', httpOptions)
             .pipe(
               map(res => res as LayerST)
             );
