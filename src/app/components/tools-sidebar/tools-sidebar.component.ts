@@ -3434,9 +3434,6 @@ export class ToolsSidebarComponent implements OnInit {
         corrId = tmpId.replace("priv_","");
         this.layerSTService.getLayerST(corrId).subscribe(
           (layers) => {
-            layers.forEach(
-              (layer) => layer.id = "".concat("priv_", layer.id)
-            );
             this.layersSTManage = layers;
           },
           (error) => {
@@ -3445,9 +3442,6 @@ export class ToolsSidebarComponent implements OnInit {
           () => {
             this.layerSTService.getPublicLayerST(corrId).subscribe(
               (layers) => {
-                layers.forEach(
-                  (layer) => layer.id = "".concat("pub_", layer.id)
-                );
                 this.layersSTManage = this.layersSTManage.concat(layers);
               },
               (error) => {
@@ -3461,9 +3455,6 @@ export class ToolsSidebarComponent implements OnInit {
         corrId = tmpId.replace("pub_","");
         this.layerSTService.getLayerSTPubStdArea(corrId).subscribe(
           (layers) => {
-            layers.forEach(
-              (layer) => layer.id = "".concat("priv_", layer.id)
-            );
             this.layersSTManage = layers;
           },
           (error) => {
@@ -3472,9 +3463,6 @@ export class ToolsSidebarComponent implements OnInit {
           () => {
             this.layerSTService.getPublicLayerSTPubStdArea(corrId).subscribe(
               (layers) => {
-                layers.forEach(
-                  (layer) => layer.id = "".concat("pub_", layer.id)
-                );
                 this.layersSTManage = this.layersSTManage.concat(layers);
               },
               (error) => {
