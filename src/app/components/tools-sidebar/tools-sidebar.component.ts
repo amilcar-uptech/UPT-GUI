@@ -2800,21 +2800,25 @@ export class ToolsSidebarComponent implements OnInit {
       } else if(directory.includes("public_data")) {
         layerId = layerId.replace("pub_","");
         this.listService.getSTPublicColumnWithId(layerId).subscribe(
-          (listManageDataST) => {
+          (listManageDataFiltersST) => {
             this.colFieldsNameArrayST = [];
-            this.layerSTId = null;
-            listManageDataST.forEach((data) =>
+            this.filterSTId = null;
+            listManageDataFiltersST.forEach((data) =>
               this.colFieldsNameArrayST.push({ name: data })
             );
-            this.layerSTId = layerId;
-            this.listManageDataST = this.colFieldsNameArrayST;
-            this.columnsHeaderST = event.node.label;
+            this.filterSTId = event.node.data;
+            this.listManageDataFiltersST = this.colFieldsNameArrayST;
+            this.columnsHeaderFiltersST = event.node.label;
           },
           (error) => {
             this.logErrorHandler(error);
           }
         );
       }
+
+
+
+
     } else {
       this.colFieldsNameArrayST = [];
       this.filterSTId = null;
