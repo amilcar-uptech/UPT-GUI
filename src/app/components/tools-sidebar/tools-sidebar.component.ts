@@ -2777,21 +2777,44 @@ export class ToolsSidebarComponent implements OnInit {
   // Sends a request to fill the dropdown elements for the Register Filters tab in the Advanced dialog for ST
   loadDataColumnFiltersST(event) {
     if (event.node.type.toLowerCase() !== 'directory') {
-      this.listService.getSTColumnFiltersWithId(event.node.data).subscribe(
-        (listManageDataFiltersST) => {
-          this.colFieldsNameArrayST = [];
-          this.filterSTId = null;
-          listManageDataFiltersST.forEach((data) =>
-            this.colFieldsNameArrayST.push({ name: data })
-          );
-          this.filterSTId = event.node.data;
-          this.listManageDataFiltersST = this.colFieldsNameArrayST;
-          this.columnsHeaderFiltersST = event.node.label;
-        },
-        (error) => {
-          this.logErrorHandler(error);
-        }
-      );
+      let layerId = event.node.data.toString();
+      let directory = event.node.parent.data.toString();
+      this.tmpLayerId = event.node.data.toString();
+      if(directory.includes("my_data")) {
+        layerId = layerId.replace("priv_","");
+        this.listService.getSTColumnFiltersWithId(layerId).subscribe(
+          (listManageDataFiltersST) => {
+            this.colFieldsNameArrayST = [];
+            this.filterSTId = null;
+            listManageDataFiltersST.forEach((data) =>
+              this.colFieldsNameArrayST.push({ name: data })
+            );
+            this.filterSTId = event.node.data;
+            this.listManageDataFiltersST = this.colFieldsNameArrayST;
+            this.columnsHeaderFiltersST = event.node.label;
+          },
+          (error) => {
+            this.logErrorHandler(error);
+          }
+        );
+      } else if(directory.includes("public_data")) {
+        layerId = layerId.replace("pub_","");
+        this.listService.getSTPublicColumnWithId(layerId).subscribe(
+          (listManageDataST) => {
+            this.colFieldsNameArrayST = [];
+            this.layerSTId = null;
+            listManageDataST.forEach((data) =>
+              this.colFieldsNameArrayST.push({ name: data })
+            );
+            this.layerSTId = layerId;
+            this.listManageDataST = this.colFieldsNameArrayST;
+            this.columnsHeaderST = event.node.label;
+          },
+          (error) => {
+            this.logErrorHandler(error);
+          }
+        );
+      }
     } else {
       this.colFieldsNameArrayST = [];
       this.filterSTId = null;
