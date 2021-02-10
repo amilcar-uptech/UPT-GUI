@@ -3618,7 +3618,7 @@ export class ToolsSidebarComponent implements OnInit {
             });
             if (this.stdAreaManageSetting) {
               this.settingsService
-                .getSettings(this.stdAreaManageSetting.id.toString().replace("pub_",""))
+                .getSettings(this.stdAreaManageSetting.id.toString().replace("pub_","").replace("priv_",""))
                 .subscribe(
                   (stngs) => (this.settingsSTManage = stngs),
                   (error) => {
@@ -3632,7 +3632,7 @@ export class ToolsSidebarComponent implements OnInit {
             }
             if (this.stdAreaManageLayer) {
               this.layerSTService
-                .getLayerST(this.stdAreaManageLayer.id.toString().replace("pub_",""))
+                .getLayerST(this.stdAreaManageLayer.id.toString().replace("pub_","").replace("priv_",""))
                 .subscribe(
                   (lyrs) => (this.layersSTManage = lyrs),
                   (error) => {
@@ -3641,7 +3641,7 @@ export class ToolsSidebarComponent implements OnInit {
                 );
             }
             if (this.selectedStudyAreaST) {
-              this.layersService.getLayers(this.selectedStudyAreaST.id.toString().replace("pub_","")).subscribe(
+              this.layersService.getLayers(this.selectedStudyAreaST.id.toString().replace("pub_","").replace("priv_","")).subscribe(
                 (lyrs) => (this.layerSettings = lyrs),
                 (error) => {
                   this.logErrorHandler(error);
@@ -3674,7 +3674,7 @@ export class ToolsSidebarComponent implements OnInit {
             });
             if (this.stdAreaManageSetting) {
               this.settingsService
-                .getSettings(this.stdAreaManageSetting.id.toString().replace("pub_",""))
+                .getSettings(this.stdAreaManageSetting.id.toString().replace("pub_","").replace("priv_",""))
                 .subscribe(
                   (stngs) => (this.settingsSTManage = stngs),
                   (error) => {
@@ -3688,7 +3688,7 @@ export class ToolsSidebarComponent implements OnInit {
             }
             if (this.stdAreaManageLayer) {
               this.layerSTService
-                .getPublicLayerST(this.stdAreaManageLayer.id.toString().replace("pub_",""))
+                .getPublicLayerST(this.stdAreaManageLayer.id.toString().replace("pub_","").replace("priv_",""))
                 .subscribe(
                   (lyrs) => (this.layersSTManage = lyrs),
                   (error) => {
@@ -3697,7 +3697,7 @@ export class ToolsSidebarComponent implements OnInit {
                 );
             }
             if (this.selectedStudyAreaST) {
-              this.layersService.getLayers(this.selectedStudyAreaST.id.toString().replace("pub_","")).subscribe(
+              this.layersService.getLayers(this.selectedStudyAreaST.id.toString().replace("pub_","").replace("priv_","")).subscribe(
                 (lyrs) => (this.layerSettings = lyrs),
                 (error) => {
                   this.logErrorHandler(error);
@@ -3732,7 +3732,7 @@ export class ToolsSidebarComponent implements OnInit {
             });
             if (this.stdAreaManageSetting) {
               this.settingsService
-                .getSettings(this.stdAreaManageSetting.id.toString().replace("pub_",""))
+                .getSettings(this.stdAreaManageSetting.id.toString().replace("pub_","").replace("priv_",""))
                 .subscribe(
                   (stngs) => (this.settingsSTManage = stngs),
                   (error) => {
@@ -3746,7 +3746,7 @@ export class ToolsSidebarComponent implements OnInit {
             }
             if (this.stdAreaManageLayer) {
               this.layerSTService
-                .getLayerST(this.stdAreaManageLayer.id.toString().replace("pub_",""))
+                .getLayerST(this.stdAreaManageLayer.id.toString().replace("pub_","").replace("priv_",""))
                 .subscribe(
                   (lyrs) => (this.layersSTManage = lyrs),
                   (error) => {
@@ -3755,7 +3755,7 @@ export class ToolsSidebarComponent implements OnInit {
                 );
             }
             if (this.selectedStudyAreaST) {
-              this.layersService.getLayers(this.selectedStudyAreaST.id.toString().replace("pub_","")).subscribe(
+              this.layersService.getLayers(this.selectedStudyAreaST.id.toString().replace("pub_","").replace("priv_","")).subscribe(
                 (lyrs) => (this.layerSettings = lyrs),
                 (error) => {
                   this.logErrorHandler(error);
@@ -3789,7 +3789,7 @@ export class ToolsSidebarComponent implements OnInit {
             });
             if (this.stdAreaManageSetting) {
               this.settingsService
-                .getSettings(this.stdAreaManageSetting.id.toString().replace("pub_",""))
+                .getSettings(this.stdAreaManageSetting.id.toString().replace("pub_","").replace("priv_",""))
                 .subscribe(
                   (stngs) => (this.settingsSTManage = stngs),
                   (error) => {
@@ -3803,7 +3803,7 @@ export class ToolsSidebarComponent implements OnInit {
             }
             if (this.stdAreaManageLayer) {
               this.layerSTService
-                .getPublicLayerST(this.stdAreaManageLayer.id.toString().replace("pub_",""))
+                .getPublicLayerST(this.stdAreaManageLayer.id.toString().replace("pub_","").replace("priv_",""))
                 .subscribe(
                   (lyrs) => (this.layersSTManage = lyrs),
                   (error) => {
@@ -3812,7 +3812,7 @@ export class ToolsSidebarComponent implements OnInit {
                 );
             }
             if (this.selectedStudyAreaST) {
-              this.layersService.getLayers(this.selectedStudyAreaST.id.toString().replace("pub_","")).subscribe(
+              this.layersService.getLayers(this.selectedStudyAreaST.id.toString().replace("pub_","").replace("priv_","")).subscribe(
                 (lyrs) => (this.layerSettings = lyrs),
                 (error) => {
                   this.logErrorHandler(error);
@@ -3876,7 +3876,7 @@ export class ToolsSidebarComponent implements OnInit {
           });
           if (this.stdAreaManageSetting) {
             this.settingsService
-              .getSettings(this.stdAreaManageSetting.id.toString().replace("pub_",""))
+              .getSettings(this.stdAreaManageSetting.id.toString().replace("pub_","").replace("priv_",""))
               .subscribe(
                 (stngs) => (this.settingsSTManage = stngs),
                 (error) => {
@@ -3888,14 +3888,14 @@ export class ToolsSidebarComponent implements OnInit {
                 }
               );
           }
-          this.layerSTService.getLayerST(this.stdAreaManageLayer.id.toString().replace("pub_","")).subscribe(
+          this.layerSTService.getLayerST(this.stdAreaManageLayer.id.toString().replace("pub_","").replace("priv_","")).subscribe(
             (lyrs) => (this.layersSTManage = lyrs),
             (error) => {
               this.logErrorHandler(error);
             }
           );
           if (this.selectedStudyAreaST) {
-            this.layersService.getLayers(this.selectedStudyAreaST.id.toString().replace("pub_","")).subscribe(
+            this.layersService.getLayers(this.selectedStudyAreaST.id.toString().replace("pub_","").replace("priv_","")).subscribe(
               (layers) => (this.layerSettings = layers),
               (error) => {
                 this.logErrorHandler(error);
@@ -3930,7 +3930,7 @@ export class ToolsSidebarComponent implements OnInit {
           });
           if (this.stdAreaManageSetting) {
             this.settingsService
-              .getSettings(this.stdAreaManageSetting.id.toString().replace("pub_",""))
+              .getSettings(this.stdAreaManageSetting.id.toString().replace("pub_","").replace("priv_",""))
               .subscribe(
                 (stngs) => (this.settingsSTManage = stngs),
                 (error) => {
@@ -3942,7 +3942,7 @@ export class ToolsSidebarComponent implements OnInit {
                 }
               );
           }
-          this.layerSTService.getPublicLayerST(this.stdAreaManageLayer.id.toString().replace("pub_","")).subscribe(
+          this.layerSTService.getPublicLayerST(this.stdAreaManageLayer.id.toString().replace("pub_","").replace("priv_","")).subscribe(
             (lyrs) => (this.layersSTManage = lyrs),
             (error) => {
               this.logErrorHandler(error);
