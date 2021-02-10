@@ -3555,7 +3555,7 @@ export class ToolsSidebarComponent implements OnInit {
     this.isNewLayer = false;
     this.manageLayer = this.cloneLayer(event.data);
     let cpLayer = event.data;
-    if(isUndefined(cpLayer.user_layer_id)) {
+    if(!isUndefined(cpLayer.user_layer_id)) {
       let tmpId = cpLayer.user_layer_id;
       this.listService.getSTColumnWithId(tmpId).subscribe(
         (columns) => {
@@ -3569,8 +3569,8 @@ export class ToolsSidebarComponent implements OnInit {
           this.logErrorHandler(error);
         }
       );
-    } else if(isUndefined(cpLayer.public_layer_id)) {
-      let tmpId = cpLayer.user_layer_id;
+    } else if(!isUndefined(cpLayer.public_layer_id)) {
+      let tmpId = cpLayer.public_layer_id;
       this.listService.getSTPublicColumnWithId(tmpId).subscribe(
         (columns) => {
           this.colFieldsNameArrayST = [];
