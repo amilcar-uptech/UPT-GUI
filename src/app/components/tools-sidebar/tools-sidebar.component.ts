@@ -3074,6 +3074,27 @@ export class ToolsSidebarComponent implements OnInit {
                       },
                     );
                   }
+                );
+              } else if(tmpId.includes("pub_")) {
+                this.layerSTService
+                .getFilterSTPubStdArea(this.stdAreaManageFilter.id.toString().replace("pub_","").replace("priv_",""))
+                .subscribe(
+                  (lyrs) => (this.filtersSTManage = lyrs),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  },
+                  () => {
+                    this.layerSTService.getPublicFilterSTPubStdArea(corrId).subscribe(
+                      (layers) => {
+                        this.filtersSTManage = this.filtersSTManage.concat(layers);
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      },
+                    );
+                  }
+                );
+              }
           }
           this.unblockDocument();
         }
@@ -3125,6 +3146,27 @@ export class ToolsSidebarComponent implements OnInit {
                       },
                     );
                   }
+                );
+              } else if(tmpId.includes("pub_")) {
+                this.layerSTService
+                .getFilterSTPubStdArea(this.stdAreaManageFilter.id.toString().replace("pub_","").replace("priv_",""))
+                .subscribe(
+                  (lyrs) => (this.filtersSTManage = lyrs),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  },
+                  () => {
+                    this.layerSTService.getPublicFilterSTPubStdArea(corrId).subscribe(
+                      (layers) => {
+                        this.filtersSTManage = this.filtersSTManage.concat(layers);
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      },
+                    );
+                  }
+                );
+              }
           }
           this.unblockDocument();
         }
