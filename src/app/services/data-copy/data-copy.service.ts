@@ -118,7 +118,7 @@ export class DataCopyService {
     body = body.set('filterId', matchFilter.filterId.toString());
     body = body.set('filterLabel', matchFilter.filterLabel.toString());
     try {
-      return this.http.post('/action?action_route=st_public_filters', body);
+      return this.http.post('/action?action_route=st_filters_pub_lyr', body);
     } catch (e) {
       console.log(e);
     }
