@@ -2591,7 +2591,6 @@ export class ToolsSidebarComponent implements OnInit {
           },
           () => {
             stdAreaArray = stdAreaArray.concat(pubStdArea);
-            console.log(stdAreaArray);
             this.studyAreaST = stdAreaArray;
             this.stdAreaLayer = stdAreaArray;
             this.stdAreaFilter = stdAreaArray;
@@ -2782,7 +2781,6 @@ export class ToolsSidebarComponent implements OnInit {
       this.tmpLayerId = event.node.data.toString();
       if(directory.includes("my_data")) {
         layerId = layerId.replace("priv_","");
-        console.log(layerId);
         this.listService.getSTColumnFiltersWithId(layerId).subscribe(
           (listManageDataFiltersST) => {
             this.colFieldsNameArrayST = [];
@@ -2800,7 +2798,6 @@ export class ToolsSidebarComponent implements OnInit {
         );
       } else if(directory.includes("public_data")) {
         layerId = layerId.replace("pub_","");
-        console.log(layerId);
         this.listService.getSTPublicColumnWithId(layerId).subscribe(
           (listManageDataFiltersST) => {
             this.colFieldsNameArrayST = [];
@@ -2998,6 +2995,7 @@ export class ToolsSidebarComponent implements OnInit {
         filterId: this.tmpLayerId.replace("priv_",""),
         filterLabel: this.filterSTLabel,
       };
+      console.log(this.matchFilter);
       this.dataCopyService.copyFiltersST(this.matchFilter).subscribe(
         (data) => {
           this.matchFilter = {
@@ -3036,6 +3034,7 @@ export class ToolsSidebarComponent implements OnInit {
           filterId: this.tmpLayerId.replace("pub_",""),
           filterLabel: this.filterSTLabel,
         };
+        console.log(this.matchFilter);
         this.dataCopyService.copyPublicFiltersST(this.matchFilter).subscribe(
           (data) => {
             this.matchFilter = {
