@@ -2782,6 +2782,7 @@ export class ToolsSidebarComponent implements OnInit {
       this.tmpLayerId = event.node.data.toString();
       if(directory.includes("my_data")) {
         layerId = layerId.replace("priv_","");
+        console.log(layerId);
         this.listService.getSTColumnFiltersWithId(layerId).subscribe(
           (listManageDataFiltersST) => {
             this.colFieldsNameArrayST = [];
@@ -2799,6 +2800,7 @@ export class ToolsSidebarComponent implements OnInit {
         );
       } else if(directory.includes("public_data")) {
         layerId = layerId.replace("pub_","");
+        console.log(layerId);
         this.listService.getSTPublicColumnWithId(layerId).subscribe(
           (listManageDataFiltersST) => {
             this.colFieldsNameArrayST = [];
