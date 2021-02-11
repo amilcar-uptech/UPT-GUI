@@ -187,9 +187,38 @@ export class LayerSTService {
             );
   }
 
+  getFilterSTPubStdArea(id: string): Observable<LayerST[]> {
+    return this.http.get<any>('/action?action_route=st_public_filters&study_area=' + id)
+            .pipe(
+              map(res => res as LayerST[])
+            );
+  }
+
+  getPublicFilterST(id: string): Observable<LayerST[]> {
+    return this.http.get<any>('/action?action_route=st_filters_pub_lyr&study_area=' + id)
+            .pipe(
+              map(res => res as LayerST[])
+            );
+  }
+
+  getPublicFilterSTPubStdArea(id: string): Observable<LayerST[]> {
+    return this.http.get<any>('/action?action_route=st_public_filters_pub_lyr&study_area=' + id)
+            .pipe(
+              map(res => res as LayerST[])
+            );
+  }
+
   createFilterST(layerST: LayerST): Observable<LayerST> {
     httpOptions['params'] = layerST;
     return this.http.post<any>('/action?action_route=st_filters', {}, httpOptions)
+            .pipe(
+              map(res => res as LayerST)
+            );
+  }
+
+  createPublicFilterST(layerST: LayerST): Observable<LayerST> {
+    httpOptions['params'] = layerST;
+    return this.http.post<any>('/action?action_route=st_filters_pub_lyr', {}, httpOptions)
             .pipe(
               map(res => res as LayerST)
             );
@@ -205,12 +234,33 @@ export class LayerSTService {
             );
   }
 
+  updatePublicFilterST(layerST: LayerST): Observable<LayerST> {
+    let body = new HttpParams();
+    body = body.set('filterId', layerST.id.toString());
+    body = body.set('filterLabel', layerST.st_filter_label);
+    return this.http.put<any>('/action?action_route=st_filters_pub_lyr', body)
+            .pipe(
+              map(res => res as LayerST)
+            );
+  }
+
   deleteFilterST(layerST: LayerST): Observable<LayerST> {
     httpOptions['params'] = {
       filterId: layerST.id,
       filterLabel: layerST.st_filter_label
     };
     return this.http.delete<any>('/action?action_route=st_filters', httpOptions)
+            .pipe(
+              map(res => res as LayerST)
+            );
+  }
+
+  deletePublicFilterST(layerST: LayerST): Observable<LayerST> {
+    httpOptions['params'] = {
+      filterId: layerST.id,
+      filterLabel: layerST.st_filter_label
+    };
+    return this.http.delete<any>('/action?action_route=st_filters_pub_lyr', httpOptions)
             .pipe(
               map(res => res as LayerST)
             );
