@@ -3030,46 +3030,45 @@ export class ToolsSidebarComponent implements OnInit {
           this.unblockDocument();
         }
       );
-      if(this.tmpLayerId.includes("pub_")) {
-        this.matchFilter = {
-          filterId: this.tmpLayerId.replace("pub_",""),
-          filterLabel: this.filterSTLabel,
-        };
-        console.log(this.matchFilter);
-        this.dataCopyService.copyPublicFiltersST(this.matchFilter).subscribe(
-          (data) => {
-            this.matchFilter = {
-              filterId: data.layerId,
-              filterLabel: data.layerLabel,
-            };
-          },
-          (error) => {
-            this.unblockDocument();
-            this.logErrorHandler(error);
-          },
-          () => {
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Success!',
-              detail: 'Process completed successfully.',
-            });
-            if (this.selectedStudyAreaST) {
-              this.loadSTOptions();
-            }
-            if (this.stdAreaManageFilter) {
-              this.layerSTService
-                .getFiltersST(this.stdAreaManageFilter.id)
-                .subscribe(
-                  (layers) => (this.filtersSTManage = layers),
-                  (error) => {
-                    this.logErrorHandler(error);
-                  }
-                );
-            }
-            this.unblockDocument();
+    } else if(this.tmpLayerId.includes("pub_")) {
+      this.matchFilter = {
+        filterId: this.tmpLayerId.replace("pub_",""),
+        filterLabel: this.filterSTLabel,
+      };
+      console.log(this.matchFilter);
+      this.dataCopyService.copyPublicFiltersST(this.matchFilter).subscribe(
+        (data) => {
+          this.matchFilter = {
+            filterId: data.layerId,
+            filterLabel: data.layerLabel,
+          };
+        },
+        (error) => {
+          this.unblockDocument();
+          this.logErrorHandler(error);
+        },
+        () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success!',
+            detail: 'Process completed successfully.',
+          });
+          if (this.selectedStudyAreaST) {
+            this.loadSTOptions();
           }
-        );
-      }
+          if (this.stdAreaManageFilter) {
+            this.layerSTService
+              .getFiltersST(this.stdAreaManageFilter.id)
+              .subscribe(
+                (layers) => (this.filtersSTManage = layers),
+                (error) => {
+                  this.logErrorHandler(error);
+                }
+              );
+          }
+          this.unblockDocument();
+        }
+      );
     }
   }
 
