@@ -3026,13 +3026,11 @@ export class ToolsSidebarComponent implements OnInit {
       summary: 'In Progress!',
       detail: 'Your operation is being processed.',
     });
-    console.log(this.tmpLayerId);
     if(this.tmpLayerId.includes("priv_")) {
       this.matchFilter = {
         filterId: this.tmpLayerId.replace("priv_",""),
         filterLabel: this.filterSTLabel,
       };
-      console.log(this.matchFilter);
       this.dataCopyService.copyFiltersST(this.matchFilter).subscribe(
         (data) => {
           this.matchFilter = {
@@ -3057,6 +3055,7 @@ export class ToolsSidebarComponent implements OnInit {
             let tmpId = this.stdAreaManageFilter.id.toString();
               let corrId;
               if(tmpId.includes("priv_")) {
+                corrId = tmpId.replace("priv_","");
                 this.layerSTService
                 .getFiltersST(this.stdAreaManageFilter.id.toString().replace("pub_","").replace("priv_",""))
                 .subscribe(
@@ -3076,6 +3075,7 @@ export class ToolsSidebarComponent implements OnInit {
                   }
                 );
               } else if(tmpId.includes("pub_")) {
+                corrId = tmpId.replace("pub_","");
                 this.layerSTService
                 .getFilterSTPubStdArea(this.stdAreaManageFilter.id.toString().replace("pub_","").replace("priv_",""))
                 .subscribe(
@@ -3104,7 +3104,6 @@ export class ToolsSidebarComponent implements OnInit {
         filterId: this.tmpLayerId.replace("pub_",""),
         filterLabel: this.filterSTLabel,
       };
-      console.log(this.matchFilter);
       this.dataCopyService.copyPublicFiltersST(this.matchFilter).subscribe(
         (data) => {
           this.matchFilter = {
@@ -3129,6 +3128,7 @@ export class ToolsSidebarComponent implements OnInit {
             let tmpId = this.stdAreaManageFilter.id.toString();
               let corrId;
               if(tmpId.includes("priv_")) {
+                corrId = tmpId.replace("priv_","");
                 this.layerSTService
                 .getFiltersST(this.stdAreaManageFilter.id.toString().replace("pub_","").replace("priv_",""))
                 .subscribe(
@@ -3148,6 +3148,7 @@ export class ToolsSidebarComponent implements OnInit {
                   }
                 );
               } else if(tmpId.includes("pub_")) {
+                corrId = tmpId.replace("pub_","");
                 this.layerSTService
                 .getFilterSTPubStdArea(this.stdAreaManageFilter.id.toString().replace("pub_","").replace("priv_",""))
                 .subscribe(
