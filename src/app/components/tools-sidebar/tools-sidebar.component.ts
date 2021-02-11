@@ -2990,6 +2990,7 @@ export class ToolsSidebarComponent implements OnInit {
       summary: 'In Progress!',
       detail: 'Your operation is being processed.',
     });
+    console.log(this.tmpLayerId);
     if(this.tmpLayerId.includes("priv_")) {
       this.matchFilter = {
         filterId: this.tmpLayerId.replace("priv_",""),
