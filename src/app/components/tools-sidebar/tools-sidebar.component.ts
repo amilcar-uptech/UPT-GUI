@@ -3713,7 +3713,7 @@ export class ToolsSidebarComponent implements OnInit {
         corrId = tmpId.replace("pub_","");
 
       }
-      this.settingsService.getSettings(this.stdAreaManageSetting.id).subscribe(
+      /* this.settingsService.getSettings(this.stdAreaManageSetting.id).subscribe(
         (settings) => (this.settingsSTManage = settings),
         (error) => {
           this.logErrorHandler(error);
@@ -3722,7 +3722,7 @@ export class ToolsSidebarComponent implements OnInit {
             stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
           );
         }
-      );
+      ); */
     }
   }
 
