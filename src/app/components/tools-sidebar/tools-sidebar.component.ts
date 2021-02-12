@@ -3694,6 +3694,25 @@ export class ToolsSidebarComponent implements OnInit {
   // Sends a request to load the registered settings for the selected study area
   loadManageSettings() {
     if (this.stdAreaManageSetting) {
+      let tmpId = this.stdAreaManageSetting.id.toString();
+      let corrId;
+      if(tmpId.includes("priv_")) {
+        corrId = tmpId.replace("priv_","");
+        this.settingsService.getSettings(corrId).subscribe(
+          (settings) => (this.settingsSTManage = settings),
+          (error) => {
+            this.logErrorHandler(error);
+          }, () => {
+            this.settingsSTManage.forEach(
+              stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+            );
+          }
+        );
+      }
+      else if(tmpId.includes("pub_")) {
+        corrId = tmpId.replace("pub_","");
+
+      }
       this.settingsService.getSettings(this.stdAreaManageSetting.id).subscribe(
         (settings) => (this.settingsSTManage = settings),
         (error) => {
@@ -4352,6 +4371,7 @@ export class ToolsSidebarComponent implements OnInit {
               let tmpId = this.stdAreaManageFilter.id.toString();
               let corrId;
               if(tmpId.includes("priv_")) {
+                corrId = tmpId.replace("priv_","");
                 this.layerSTService
                 .getFiltersST(this.stdAreaManageFilter.id.toString().replace("pub_","").replace("priv_",""))
                 .subscribe(
@@ -4371,6 +4391,7 @@ export class ToolsSidebarComponent implements OnInit {
                   }
                 );
               } else if(tmpId.includes("pub_")) {
+                corrId = tmpId.replace("priv_","");
                 this.layerSTService
                 .getFilterSTPubStdArea(this.stdAreaManageFilter.id.toString().replace("pub_","").replace("priv_",""))
                 .subscribe(
@@ -4441,6 +4462,7 @@ export class ToolsSidebarComponent implements OnInit {
               let tmpId = this.stdAreaManageFilter.id.toString();
               let corrId;
               if(tmpId.includes("priv_")) {
+                corrId = tmpId.replace("priv_","");
                 this.layerSTService
                 .getFiltersST(this.stdAreaManageFilter.id.toString().replace("pub_","").replace("priv_",""))
                 .subscribe(
@@ -4460,6 +4482,7 @@ export class ToolsSidebarComponent implements OnInit {
                   }
                 );
               } else if(tmpId.includes("pub_")) {
+                corrId = tmpId.replace("pub_","");
                 this.layerSTService
                 .getFilterSTPubStdArea(this.stdAreaManageFilter.id.toString().replace("pub_","").replace("priv_",""))
                 .subscribe(
@@ -4518,6 +4541,7 @@ export class ToolsSidebarComponent implements OnInit {
               let tmpId = this.stdAreaManageFilter.id.toString();
               let corrId;
               if(tmpId.includes("priv_")) {
+                corrId = tmpId.replace("priv_","");
                 this.layerSTService
                 .getFiltersST(this.stdAreaManageFilter.id.toString().replace("pub_","").replace("priv_",""))
                 .subscribe(
@@ -4537,6 +4561,7 @@ export class ToolsSidebarComponent implements OnInit {
                   }
                 );
               } else if(tmpId.includes("pub_")) {
+                corrId = tmpId.replace("pub_","");
                 this.layerSTService
                 .getFilterSTPubStdArea(this.stdAreaManageFilter.id.toString().replace("pub_","").replace("priv_",""))
                 .subscribe(
@@ -4593,6 +4618,7 @@ export class ToolsSidebarComponent implements OnInit {
               let tmpId = this.stdAreaManageFilter.id.toString();
               let corrId;
               if(tmpId.includes("priv_")) {
+                corrId = tmpId.replace("priv_","");
                 this.layerSTService
                 .getFiltersST(this.stdAreaManageFilter.id.toString().replace("pub_","").replace("priv_",""))
                 .subscribe(
@@ -4612,6 +4638,7 @@ export class ToolsSidebarComponent implements OnInit {
                   }
                 );
               } else if(tmpId.includes("pub_")) {
+                corrId = tmpId.replace("pub_","");
                 this.layerSTService
                 .getFilterSTPubStdArea(this.stdAreaManageFilter.id.toString().replace("pub_","").replace("priv_",""))
                 .subscribe(
@@ -4855,78 +4882,6 @@ export class ToolsSidebarComponent implements OnInit {
         }
       );
     }
-    /* this.layerSTService.deleteFilterST(this.manageFilter).subscribe(
-      () =>
-        this.messageService.add({
-          severity: 'info',
-          summary: 'In process!',
-          detail: 'Your filter is being deleted!',
-        }),
-      (error) => {
-        this.logErrorHandler(error);
-      },
-      () => {
-        this.manageFilter = null;
-        this.messageService.clear('confirmDeleteFilter');
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success!',
-          detail: 'Filter deleted successfully!',
-        });
-        if (this.stdAreaManageFilter) {
-          let tmpId = this.stdAreaManageFilter.id.toString();
-          let corrId;
-          if(tmpId.includes("priv_")) {
-            this.layerSTService
-            .getFiltersST(this.stdAreaManageFilter.id.toString().replace("pub_","").replace("priv_",""))
-            .subscribe(
-              (lyrs) => (this.filtersSTManage = lyrs),
-              (error) => {
-                this.logErrorHandler(error);
-              },
-              () => {
-                this.layerSTService.getPublicFilterST(corrId).subscribe(
-                  (layers) => {
-                    this.filtersSTManage = this.filtersSTManage.concat(layers);
-                  },
-                  (error) => {
-                    this.logErrorHandler(error);
-                  },
-                );
-              }
-            );
-          } else if(tmpId.includes("pub_")) {
-            this.layerSTService
-            .getFilterSTPubStdArea(this.stdAreaManageFilter.id.toString().replace("pub_","").replace("priv_",""))
-            .subscribe(
-              (lyrs) => (this.filtersSTManage = lyrs),
-              (error) => {
-                this.logErrorHandler(error);
-              },
-              () => {
-                this.layerSTService.getPublicFilterSTPubStdArea(corrId).subscribe(
-                  (layers) => {
-                    this.filtersSTManage = this.filtersSTManage.concat(layers);
-                  },
-                  (error) => {
-                    this.logErrorHandler(error);
-                  },
-                );
-              }
-            );
-          }
-        }
-        if (this.selectedStudyAreaST) {
-          this.layersService.getFilters(this.selectedStudyAreaST.id).subscribe(
-            (fltr) => (this.filterList = fltr),
-            (error) => {
-              this.logErrorHandler(error);
-            }
-          );
-        }
-        this.editFilters = false;
-      }
-    ); */
   }
 
   // Closes the confirmDeleteFilter message
