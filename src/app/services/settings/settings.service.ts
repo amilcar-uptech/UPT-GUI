@@ -23,6 +23,13 @@ export class SettingsService {
                 );
   }
 
+  getPublicSettings(id: string): Observable<Settings[]> {
+    return this.http.get<any>('/action?action_route=LayersSTHandler&action=list_st_public_layers&study_area=' + id)
+                .pipe(
+                  map(res => res as Settings[])
+                );
+  }
+
   postSettings(settings: Settings): Observable<Settings> {
     try {
       let body = new HttpParams();

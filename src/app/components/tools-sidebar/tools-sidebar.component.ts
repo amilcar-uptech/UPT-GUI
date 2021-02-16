@@ -3703,8 +3703,17 @@ export class ToolsSidebarComponent implements OnInit {
           (error) => {
             this.logErrorHandler(error);
           }, () => {
-            this.settingsSTManage.forEach(
-              stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+            this.settingsService.getPublicSettings(corrId).subscribe(
+              (settings) => {
+                this.settingsSTManage = this.settingsSTManage.concat(settings)
+              },
+              (error) => {
+                this.logErrorHandler(error);
+              }, () => {
+                this.settingsSTManage.forEach(
+                  stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                );
+              }
             );
           }
         );
