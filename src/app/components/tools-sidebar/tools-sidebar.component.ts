@@ -3720,7 +3720,25 @@ export class ToolsSidebarComponent implements OnInit {
       }
       else if(tmpId.includes("pub_")) {
         corrId = tmpId.replace("pub_","");
-
+        this.settingsService.getSettings(corrId).subscribe(
+          (settings) => (this.settingsSTManage = settings),
+          (error) => {
+            this.logErrorHandler(error);
+          }, () => {
+            this.settingsService.getPublicSettings(corrId).subscribe(
+              (settings) => {
+                this.settingsSTManage = this.settingsSTManage.concat(settings)
+              },
+              (error) => {
+                this.logErrorHandler(error);
+              }, () => {
+                this.settingsSTManage.forEach(
+                  stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                );
+              }
+            );
+          }
+        );
       }
       /* this.settingsService.getSettings(this.stdAreaManageSetting.id).subscribe(
         (settings) => (this.settingsSTManage = settings),
