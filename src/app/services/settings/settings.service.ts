@@ -48,7 +48,7 @@ export class SettingsService {
   postPublicSettings(settings: Settings): Observable<Settings> {
     try {
       let body = new HttpParams();
-      body = body.set('st_public_layer_id', settings.st_public_layer_id.toString());
+      body = body.set('st_layer_id', settings.st_public_layer_id.toString());
       body = body.set('normalization_method', settings.normalization_method.toString());
       body = body.set('range_min', settings.range_min.toString());
       body = body.set('range_max', settings.range_max.toString());
@@ -80,7 +80,7 @@ export class SettingsService {
     try {
       let body = new HttpParams();
       body = body.set('id', settings.id.toString());
-      body = body.set('st_public_layer_id', settings.st_public_layer_id.toString());
+      body = body.set('st_layer_id', settings.st_public_layer_id.toString());
       body = body.set('normalization_method', settings.normalization_method.toString());
       body = body.set('range_min', settings.range_min.toString());
       body = body.set('range_max', settings.range_max.toString());

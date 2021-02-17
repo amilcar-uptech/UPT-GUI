@@ -5693,6 +5693,7 @@ export class ToolsSidebarComponent implements OnInit {
         ? 1
         : 0;
       if(!isUndefined(this.manageSetting.st_layer_id)) {
+        console.log("Private layer: " + this.manageSetting);
         this.settingsService.postSettings(this.manageSetting).subscribe(
           () =>
             this.messageService.add({
@@ -5772,6 +5773,7 @@ export class ToolsSidebarComponent implements OnInit {
           }
         );
       } else if(!isUndefined(this.manageSetting.st_public_layer_id)) {
+        console.log("Public layer: " + this.manageSetting);
         this.settingsService.postPublicSettings(this.manageSetting).subscribe(
           () =>
             this.messageService.add({
