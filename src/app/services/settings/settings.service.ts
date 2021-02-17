@@ -54,7 +54,7 @@ export class SettingsService {
       body = body.set('range_max', settings.range_max.toString());
       body = body.set('smaller_better', settings.smaller_better.toString());
       body = body.set('weight', settings.weight.toString());
-      return this.http.post<any>('/action?action_route=st_public_settings', body);
+      return this.http.post<any>('/action?action_route=st_settings_pub_lyr', body);
     } catch (e) {
       console.log(e);
     }
@@ -86,7 +86,7 @@ export class SettingsService {
       body = body.set('range_max', settings.range_max.toString());
       body = body.set('smaller_better', settings.smaller_better.toString());
       body = body.set('weight', settings.weight.toString());
-      return this.http.put<any>('/action?action_route=st_public_settings', body);
+      return this.http.put<any>('/action?action_route=st_settings_pub_lyr', body);
     } catch (e) {
       console.log(e);
     }
@@ -108,7 +108,7 @@ export class SettingsService {
       id: settings.id
     };
     try {
-      return this.http.delete<any>('/action?action_route=st_public_settings', httpOptions);
+      return this.http.delete<any>('/action?action_route=st_settings_pub_lyr', httpOptions);
     } catch (e) {
       console.log(e);
     }
