@@ -45,6 +45,21 @@ export class SettingsService {
     }
   }
 
+  postPublicSettings(settings: Settings): Observable<Settings> {
+    try {
+      let body = new HttpParams();
+      body = body.set('st_public_layer_id', settings.st_public_layer_id.toString());
+      body = body.set('normalization_method', settings.normalization_method.toString());
+      body = body.set('range_min', settings.range_min.toString());
+      body = body.set('range_max', settings.range_max.toString());
+      body = body.set('smaller_better', settings.smaller_better.toString());
+      body = body.set('weight', settings.weight.toString());
+      return this.http.post<any>('/action?action_route=st_public_settings', body);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   putSettings(settings: Settings): Observable<Settings> {
     try {
       let body = new HttpParams();
@@ -61,12 +76,39 @@ export class SettingsService {
     }
   }
 
+  putPublicSettings(settings: Settings): Observable<Settings> {
+    try {
+      let body = new HttpParams();
+      body = body.set('id', settings.id.toString());
+      body = body.set('st_public_layer_id', settings.st_public_layer_id.toString());
+      body = body.set('normalization_method', settings.normalization_method.toString());
+      body = body.set('range_min', settings.range_min.toString());
+      body = body.set('range_max', settings.range_max.toString());
+      body = body.set('smaller_better', settings.smaller_better.toString());
+      body = body.set('weight', settings.weight.toString());
+      return this.http.put<any>('/action?action_route=st_public_settings', body);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   deleteSettings(settings: Settings): Observable<Settings> {
     httpOptions['params'] = {
       id: settings.id
     };
     try {
       return this.http.delete<any>('/action?action_route=st_settings', httpOptions);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  deletePublicSettings(settings: Settings): Observable<Settings> {
+    httpOptions['params'] = {
+      id: settings.id
+    };
+    try {
+      return this.http.delete<any>('/action?action_route=st_public_settings', httpOptions);
     } catch (e) {
       console.log(e);
     }

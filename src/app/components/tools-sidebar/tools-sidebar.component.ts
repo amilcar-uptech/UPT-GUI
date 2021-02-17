@@ -3811,18 +3811,52 @@ export class ToolsSidebarComponent implements OnInit {
               detail: 'Layer created successfully!',
             });
             if (this.stdAreaManageSetting) {
-              this.settingsService
-                .getSettings(this.stdAreaManageSetting.id.toString().replace("pub_","").replace("priv_",""))
-                .subscribe(
-                  (stngs) => (this.settingsSTManage = stngs),
+              let tmpId = this.stdAreaManageSetting.id.toString();
+              let corrId;
+              if(tmpId.includes("priv_")) {
+                corrId = tmpId.replace("priv_","");
+                this.settingsService.getSettings(corrId).subscribe(
+                  (settings) => (this.settingsSTManage = settings),
                   (error) => {
                     this.logErrorHandler(error);
                   }, () => {
-                    this.settingsSTManage.forEach(
-                      stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                    this.settingsService.getPublicSettings(corrId).subscribe(
+                      (settings) => {
+                        this.settingsSTManage = this.settingsSTManage.concat(settings)
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      }, () => {
+                        this.settingsSTManage.forEach(
+                          stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                        );
+                      }
                     );
                   }
                 );
+              }
+              else if(tmpId.includes("pub_")) {
+                corrId = tmpId.replace("pub_","");
+                this.settingsService.getSettings(corrId).subscribe(
+                  (settings) => (this.settingsSTManage = settings),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }, () => {
+                    this.settingsService.getPublicSettings(corrId).subscribe(
+                      (settings) => {
+                        this.settingsSTManage = this.settingsSTManage.concat(settings)
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      }, () => {
+                        this.settingsSTManage.forEach(
+                          stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                        );
+                      }
+                    );
+                  }
+                );
+              }
             }
             if (this.stdAreaManageLayer) {
               let tmpId = this.stdAreaManageLayer.id.toString();
@@ -3903,18 +3937,52 @@ export class ToolsSidebarComponent implements OnInit {
               detail: 'Layer created successfully!',
             });
             if (this.stdAreaManageSetting) {
-              this.settingsService
-                .getSettings(this.stdAreaManageSetting.id.toString().replace("pub_","").replace("priv_",""))
-                .subscribe(
-                  (stngs) => (this.settingsSTManage = stngs),
+              let tmpId = this.stdAreaManageSetting.id.toString();
+              let corrId;
+              if(tmpId.includes("priv_")) {
+                corrId = tmpId.replace("priv_","");
+                this.settingsService.getSettings(corrId).subscribe(
+                  (settings) => (this.settingsSTManage = settings),
                   (error) => {
                     this.logErrorHandler(error);
                   }, () => {
-                    this.settingsSTManage.forEach(
-                      stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                    this.settingsService.getPublicSettings(corrId).subscribe(
+                      (settings) => {
+                        this.settingsSTManage = this.settingsSTManage.concat(settings)
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      }, () => {
+                        this.settingsSTManage.forEach(
+                          stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                        );
+                      }
                     );
                   }
                 );
+              }
+              else if(tmpId.includes("pub_")) {
+                corrId = tmpId.replace("pub_","");
+                this.settingsService.getSettings(corrId).subscribe(
+                  (settings) => (this.settingsSTManage = settings),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }, () => {
+                    this.settingsService.getPublicSettings(corrId).subscribe(
+                      (settings) => {
+                        this.settingsSTManage = this.settingsSTManage.concat(settings)
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      }, () => {
+                        this.settingsSTManage.forEach(
+                          stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                        );
+                      }
+                    );
+                  }
+                );
+              }
             }
             if (this.stdAreaManageLayer) {
               let tmpId = this.stdAreaManageLayer.id.toString();
@@ -3997,28 +4065,98 @@ export class ToolsSidebarComponent implements OnInit {
               detail: 'Layer updated successfully!',
             });
             if (this.stdAreaManageSetting) {
-              this.settingsService
-                .getSettings(this.stdAreaManageSetting.id.toString().replace("pub_","").replace("priv_",""))
-                .subscribe(
-                  (stngs) => (this.settingsSTManage = stngs),
+              let tmpId = this.stdAreaManageSetting.id.toString();
+              let corrId;
+              if(tmpId.includes("priv_")) {
+                corrId = tmpId.replace("priv_","");
+                this.settingsService.getSettings(corrId).subscribe(
+                  (settings) => (this.settingsSTManage = settings),
                   (error) => {
                     this.logErrorHandler(error);
                   }, () => {
-                    this.settingsSTManage.forEach(
-                      stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                    this.settingsService.getPublicSettings(corrId).subscribe(
+                      (settings) => {
+                        this.settingsSTManage = this.settingsSTManage.concat(settings)
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      }, () => {
+                        this.settingsSTManage.forEach(
+                          stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                        );
+                      }
                     );
                   }
                 );
-            }
-            if (this.stdAreaManageLayer) {
-              this.layerSTService
-                .getLayerST(this.stdAreaManageLayer.id.toString().replace("pub_","").replace("priv_",""))
-                .subscribe(
-                  (lyrs) => (this.layersSTManage = lyrs),
+              }
+              else if(tmpId.includes("pub_")) {
+                corrId = tmpId.replace("pub_","");
+                this.settingsService.getSettings(corrId).subscribe(
+                  (settings) => (this.settingsSTManage = settings),
                   (error) => {
                     this.logErrorHandler(error);
+                  }, () => {
+                    this.settingsService.getPublicSettings(corrId).subscribe(
+                      (settings) => {
+                        this.settingsSTManage = this.settingsSTManage.concat(settings)
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      }, () => {
+                        this.settingsSTManage.forEach(
+                          stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                        );
+                      }
+                    );
                   }
                 );
+              }
+            }
+            if (this.stdAreaManageLayer) {
+              let tmpId = this.stdAreaManageLayer.id.toString();
+              let corrId;
+              if(tmpId.includes("priv_")) {
+                corrId = tmpId.replace("priv_","");
+                this.layerSTService.getLayerST(corrId).subscribe(
+                  (layers) => {
+                    this.layersSTManage = layers;
+                  },
+                  (error) => {
+                    this.logErrorHandler(error);
+                  },
+                  () => {
+                    this.layerSTService.getPublicLayerST(corrId).subscribe(
+                      (layers) => {
+                        this.layersSTManage = this.layersSTManage.concat(layers);
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      },
+                    );
+                  }
+                );
+              }
+              else if(tmpId.includes("pub_")) {
+                corrId = tmpId.replace("pub_","");
+                this.layerSTService.getLayerSTPubStdArea(corrId).subscribe(
+                  (layers) => {
+                    this.layersSTManage = layers;
+                  },
+                  (error) => {
+                    this.logErrorHandler(error);
+                  },
+                  () => {
+                    this.layerSTService.getPublicLayerSTPubStdArea(corrId).subscribe(
+                      (layers) => {
+                        this.layersSTManage = this.layersSTManage.concat(layers);
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      },
+                    );
+                  }
+                );
+              }
             }
             if (this.selectedStudyAreaST) {
               this.layersService.getLayers(this.selectedStudyAreaST.id.toString().replace("pub_","").replace("priv_","")).subscribe(
@@ -4054,18 +4192,52 @@ export class ToolsSidebarComponent implements OnInit {
               detail: 'Layer updated successfully!',
             });
             if (this.stdAreaManageSetting) {
-              this.settingsService
-                .getSettings(this.stdAreaManageSetting.id.toString().replace("pub_","").replace("priv_",""))
-                .subscribe(
-                  (stngs) => (this.settingsSTManage = stngs),
+              let tmpId = this.stdAreaManageSetting.id.toString();
+              let corrId;
+              if(tmpId.includes("priv_")) {
+                corrId = tmpId.replace("priv_","");
+                this.settingsService.getSettings(corrId).subscribe(
+                  (settings) => (this.settingsSTManage = settings),
                   (error) => {
                     this.logErrorHandler(error);
                   }, () => {
-                    this.settingsSTManage.forEach(
-                      stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                    this.settingsService.getPublicSettings(corrId).subscribe(
+                      (settings) => {
+                        this.settingsSTManage = this.settingsSTManage.concat(settings)
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      }, () => {
+                        this.settingsSTManage.forEach(
+                          stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                        );
+                      }
                     );
                   }
                 );
+              }
+              else if(tmpId.includes("pub_")) {
+                corrId = tmpId.replace("pub_","");
+                this.settingsService.getSettings(corrId).subscribe(
+                  (settings) => (this.settingsSTManage = settings),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }, () => {
+                    this.settingsService.getPublicSettings(corrId).subscribe(
+                      (settings) => {
+                        this.settingsSTManage = this.settingsSTManage.concat(settings)
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      }, () => {
+                        this.settingsSTManage.forEach(
+                          stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                        );
+                      }
+                    );
+                  }
+                );
+              }
             }
             if (this.stdAreaManageLayer) {
               let tmpId = this.stdAreaManageLayer.id.toString();
@@ -4177,18 +4349,52 @@ export class ToolsSidebarComponent implements OnInit {
             detail: 'Layer deleted successfully!',
           });
           if (this.stdAreaManageSetting) {
-            this.settingsService
-              .getSettings(this.stdAreaManageSetting.id.toString().replace("pub_","").replace("priv_",""))
-              .subscribe(
-                (stngs) => (this.settingsSTManage = stngs),
-                (error) => {
-                  this.logErrorHandler(error);
-                }, () => {
-                  this.settingsSTManage.forEach(
-                    stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
-                  );
-                }
-              );
+            let tmpId = this.stdAreaManageSetting.id.toString();
+              let corrId;
+              if(tmpId.includes("priv_")) {
+                corrId = tmpId.replace("priv_","");
+                this.settingsService.getSettings(corrId).subscribe(
+                  (settings) => (this.settingsSTManage = settings),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }, () => {
+                    this.settingsService.getPublicSettings(corrId).subscribe(
+                      (settings) => {
+                        this.settingsSTManage = this.settingsSTManage.concat(settings)
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      }, () => {
+                        this.settingsSTManage.forEach(
+                          stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                        );
+                      }
+                    );
+                  }
+                );
+              }
+              else if(tmpId.includes("pub_")) {
+                corrId = tmpId.replace("pub_","");
+                this.settingsService.getSettings(corrId).subscribe(
+                  (settings) => (this.settingsSTManage = settings),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }, () => {
+                    this.settingsService.getPublicSettings(corrId).subscribe(
+                      (settings) => {
+                        this.settingsSTManage = this.settingsSTManage.concat(settings)
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      }, () => {
+                        this.settingsSTManage.forEach(
+                          stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                        );
+                      }
+                    );
+                  }
+                );
+              }
           }
           if (this.stdAreaManageLayer) {
             let tmpId = this.stdAreaManageLayer.id.toString();
@@ -4271,18 +4477,52 @@ export class ToolsSidebarComponent implements OnInit {
             detail: 'Layer deleted successfully!',
           });
           if (this.stdAreaManageSetting) {
-            this.settingsService
-              .getSettings(this.stdAreaManageSetting.id.toString().replace("pub_","").replace("priv_",""))
-              .subscribe(
-                (stngs) => (this.settingsSTManage = stngs),
-                (error) => {
-                  this.logErrorHandler(error);
-                }, () => {
-                  this.settingsSTManage.forEach(
-                    stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
-                  );
-                }
-              );
+            let tmpId = this.stdAreaManageSetting.id.toString();
+              let corrId;
+              if(tmpId.includes("priv_")) {
+                corrId = tmpId.replace("priv_","");
+                this.settingsService.getSettings(corrId).subscribe(
+                  (settings) => (this.settingsSTManage = settings),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }, () => {
+                    this.settingsService.getPublicSettings(corrId).subscribe(
+                      (settings) => {
+                        this.settingsSTManage = this.settingsSTManage.concat(settings)
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      }, () => {
+                        this.settingsSTManage.forEach(
+                          stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                        );
+                      }
+                    );
+                  }
+                );
+              }
+              else if(tmpId.includes("pub_")) {
+                corrId = tmpId.replace("pub_","");
+                this.settingsService.getSettings(corrId).subscribe(
+                  (settings) => (this.settingsSTManage = settings),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }, () => {
+                    this.settingsService.getPublicSettings(corrId).subscribe(
+                      (settings) => {
+                        this.settingsSTManage = this.settingsSTManage.concat(settings)
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      }, () => {
+                        this.settingsSTManage.forEach(
+                          stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                        );
+                      }
+                    );
+                  }
+                );
+              }
           }
           if (this.stdAreaManageLayer) {
             let tmpId = this.stdAreaManageLayer.id.toString();
@@ -4381,18 +4621,52 @@ export class ToolsSidebarComponent implements OnInit {
               detail: 'Layer created successfully!',
             });
             if (this.stdAreaManageSetting) {
-              this.settingsService
-                .getSettings(this.stdAreaManageSetting.id.toString().replace("pub_","").replace("priv_",""))
-                .subscribe(
-                  (stngs) => (this.settingsSTManage = stngs),
+              let tmpId = this.stdAreaManageSetting.id.toString();
+              let corrId;
+              if(tmpId.includes("priv_")) {
+                corrId = tmpId.replace("priv_","");
+                this.settingsService.getSettings(corrId).subscribe(
+                  (settings) => (this.settingsSTManage = settings),
                   (error) => {
                     this.logErrorHandler(error);
                   }, () => {
-                    this.settingsSTManage.forEach(
-                      stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                    this.settingsService.getPublicSettings(corrId).subscribe(
+                      (settings) => {
+                        this.settingsSTManage = this.settingsSTManage.concat(settings)
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      }, () => {
+                        this.settingsSTManage.forEach(
+                          stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                        );
+                      }
                     );
                   }
                 );
+              }
+              else if(tmpId.includes("pub_")) {
+                corrId = tmpId.replace("pub_","");
+                this.settingsService.getSettings(corrId).subscribe(
+                  (settings) => (this.settingsSTManage = settings),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }, () => {
+                    this.settingsService.getPublicSettings(corrId).subscribe(
+                      (settings) => {
+                        this.settingsSTManage = this.settingsSTManage.concat(settings)
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      }, () => {
+                        this.settingsSTManage.forEach(
+                          stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                        );
+                      }
+                    );
+                  }
+                );
+              }
             }
             if (this.stdAreaManageFilter) {
               let tmpId = this.stdAreaManageFilter.id.toString();
@@ -4472,18 +4746,52 @@ export class ToolsSidebarComponent implements OnInit {
               detail: 'Layer created successfully!',
             });
             if (this.stdAreaManageSetting) {
-              this.settingsService
-                .getSettings(this.stdAreaManageSetting.id.toString().replace("pub_","").replace("priv_",""))
-                .subscribe(
-                  (stngs) => (this.settingsSTManage = stngs),
+              let tmpId = this.stdAreaManageSetting.id.toString();
+              let corrId;
+              if(tmpId.includes("priv_")) {
+                corrId = tmpId.replace("priv_","");
+                this.settingsService.getSettings(corrId).subscribe(
+                  (settings) => (this.settingsSTManage = settings),
                   (error) => {
                     this.logErrorHandler(error);
                   }, () => {
-                    this.settingsSTManage.forEach(
-                      stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                    this.settingsService.getPublicSettings(corrId).subscribe(
+                      (settings) => {
+                        this.settingsSTManage = this.settingsSTManage.concat(settings)
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      }, () => {
+                        this.settingsSTManage.forEach(
+                          stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                        );
+                      }
                     );
                   }
                 );
+              }
+              else if(tmpId.includes("pub_")) {
+                corrId = tmpId.replace("pub_","");
+                this.settingsService.getSettings(corrId).subscribe(
+                  (settings) => (this.settingsSTManage = settings),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }, () => {
+                    this.settingsService.getPublicSettings(corrId).subscribe(
+                      (settings) => {
+                        this.settingsSTManage = this.settingsSTManage.concat(settings)
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      }, () => {
+                        this.settingsSTManage.forEach(
+                          stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                        );
+                      }
+                    );
+                  }
+                );
+              }
             }
             if (this.stdAreaManageFilter) {
               let tmpId = this.stdAreaManageFilter.id.toString();
@@ -4619,6 +4927,54 @@ export class ToolsSidebarComponent implements OnInit {
                   }
                 );
             }
+            if (this.stdAreaManageSetting) {
+              let tmpId = this.stdAreaManageSetting.id.toString();
+              let corrId;
+              if(tmpId.includes("priv_")) {
+                corrId = tmpId.replace("priv_","");
+                this.settingsService.getSettings(corrId).subscribe(
+                  (settings) => (this.settingsSTManage = settings),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }, () => {
+                    this.settingsService.getPublicSettings(corrId).subscribe(
+                      (settings) => {
+                        this.settingsSTManage = this.settingsSTManage.concat(settings)
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      }, () => {
+                        this.settingsSTManage.forEach(
+                          stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                        );
+                      }
+                    );
+                  }
+                );
+              }
+              else if(tmpId.includes("pub_")) {
+                corrId = tmpId.replace("pub_","");
+                this.settingsService.getSettings(corrId).subscribe(
+                  (settings) => (this.settingsSTManage = settings),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }, () => {
+                    this.settingsService.getPublicSettings(corrId).subscribe(
+                      (settings) => {
+                        this.settingsSTManage = this.settingsSTManage.concat(settings)
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      }, () => {
+                        this.settingsSTManage.forEach(
+                          stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                        );
+                      }
+                    );
+                  }
+                );
+              }
+            }
             this.manageFilter = null;
             this.editFilters = false;
           }
@@ -4696,6 +5052,54 @@ export class ToolsSidebarComponent implements OnInit {
                   }
                 );
             }
+            if (this.stdAreaManageSetting) {
+              let tmpId = this.stdAreaManageSetting.id.toString();
+              let corrId;
+              if(tmpId.includes("priv_")) {
+                corrId = tmpId.replace("priv_","");
+                this.settingsService.getSettings(corrId).subscribe(
+                  (settings) => (this.settingsSTManage = settings),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }, () => {
+                    this.settingsService.getPublicSettings(corrId).subscribe(
+                      (settings) => {
+                        this.settingsSTManage = this.settingsSTManage.concat(settings)
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      }, () => {
+                        this.settingsSTManage.forEach(
+                          stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                        );
+                      }
+                    );
+                  }
+                );
+              }
+              else if(tmpId.includes("pub_")) {
+                corrId = tmpId.replace("pub_","");
+                this.settingsService.getSettings(corrId).subscribe(
+                  (settings) => (this.settingsSTManage = settings),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }, () => {
+                    this.settingsService.getPublicSettings(corrId).subscribe(
+                      (settings) => {
+                        this.settingsSTManage = this.settingsSTManage.concat(settings)
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      }, () => {
+                        this.settingsSTManage.forEach(
+                          stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                        );
+                      }
+                    );
+                  }
+                );
+              }
+            }
             this.manageFilter = null;
             this.editFilters = false;
           }
@@ -4748,18 +5152,52 @@ export class ToolsSidebarComponent implements OnInit {
             detail: 'Filter deleted successfully!',
           });
           if (this.stdAreaManageSetting) {
-            this.settingsService
-              .getSettings(this.stdAreaManageSetting.id.toString().replace("pub_","").replace("priv_",""))
-              .subscribe(
-                (stngs) => (this.settingsSTManage = stngs),
+            let tmpId = this.stdAreaManageSetting.id.toString();
+            let corrId;
+            if(tmpId.includes("priv_")) {
+              corrId = tmpId.replace("priv_","");
+              this.settingsService.getSettings(corrId).subscribe(
+                (settings) => (this.settingsSTManage = settings),
                 (error) => {
                   this.logErrorHandler(error);
                 }, () => {
-                  this.settingsSTManage.forEach(
-                    stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                  this.settingsService.getPublicSettings(corrId).subscribe(
+                    (settings) => {
+                      this.settingsSTManage = this.settingsSTManage.concat(settings)
+                    },
+                    (error) => {
+                      this.logErrorHandler(error);
+                    }, () => {
+                      this.settingsSTManage.forEach(
+                        stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                      );
+                    }
                   );
                 }
               );
+            }
+            else if(tmpId.includes("pub_")) {
+              corrId = tmpId.replace("pub_","");
+              this.settingsService.getSettings(corrId).subscribe(
+                (settings) => (this.settingsSTManage = settings),
+                (error) => {
+                  this.logErrorHandler(error);
+                }, () => {
+                  this.settingsService.getPublicSettings(corrId).subscribe(
+                    (settings) => {
+                      this.settingsSTManage = this.settingsSTManage.concat(settings)
+                    },
+                    (error) => {
+                      this.logErrorHandler(error);
+                    }, () => {
+                      this.settingsSTManage.forEach(
+                        stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                      );
+                    }
+                  );
+                }
+              );
+            }
           }
           if (this.stdAreaManageFilter) {
             let tmpId = this.stdAreaManageFilter.id.toString();
@@ -4838,18 +5276,52 @@ export class ToolsSidebarComponent implements OnInit {
             detail: 'Filter deleted successfully!',
           });
           if (this.stdAreaManageSetting) {
-            this.settingsService
-              .getSettings(this.stdAreaManageSetting.id.toString().replace("pub_","").replace("priv_",""))
-              .subscribe(
-                (stngs) => (this.settingsSTManage = stngs),
+            let tmpId = this.stdAreaManageSetting.id.toString();
+            let corrId;
+            if(tmpId.includes("priv_")) {
+              corrId = tmpId.replace("priv_","");
+              this.settingsService.getSettings(corrId).subscribe(
+                (settings) => (this.settingsSTManage = settings),
                 (error) => {
                   this.logErrorHandler(error);
                 }, () => {
-                  this.settingsSTManage.forEach(
-                    stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                  this.settingsService.getPublicSettings(corrId).subscribe(
+                    (settings) => {
+                      this.settingsSTManage = this.settingsSTManage.concat(settings)
+                    },
+                    (error) => {
+                      this.logErrorHandler(error);
+                    }, () => {
+                      this.settingsSTManage.forEach(
+                        stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                      );
+                    }
                   );
                 }
               );
+            }
+            else if(tmpId.includes("pub_")) {
+              corrId = tmpId.replace("pub_","");
+              this.settingsService.getSettings(corrId).subscribe(
+                (settings) => (this.settingsSTManage = settings),
+                (error) => {
+                  this.logErrorHandler(error);
+                }, () => {
+                  this.settingsService.getPublicSettings(corrId).subscribe(
+                    (settings) => {
+                      this.settingsSTManage = this.settingsSTManage.concat(settings)
+                    },
+                    (error) => {
+                      this.logErrorHandler(error);
+                    }, () => {
+                      this.settingsSTManage.forEach(
+                        stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                      );
+                    }
+                  );
+                }
+              );
+            }
           }
           if (this.stdAreaManageFilter) {
             let tmpId = this.stdAreaManageFilter.id.toString();
@@ -5220,52 +5692,169 @@ export class ToolsSidebarComponent implements OnInit {
       this.manageSetting.smaller_better = this.manageSetting.smaller_better
         ? 1
         : 0;
-      this.settingsService.postSettings(this.manageSetting).subscribe(
-        () =>
-          this.messageService.add({
-            severity: 'info',
-            summary: 'In process!',
-            detail: 'Your settings are being created!',
-          }),
-        (error) => {
-          this.logErrorHandler(error);
-        },
-        () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success!',
-            detail: 'Settings created successfully!',
-          });
-          this.settingsService
-            .getSettings(this.stdAreaManageSetting.id)
-            .subscribe(
-              (stngs) => (this.settingsSTManage = stngs),
-              (error) => {
-                this.logErrorHandler(error);
-              }, () => {
-                this.settingsSTManage.forEach(
-                  stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
-                );
-              }
-            );
-          if (this.selectedStudyAreaST) {
-            this.layersService.getLayers(this.selectedStudyAreaST.id).subscribe(
-              (layers) => (this.layerSettings = layers),
-              (error) => {
-                this.logErrorHandler(error);
-              }, () => {
-                this.layerSettings.forEach(
-                  stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
-                );
-              }
-            );
+      if(!isUndefined(this.manageSetting.st_layer_id)) {
+        this.settingsService.postSettings(this.manageSetting).subscribe(
+          () =>
+            this.messageService.add({
+              severity: 'info',
+              summary: 'In process!',
+              detail: 'Your settings are being created!',
+            }),
+          (error) => {
+            this.logErrorHandler(error);
+          },
+          () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success!',
+              detail: 'Settings created successfully!',
+            });
+            let tmpId = this.stdAreaManageSetting.id.toString();
+            let corrId;
+            if(tmpId.includes("priv_")) {
+              corrId = tmpId.replace("priv_","");
+              this.settingsService.getSettings(corrId).subscribe(
+                (settings) => (this.settingsSTManage = settings),
+                (error) => {
+                  this.logErrorHandler(error);
+                }, () => {
+                  this.settingsService.getPublicSettings(corrId).subscribe(
+                    (settings) => {
+                      this.settingsSTManage = this.settingsSTManage.concat(settings)
+                    },
+                    (error) => {
+                      this.logErrorHandler(error);
+                    }, () => {
+                      this.settingsSTManage.forEach(
+                        stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                      );
+                    }
+                  );
+                }
+              );
+            }
+            else if(tmpId.includes("pub_")) {
+              corrId = tmpId.replace("pub_","");
+              this.settingsService.getSettings(corrId).subscribe(
+                (settings) => (this.settingsSTManage = settings),
+                (error) => {
+                  this.logErrorHandler(error);
+                }, () => {
+                  this.settingsService.getPublicSettings(corrId).subscribe(
+                    (settings) => {
+                      this.settingsSTManage = this.settingsSTManage.concat(settings)
+                    },
+                    (error) => {
+                      this.logErrorHandler(error);
+                    }, () => {
+                      this.settingsSTManage.forEach(
+                        stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                      );
+                    }
+                  );
+                }
+              );
+            }
+            if (this.selectedStudyAreaST) {
+              this.layersService.getLayers(this.selectedStudyAreaST.id).subscribe(
+                (layers) => (this.layerSettings = layers),
+                (error) => {
+                  this.logErrorHandler(error);
+                }, () => {
+                  this.layerSettings.forEach(
+                    stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                  );
+                }
+              );
+            }
+            this.manageSetting = null;
+            this.editSettings = false;
           }
-          this.manageSetting = null;
-          this.editSettings = false;
-        }
-      );
+        );
+      } else if(!isUndefined(this.manageSetting.st_public_layer_id)) {
+        this.settingsService.postPublicSettings(this.manageSetting).subscribe(
+          () =>
+            this.messageService.add({
+              severity: 'info',
+              summary: 'In process!',
+              detail: 'Your settings are being created!',
+            }),
+          (error) => {
+            this.logErrorHandler(error);
+          },
+          () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success!',
+              detail: 'Settings created successfully!',
+            });
+            let tmpId = this.stdAreaManageSetting.id.toString();
+            let corrId;
+            if(tmpId.includes("priv_")) {
+              corrId = tmpId.replace("priv_","");
+              this.settingsService.getSettings(corrId).subscribe(
+                (settings) => (this.settingsSTManage = settings),
+                (error) => {
+                  this.logErrorHandler(error);
+                }, () => {
+                  this.settingsService.getPublicSettings(corrId).subscribe(
+                    (settings) => {
+                      this.settingsSTManage = this.settingsSTManage.concat(settings)
+                    },
+                    (error) => {
+                      this.logErrorHandler(error);
+                    }, () => {
+                      this.settingsSTManage.forEach(
+                        stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                      );
+                    }
+                  );
+                }
+              );
+            }
+            else if(tmpId.includes("pub_")) {
+              corrId = tmpId.replace("pub_","");
+              this.settingsService.getSettings(corrId).subscribe(
+                (settings) => (this.settingsSTManage = settings),
+                (error) => {
+                  this.logErrorHandler(error);
+                }, () => {
+                  this.settingsService.getPublicSettings(corrId).subscribe(
+                    (settings) => {
+                      this.settingsSTManage = this.settingsSTManage.concat(settings)
+                    },
+                    (error) => {
+                      this.logErrorHandler(error);
+                    }, () => {
+                      this.settingsSTManage.forEach(
+                        stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                      );
+                    }
+                  );
+                }
+              );
+            }
+            if (this.selectedStudyAreaST) {
+              this.layersService.getLayers(this.selectedStudyAreaST.id).subscribe(
+                (layers) => (this.layerSettings = layers),
+                (error) => {
+                  this.logErrorHandler(error);
+                }, () => {
+                  this.layerSettings.forEach(
+                    stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                  );
+                }
+              );
+            }
+            this.manageSetting = null;
+            this.editSettings = false;
+          }
+        );
+      }
+      
     } else {
-      this.manageSetting.smaller_better = this.manageSetting.smaller_better
+      if(!isUndefined(this.manageSetting.st_layer_id)) {
+        this.manageSetting.smaller_better = this.manageSetting.smaller_better
         ? 1
         : 0;
       this.settingsService.putSettings(this.manageSetting).subscribe(
@@ -5284,18 +5873,52 @@ export class ToolsSidebarComponent implements OnInit {
             summary: 'Success!',
             detail: 'Settings updated successfully!',
           });
-          this.settingsService
-            .getSettings(this.stdAreaManageSetting.id)
-            .subscribe(
-              (stngs) => (this.settingsSTManage = stngs),
-              (error) => {
-                this.logErrorHandler(error);
-              }, () => {
-                this.settingsSTManage.forEach(
-                  stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
-                );
-              }
-            );
+          let tmpId = this.stdAreaManageSetting.id.toString();
+            let corrId;
+            if(tmpId.includes("priv_")) {
+              corrId = tmpId.replace("priv_","");
+              this.settingsService.getSettings(corrId).subscribe(
+                (settings) => (this.settingsSTManage = settings),
+                (error) => {
+                  this.logErrorHandler(error);
+                }, () => {
+                  this.settingsService.getPublicSettings(corrId).subscribe(
+                    (settings) => {
+                      this.settingsSTManage = this.settingsSTManage.concat(settings)
+                    },
+                    (error) => {
+                      this.logErrorHandler(error);
+                    }, () => {
+                      this.settingsSTManage.forEach(
+                        stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                      );
+                    }
+                  );
+                }
+              );
+            }
+            else if(tmpId.includes("pub_")) {
+              corrId = tmpId.replace("pub_","");
+              this.settingsService.getSettings(corrId).subscribe(
+                (settings) => (this.settingsSTManage = settings),
+                (error) => {
+                  this.logErrorHandler(error);
+                }, () => {
+                  this.settingsService.getPublicSettings(corrId).subscribe(
+                    (settings) => {
+                      this.settingsSTManage = this.settingsSTManage.concat(settings)
+                    },
+                    (error) => {
+                      this.logErrorHandler(error);
+                    }, () => {
+                      this.settingsSTManage.forEach(
+                        stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                      );
+                    }
+                  );
+                }
+              );
+            }
           if (this.selectedStudyAreaST) {
             this.layersService.getLayers(this.selectedStudyAreaST.id).subscribe(
               (layers) => (this.layerSettings = layers),
@@ -5312,6 +5935,90 @@ export class ToolsSidebarComponent implements OnInit {
           this.editSettings = false;
         }
       );
+      } else if(!isUndefined(this.manageSetting.st_public_layer_id)) {
+        this.manageSetting.smaller_better = this.manageSetting.smaller_better
+        ? 1
+        : 0;
+      this.settingsService.putPublicSettings(this.manageSetting).subscribe(
+        () =>
+          this.messageService.add({
+            severity: 'info',
+            summary: 'In process!',
+            detail: 'Your settings are being updated!',
+          }),
+        (error) => {
+          this.logErrorHandler(error);
+        },
+        () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success!',
+            detail: 'Settings updated successfully!',
+          });
+          let tmpId = this.stdAreaManageSetting.id.toString();
+            let corrId;
+            if(tmpId.includes("priv_")) {
+              corrId = tmpId.replace("priv_","");
+              this.settingsService.getSettings(corrId).subscribe(
+                (settings) => (this.settingsSTManage = settings),
+                (error) => {
+                  this.logErrorHandler(error);
+                }, () => {
+                  this.settingsService.getPublicSettings(corrId).subscribe(
+                    (settings) => {
+                      this.settingsSTManage = this.settingsSTManage.concat(settings)
+                    },
+                    (error) => {
+                      this.logErrorHandler(error);
+                    }, () => {
+                      this.settingsSTManage.forEach(
+                        stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                      );
+                    }
+                  );
+                }
+              );
+            }
+            else if(tmpId.includes("pub_")) {
+              corrId = tmpId.replace("pub_","");
+              this.settingsService.getSettings(corrId).subscribe(
+                (settings) => (this.settingsSTManage = settings),
+                (error) => {
+                  this.logErrorHandler(error);
+                }, () => {
+                  this.settingsService.getPublicSettings(corrId).subscribe(
+                    (settings) => {
+                      this.settingsSTManage = this.settingsSTManage.concat(settings)
+                    },
+                    (error) => {
+                      this.logErrorHandler(error);
+                    }, () => {
+                      this.settingsSTManage.forEach(
+                        stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                      );
+                    }
+                  );
+                }
+              );
+            }
+          if (this.selectedStudyAreaST) {
+            this.layersService.getLayers(this.selectedStudyAreaST.id).subscribe(
+              (layers) => (this.layerSettings = layers),
+              (error) => {
+                this.logErrorHandler(error);
+              }, () => {
+                this.layerSettings.forEach(
+                  stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                );
+              }
+            );
+          }
+          this.manageSetting = null;
+          this.editSettings = false;
+        }
+      );
+      }
+      
     }
   }
 
@@ -5339,51 +6046,168 @@ export class ToolsSidebarComponent implements OnInit {
 
   // Sends a request to delete the selected settings
   confirmDeleteSettings() {
-    this.settingsService.deleteSettings(this.manageSetting).subscribe(
-      () =>
-        this.messageService.add({
-          severity: 'info',
-          summary: 'In process!',
-          detail: 'Your settings are being deleted!',
-        }),
-      (error) => {
-        this.logErrorHandler(error);
-      },
-      () => {
-        this.manageSetting = null;
-        this.messageService.clear('confirmDeleteSettings');
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success!',
-          detail: 'Settings deleted successfully!',
-        });
-        this.settingsService
-          .getSettings(this.stdAreaManageSetting.id)
-          .subscribe(
-            (stngs) => (this.settingsSTManage = stngs),
-            (error) => {
-              this.logErrorHandler(error);
-            }, () => {
-              this.settingsSTManage.forEach(
-                stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
-              );
-            }
-          );
-        if (this.selectedStudyAreaST) {
-          this.layersService.getLayers(this.selectedStudyAreaST.id).subscribe(
-            (layers) => (this.layerSettings = layers),
-            (error) => {
-              this.logErrorHandler(error);
-            }, () => {
-              this.layerSettings.forEach(
-                stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
-              );
-            }
-          );
+    if(!isUndefined(this.manageSetting.st_layer_id)) {
+      this.settingsService.deleteSettings(this.manageSetting).subscribe(
+        () =>
+          this.messageService.add({
+            severity: 'info',
+            summary: 'In process!',
+            detail: 'Your settings are being deleted!',
+          }),
+        (error) => {
+          this.logErrorHandler(error);
+        },
+        () => {
+          this.manageSetting = null;
+          this.messageService.clear('confirmDeleteSettings');
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success!',
+            detail: 'Settings deleted successfully!',
+          });
+          let tmpId = this.stdAreaManageSetting.id.toString();
+              let corrId;
+              if(tmpId.includes("priv_")) {
+                corrId = tmpId.replace("priv_","");
+                this.settingsService.getSettings(corrId).subscribe(
+                  (settings) => (this.settingsSTManage = settings),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }, () => {
+                    this.settingsService.getPublicSettings(corrId).subscribe(
+                      (settings) => {
+                        this.settingsSTManage = this.settingsSTManage.concat(settings)
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      }, () => {
+                        this.settingsSTManage.forEach(
+                          stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                        );
+                      }
+                    );
+                  }
+                );
+              }
+              else if(tmpId.includes("pub_")) {
+                corrId = tmpId.replace("pub_","");
+                this.settingsService.getSettings(corrId).subscribe(
+                  (settings) => (this.settingsSTManage = settings),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }, () => {
+                    this.settingsService.getPublicSettings(corrId).subscribe(
+                      (settings) => {
+                        this.settingsSTManage = this.settingsSTManage.concat(settings)
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      }, () => {
+                        this.settingsSTManage.forEach(
+                          stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                        );
+                      }
+                    );
+                  }
+                );
+              }
+          if (this.selectedStudyAreaST) {
+            this.layersService.getLayers(this.selectedStudyAreaST.id).subscribe(
+              (layers) => (this.layerSettings = layers),
+              (error) => {
+                this.logErrorHandler(error);
+              }, () => {
+                this.layerSettings.forEach(
+                  stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                );
+              }
+            );
+          }
+          this.editSettings = false;
         }
-        this.editSettings = false;
-      }
-    );
+      );
+    } else if(!isUndefined(this.manageSetting.st_public_layer_id)) {
+      this.settingsService.deletePublicSettings(this.manageSetting).subscribe(
+        () =>
+          this.messageService.add({
+            severity: 'info',
+            summary: 'In process!',
+            detail: 'Your settings are being deleted!',
+          }),
+        (error) => {
+          this.logErrorHandler(error);
+        },
+        () => {
+          this.manageSetting = null;
+          this.messageService.clear('confirmDeleteSettings');
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success!',
+            detail: 'Settings deleted successfully!',
+          });
+          let tmpId = this.stdAreaManageSetting.id.toString();
+              let corrId;
+              if(tmpId.includes("priv_")) {
+                corrId = tmpId.replace("priv_","");
+                this.settingsService.getSettings(corrId).subscribe(
+                  (settings) => (this.settingsSTManage = settings),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }, () => {
+                    this.settingsService.getPublicSettings(corrId).subscribe(
+                      (settings) => {
+                        this.settingsSTManage = this.settingsSTManage.concat(settings)
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      }, () => {
+                        this.settingsSTManage.forEach(
+                          stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                        );
+                      }
+                    );
+                  }
+                );
+              }
+              else if(tmpId.includes("pub_")) {
+                corrId = tmpId.replace("pub_","");
+                this.settingsService.getSettings(corrId).subscribe(
+                  (settings) => (this.settingsSTManage = settings),
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }, () => {
+                    this.settingsService.getPublicSettings(corrId).subscribe(
+                      (settings) => {
+                        this.settingsSTManage = this.settingsSTManage.concat(settings)
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      }, () => {
+                        this.settingsSTManage.forEach(
+                          stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                        );
+                      }
+                    );
+                  }
+                );
+              }
+          if (this.selectedStudyAreaST) {
+            this.layersService.getLayers(this.selectedStudyAreaST.id).subscribe(
+              (layers) => (this.layerSettings = layers),
+              (error) => {
+                this.logErrorHandler(error);
+              }, () => {
+                this.layerSettings.forEach(
+                  stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                );
+              }
+            );
+          }
+          this.editSettings = false;
+        }
+      );
+    }
+    
   }
 
   // Closes the confirmDeleteSettings message
