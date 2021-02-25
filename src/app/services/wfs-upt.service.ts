@@ -40,4 +40,8 @@ export class WfsUptService {
       map(res => res.columns as any[])
     );
   }
+
+  public testPostWFS() {
+    return this.http.post('/action?action_route=UPTImportPublicLayerData?action=single_layer');
+  }
 }

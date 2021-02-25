@@ -2007,6 +2007,15 @@
         <li pTooltip="Special thanks" tooltipPosition="left" #aboutBtn>
             <p-button icon="pi pi-ellipsis-h" (onClick)="about.show($event, aboutBtn)" styleClass="tools-geoportal geoportal-btn"></p-button>
         </li>
+        <div *ngIf="uptWindow.__session_active">
+            <hr style="color: #4B565F;background-color: #4B565F;" />
+            <li>
+                <small class="text-uppercase">Import WFS</small>
+            </li>
+            <li pTooltip="Share user layers" tooltipPosition="left">
+                <p-button icon="pi pi-globe" (onClick)="testWFS()" styleClass="tools-geoportal geoportal-btn"></p-button>
+            </li>
+        </div>
     </ul>
 </p-sidebar>
 <!--PrimeNG overlayPanel which contains additional info about ContagionHotspots.-->

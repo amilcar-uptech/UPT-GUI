@@ -604,6 +604,32 @@ export class ToolsSidebarComponent implements OnInit {
     this.displayUptWfs = !this.displayUptWfs;
   }*/
 
+  testWFS() {
+    this.messageService.add({
+      severity: 'info',
+      summary: 'In Progress!',
+      detail: 'Your operation is being processed.',
+    });
+    this.wfsUptService.testPostWFS().subscribe(
+      () => {},
+      () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error!',
+          detail: 'An error ocurred during the operation!',
+        });
+      },
+      () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success!',
+          detail: 'Process was completed successfully!',
+        });
+        this.messageService.clear('changeLayerStatus');
+      }
+    );
+  }
+
   // Toggles Share Layers dialog.
   toggleShare() {
     if (!this.displayShare) {
