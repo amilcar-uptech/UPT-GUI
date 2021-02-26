@@ -44,6 +44,6 @@ export class WfsUptService {
   public testPostWFS() {
     httpOptions.params = {
     };
-    return this.http.post('/action?action_route=UPTImportPublicLayerData?action=single_layer', httpOptions);
+    return this.http.post('/action?action_route=UPTImportPublicLayerData', httpOptions);
   }
 }
