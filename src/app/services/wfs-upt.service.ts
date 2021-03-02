@@ -42,7 +42,7 @@ export class WfsUptService {
   public deleteUptWfs(id: number): Observable<any> {
     try {
       let body = new HttpParams();
-      body.set('id',id.toString());
+      body = body.set('id',id.toString());
       return this.http.delete<any>('/action?action_route=UPTImportPublicLayerData', body);
     } catch (e) {
       console.log(e);
