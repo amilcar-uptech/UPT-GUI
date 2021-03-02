@@ -92,6 +92,24 @@
         </div>
     </ng-template>
 </p-toast>
+<!--PrimeNG toast which asks for confirmation to delete imported WFS data-->
+<p-toast [modal]="true" key="confirmDeleteWFS" position="center" [baseZIndex]="5000">
+    <ng-template let-o let-message pTemplate="message">
+        <div style="text-align: center">
+            <i class="pi pi-exclamation-triangle" style="font-size: 3em"></i>
+            <h3>{{message.summary}}</h3>
+            <p>{{message.detail}}</p>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-6">
+                <button type="button" pButton label="CONFIRM" class="ui-button-success" (click)="confirmDeleteWfs()"></button>
+            </div>
+            <div class="ui-g-6">
+                <button type="button" pButton label="CANCEL" class="ui-button-secondary" (click)="cancelDeleteWfs()"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
 <!--PrimeNG toast which asks for confirmation to delete the data from the selected UP table.-->
 <p-toast [modal]="true" key="confirmDeleteTableUP" position="center" [baseZIndex]="5000">
     <ng-template let-o let-message pTemplate="message">
@@ -783,14 +801,14 @@
     </div>
 </p-dialog>
 <!--Pending.-->
-<!--<p-dialog [focusOnShow]="false" header="Manage WFS" [(visible)]="displayUptWfs" [maximizable]="true" [style]="{'width':'60em'}" [contentStyle]="{'max-height':'40em'}" [baseZIndex]="1150">
+<p-dialog [focusOnShow]="false" header="Manage WFS" [(visible)]="displayUptWfs" [maximizable]="true" [style]="{'width':'60em'}" [contentStyle]="{'max-height':'40em'}" [baseZIndex]="1150">
     <div class="gp_modal geoportal-dialog">
         <div class="ui-g ui-fluid">
             <div class="ui-g-5">
                 <div class="ui-g ui-fluid">
                     <p-dropdown placeholder="Select a study area" optionLabel="name" [baseZIndex]="2500" appendTo="body" [options]="wfsStudyArea" [(ngModel)]="wfsSelectedStudyArea" [filter]="true" styleClass="geoportal-dialog" panelStyleClass="geoportal-dialog"></p-dropdown>
                 </div>
-                <div class="ui-g ui-fluid" *ngIf="wfsSelectedStudyArea">
+                <!--<div class="ui-g ui-fluid" *ngIf="wfsSelectedStudyArea">
                     <p-tree [filter]="true" (onNodeSelect)="loadUptWfsColumns($event)" selectionMode="single" [(selection)]="selectedUptWfs" [value]="uptWfs" [style]="{'max-height':'200px','overflow':'auto'}">
                         <ng-template let-node pTemplate="directory">
                             <span>{{node.label}}</span>
@@ -799,9 +817,9 @@
                             <span>{{node.label}}</span>
                         </ng-template>
                     </p-tree>
-                </div>
+                </div>-->
             </div>
-            <div class="ui-g-7" *ngIf="selectedUptWfs">
+            <!--<div class="ui-g-7" *ngIf="selectedUptWfs">
                 <div class="ui-g ui-fluid">
                     <p-table [value]="listManageDataUptWfs">
                         <ng-template pTemplate="header">
@@ -819,16 +837,17 @@
                         </ng-template>
                     </p-table>
                 </div>
-            </div>
+            </div>-->
         </div>
-        <div class="container-fluid p-3" *ngIf="selectedUptWfs">
+        <div class="container-fluid p-3" *ngIf="wfsSelectedStudyArea">
             <div class="justify-content-center">
-                <p-button (onClick)="importUptWfs()" label="IMPORT" styleClass="ui-button-raised">
+                <p-button icon="pi pi-save" (onClick)="importUptWfs()" label="IMPORT" styleClass="ui-button-raised">
                 </p-button>
+                <p-button icon="pi pi-trash" label="DELETE" (onClick)="deleteUptWfs()" styleClass="ui-button-raised"></p-button>
             </div>
         </div>
     </div>
-</p-dialog>-->
+</p-dialog>
 <!--PrimeNG dialog for the advanced functionalities of ContagionHotspots.-->
 <p-dialog [focusOnShow]="false" [baseZIndex]="1150" styleClass="suitability" header="Advanced Options" [positionTop]="0" [maximizable]="true" [(visible)]="displayDataST" [style]="{'width': '75em'}" [contentStyle]="{'max-height':'90vh'}">
     <div class="gp_modal suitability">
@@ -1983,13 +2002,13 @@
             <li pTooltip="Fix layer data" tooltipPosition="left">
                 <svg id="Capa_1" (click)="fixLayersGP();" class="gp-icon" data-name="Capa 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 281 278"><defs><style>.cls-1{fill:#d9d9d9;}.cls-2{fill:#196480;}</style></defs><path id="Trazado_602" data-name="Trazado 602" class="cls-1" d="M22.54,1.78H258.31a20,20,0,0,1,20,20V257.59a20,20,0,0,1-20,20.05H22.54a20.05,20.05,0,0,1-20-20.05V21.82A20,20,0,0,1,22.54,1.78Z"/><path class="cls-2" d="M222.6,144.22c0-2.35-.14-4.7-.27-7.05-.14-2.63-.34-5.26-.53-7.89-.13-1.87-.31-3.74-.44-5.61,0-.47-.2-.59-.66-.53-.83.1-1.67.13-2.5.2l-2.72.21L135.74,122l-5.71-.62a.55.55,0,0,0-.69.49c0,.21-.09.58-.14.79-.76,3.48-1.35,7-2.25,10.45a58.11,58.11,0,0,1-4.63,11.68,78.63,78.63,0,0,1-5.93,9.68,90.11,90.11,0,0,1-8.59,10.31c-2.2,2.25-4.47,4.42-6.76,6.58-1.65,1.55-3.33,3.06-5.09,4.48-2.77,2.24-5.62,4.36-8.47,6.49q-1.82,1.37-3.74,2.58c-2.61,1.64-5.23,3.28-7.94,4.75-3.07,1.67-6.25,3.15-9.39,4.7a10.54,10.54,0,0,0-3.13,2.22,8.63,8.63,0,0,0,1.9,13.1,69.2,69.2,0,0,0,7.35,3.7c2.06.89,4.13,1.78,6.21,2.65.05,0,31.7-9.88,40.54-22.7,0,0-15.45,26.44-25.19,28.27q2.88.87,5.78,1.68c3.7,1,7.48,1.83,11.25,2.58,1.73.35,3.46.66,5.2,1,6-4.71,37.83-30.57,39.43-51.5,0,0,0,35.36-24.84,53.28l.44,0c3.24.27,6.49.5,9.74.56,4.08.08,8.17.07,12.24-.08,0,0,18-12.16,18.82-26,0,0,1.56,15.94-7.86,25.42l3.09-.21c2.11-.15,4.22-.5,6.33-.74,1.43-.17,2.86-.35,4.28-.58q2.82-.47,5.64-1,3-.57,6.07-1.22c1.85-.39,3.71-.81,5.54-1.27q3.84-1,7.66-2.06c1.57-.44,3.12-1,4.69-1.44a18.59,18.59,0,0,0,5.47-2.41,9.55,9.55,0,0,0,3.92-5.95c.58-2.57,1.16-5.15,1.59-7.75.87-5.37,1.76-10.75,2.4-16.15.61-5.07,1-10.17,1.3-15.27q.42-6.57.5-13.16C222.82,154.26,222.69,149.24,222.6,144.22Z"/><path class="cls-2" d="M131.14,116.63l5.33,0c5.82,0,11.64.07,17.46.12s11.6.13,17.39.18c5.27,0,10.54.07,15.8.12l11.22.11,14.45.11,7.47,0c0-.36,0-.66,0-1A27.22,27.22,0,0,0,216,102.51a24.71,24.71,0,0,0-5.73-6.42,26.75,26.75,0,0,0-7.52-4.2,29.34,29.34,0,0,0-9.86-1.7l-2.34,0c-.09-1.19-.17-2.39-.26-3.58-.17-2.13-.36-4.26-.52-6.4-.25-3.36-.46-6.73-.71-10.09s-.51-6.77-.77-10.16c-.31-4.06-.62-7.38-.92-11.44-.16-2.17-.29-4.34-.47-6.51-.09-1-.29-1.9-.43-2.85l-.15,0a3.53,3.53,0,0,0-1.68-1.71,11.6,11.6,0,0,0-7.08-1.26,15.32,15.32,0,0,0-4.69.92A7,7,0,0,0,170,39.24a6.33,6.33,0,0,0-1.14,3.35c-.36,4.19-.67,8.38-1,12.57-.29,3.6-.61,7.21-.92,10.81-.24,2.86-.46,5.73-.7,8.59q-.39,4.66-.77,9.33-.26,3-.49,6l-7.83,0a27.89,27.89,0,0,0-7.44,1,22.5,22.5,0,0,0-5.32,2.18,29.3,29.3,0,0,0-5.48,4.07,28.2,28.2,0,0,0-6.07,8.34A25.16,25.16,0,0,0,130.47,116C130.46,116.57,130.73,116.63,131.14,116.63Z"/><path class="cls-2" d="M69.25,164.09a12.93,12.93,0,1,0-5.12,17A12.9,12.9,0,0,0,69.25,164.09Z"/><path class="cls-2" d="M90.76,169.83a8.67,8.67,0,0,0,4.41-11.34A8.58,8.58,0,0,0,83.92,154a8.6,8.6,0,1,0,6.84,15.79Z"/></svg>
             </li>
-            <!--<hr style="color: #4B565F;background-color: #4B565F;" />
+            <hr style="color: #4B565F;background-color: #4B565F;" />
             <li>
                 <small class="text-uppercase">WFS</small>
             </li>
             <li pTooltip="Manage WFS" tooltipPosition="left">
                 <svg id="Capa_1" data-name="Capa 1" xmlns="http://www.w3.org/2000/svg" (click)="toggleUptWfs();" viewBox="0 0 293.09 292.5" class="gp-icon"><defs><style>.cls-1,.cls-4{fill:#4b5660;}.cls-2,.cls-3{fill:#b7c2cb;}.cls-3{stroke:#4c5660;stroke-width:5.11px;}.cls-3,.cls-4,.cls-5{stroke-miterlimit:10;}.cls-4{stroke:#4b5660;stroke-width:2.04px;}.cls-5{fill:#4d5660;stroke:#b7c2cb;stroke-width:5px;}</style></defs><path id="Trazado_602" data-name="Trazado 602" class="cls-1" d="M29.12,11.48H264.89a20,20,0,0,1,20,20V267.29a20,20,0,0,1-20,20H29.12a20.05,20.05,0,0,1-20-20V31.52A20,20,0,0,1,29.12,11.48Z"/><path class="cls-2" d="M142.46,49.31c-51.15,0-93.41,41.7-93.41,93.41s42.26,92.86,93.41,92.86,93.42-41.7,93.42-93.41S193.62,49.31,142.46,49.31ZM110.77,66.54a95,95,0,0,0-16.68,31.7H73.51A83.06,83.06,0,0,1,110.77,66.54Zm-50,75.63c-.55-11.68,2.23-22.25,6.68-32.81H91.31A152.13,152.13,0,0,0,88,142.17,152.1,152.1,0,0,0,91.31,175H67.4A80.46,80.46,0,0,1,60.72,142.17ZM73,186.65H93.53q5.84,19.18,16.68,31.69A89.22,89.22,0,0,1,73,186.65Zm63.94,36.7c-12.79-3.34-23.91-17.24-31.14-36.7H136.9Zm0-47.82H102.43a160.07,160.07,0,0,1-3.89-32.81,151.22,151.22,0,0,1,3.89-32.81H136.9Zm0-77.29H105.76c7.23-19.46,18.35-33.36,31.14-36.7Zm75.07,0H191.39q-5.83-19.18-16.68-31.7A89.35,89.35,0,0,1,212,98.24ZM148,61.54c12.79,3.34,23.91,17.24,31.14,36.7H148Zm0,47.82H182.5a161.43,161.43,0,0,1,3.89,33.36,151.84,151.84,0,0,1-3.89,32.81H148Zm0,114v-36.7h31.14C171.93,206.11,160.81,220,148,223.35Zm26.14-5a94.88,94.88,0,0,0,16.68-31.69h20.57A83,83,0,0,1,174.16,218.34Zm19.46-42.81A152.78,152.78,0,0,0,197,142.72a152.78,152.78,0,0,0-3.33-32.81h23.91a80.47,80.47,0,0,1,6.67,32.81c.56,11.68-2.22,22.8-6.67,32.81Z"/><path id="Trazado_602-2" data-name="Trazado 602" class="cls-3" d="M170.26,175.05h65.37a5.55,5.55,0,0,1,5.55,5.56V246a5.55,5.55,0,0,1-5.55,5.56H170.26a5.56,5.56,0,0,1-5.55-5.56V180.61A5.56,5.56,0,0,1,170.26,175.05Z"/><path class="cls-4" d="M225.42,213.85a5.07,5.07,0,0,0-5.08-5.08H185.55a5.08,5.08,0,1,0,0,10.16h34.79A5.08,5.08,0,0,0,225.42,213.85ZM208,231.25V196.46a5.08,5.08,0,0,0-10.16,0v34.79a5.08,5.08,0,0,0,10.16,0Z"/><polygon class="cls-2" points="99.32 173.53 91.08 170.25 142.7 98.62 195.78 128.65 191.78 135.08 144.87 108.89 99.32 173.53"/><circle class="cls-5" cx="96.69" cy="171.39" r="12.36"/><circle class="cls-5" cx="144.29" cy="103.26" r="12.36"/><circle class="cls-5" cx="192.78" cy="131.37" r="12.36"/></svg>
-            </li>-->
+            </li>
         </div>
         <div *ngIf="uptWindow.__session_active">
             <hr style="color: #4B565F;background-color: #4B565F;" />
@@ -2007,7 +2026,7 @@
         <li pTooltip="Special thanks" tooltipPosition="left" #aboutBtn>
             <p-button icon="pi pi-ellipsis-h" (onClick)="about.show($event, aboutBtn)" styleClass="tools-geoportal geoportal-btn"></p-button>
         </li>
-        <div *ngIf="uptWindow.__session_active">
+        <!--<div *ngIf="uptWindow.__session_active">
             <hr style="color: #4B565F;background-color: #4B565F;" />
             <li>
                 <small class="text-uppercase">Import WFS</small>
@@ -2015,7 +2034,7 @@
             <li pTooltip="Share user layers" tooltipPosition="left">
                 <p-button icon="pi pi-globe" (onClick)="testWFS()" styleClass="tools-geoportal geoportal-btn"></p-button>
             </li>
-        </div>
+        </div>-->
     </ul>
 </p-sidebar>
 <!--PrimeNG overlayPanel which contains additional info about ContagionHotspots.-->

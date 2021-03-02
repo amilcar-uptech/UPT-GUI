@@ -82,7 +82,7 @@ export class ToolsSidebarComponent implements OnInit {
   // UPT WFS variables
   wfsStudyArea: SelectItem[];
   wfsSelectedStudyArea: Layer;
-  uptWfs: TreeNode[];
+  uptWfs: SelectItem[];
   selectedUptWfs: TreeNode;
   colFieldsNameArrayUptWfs = [];
   listManageDataUptWfs: any[];
@@ -600,11 +600,13 @@ export class ToolsSidebarComponent implements OnInit {
   }
 
   // Pending functionality. Toggles WFS dialog.
-  /* toggleUptWfs() {
+  toggleUptWfs() {
+    this.loadUptWfsLayers();
     this.displayUptWfs = !this.displayUptWfs;
-  }*/
+  }
 
   testWFS() {
+    this.blockDocument();
     this.messageService.add({
       severity: 'info',
       summary: 'In Progress!',
@@ -618,14 +620,73 @@ export class ToolsSidebarComponent implements OnInit {
           summary: 'Error!',
           detail: 'An error ocurred during the operation!',
         });
+        this.unblockDocument();
       },
       () => {
         this.messageService.add({
           severity: 'success',
           summary: 'Success!',
-          detail: 'Process was completed successfully!',
+          detail: 'Feature data was imported successfully!',
         });
-        this.messageService.clear('changeLayerStatus');
+        this.unblockDocument();
+      }
+    );
+  }
+
+  importWfs() {
+    this.messageService.add({
+      severity: 'info',
+      summary: 'In Progress!',
+      detail: 'Your operation is being processed.',
+    });
+    this.wfsUptService.importUptWfs(this.wfsSelectedStudyArea.id).subscribe(
+      () => {},
+      () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error!',
+          detail: 'An error ocurred during the operation!',
+        });
+      },
+    );
+  }
+
+  deleteUptWfs(event) {
+    this.messageService.add({
+      key: 'confirmDeleteWfs',
+      sticky: true,
+      severity: 'warn',
+      summary: 'Warning!',
+      detail:
+        'This operation will delete all imported data from the selected WFS. This process is irreversible. ' +
+        'Confirm to delete, cancel to go back',
+    });
+  }
+
+  confirmDeleteWfs() {
+    this.blockDocument();
+    this.messageService.add({
+      severity: 'info',
+      summary: 'In Progress!',
+      detail: 'Your operation is being processed.',
+    });
+    this.wfsUptService.deleteUptWfs(this.wfsSelectedStudyArea.id).subscribe(
+      () => {},
+      () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error!',
+          detail: 'An error ocurred during the operation!',
+        });
+        this.unblockDocument();
+      },
+      () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success!',
+          detail: 'Feature data was imported successfully!',
+        });
+        this.unblockDocument();
       }
     );
   }
@@ -739,24 +800,16 @@ export class ToolsSidebarComponent implements OnInit {
   }
 
   // Pending functionality. Sends a request to get the WFS layers.
-  /* loadUptWfsLayers() {
+  loadUptWfsLayers() {
     this.wfsUptService.getUptWfsLayers().subscribe(
       (lyr) => {
-        this.uptWfs = lyr;
+        this.wfsStudyArea = lyr;
       },
       (error) => {
         this.logErrorHandler(error);
       }
     );
-    this.layersService.getStudyAreas().subscribe(
-      (studyArea) => {
-        this.wfsStudyArea = studyArea;
-      },
-      (error) => {
-        this.logErrorHandler(error);
-      }
-    );
-  }*/
+  }
 
   // Pending functionality: Sends a request to get WFS columns
   /* loadUptWfsColumns(event) {
