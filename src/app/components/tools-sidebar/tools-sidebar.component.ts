@@ -633,7 +633,7 @@ export class ToolsSidebarComponent implements OnInit {
     );
   }
 
-  importWfs() {
+  importUptWfs() {
     this.messageService.add({
       severity: 'info',
       summary: 'In Progress!',
@@ -651,7 +651,7 @@ export class ToolsSidebarComponent implements OnInit {
     );
   }
 
-  deleteUptWfs(event) {
+  deleteUptWfs() {
     this.messageService.add({
       key: 'confirmDeleteWfs',
       sticky: true,
@@ -689,6 +689,10 @@ export class ToolsSidebarComponent implements OnInit {
         this.unblockDocument();
       }
     );
+  }
+
+  cancelDeleteWfs() {
+    this.messageService.clear('confirmDeleteWfs');
   }
 
   // Toggles Share Layers dialog.
