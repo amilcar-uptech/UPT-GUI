@@ -5,9 +5,6 @@ import { map } from 'rxjs/operators';
 import { SelectItem } from 'primeng/api';
 
 const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json'
-  }),
   params: null
 };
 
