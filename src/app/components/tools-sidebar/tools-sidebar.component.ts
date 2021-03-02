@@ -693,14 +693,16 @@ export class ToolsSidebarComponent implements OnInit {
           detail: 'An error ocurred during the operation!',
         });
         this.unblockDocument();
+        this.messageService.clear('confirmDeleteWfs');
       },
       () => {
         this.messageService.add({
           severity: 'success',
           summary: 'Success!',
-          detail: 'Feature data was imported successfully!',
+          detail: 'Feature data was deleted successfully!',
         });
         this.unblockDocument();
+        this.messageService.clear('confirmDeleteWfs');
       }
     );
   }
