@@ -644,13 +644,14 @@ export class ToolsSidebarComponent implements OnInit {
     layerId = layerId.replace("pub_","");
     this.wfsUptService.importUptWfs(layerId).subscribe(
       () => {},
-      () => {
+      (error) => {
         this.messageService.add({
           severity: 'error',
           summary: 'Error!',
           detail: 'An error ocurred during the operation!',
         });
         this.unblockDocument();
+        this.logErrorHandler(error);
       },
       () => {
         this.messageService.add({
@@ -686,7 +687,7 @@ export class ToolsSidebarComponent implements OnInit {
     layerId = layerId.replace("pub_","");
     this.wfsUptService.deleteUptWfs(layerId).subscribe(
       () => {},
-      () => {
+      (error) => {
         this.messageService.add({
           severity: 'error',
           summary: 'Error!',
@@ -694,6 +695,7 @@ export class ToolsSidebarComponent implements OnInit {
         });
         this.unblockDocument();
         this.messageService.clear('confirmDeleteWfs');
+        this.logErrorHandler(error);
       },
       () => {
         this.messageService.add({
