@@ -645,13 +645,8 @@ export class ToolsSidebarComponent implements OnInit {
     this.wfsUptService.importUptWfs(layerId).subscribe(
       () => {},
       (error) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error!',
-          detail: 'An error ocurred during the operation!',
-        });
-        this.unblockDocument();
         this.logErrorHandler(error);
+        this.unblockDocument();
       },
       () => {
         this.messageService.add({
