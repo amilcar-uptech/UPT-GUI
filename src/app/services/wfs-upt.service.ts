@@ -20,7 +20,7 @@ export class WfsUptService {
     /* ids = [];
     scenarios.forEach(scen => ids.push(scen.scenarioId));
     let body = new HttpParams({fromObject: {scenariosId: ids}});*/
-    return this.http.get<any>('/action?action_route=public_study_area')
+    return this.http.get<any>('/action?action_route=wfs_listing')
                 .pipe(
                   map(res => res as SelectItem[])
                 );
