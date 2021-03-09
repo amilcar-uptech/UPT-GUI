@@ -3014,14 +3014,50 @@ export class ToolsSidebarComponent implements OnInit {
               this.loadSTOptions();
             }
             if (this.stdAreaManageLayer) {
-              this.layerSTService
-                .getLayerST(this.stdAreaManageLayer.id)
-                .subscribe(
-                  (layers) => (this.layersSTManage = layers),
+              let tmpId = this.stdAreaManageLayer.id.toString();
+              let corrId;
+              if(tmpId.includes("priv_")) {
+                corrId = tmpId.replace("priv_","");
+                this.layerSTService.getLayerST(corrId).subscribe(
+                  (layers) => {
+                    this.layersSTManage = layers;
+                  },
                   (error) => {
                     this.logErrorHandler(error);
+                  },
+                  () => {
+                    this.layerSTService.getPublicLayerST(corrId).subscribe(
+                      (layers) => {
+                        this.layersSTManage = this.layersSTManage.concat(layers);
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      },
+                    );
                   }
                 );
+              }
+              else if(tmpId.includes("pub_")) {
+                corrId = tmpId.replace("pub_","");
+                this.layerSTService.getLayerSTPubStdArea(corrId).subscribe(
+                  (layers) => {
+                    this.layersSTManage = layers;
+                  },
+                  (error) => {
+                    this.logErrorHandler(error);
+                  },
+                  () => {
+                    this.layerSTService.getPublicLayerSTPubStdArea(corrId).subscribe(
+                      (layers) => {
+                        this.layersSTManage = this.layersSTManage.concat(layers);
+                      },
+                      (error) => {
+                        this.logErrorHandler(error);
+                      },
+                    );
+                  }
+                );
+              }
             }
             this.unblockDocument();
           }
