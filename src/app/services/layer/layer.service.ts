@@ -35,8 +35,36 @@ export class LayerService {
                 );
   }
 
+  getLayersPubStdArea(id: number): Observable<SelectItem[]> {
+    return this.http.get<any>('/action?action_route=LayersSTHandler&action=list_st_layers&study_area=' + id)
+                .pipe(
+                  map(res => res as SelectItem[])
+                );
+  }
+
   getFilters(id: number): Observable<SelectItem[]> {
     return this.http.get<any>('/action?action_route=st_filters&study_area=' + id)
+                .pipe(
+                  map(res => res as SelectItem[])
+                );
+  }
+
+  getFilterSTPubStdArea(id: number): Observable<SelectItem[]> {
+    return this.http.get<any>('/action?action_route=st_filters_pub_lyr&study_area=' + id)
+                .pipe(
+                  map(res => res as SelectItem[])
+                );
+  }
+
+  getPublicFilters(id: number): Observable<SelectItem[]> {
+    return this.http.get<any>('/action?action_route=st_public_filters&study_area=' + id)
+                .pipe(
+                  map(res => res as SelectItem[])
+                );
+  }
+
+  getPublicFilterSTPubStdArea(id: number): Observable<SelectItem[]> {
+    return this.http.get<any>('/action?action_route=st_public_filters_pub_lyr&study_area=' + id)
                 .pipe(
                   map(res => res as SelectItem[])
                 );

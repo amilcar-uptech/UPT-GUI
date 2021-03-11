@@ -3314,24 +3314,86 @@ export class ToolsSidebarComponent implements OnInit {
       this.selectedLayersST = [];
       this.selSetting = [];
       this.settingsString = '';
-      this.layersService.getLayers(this.selectedStudyAreaST.id).subscribe(
-        (layers) => (this.layerSettings = layers),
-        (error) => {
-          this.logErrorHandler(error);
-        }, () => {
-          this.layerSettings.forEach(
-            stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
-          );
-        }
-      );
-      this.filterList = [];
-      this.selectedFiltersST = [];
-      this.layersService.getFilters(this.selectedStudyAreaST.id).subscribe(
-        (filters) => (this.filterList = filters),
-        (error) => { 
-          this.logErrorHandler(error);
-        }
-      );
+      let tmpId = this.selectedStudyAreaST.id.toString();
+      let corrId;
+      if(tmpId.includes("priv_")) {
+        corrId = tmpId.replace("priv_","");
+        this.layersService.getLayers(corrId).subscribe(
+          (layers) => (this.layerSettings = layers),
+          (error) => {
+            this.logErrorHandler(error);
+          }, () => {
+            this.layersService.getLayersPubStdArea(corrId).subscribe(
+              (layers) => (this.layerSettings = this.layerSettings.concat(layers)),
+              (error) => {
+                this.logErrorHandler(error);
+              }, () => {
+                this.layerSettings.forEach(
+                  stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                );
+              }
+            );
+          }
+        );
+        this.filterList = [];
+        this.selectedFiltersST = [];
+        this.layersService.getFilters(corrId).subscribe(
+          (filters) => (this.filterList = filters),
+          (error) => { 
+            this.logErrorHandler(error);
+          },
+          () => {
+            this.layersService.getFilterSTPubStdArea(corrId).subscribe(
+              (filters) => {
+                this.filterList = this.filterList.concat(filters);
+              },
+              (error) => { 
+                this.logErrorHandler(error);
+              },
+              () => {}
+            );
+          }
+        );
+      } else if(tmpId.includes("pub_")) {
+        corrId = tmpId.replace("pub_","");
+        this.layersService.getLayers(corrId).subscribe(
+          (layers) => (this.layerSettings = layers),
+          (error) => {
+            this.logErrorHandler(error);
+          }, () => {
+            this.layersService.getLayersPubStdArea(corrId).subscribe(
+              (layers) => (this.layerSettings = this.layerSettings.concat(layers)),
+              (error) => {
+                this.logErrorHandler(error);
+              }, () => {
+                this.layerSettings.forEach(
+                  stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
+                );
+              }
+            );
+          }
+        );
+        this.filterList = [];
+        this.selectedFiltersST = [];
+        this.layersService.getPublicFilters(corrId).subscribe(
+          (filters) => (this.filterList = filters),
+          (error) => { 
+            this.logErrorHandler(error);
+          },
+          () => {
+            this.layersService.getPublicFilterSTPubStdArea(corrId).subscribe(
+              (filters) => {
+                this.filterList = this.filterList.concat(filters);
+              },
+              (error) => { 
+                this.logErrorHandler(error);
+              },
+              () => {}
+            );
+          }
+        );
+      }
+      
     }
   }
 
