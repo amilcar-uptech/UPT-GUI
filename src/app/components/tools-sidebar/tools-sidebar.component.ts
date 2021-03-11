@@ -3323,7 +3323,7 @@ export class ToolsSidebarComponent implements OnInit {
           (error) => {
             this.logErrorHandler(error);
           }, () => {
-            this.layersService.getLayersPubStdArea(corrId).subscribe(
+            this.layersService.getPublicLayers(corrId).subscribe(
               (layers) => (this.layerSettings = this.layerSettings.concat(layers)),
               (error) => {
                 this.logErrorHandler(error);
@@ -3356,12 +3356,12 @@ export class ToolsSidebarComponent implements OnInit {
         );
       } else if(tmpId.includes("pub_")) {
         corrId = tmpId.replace("pub_","");
-        this.layersService.getLayers(corrId).subscribe(
+        this.layersService.getLayersPubStdArea(corrId).subscribe(
           (layers) => (this.layerSettings = layers),
           (error) => {
             this.logErrorHandler(error);
           }, () => {
-            this.layersService.getLayersPubStdArea(corrId).subscribe(
+            this.layersService.getPublicLayersPubStdArea(corrId).subscribe(
               (layers) => (this.layerSettings = this.layerSettings.concat(layers)),
               (error) => {
                 this.logErrorHandler(error);
