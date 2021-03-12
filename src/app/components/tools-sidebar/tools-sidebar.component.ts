@@ -3401,7 +3401,7 @@ export class ToolsSidebarComponent implements OnInit {
             this.layersService.getPublicFilterSTPubStdArea(corrId).subscribe(
               (filters) => {
                 filters.forEach((filter) => {
-                  filter.id = "priv_" + filter.id.toString()
+                  filter.id = "pub_" + filter.id.toString()
                 });
                 this.filterList = this.filterList.concat(filters);
               },
@@ -3423,9 +3423,16 @@ export class ToolsSidebarComponent implements OnInit {
   evaluateLayer() {
     this.stResult = true;
     this.selectedFiltersArrayST = [];
+    this.selectedPublicFiltersArrayST = [];
     this.selectedFiltersST.forEach(
       (fltr) => {
-        this.selectedFiltersArrayST.push(+fltr)
+        if(fltr.includes("priv_")) {
+          fltr = fltr.replace("priv_","");
+          this.selectedFiltersArrayST.push(+fltr);
+        } else if(fltr.includes("pub_")) {
+          fltr = fltr.replace("pub_","");
+          this.selectedPublicFiltersArrayST.push(+fltr);
+        } 
       }
     );
     if (this.selSetting.length == 0 || this.selSetting == null) {
@@ -3441,16 +3448,22 @@ export class ToolsSidebarComponent implements OnInit {
         detail: 'Please select a join method.',
       });
     } else {
-      this.blockDocument();
       this.settingsString = '';
       this.selectedLayersST = [];
+      this.selectedPublicLayersST = [];
       this.selSetting.forEach((setting) => {
-        this.selectedLayersST.push(setting.st_layer_id);
+        if(!isUndefined(setting.st_layer_id)) {
+          this.selectedLayersST.push(setting.st_layer_id);
+        } else if(!isUndefined(setting.st_public_layer_id)) {
+          this.selectedPublicLayersST.push(setting.st_public_layer_id);
+        }
       });
       this.selSetting.forEach(
         (stng) => (stng.smaller_better = stng.smaller_better ? 1 : 0)
       );
       this.settingsString = JSON.stringify(this.selSetting);
+      console.log(this.selSetting);
+      /* this.blockDocument();
       this.stEvaluationService
         .postLayer(
           this.selectedStudyAreaST.id,
@@ -3472,7 +3485,7 @@ export class ToolsSidebarComponent implements OnInit {
           () => {
             this.printGeoJSON();
           }
-        );
+        ); */
     }
   }
 
