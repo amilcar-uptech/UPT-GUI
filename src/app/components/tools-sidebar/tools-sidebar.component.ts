@@ -3428,10 +3428,10 @@ export class ToolsSidebarComponent implements OnInit {
       (fltr) => {
         if(fltr.includes("priv_")) {
           fltr = fltr.replace("priv_","");
-          this.selectedFiltersArrayST.push(+fltr);
+          this.selectedFiltersArrayST.push(fltr);
         } else if(fltr.includes("pub_")) {
           fltr = fltr.replace("pub_","");
-          this.selectedPublicFiltersArrayST.push(+fltr);
+          this.selectedPublicFiltersArrayST.push(fltr);
         } 
       }
     );
