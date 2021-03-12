@@ -3421,6 +3421,10 @@ export class ToolsSidebarComponent implements OnInit {
 
   // Sends a request to evaluate the selected Layers and Filters
   evaluateLayer() {
+    let tmpStngs = [];
+    let tmpPubStngs = [];
+    let tmpStrStngs = "";
+    let tmpStrPubStngs = "";
     this.stResult = true;
     this.selectedFiltersArrayST = [];
     this.selectedPublicFiltersArrayST = [];
@@ -3431,12 +3435,10 @@ export class ToolsSidebarComponent implements OnInit {
           this.selectedFiltersArrayST.push(fltr);
         } else if(fltr.includes("pub_")) {
           fltr = fltr.replace("pub_","");
-          this.selectedPublicFiltersArrayST.push(fltr);
+          this.selectedPublicFiltersArrayST.push(+fltr);
         } 
       }
     );
-    console.log(this.selectedFiltersArrayST);
-    console.log(this.selectedPublicFiltersArrayST)
     if (this.selSetting.length == 0 || this.selSetting == null) {
       this.messageService.add({
         severity: 'error',
@@ -3461,10 +3463,20 @@ export class ToolsSidebarComponent implements OnInit {
         }
       });
       this.selSetting.forEach(
-        (stng) => (stng.smaller_better = stng.smaller_better ? 1 : 0)
+        (stng) => {
+          if(!isUndefined(stng.st_layer_id)) {
+            tmpStngs.push(stng);
+          } else if(!isUndefined(stng.st_public_layer_id)) {
+            tmpPubStngs.push(stng);
+          }
+          stng.smaller_better = stng.smaller_better ? 1 : 0;
+        }
       );
-      this.settingsString = JSON.stringify(this.selSetting);
-      console.log(this.selSetting);
+      // this.settingsString = JSON.stringify(this.selSetting);
+      tmpStrStngs = JSON.stringify(tmpStngs);
+      tmpStrPubStngs = JSON.stringify(tmpPubStngs);
+      console.log(tmpStrStngs);
+      console.log(tmpStrPubStngs);
       /* this.blockDocument();
       this.stEvaluationService
         .postLayer(
