@@ -56,21 +56,21 @@ export class LayerService {
                 );
   }
 
-  getFilters(id: number): Observable<SelectItem[]> {
+  getFilters(id: number): Observable<any[]> {
     return this.http.get<any>('/action?action_route=st_filters&study_area=' + id)
                 .pipe(
                   map(res => res as any[])
                 );
   }
 
-  getFilterSTPubStdArea(id: number): Observable<SelectItem[]> {
+  getFilterSTPubStdArea(id: number): Observable<any[]> {
     return this.http.get<any>('/action?action_route=st_filters_pub_lyr&study_area=' + id)
                 .pipe(
                   map(res => res as any[])
                 );
   }
 
-  getPublicFilters(id: number): Observable<SelectItem[]> {
+  getPublicFilters(id: number): Observable<any[]> {
     return this.http.get<any>('/action?action_route=st_public_filters&study_area=' + id)
                 .pipe(
                   map(res => res as any[])
@@ -84,7 +84,7 @@ export class LayerService {
                 );
   }
 
-  getNormalizationMethods(): Observable<SelectItem[]> {
+  getNormalizationMethods(): Observable<any[]> {
     try {
       return this.http.get<any>('/action?action_route=st_standardization')
                   .pipe(
