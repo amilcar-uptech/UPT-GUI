@@ -59,28 +59,28 @@ export class LayerService {
   getFilters(id: number): Observable<SelectItem[]> {
     return this.http.get<any>('/action?action_route=st_filters&study_area=' + id)
                 .pipe(
-                  map(res => res as SelectItem[])
+                  map(res => res as any[])
                 );
   }
 
   getFilterSTPubStdArea(id: number): Observable<SelectItem[]> {
     return this.http.get<any>('/action?action_route=st_filters_pub_lyr&study_area=' + id)
                 .pipe(
-                  map(res => res as SelectItem[])
+                  map(res => res as any[])
                 );
   }
 
   getPublicFilters(id: number): Observable<SelectItem[]> {
     return this.http.get<any>('/action?action_route=st_public_filters&study_area=' + id)
                 .pipe(
-                  map(res => res as SelectItem[])
+                  map(res => res as any[])
                 );
   }
 
   getPublicFilterSTPubStdArea(id: number): Observable<SelectItem[]> {
     return this.http.get<any>('/action?action_route=st_public_filters_pub_lyr&study_area=' + id)
                 .pipe(
-                  map(res => res as SelectItem[])
+                  map(res => res as any[])
                 );
   }
 
