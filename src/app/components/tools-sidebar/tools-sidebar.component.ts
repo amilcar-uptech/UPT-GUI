@@ -3341,9 +3341,10 @@ export class ToolsSidebarComponent implements OnInit {
         this.selectedFiltersST = [];
         this.layersService.getFilters(corrId).subscribe(
           (filters) => {
-            filters.forEach((filter) => {
+            /* filters.forEach((filter) => {
               filter.id = "priv_" + filter.id.toString()
-            });
+            }); */
+            console.log(filters);
             this.filterList = filters;
           },
           (error) => { 
@@ -3352,9 +3353,10 @@ export class ToolsSidebarComponent implements OnInit {
           () => {
             this.layersService.getFilterSTPubStdArea(corrId).subscribe(
               (filters) => {
-                filters.forEach((filter) => {
+                /* filters.forEach((filter) => {
                   filter.id = "pub_" + filter.id.toString()
-                });
+                }); */
+                console.log(filters);
                 this.filterList = this.filterList.concat(filters);
               },
               (error) => { 
@@ -3389,9 +3391,10 @@ export class ToolsSidebarComponent implements OnInit {
         this.selectedFiltersST = [];
         this.layersService.getPublicFilters(corrId).subscribe(
           (filters) => {
-            filters.forEach((filter) => {
+            /* filters.forEach((filter) => {
               filter.id = "priv_" + filter.id.toString()
-            });
+            }); */
+            console.log(filters);
             this.filterList = filters;
           },
           (error) => { 
@@ -3400,9 +3403,10 @@ export class ToolsSidebarComponent implements OnInit {
           () => {
             this.layersService.getPublicFilterSTPubStdArea(corrId).subscribe(
               (filters) => {
-                filters.forEach((filter) => {
+                /* filters.forEach((filter) => {
                   filter.id = "priv_" + filter.id.toString()
-                });
+                }); */
+                console.log(filters);
                 this.filterList = this.filterList.concat(filters);
               },
               (error) => { 
