@@ -3435,6 +3435,8 @@ export class ToolsSidebarComponent implements OnInit {
         } 
       }
     );
+    console.log(this.selectedFiltersArrayST);
+    console.log(this.selectedPublicFiltersArrayST)
     if (this.selSetting.length == 0 || this.selSetting == null) {
       this.messageService.add({
         severity: 'error',
