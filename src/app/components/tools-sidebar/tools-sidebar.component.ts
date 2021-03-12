@@ -3360,7 +3360,9 @@ export class ToolsSidebarComponent implements OnInit {
               (error) => { 
                 this.logErrorHandler(error);
               },
-              () => {}
+              () => {
+                console.log(this.filterList);
+              }
             );
           }
         );
@@ -3406,7 +3408,9 @@ export class ToolsSidebarComponent implements OnInit {
               (error) => { 
                 this.logErrorHandler(error);
               },
-              () => {}
+              () => {
+                console.log(this.filterList);
+              }
             );
           }
         );
