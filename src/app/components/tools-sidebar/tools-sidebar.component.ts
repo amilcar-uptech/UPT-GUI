@@ -386,11 +386,13 @@ export class ToolsSidebarComponent implements OnInit {
   columnHeaderDistancesST = '';
 
   selectedLayersST: any[] = [];
+  selectedPublicLayersST: any[] = [];
   filtersST$: Observable<SelectItem[]>;
   filterList: any[];
   filtersST: SelectItem[];
-  selectedFiltersST: number[];
+  selectedFiltersST: string[];
   selectedFiltersArrayST = [];
+  selectedPublicFiltersArrayST = [];
   studyAreaST: SelectItem[];
   stdAreaSTDistances: Layer;
   stdAreaSTEvalDist: Layer;
@@ -3338,13 +3340,21 @@ export class ToolsSidebarComponent implements OnInit {
         this.filterList = [];
         this.selectedFiltersST = [];
         this.layersService.getFilters(corrId).subscribe(
-          (filters) => (this.filterList = filters),
+          (filters) => {
+            filters.forEach((filter) => {
+              filter.id = "priv_" + filter.id.toString()
+            });
+            this.filterList = filters;
+          },
           (error) => { 
             this.logErrorHandler(error);
           },
           () => {
             this.layersService.getFilterSTPubStdArea(corrId).subscribe(
               (filters) => {
+                filters.forEach((filter) => {
+                  filter.id = "pub_" + filter.id.toString()
+                });
                 this.filterList = this.filterList.concat(filters);
               },
               (error) => { 
@@ -3376,13 +3386,21 @@ export class ToolsSidebarComponent implements OnInit {
         this.filterList = [];
         this.selectedFiltersST = [];
         this.layersService.getPublicFilters(corrId).subscribe(
-          (filters) => (this.filterList = filters),
+          (filters) => {
+            filters.forEach((filter) => {
+              filter.id = "priv_" + filter.id.toString()
+            });
+            this.filterList = filters;
+          },
           (error) => { 
             this.logErrorHandler(error);
           },
           () => {
             this.layersService.getPublicFilterSTPubStdArea(corrId).subscribe(
               (filters) => {
+                filters.forEach((filter) => {
+                  filter.id = "priv_" + filter.id.toString()
+                });
                 this.filterList = this.filterList.concat(filters);
               },
               (error) => { 
@@ -3401,8 +3419,10 @@ export class ToolsSidebarComponent implements OnInit {
   evaluateLayer() {
     this.stResult = true;
     this.selectedFiltersArrayST = [];
-    this.selectedFiltersST.forEach((fltr) =>
-      this.selectedFiltersArrayST.push(+fltr)
+    this.selectedFiltersST.forEach(
+      (fltr) => {
+        this.selectedFiltersArrayST.push(+fltr)
+      }
     );
     if (this.selSetting.length == 0 || this.selSetting == null) {
       this.messageService.add({
