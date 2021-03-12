@@ -77,14 +77,14 @@ export class LayerService {
                 );
   }
 
-  getPublicFilterSTPubStdArea(id: number): Observable<SelectItem[]> {
+  getPublicFilterSTPubStdArea(id: number): Observable<any[]> {
     return this.http.get<any>('/action?action_route=st_public_filters_pub_lyr&study_area=' + id)
                 .pipe(
                   map(res => res as any[])
                 );
   }
 
-  getNormalizationMethods(): Observable<any[]> {
+  getNormalizationMethods(): Observable<SelectItem[]> {
     try {
       return this.http.get<any>('/action?action_route=st_standardization')
                   .pipe(
