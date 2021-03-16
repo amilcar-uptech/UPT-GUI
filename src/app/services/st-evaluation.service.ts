@@ -22,17 +22,24 @@ export class StEvaluationService {
 
   constructor(private http: HttpClient) { }
 
-  postLayer(saId: number, layersData: number[], filtersData: string[], settingsData: string, id: number): Observable<any> {
+  postLayer(saId: number, layersData: number[], publicLayersData: number[], filtersData: string[], publicFiltersData: string[], settingsData: string, publicSettingsData: string, id: number): Observable<any> {
     try {
       let body = new HttpParams();
       body = body.set('studyArea', saId.toString());
       body = body.set('settings', settingsData);
+      body = body.set('public_settings', publicSettingsData);
       body = body.set('joinMethod', id.toString());
       layersData.forEach((item) => {
         body = body.append('layers', item.toString());
       });
+      publicLayersData.forEach((item) => {
+        body = body.append('public_layers', item.toString());
+      });
       filtersData.forEach((item) => {
         body = body.append('filters', item.toString());
+      });
+      publicFiltersData.forEach((item) => {
+        body = body.append('public_filters', item.toString());
       });
       return this.http.post<any>('/action?action_route=LayersSTHandler&action=index_values', body).pipe(
                   map(res => res as any)

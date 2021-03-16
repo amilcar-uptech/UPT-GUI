@@ -3477,13 +3477,16 @@ export class ToolsSidebarComponent implements OnInit {
       tmpStrPubStngs = JSON.stringify(tmpPubStngs);
       console.log(tmpStrStngs);
       console.log(tmpStrPubStngs);
-      /* this.blockDocument();
+      this.blockDocument();
       this.stEvaluationService
         .postLayer(
           this.selectedStudyAreaST.id,
           this.selectedLayersST,
+          this.selectedPublicLayersST,
           this.selectedFiltersArrayST,
-          this.settingsString,
+          this.selectedPublicFiltersArrayST,
+          tmpStrStngs,
+          tmpStrPubStngs,
           this.joinMethod.value
         )
         .subscribe(
@@ -3498,8 +3501,9 @@ export class ToolsSidebarComponent implements OnInit {
           },
           () => {
             this.printGeoJSON();
+            this.unblockDocument();
           }
-        ); */
+        );
     }
   }
 
