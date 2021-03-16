@@ -22,10 +22,10 @@ export class StEvaluationService {
 
   constructor(private http: HttpClient) { }
 
-  postLayer(saId: number, layersData: number[], publicLayersData: number[], filtersData: string[], publicFiltersData: string[], settingsData: string, publicSettingsData: string, id: number): Observable<any> {
+  postLayer(saId: string, layersData: number[], publicLayersData: number[], filtersData: string[], publicFiltersData: string[], settingsData: string, publicSettingsData: string, id: number): Observable<any> {
     try {
       let body = new HttpParams();
-      body = body.set('studyArea', saId.toString());
+      body = body.set('studyArea', saId);
       body = body.set('settings', settingsData);
       body = body.set('public_settings', publicSettingsData);
       body = body.set('joinMethod', id.toString());

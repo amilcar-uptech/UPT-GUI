@@ -3425,6 +3425,7 @@ export class ToolsSidebarComponent implements OnInit {
     let tmpPubStngs = [];
     let tmpStrStngs = "";
     let tmpStrPubStngs = "";
+    let stdAreaId = this.selectedStudyAreaST.id;
     this.stResult = true;
     this.selectedFiltersArrayST = [];
     this.selectedPublicFiltersArrayST = [];
@@ -3475,12 +3476,13 @@ export class ToolsSidebarComponent implements OnInit {
       // this.settingsString = JSON.stringify(this.selSetting);
       tmpStrStngs = JSON.stringify(tmpStngs);
       tmpStrPubStngs = JSON.stringify(tmpPubStngs);
-      console.log(tmpStrStngs);
-      console.log(tmpStrPubStngs);
+      console.log(this.selectedStudyAreaST.id);
       this.blockDocument();
-      this.stEvaluationService
+      if(stdAreaId.includes("priv_")) {
+        stdAreaId = stdAreaId.replace("priv_","");
+        this.stEvaluationService
         .postLayer(
-          this.selectedStudyAreaST.id,
+          stdAreaId,
           this.selectedLayersST,
           this.selectedPublicLayersST,
           this.selectedFiltersArrayST,
@@ -3504,6 +3506,10 @@ export class ToolsSidebarComponent implements OnInit {
             this.unblockDocument();
           }
         );
+      } else if(stdAreaId.includes("pub_")) {
+        stdAreaId = stdAreaId.replace("pub_","");
+      }
+      
     }
   }
 
