@@ -4826,7 +4826,7 @@ export class ToolsSidebarComponent implements OnInit {
             }
           }
           if (this.selectedStudyAreaST) {
-            this.layersService.getLayers(this.selectedStudyAreaST.id).subscribe(
+            this.layersService.getLayers(this.selectedStudyAreaST.id.replace("pub_","").replace("priv_","")).subscribe(
               (layers) => (this.layerSettings = layers),
               (error) => {
                 this.logErrorHandler(error);
@@ -5501,7 +5501,7 @@ export class ToolsSidebarComponent implements OnInit {
             }
           }
           if (this.selectedStudyAreaST) {
-            this.layersService.getFilters(this.selectedStudyAreaST.id).subscribe(
+            this.layersService.getFilters(this.selectedStudyAreaST.id.replace("pub_","").replace("priv_","")).subscribe(
               (fltr) => (this.filterList = fltr),
               (error) => {
                 this.logErrorHandler(error);
@@ -5625,7 +5625,7 @@ export class ToolsSidebarComponent implements OnInit {
             }
           }
           if (this.selectedStudyAreaST) {
-            this.layersService.getFilters(this.selectedStudyAreaST.id).subscribe(
+            this.layersService.getFilters(this.selectedStudyAreaST.id.replace("pub_","").replace("priv_","")).subscribe(
               (fltr) => (this.filterList = fltr),
               (error) => {
                 this.logErrorHandler(error);
