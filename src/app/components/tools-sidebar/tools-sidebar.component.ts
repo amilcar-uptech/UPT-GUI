@@ -3477,10 +3477,6 @@ export class ToolsSidebarComponent implements OnInit {
       tmpStrStngs = JSON.stringify(tmpStngs);
       tmpStrPubStngs = JSON.stringify(tmpPubStngs);
       //console.log(this.selectedStudyAreaST.id);
-      console.log("PRIVATE LAYERS: " + this.selectedLayersST);
-      console.log("PUBLIC LAYERS: " + this.selectedPublicLayersST);
-      console.log("PRIVATE FILTERS: " + this.selectedFiltersArrayST);
-      console.log("PUBLIC FILTERS: " + this.selectedPublicFiltersArrayST);
       this.blockDocument();
       if(stdAreaId.includes("priv_")) {
         stdAreaId = stdAreaId.replace("priv_","");
