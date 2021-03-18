@@ -27,6 +27,7 @@ export class StEvaluationService {
       let body = new HttpParams();
       body = body.set('studyArea', saId);
       body = body.set('settings', settingsData);
+      console.log(settingsData);
       body = body.set('public_settings', publicSettingsData);
       console.log(publicSettingsData);
       body = body.set('joinMethod', id.toString());
