@@ -91,7 +91,7 @@ export class DataCopyService {
     body = body.set('layerName', dataCopy.layerName);
     body = body.set('studyAreaId', dataCopy.studyAreaId.toString());
     try {
-      return this.http.post('/action?action_route=st_copy_layers', body);
+      return this.http.post('/action?action_route=st_copy_public_layers', body);
     } catch (e) {
       console.log(e);
     }
