@@ -2954,7 +2954,7 @@ export class ToolsSidebarComponent implements OnInit {
       let tmpId = this.stdAreaSTDistances.id;
       if(tmpId.includes("priv_")) {
         tmpId = tmpId.replace("priv_","");
-        console.log(tmpId);
+        console.log(this.listDataDistancesST);
         this.blockDocument();
         this.messageService.add({
           severity: 'info',
@@ -2997,7 +2997,7 @@ export class ToolsSidebarComponent implements OnInit {
         );
       } else if(tmpId.includes("pub_")) {
         tmpId = tmpId.replace("pub_","");
-        console.log(tmpId);
+        console.log(this.listDataDistancesST);
         this.blockDocument();
         this.messageService.add({
           severity: 'info',
