@@ -2778,21 +2778,45 @@ export class ToolsSidebarComponent implements OnInit {
   // Sends a request to fill the dropdowns for the Copy Data module for ST
   loadSTDataDistanceColumns(event) {
     if (event.node.type.toLowerCase() !== 'directory') {
-      this.listService.getSTColumnWithId(event.node.data).subscribe(
-        (listManageDataST) => {
-          this.colFieldsNameArrayST = [];
-          this.layerSTId = null;
-          listManageDataST.forEach((data) =>
-            this.colFieldsNameArrayST.push({ name: data })
-          );
-          this.layerSTId = event.node.data;
-          this.listManageDistanceST = this.colFieldsNameArrayST;
-          this.columnHeaderDistancesST = event.node.label;
-        },
-        (error) => {
-          this.logErrorHandler(error);
-        }
-      );
+      let layerId = event.node.data.toString();
+      let directory = event.node.parent.data.toString();
+      this.tmpLayerId = event.node.data.toString();
+      if(directory.includes("my_data")) {
+        layerId = layerId.replace("priv_","");
+        this.listService.getSTColumnWithId(layerId).subscribe(
+          (listManageDataST) => {
+            this.colFieldsNameArrayST = [];
+            this.layerSTId = null;
+            listManageDataST.forEach((data) =>
+              this.colFieldsNameArrayST.push({ name: data })
+            );
+            this.layerSTId = event.node.data;
+            this.listManageDistanceST = this.colFieldsNameArrayST;
+            this.columnHeaderDistancesST = event.node.label;
+          },
+          (error) => {
+            this.logErrorHandler(error);
+          }
+        );
+      } else if(directory.includes("public_data")) {
+        layerId = layerId.replace("pub_","");
+        this.listService.getSTPublicColumnWithId(layerId).subscribe(
+          (listManageDataST) => {
+            this.colFieldsNameArrayST = [];
+            this.layerSTId = null;
+            listManageDataST.forEach((data) =>
+              this.colFieldsNameArrayST.push({ name: data })
+            );
+            this.layerSTId = event.node.data;
+            this.listManageDistanceST = this.colFieldsNameArrayST;
+            this.columnHeaderDistancesST = event.node.label;
+          },
+          (error) => {
+            this.logErrorHandler(error);
+          }
+        );
+      }
+      
     } else {
       this.colFieldsNameArrayST = [];
       this.layerSTId = null;
