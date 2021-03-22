@@ -2951,46 +2951,92 @@ export class ToolsSidebarComponent implements OnInit {
   // Sends a request to copy data from the selected layer into the distance module
   importDataST() {
     if (this.stdAreaSTDistances != null) {
-      this.blockDocument();
-      this.messageService.add({
-        severity: 'info',
-        summary: 'In Progress!',
-        detail: 'Your operation is being processed.',
-      });
-      this.columnDataGP = [];
-      this.columnFieldsArrayST.forEach((data) =>
-        this.columnDataGP.push(data.name)
-      );
-      this.dataCopyST = {
-        layerName: this.selDistanceLayerST.data,
-        layerSTName: this.selTableST.data,
-        table: this.columnDataGP,
-        tableST: this.listDataDistancesST,
-        studyAreaId: this.stdAreaSTDistances.id,
-      };
-      this.dataCopyService.copyDataST(this.dataCopyST).subscribe(
-        (data) => {
-          this.dataCopyST = {
-            layerName: data.layerName,
-            layerSTName: data.layerSTName,
-            table: data.table,
-            tableST: data.tableST,
-            studyAreaId: data.studyAreaId,
-          };
-        },
-        (error) => {
-          this.unblockDocument();
-          this.logErrorHandler(error);
-        },
-        () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success!',
-            detail: 'Process completed successfully.',
-          });
-          this.unblockDocument();
-        }
-      );
+      let tmpId = this.stdAreaSTDistances.id;
+      if(tmpId.includes("priv_")) {
+        tmpId = tmpId.replace("priv_","");
+        this.blockDocument();
+        this.messageService.add({
+          severity: 'info',
+          summary: 'In Progress!',
+          detail: 'Your operation is being processed.',
+        });
+        this.columnDataGP = [];
+        this.columnFieldsArrayST.forEach((data) =>
+          this.columnDataGP.push(data.name)
+        );
+        this.dataCopyST = {
+          layerName: this.selDistanceLayerST.data,
+          layerSTName: this.selTableST.data,
+          table: this.columnDataGP,
+          tableST: this.listDataDistancesST,
+          studyAreaId: tmpId,
+        };
+        this.dataCopyService.copyDataST(this.dataCopyST).subscribe(
+          (data) => {
+            this.dataCopyST = {
+              layerName: data.layerName,
+              layerSTName: data.layerSTName,
+              table: data.table,
+              tableST: data.tableST,
+              studyAreaId: data.studyAreaId,
+            };
+          },
+          (error) => {
+            this.unblockDocument();
+            this.logErrorHandler(error);
+          },
+          () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success!',
+              detail: 'Process completed successfully.',
+            });
+            this.unblockDocument();
+          }
+        );
+      } else if(tmpId.includes("pub_")) {
+        tmpId = tmpId.replace("pub_","");
+        this.blockDocument();
+        this.messageService.add({
+          severity: 'info',
+          summary: 'In Progress!',
+          detail: 'Your operation is being processed.',
+        });
+        this.columnDataGP = [];
+        this.columnFieldsArrayST.forEach((data) =>
+          this.columnDataGP.push(data.name)
+        );
+        this.dataCopyST = {
+          layerName: this.selDistanceLayerST.data,
+          layerSTName: this.selTableST.data,
+          table: this.columnDataGP,
+          tableST: this.listDataDistancesST,
+          studyAreaId: tmpId,
+        };
+        this.dataCopyService.copyPublicDataST(this.dataCopyST).subscribe(
+          (data) => {
+            this.dataCopyST = {
+              layerName: data.layerName,
+              layerSTName: data.layerSTName,
+              table: data.table,
+              tableST: data.tableST,
+              studyAreaId: data.studyAreaId,
+            };
+          },
+          (error) => {
+            this.unblockDocument();
+            this.logErrorHandler(error);
+          },
+          () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success!',
+              detail: 'Process completed successfully.',
+            });
+            this.unblockDocument();
+          }
+        );
+      }
     } else {
       this.messageService.add({
         severity: 'error',
@@ -3572,19 +3618,37 @@ export class ToolsSidebarComponent implements OnInit {
       summary: 'In Progress!',
       detail: 'Your operation is being processed.',
     });
-    this.stEvaluationService.postStdArea(stdAreaEval).subscribe(
-      () => {},
-      (error) => {
-        this.unblockDocument();
-        this.logErrorHandler(error);
-      },
-      () => {
-        interval = setInterval(
-          () => this.getStatusST(interval, stdAreaEval),
-          5000
-        );
-      }
-    );
+    if(stdAreaEval.includes("priv_")) {
+      stdAreaEval = stdAreaEval.replace("priv_","");
+      this.stEvaluationService.postStdArea(stdAreaEval).subscribe(
+        () => {},
+        (error) => {
+          this.unblockDocument();
+          this.logErrorHandler(error);
+        },
+        () => {
+          interval = setInterval(
+            () => this.getStatusST(interval, stdAreaEval),
+            5000
+          );
+        }
+      );
+    } else if(stdAreaEval.includes("pub_")) {
+      stdAreaEval = stdAreaEval.replace("pub_","");
+      this.stEvaluationService.postStdArea(stdAreaEval).subscribe(
+        () => {},
+        (error) => {
+          this.unblockDocument();
+          this.logErrorHandler(error);
+        },
+        () => {
+          interval = setInterval(
+            () => this.getStatusST(interval, stdAreaEval),
+            5000
+          );
+        }
+      );
+    }
   }
 
   // Sends a request to get the current status of the distance evaluation process

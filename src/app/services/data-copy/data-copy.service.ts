@@ -75,6 +75,28 @@ export class DataCopyService {
     }
   }
 
+  public copyPublicDataST(dataCopy: DataCopy): Observable < DataCopy > {
+    let array = [];
+    dataCopy.tableST.forEach(
+      ele => array.push(ele.name)
+    );
+    dataCopy.tableST = array;
+    let body = new HttpParams({
+      fromObject: {
+        tableST: dataCopy.tableST,
+        table: dataCopy.table
+      }
+    });
+    body = body.set('layerSTName', dataCopy.layerSTName);
+    body = body.set('layerName', dataCopy.layerName);
+    body = body.set('studyAreaId', dataCopy.studyAreaId.toString());
+    try {
+      return this.http.post('/action?action_route=st_copy_layers', body);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   public copyLayersST(matchLayer: MatchLayer): Observable < MatchLayer > {
     let body = new HttpParams();
     body = body.set('layerId', matchLayer.layerId.toString());
