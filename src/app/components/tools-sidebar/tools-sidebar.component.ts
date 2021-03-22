@@ -3508,6 +3508,32 @@ export class ToolsSidebarComponent implements OnInit {
         );
       } else if(stdAreaId.includes("pub_")) {
         stdAreaId = stdAreaId.replace("pub_","");
+        this.stEvaluationService
+        .postPublicLayer(
+          stdAreaId,
+          this.selectedLayersST,
+          this.selectedPublicLayersST,
+          this.selectedFiltersArrayST,
+          this.selectedPublicFiltersArrayST,
+          tmpStrStngs,
+          tmpStrPubStngs,
+          this.joinMethod.value
+        )
+        .subscribe(
+          (data) => {
+            this.geojsonObject = data[0];
+            this.fullGeojson = data;
+          },
+          (error) => {
+            this.unblockDocument();
+            this.stResult = true;
+            this.logErrorHandler(error);
+          },
+          () => {
+            this.printGeoJSON();
+            this.unblockDocument();
+          }
+        );
       }
       
     }

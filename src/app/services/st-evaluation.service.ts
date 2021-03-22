@@ -43,8 +43,36 @@ export class StEvaluationService {
       publicFiltersData.forEach((item) => {
         body = body.append('public_filters', item.toString());
       });
-      console.log("BODY: " + body);
       return this.http.post<any>('/action?action_route=LayersSTHandler&action=index_values', body).pipe(
+                  map(res => res as any)
+                );
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  postPublicLayer(saId: string, layersData: number[], publicLayersData: number[], filtersData: string[], publicFiltersData: string[], settingsData: string, publicSettingsData: string, id: number): Observable<any> {
+    try {
+      let body = new HttpParams();
+      body = body.set('studyArea', saId);
+      body = body.set('settings', settingsData);
+      console.log(settingsData);
+      body = body.set('public_settings', publicSettingsData);
+      console.log(publicSettingsData);
+      body = body.set('joinMethod', id.toString());
+      layersData.forEach((item) => {
+        body = body.append('layers', item.toString());
+      });
+      publicLayersData.forEach((item) => {
+        body = body.append('public_layers', item.toString());
+      });
+      filtersData.forEach((item) => {
+        body = body.append('filters', item.toString());
+      });
+      publicFiltersData.forEach((item) => {
+        body = body.append('public_filters', item.toString());
+      });
+      return this.http.post<any>('/action?action_route=LayersSTHandler&action=public_index_values', body).pipe(
                   map(res => res as any)
                 );
     } catch (e) {
