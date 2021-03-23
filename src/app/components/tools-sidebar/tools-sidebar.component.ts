@@ -2967,7 +2967,7 @@ export class ToolsSidebarComponent implements OnInit {
         );
         tmpLyrName = tmpLyrName.replace("priv_","").replace("pub_","");
         this.dataCopyST = {
-          layerName: this.selDistanceLayerST.data,
+          layerName: tmpLyrName,
           layerSTName: this.selTableST.data,
           table: this.columnDataGP,
           tableST: this.listDataDistancesST,
@@ -3011,7 +3011,7 @@ export class ToolsSidebarComponent implements OnInit {
         );
         tmpLyrName = tmpLyrName.replace("priv_","").replace("pub_","");
         this.dataCopyST = {
-          layerName: this.selDistanceLayerST.data,
+          layerName: tmpLyrName,
           layerSTName: this.selTableST.data,
           table: this.columnDataGP,
           tableST: this.listDataDistancesST,
