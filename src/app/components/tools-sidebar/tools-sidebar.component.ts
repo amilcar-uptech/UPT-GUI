@@ -2952,6 +2952,7 @@ export class ToolsSidebarComponent implements OnInit {
   importDataST() {
     if (this.stdAreaSTDistances != null) {
       let tmpId = this.stdAreaSTDistances.id;
+      let tmpLyrName = this.selDistanceLayerST.data;
       if(tmpId.includes("priv_")) {
         tmpId = tmpId.replace("priv_","");
         this.blockDocument();
@@ -2964,6 +2965,7 @@ export class ToolsSidebarComponent implements OnInit {
         this.columnFieldsArrayST.forEach((data) =>
           this.columnDataGP.push(data.name)
         );
+        tmpLyrName = tmpLyrName.replace("priv_","").replace("pub_","");
         this.dataCopyST = {
           layerName: this.selDistanceLayerST.data,
           layerSTName: this.selTableST.data,
@@ -3007,6 +3009,7 @@ export class ToolsSidebarComponent implements OnInit {
         this.columnFieldsArrayST.forEach((data) =>
           this.columnDataGP.push(data.name)
         );
+        tmpLyrName = tmpLyrName.replace("priv_","").replace("pub_","");
         this.dataCopyST = {
           layerName: this.selDistanceLayerST.data,
           layerSTName: this.selTableST.data,
