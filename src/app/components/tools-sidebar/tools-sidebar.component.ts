@@ -2954,7 +2954,6 @@ export class ToolsSidebarComponent implements OnInit {
       let tmpId = this.stdAreaSTDistances.id;
       if(tmpId.includes("priv_")) {
         tmpId = tmpId.replace("priv_","");
-        console.log(this.listDataDistancesST);
         this.blockDocument();
         this.messageService.add({
           severity: 'info',
@@ -2972,6 +2971,7 @@ export class ToolsSidebarComponent implements OnInit {
           tableST: this.listDataDistancesST,
           studyAreaId: tmpId,
         };
+        console.log(this.dataCopyST);
         this.dataCopyService.copyDataST(this.dataCopyST).subscribe(
           (data) => {
             this.dataCopyST = {
@@ -2997,7 +2997,6 @@ export class ToolsSidebarComponent implements OnInit {
         );
       } else if(tmpId.includes("pub_")) {
         tmpId = tmpId.replace("pub_","");
-        console.log(this.listDataDistancesST);
         this.blockDocument();
         this.messageService.add({
           severity: 'info',
@@ -3015,6 +3014,7 @@ export class ToolsSidebarComponent implements OnInit {
           tableST: this.listDataDistancesST,
           studyAreaId: tmpId,
         };
+        console.log(this.dataCopyST);
         this.dataCopyService.copyPublicDataST(this.dataCopyST).subscribe(
           (data) => {
             this.dataCopyST = {
