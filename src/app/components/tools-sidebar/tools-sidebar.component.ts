@@ -3434,7 +3434,6 @@ export class ToolsSidebarComponent implements OnInit {
                 this.logErrorHandler(error);
               },
               () => {
-                console.log(this.filterList);
               }
             );
           }
@@ -3482,7 +3481,6 @@ export class ToolsSidebarComponent implements OnInit {
                 this.logErrorHandler(error);
               },
               () => {
-                console.log(this.filterList);
               }
             );
           }
@@ -3546,10 +3544,8 @@ export class ToolsSidebarComponent implements OnInit {
           stng.smaller_better = stng.smaller_better ? 1 : 0;
         }
       );
-      // this.settingsString = JSON.stringify(this.selSetting);
       tmpStrStngs = JSON.stringify(tmpStngs);
       tmpStrPubStngs = JSON.stringify(tmpPubStngs);
-      //console.log(this.selectedStudyAreaST.id);
       this.blockDocument();
       if(stdAreaId.includes("priv_")) {
         stdAreaId = stdAreaId.replace("priv_","");
@@ -3809,7 +3805,6 @@ export class ToolsSidebarComponent implements OnInit {
         });
         this.unblockDocument();
         this.oskariHeatmap['style'] = JSON.stringify(this.layerOptions['optionalStyles']);
-        console.log(this.oskariHeatmap);
       } catch(e) {
         this.unblockDocument();
         this.messageService.add({
@@ -3889,7 +3884,6 @@ export class ToolsSidebarComponent implements OnInit {
         this.layerOptions,
       ]);
       this.oskariHeatmap['style'] = JSON.stringify(this.layerOptions['optionalStyles']);
-      console.log(this.oskariHeatmap);
     }
   }
 
@@ -4112,16 +4106,6 @@ export class ToolsSidebarComponent implements OnInit {
           }
         );
       }
-      /* this.settingsService.getSettings(this.stdAreaManageSetting.id).subscribe(
-        (settings) => (this.settingsSTManage = settings),
-        (error) => {
-          this.logErrorHandler(error);
-        }, () => {
-          this.settingsSTManage.forEach(
-            stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
-          );
-        }
-      ); */
     }
   }
 
@@ -6065,7 +6049,6 @@ export class ToolsSidebarComponent implements OnInit {
         ? 1
         : 0;
       if(!isUndefined(this.manageSetting.st_layer_id)) {
-        console.log("Private layer: " + this.manageSetting);
         this.settingsService.postSettings(this.manageSetting).subscribe(
           () =>
             this.messageService.add({
@@ -6145,7 +6128,6 @@ export class ToolsSidebarComponent implements OnInit {
           }
         );
       } else if(!isUndefined(this.manageSetting.st_public_layer_id)) {
-        console.log("Public layer: " + this.manageSetting);
         this.settingsService.postPublicSettings(this.manageSetting).subscribe(
           () =>
             this.messageService.add({
