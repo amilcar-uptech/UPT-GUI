@@ -2953,8 +2953,8 @@ export class ToolsSidebarComponent implements OnInit {
     if (this.stdAreaSTDistances != null) {
       let tmpId = this.stdAreaSTDistances.id;
       let tmpLyrName = this.selDistanceLayerST.data;
-      if(tmpId.includes("priv_")) {
-        tmpId = tmpId.replace("priv_","");
+      if(tmpLyrName.includes("priv_")) {
+        tmpLyrName = tmpLyrName.replace("priv_","");
         this.blockDocument();
         this.messageService.add({
           severity: 'info',
@@ -2965,7 +2965,7 @@ export class ToolsSidebarComponent implements OnInit {
         this.columnFieldsArrayST.forEach((data) =>
           this.columnDataGP.push(data.name)
         );
-        tmpLyrName = tmpLyrName.replace("priv_","").replace("pub_","");
+        tmpId = tmpId.replace("priv_","").replace("pub_","");
         this.dataCopyST = {
           layerName: tmpLyrName,
           layerSTName: this.selTableST.data,
@@ -2973,7 +2973,6 @@ export class ToolsSidebarComponent implements OnInit {
           tableST: this.listDataDistancesST,
           studyAreaId: tmpId,
         };
-        console.log(this.dataCopyST);
         this.dataCopyService.copyDataST(this.dataCopyST).subscribe(
           (data) => {
             this.dataCopyST = {
@@ -2997,8 +2996,8 @@ export class ToolsSidebarComponent implements OnInit {
             this.unblockDocument();
           }
         );
-      } else if(tmpId.includes("pub_")) {
-        tmpId = tmpId.replace("pub_","");
+      } else if(tmpLyrName.includes("pub_")) {
+        tmpLyrName = tmpLyrName.replace("pub_","");
         this.blockDocument();
         this.messageService.add({
           severity: 'info',
@@ -3009,7 +3008,7 @@ export class ToolsSidebarComponent implements OnInit {
         this.columnFieldsArrayST.forEach((data) =>
           this.columnDataGP.push(data.name)
         );
-        tmpLyrName = tmpLyrName.replace("priv_","").replace("pub_","");
+        tmpId = tmpId.replace("priv_","").replace("pub_","");
         this.dataCopyST = {
           layerName: tmpLyrName,
           layerSTName: this.selTableST.data,
@@ -3017,7 +3016,6 @@ export class ToolsSidebarComponent implements OnInit {
           tableST: this.listDataDistancesST,
           studyAreaId: tmpId,
         };
-        console.log(this.dataCopyST);
         this.dataCopyService.copyPublicDataST(this.dataCopyST).subscribe(
           (data) => {
             this.dataCopyST = {
