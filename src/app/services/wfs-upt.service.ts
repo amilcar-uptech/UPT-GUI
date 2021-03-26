@@ -2,12 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { TreeNode } from 'primeng/api';
+import { SelectItem } from 'primeng/api';
 
 const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json'
-  }),
   params: null
 };
 
@@ -19,13 +16,36 @@ export class WfsUptService {
 
   constructor(private http: HttpClient) { }
 
-  public getUptWfsLayers(): Observable<TreeNode[]> {
+  public getUptWfsLayers(): Observable<SelectItem[]> {
     /* ids = [];
     scenarios.forEach(scen => ids.push(scen.scenarioId));
     let body = new HttpParams({fromObject: {scenariosId: ids}});*/
-    return this.http.get<any>('/action?action_route=LayersWfsHandler&action=list_layers').pipe(
-      map(res => res.data as TreeNode[])
-    );
+    return this.http.get<any>('/action?action_route=wfs_listing')
+                .pipe(
+                  map(res => res as SelectItem[])
+                );
+  }
+  
+  public importUptWfs(id: number): Observable<any> {
+    try {
+      let body = new HttpParams();
+      body = body.set('study_area',id.toString());
+      //console.log();
+      return this.http.post<any>('/action?action_route=UPTImportPublicLayerData', body);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  public deleteUptWfs(id: number): Observable<any> {
+    try {
+      httpOptions['params'] = {
+        id: id
+      };
+      return this.http.delete<any>('/action?action_route=UPTImportPublicLayerData', httpOptions);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   public getUptWfsColumns(id: number, sa: number): Observable<any[]> {
@@ -39,5 +59,11 @@ export class WfsUptService {
     return this.http.get<any>('/action?action_route=LayersWfsHandler&action=list_columns', httpOptions).pipe(
       map(res => res.columns as any[])
     );
+  }
+
+  public testPostWFS() {
+    httpOptions.params = {
+    };
+    return this.http.post('/action?action_route=UPTImportPublicLayerData', httpOptions);
   }
 }

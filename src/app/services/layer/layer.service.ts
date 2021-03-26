@@ -21,6 +21,13 @@ export class LayerService {
                 );
   }
 
+  getPublicStudyAreas(): Observable<SelectItem[]> {
+    return this.http.get<any>('/action?action_route=public_study_area')
+                .pipe(
+                  map(res => res as SelectItem[])
+                );
+  }
+
   getLayers(id: number): Observable<SelectItem[]> {
     return this.http.get<any>('/action?action_route=LayersSTHandler&action=list_st_layers&study_area=' + id)
                 .pipe(
@@ -28,10 +35,52 @@ export class LayerService {
                 );
   }
 
-  getFilters(id: number): Observable<SelectItem[]> {
-    return this.http.get<any>('/action?action_route=st_filters&study_area=' + id)
+  getLayersPubStdArea(id: number): Observable<SelectItem[]> {
+    return this.http.get<any>('/action?action_route=LayersSTHandler&action=list_st_layers_pub_std_area&study_area=' + id)
                 .pipe(
                   map(res => res as SelectItem[])
+                );
+  }
+
+  getPublicLayers(id: number): Observable<SelectItem[]> {
+    return this.http.get<any>('/action?action_route=LayersSTHandler&action=list_st_public_layers&study_area=' + id)
+                .pipe(
+                  map(res => res as SelectItem[])
+                );
+  }
+
+  getPublicLayersPubStdArea(id: number): Observable<SelectItem[]> {
+    return this.http.get<any>('/action?action_route=LayersSTHandler&action=list_st_public_layers_pub_std_area&study_area=' + id)
+                .pipe(
+                  map(res => res as SelectItem[])
+                );
+  }
+
+  getFilters(id: number): Observable<any[]> {
+    return this.http.get<any>('/action?action_route=st_filters&study_area=' + id)
+                .pipe(
+                  map(res => res as any[])
+                );
+  }
+
+  getFilterSTPubStdArea(id: number): Observable<any[]> {
+    return this.http.get<any>('/action?action_route=st_filters_pub_lyr&study_area=' + id)
+                .pipe(
+                  map(res => res as any[])
+                );
+  }
+
+  getPublicFilters(id: number): Observable<any[]> {
+    return this.http.get<any>('/action?action_route=st_public_filters&study_area=' + id)
+                .pipe(
+                  map(res => res as any[])
+                );
+  }
+
+  getPublicFilterSTPubStdArea(id: number): Observable<any[]> {
+    return this.http.get<any>('/action?action_route=st_public_filters_pub_lyr&study_area=' + id)
+                .pipe(
+                  map(res => res as any[])
                 );
   }
 
