@@ -870,6 +870,9 @@ export class ToolsSidebarComponent implements OnInit {
    */
   // Displays the main UP dialog, as well as sends requests needed for the different elements needed for operations.
   showUP() {
+    let privStdArea = [];
+    let pubStdArea = [];
+    let stdAreaArray = [];
     this.upAct = true;
     this.stAct = false;
     this.indSelectItems = [];
@@ -896,10 +899,25 @@ export class ToolsSidebarComponent implements OnInit {
     );
     this.layersService.getStudyAreas().subscribe(
       (studyArea) => {
-        this.studyArea = studyArea;
+        privStdArea = studyArea;
       },
       (error) => {
         this.logErrorHandler(error);
+      },
+      () => {
+        stdAreaArray = stdAreaArray.concat(privStdArea);
+        this.layersService.getPublicStudyAreas().subscribe(
+          (studyArea) => {
+            pubStdArea = studyArea;
+          },
+          (error) => {
+            this.logErrorHandler(error);
+          },
+          () => {
+            stdAreaArray = stdAreaArray.concat(pubStdArea);
+            this.studyArea = stdAreaArray;
+          }
+        );
       }
     );
     this.classificationService.getClassifications().subscribe(
@@ -1334,6 +1352,9 @@ export class ToolsSidebarComponent implements OnInit {
 
   // Sends a request for buffers generated from Buffers modules and saves them into Oskari.
   getUPBuffers() {
+    let privStdArea = [];
+    let pubStdArea = [];
+    let stdAreaArray = [];
     this.resultsService.getUPBuffers(this.selectedScenarios).subscribe(
       (buffers) => (this.buffersUP = buffers),
       (error) => {
@@ -1354,10 +1375,25 @@ export class ToolsSidebarComponent implements OnInit {
         });
         this.layersService.getStudyAreas().subscribe(
           (studyArea) => {
-            this.studyArea = studyArea;
+            privStdArea = studyArea;
           },
           (error) => {
             this.logErrorHandler(error);
+          },
+          () => {
+            stdAreaArray = stdAreaArray.concat(privStdArea);
+            this.layersService.getPublicStudyAreas().subscribe(
+              (studyArea) => {
+                pubStdArea = studyArea;
+              },
+              (error) => {
+                this.logErrorHandler(error);
+              },
+              () => {
+                stdAreaArray = stdAreaArray.concat(pubStdArea);
+                this.studyArea = stdAreaArray;
+              }
+            );
           }
         );
       }
@@ -1405,8 +1441,8 @@ export class ToolsSidebarComponent implements OnInit {
         name: this.scenarioName,
         indicators: this.selIndText,
         isBase: this.isBaseUP ? 1 : 0,
-        studyArea: this.selectedStudyAreaUP.id,
-        studyAreaId: this.selectedStudyAreaUP.id,
+        studyArea: this.selectedStudyAreaUP.id.replace("priv_","").replace("pub_",""),
+        studyAreaId: this.selectedStudyAreaUP.id.replace("priv_","").replace("pub_",""),
       };
       this.scenarioService.postScenario(this.newScenario).subscribe(
         (scenario) => {
