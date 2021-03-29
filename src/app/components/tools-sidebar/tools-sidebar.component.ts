@@ -1975,7 +1975,7 @@ export class ToolsSidebarComponent implements OnInit {
         .getAssumptions(this.asmptScenarioManage.scenarioId.replace("priv_",""))
         .subscribe(
           (assumptions) => {
-            assumptions.array.forEach(assumption => {
+            assumptions.forEach(assumption => {
               assumption.id = "priv_" + assumption.id;
             });
             this.assumptions = assumptions;
@@ -1989,7 +1989,7 @@ export class ToolsSidebarComponent implements OnInit {
         .getPublicAssumptions(this.asmptScenarioManage.scenarioId.replace("pub_",""))
         .subscribe(
           (assumptions) => {
-            assumptions.array.forEach(assumption => {
+            assumptions.forEach(assumption => {
               assumption.id = "pub_" + assumption.id;
             });
             this.assumptions = assumptions;
@@ -2026,7 +2026,7 @@ export class ToolsSidebarComponent implements OnInit {
               .getAssumptions(this.asmptScenarioManage.scenarioId.replace("priv_",""))
               .subscribe(
                 (assumptions) => {
-                  assumptions.array.forEach(assumption => {
+                  assumptions.forEach(assumption => {
                     assumption.id = "priv_" + assumption.id;
                   });
                   this.assumptions = assumptions;
@@ -2040,7 +2040,7 @@ export class ToolsSidebarComponent implements OnInit {
               .getPublicAssumptions(this.asmptScenarioManage.scenarioId.replace("pub_",""))
               .subscribe(
                 (assumptions) => {
-                  assumptions.array.forEach(assumption => {
+                  assumptions.forEach(assumption => {
                     assumption.id = "pub_" + assumption.id;
                   });
                   this.assumptions = assumptions;
@@ -2075,7 +2075,7 @@ export class ToolsSidebarComponent implements OnInit {
               .getAssumptions(this.asmptScenarioManage.scenarioId.replace("priv_",""))
               .subscribe(
                 (assumptions) => {
-                  assumptions.array.forEach(assumption => {
+                  assumptions.forEach(assumption => {
                     assumption.id = "priv_" + assumption.id;
                   });
                   this.assumptions = assumptions;
@@ -2089,7 +2089,7 @@ export class ToolsSidebarComponent implements OnInit {
               .getPublicAssumptions(this.asmptScenarioManage.scenarioId.replace("pub_",""))
               .subscribe(
                 (assumptions) => {
-                  assumptions.array.forEach(assumption => {
+                  assumptions.forEach(assumption => {
                     assumption.id = "pub_" + assumption.id;
                   });
                   this.assumptions = assumptions;
@@ -2152,7 +2152,7 @@ export class ToolsSidebarComponent implements OnInit {
                 .getAssumptions(this.asmptScenarioManage.scenarioId.replace("priv_",""))
                 .subscribe(
                   (assumptions) => {
-                    assumptions.array.forEach(assumption => {
+                    assumptions.forEach(assumption => {
                       assumption.id = "priv_" + assumption.id;
                     });
                     this.assumptions = assumptions;
@@ -2166,7 +2166,7 @@ export class ToolsSidebarComponent implements OnInit {
                 .getPublicAssumptions(this.asmptScenarioManage.scenarioId.replace("pub_",""))
                 .subscribe(
                   (assumptions) => {
-                    assumptions.array.forEach(assumption => {
+                    assumptions.forEach(assumption => {
                       assumption.id = "pub_" + assumption.id;
                     });
                     this.assumptions = assumptions;
@@ -2205,7 +2205,7 @@ export class ToolsSidebarComponent implements OnInit {
                 .getAssumptions(this.asmptScenarioManage.scenarioId.replace("priv_",""))
                 .subscribe(
                   (assumptions) => {
-                    assumptions.array.forEach(assumption => {
+                    assumptions.forEach(assumption => {
                       assumption.id = "priv_" + assumption.id;
                     });
                     this.assumptions = assumptions;
@@ -2219,7 +2219,7 @@ export class ToolsSidebarComponent implements OnInit {
                 .getPublicAssumptions(this.asmptScenarioManage.scenarioId.replace("pub_",""))
                 .subscribe(
                   (assumptions) => {
-                    assumptions.array.forEach(assumption => {
+                    assumptions.forEach(assumption => {
                       assumption.id = "pub_" + assumption.id;
                     });
                     this.assumptions = assumptions;
@@ -2260,7 +2260,7 @@ export class ToolsSidebarComponent implements OnInit {
                 .getAssumptions(this.asmptScenarioManage.scenarioId.replace("priv_",""))
                 .subscribe(
                   (assumptions) => {
-                    assumptions.array.forEach(assumption => {
+                    assumptions.forEach(assumption => {
                       assumption.id = "priv_" + assumption.id;
                     });
                     this.assumptions = assumptions;
@@ -2274,7 +2274,7 @@ export class ToolsSidebarComponent implements OnInit {
                 .getPublicAssumptions(this.asmptScenarioManage.scenarioId.replace("pub_",""))
                 .subscribe(
                   (assumptions) => {
-                    assumptions.array.forEach(assumption => {
+                    assumptions.forEach(assumption => {
                       assumption.id = "pub_" + assumption.id;
                     });
                     this.assumptions = assumptions;
@@ -2313,7 +2313,7 @@ export class ToolsSidebarComponent implements OnInit {
                 .getAssumptions(this.asmptScenarioManage.scenarioId.replace("priv_",""))
                 .subscribe(
                   (assumptions) => {
-                    assumptions.array.forEach(assumption => {
+                    assumptions.forEach(assumption => {
                       assumption.id = "priv_" + assumption.id;
                     });
                     this.assumptions = assumptions;
@@ -2327,7 +2327,7 @@ export class ToolsSidebarComponent implements OnInit {
                 .getPublicAssumptions(this.asmptScenarioManage.scenarioId.replace("pub_",""))
                 .subscribe(
                   (assumptions) => {
-                    assumptions.array.forEach(assumption => {
+                    assumptions.forEach(assumption => {
                       assumption.id = "pub_" + assumption.id;
                     });
                     this.assumptions = assumptions;
@@ -2389,7 +2389,7 @@ export class ToolsSidebarComponent implements OnInit {
               .getAssumptions(this.asmptScenarioManage.scenarioId.replace("priv_",""))
               .subscribe(
                 (assumptions) => {
-                  assumptions.array.forEach(assumption => {
+                  assumptions.forEach(assumption => {
                     assumption.id = "priv_" + assumption.id;
                   });
                   this.assumptions = assumptions;
@@ -2403,7 +2403,7 @@ export class ToolsSidebarComponent implements OnInit {
               .getPublicAssumptions(this.asmptScenarioManage.scenarioId.replace("pub_",""))
               .subscribe(
                 (assumptions) => {
-                  assumptions.array.forEach(assumption => {
+                  assumptions.forEach(assumption => {
                     assumption.id = "pub_" + assumption.id;
                   });
                   this.assumptions = assumptions;
@@ -2443,7 +2443,7 @@ export class ToolsSidebarComponent implements OnInit {
               .getAssumptions(this.asmptScenarioManage.scenarioId.replace("priv_",""))
               .subscribe(
                 (assumptions) => {
-                  assumptions.array.forEach(assumption => {
+                  assumptions.forEach(assumption => {
                     assumption.id = "priv_" + assumption.id;
                   });
                   this.assumptions = assumptions;
@@ -2457,7 +2457,7 @@ export class ToolsSidebarComponent implements OnInit {
               .getPublicAssumptions(this.asmptScenarioManage.scenarioId.replace("pub_",""))
               .subscribe(
                 (assumptions) => {
-                  assumptions.array.forEach(assumption => {
+                  assumptions.forEach(assumption => {
                     assumption.id = "pub_" + assumption.id;
                   });
                   this.assumptions = assumptions;
