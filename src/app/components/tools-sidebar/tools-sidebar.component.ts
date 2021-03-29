@@ -1975,7 +1975,9 @@ export class ToolsSidebarComponent implements OnInit {
         .getAssumptions(this.asmptScenarioManage.scenarioId.replace("priv_",""))
         .subscribe(
           (assumptions) => {
-            assumptions.id = "priv_" + assumptions.id;
+            assumptions.array.forEach(assumption => {
+              assumption.id = "priv_" + assumption.id;
+            });
             this.assumptions = assumptions;
           },
           (error) => {
@@ -1987,7 +1989,9 @@ export class ToolsSidebarComponent implements OnInit {
         .getPublicAssumptions(this.asmptScenarioManage.scenarioId.replace("pub_",""))
         .subscribe(
           (assumptions) => {
-            assumptions.id = "pub_" + assumptions.id;
+            assumptions.array.forEach(assumption => {
+              assumption.id = "pub_" + assumption.id;
+            });
             this.assumptions = assumptions;
           },
           (error) => {
@@ -2022,7 +2026,9 @@ export class ToolsSidebarComponent implements OnInit {
               .getAssumptions(this.asmptScenarioManage.scenarioId.replace("priv_",""))
               .subscribe(
                 (assumptions) => {
-                  assumptions.id = "priv_" + assumptions.id;
+                  assumptions.array.forEach(assumption => {
+                    assumption.id = "priv_" + assumption.id;
+                  });
                   this.assumptions = assumptions;
                 },
                 (error) => {
@@ -2034,14 +2040,16 @@ export class ToolsSidebarComponent implements OnInit {
               .getPublicAssumptions(this.asmptScenarioManage.scenarioId.replace("pub_",""))
               .subscribe(
                 (assumptions) => {
-                  assumptions.id = "pub_" + assumptions.id;
+                  assumptions.array.forEach(assumption => {
+                    assumption.id = "pub_" + assumption.id;
+                  });
                   this.assumptions = assumptions;
                 },
                 (error) => {
                   this.logErrorHandler(error);
                 }
               );
-            }
+            } 
           }
           this.messageService.add({
             severity: 'success',
@@ -2067,7 +2075,9 @@ export class ToolsSidebarComponent implements OnInit {
               .getAssumptions(this.asmptScenarioManage.scenarioId.replace("priv_",""))
               .subscribe(
                 (assumptions) => {
-                  assumptions.id = "priv_" + assumptions.id;
+                  assumptions.array.forEach(assumption => {
+                    assumption.id = "priv_" + assumption.id;
+                  });
                   this.assumptions = assumptions;
                 },
                 (error) => {
@@ -2079,14 +2089,16 @@ export class ToolsSidebarComponent implements OnInit {
               .getPublicAssumptions(this.asmptScenarioManage.scenarioId.replace("pub_",""))
               .subscribe(
                 (assumptions) => {
-                  assumptions.id = "pub_" + assumptions.id;
+                  assumptions.array.forEach(assumption => {
+                    assumption.id = "pub_" + assumption.id;
+                  });
                   this.assumptions = assumptions;
                 },
                 (error) => {
                   this.logErrorHandler(error);
                 }
               );
-            }
+            } 
           }
           this.messageService.add({
             severity: 'success',
@@ -2140,7 +2152,9 @@ export class ToolsSidebarComponent implements OnInit {
                 .getAssumptions(this.asmptScenarioManage.scenarioId.replace("priv_",""))
                 .subscribe(
                   (assumptions) => {
-                    assumptions.id = "priv_" + assumptions.id;
+                    assumptions.array.forEach(assumption => {
+                      assumption.id = "priv_" + assumption.id;
+                    });
                     this.assumptions = assumptions;
                   },
                   (error) => {
@@ -2152,14 +2166,16 @@ export class ToolsSidebarComponent implements OnInit {
                 .getPublicAssumptions(this.asmptScenarioManage.scenarioId.replace("pub_",""))
                 .subscribe(
                   (assumptions) => {
-                    assumptions.id = "pub_" + assumptions.id;
+                    assumptions.array.forEach(assumption => {
+                      assumption.id = "pub_" + assumption.id;
+                    });
                     this.assumptions = assumptions;
                   },
                   (error) => {
                     this.logErrorHandler(error);
                   }
                 );
-              }
+              } 
             }
             this.assumptionManage = null;
             this.editAssumptions = false;
@@ -2189,7 +2205,9 @@ export class ToolsSidebarComponent implements OnInit {
                 .getAssumptions(this.asmptScenarioManage.scenarioId.replace("priv_",""))
                 .subscribe(
                   (assumptions) => {
-                    assumptions.id = "priv_" + assumptions.id;
+                    assumptions.array.forEach(assumption => {
+                      assumption.id = "priv_" + assumption.id;
+                    });
                     this.assumptions = assumptions;
                   },
                   (error) => {
@@ -2201,14 +2219,16 @@ export class ToolsSidebarComponent implements OnInit {
                 .getPublicAssumptions(this.asmptScenarioManage.scenarioId.replace("pub_",""))
                 .subscribe(
                   (assumptions) => {
-                    assumptions.id = "pub_" + assumptions.id;
+                    assumptions.array.forEach(assumption => {
+                      assumption.id = "pub_" + assumption.id;
+                    });
                     this.assumptions = assumptions;
                   },
                   (error) => {
                     this.logErrorHandler(error);
                   }
                 );
-              }
+              } 
             }
             this.assumptionManage = null;
             this.editAssumptions = false;
@@ -2240,7 +2260,9 @@ export class ToolsSidebarComponent implements OnInit {
                 .getAssumptions(this.asmptScenarioManage.scenarioId.replace("priv_",""))
                 .subscribe(
                   (assumptions) => {
-                    assumptions.id = "priv_" + assumptions.id;
+                    assumptions.array.forEach(assumption => {
+                      assumption.id = "priv_" + assumption.id;
+                    });
                     this.assumptions = assumptions;
                   },
                   (error) => {
@@ -2252,14 +2274,16 @@ export class ToolsSidebarComponent implements OnInit {
                 .getPublicAssumptions(this.asmptScenarioManage.scenarioId.replace("pub_",""))
                 .subscribe(
                   (assumptions) => {
-                    assumptions.id = "pub_" + assumptions.id;
+                    assumptions.array.forEach(assumption => {
+                      assumption.id = "pub_" + assumption.id;
+                    });
                     this.assumptions = assumptions;
                   },
                   (error) => {
                     this.logErrorHandler(error);
                   }
                 );
-              }
+              } 
             }
             this.assumptionManage = null;
             this.editAssumptions = false;
@@ -2289,7 +2313,9 @@ export class ToolsSidebarComponent implements OnInit {
                 .getAssumptions(this.asmptScenarioManage.scenarioId.replace("priv_",""))
                 .subscribe(
                   (assumptions) => {
-                    assumptions.id = "priv_" + assumptions.id;
+                    assumptions.array.forEach(assumption => {
+                      assumption.id = "priv_" + assumption.id;
+                    });
                     this.assumptions = assumptions;
                   },
                   (error) => {
@@ -2301,14 +2327,16 @@ export class ToolsSidebarComponent implements OnInit {
                 .getPublicAssumptions(this.asmptScenarioManage.scenarioId.replace("pub_",""))
                 .subscribe(
                   (assumptions) => {
-                    assumptions.id = "pub_" + assumptions.id;
+                    assumptions.array.forEach(assumption => {
+                      assumption.id = "pub_" + assumption.id;
+                    });
                     this.assumptions = assumptions;
                   },
                   (error) => {
                     this.logErrorHandler(error);
                   }
                 );
-              }
+              } 
             }
             this.assumptionManage = null;
             this.editAssumptions = false;
@@ -2361,7 +2389,9 @@ export class ToolsSidebarComponent implements OnInit {
               .getAssumptions(this.asmptScenarioManage.scenarioId.replace("priv_",""))
               .subscribe(
                 (assumptions) => {
-                  assumptions.id = "priv_" + assumptions.id;
+                  assumptions.array.forEach(assumption => {
+                    assumption.id = "priv_" + assumption.id;
+                  });
                   this.assumptions = assumptions;
                 },
                 (error) => {
@@ -2373,14 +2403,16 @@ export class ToolsSidebarComponent implements OnInit {
               .getPublicAssumptions(this.asmptScenarioManage.scenarioId.replace("pub_",""))
               .subscribe(
                 (assumptions) => {
-                  assumptions.id = "pub_" + assumptions.id;
+                  assumptions.array.forEach(assumption => {
+                    assumption.id = "pub_" + assumption.id;
+                  });
                   this.assumptions = assumptions;
                 },
                 (error) => {
                   this.logErrorHandler(error);
                 }
               );
-            }
+            } 
           }
           this.assumptionManage = null;
           this.messageService.clear('confirmDeleteAssumption');
@@ -2411,7 +2443,9 @@ export class ToolsSidebarComponent implements OnInit {
               .getAssumptions(this.asmptScenarioManage.scenarioId.replace("priv_",""))
               .subscribe(
                 (assumptions) => {
-                  assumptions.id = "priv_" + assumptions.id;
+                  assumptions.array.forEach(assumption => {
+                    assumption.id = "priv_" + assumption.id;
+                  });
                   this.assumptions = assumptions;
                 },
                 (error) => {
@@ -2423,14 +2457,16 @@ export class ToolsSidebarComponent implements OnInit {
               .getPublicAssumptions(this.asmptScenarioManage.scenarioId.replace("pub_",""))
               .subscribe(
                 (assumptions) => {
-                  assumptions.id = "pub_" + assumptions.id;
+                  assumptions.array.forEach(assumption => {
+                    assumption.id = "pub_" + assumption.id;
+                  });
                   this.assumptions = assumptions;
                 },
                 (error) => {
                   this.logErrorHandler(error);
                 }
               );
-            }
+            } 
           }
           this.assumptionManage = null;
           this.messageService.clear('confirmDeleteAssumption');
