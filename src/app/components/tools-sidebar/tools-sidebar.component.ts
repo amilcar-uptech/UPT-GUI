@@ -1444,58 +1444,113 @@ export class ToolsSidebarComponent implements OnInit {
         studyArea: this.selectedStudyAreaUP.id.replace("priv_","").replace("pub_",""),
         studyAreaId: this.selectedStudyAreaUP.id.replace("priv_","").replace("pub_",""),
       };
-      this.scenarioService.postScenario(this.newScenario).subscribe(
-        (scenario) => {
-          if (!scenario.name.toLowerCase().includes('error')) {
-            this.newScenario = null;
-            this.newScenario = {
-              scenarioId: scenario.scenarioId,
-              name: scenario.name,
-              indicators: scenario.indicators,
-              isBase: scenario.isBase,
-              studyArea: scenario.studyArea,
-              studyAreaId: scenario.studyAreaId,
-            };
-            this.getScenarios();
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Success!',
-              detail: 'Scenario created successfully.',
-            });
-            this.unblockDocument();
-            if (scenario.has_assumptions === 0) {
-              this.messageService.clear();
+      if(this.selectedStudyAreaUP.id.includes("priv_")) {
+        this.scenarioService.postScenario(this.newScenario).subscribe(
+          (scenario) => {
+            if (!scenario.name.toLowerCase().includes('error')) {
+              this.newScenario = null;
+              this.newScenario = {
+                scenarioId: scenario.scenarioId,
+                name: scenario.name,
+                indicators: scenario.indicators,
+                isBase: scenario.isBase,
+                studyArea: scenario.studyArea,
+                studyAreaId: scenario.studyAreaId,
+              };
+              this.getScenarios();
               this.messageService.add({
-                key: 'loadAssumptions',
-                sticky: true,
-                severity: 'warn',
-                summary: 'Warning!',
-                detail:
-                  'Your scenario belongs to a study area that lacks assumptions, which are required in order to use ' +
-                  'it for calculations. You can upload or create assumptions in the Assumptions tab under the Advanced Options ' +
-                  'module. Click \'YES \' to open the module, or click \'NO\' to do this later.',
+                severity: 'success',
+                summary: 'Success!',
+                detail: 'Scenario created successfully.',
               });
+              this.unblockDocument();
+              if (scenario.has_assumptions === 0) {
+                this.messageService.clear();
+                this.messageService.add({
+                  key: 'loadAssumptions',
+                  sticky: true,
+                  severity: 'warn',
+                  summary: 'Warning!',
+                  detail:
+                    'Your scenario belongs to a study area that lacks assumptions, which are required in order to use ' +
+                    'it for calculations. You can upload or create assumptions in the Assumptions tab under the Advanced Options ' +
+                    'module. Click \'YES \' to open the module, or click \'NO\' to do this later.',
+                });
+              }
+              this.collapseCreateScenario();
+              this.finishCreateScenario();
+              this.openManageData();
+            } else {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error!',
+                detail: 'An error ocurred during the operation.',
+              });
+              this.unblockDocument();
             }
-            this.collapseCreateScenario();
-            this.finishCreateScenario();
-            this.openManageData();
-          } else {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error!',
-              detail: 'An error ocurred during the operation.',
-            });
+          },
+          (error) => {
             this.unblockDocument();
+            this.logErrorHandler(error);
+          },
+          () => {
+            this.selectedScenarios = [];
           }
-        },
-        (error) => {
-          this.unblockDocument();
-          this.logErrorHandler(error);
-        },
-        () => {
-          this.selectedScenarios = [];
-        }
-      );
+        );
+      } else if(this.selectedStudyAreaUP.id.includes("pub_")) {
+        this.scenarioService.postPublicScenario(this.newScenario).subscribe(
+          (scenario) => {
+            if (!scenario.name.toLowerCase().includes('error')) {
+              this.newScenario = null;
+              this.newScenario = {
+                scenarioId: scenario.scenarioId,
+                name: scenario.name,
+                indicators: scenario.indicators,
+                isBase: scenario.isBase,
+                studyArea: scenario.studyArea,
+                studyAreaId: scenario.studyAreaId,
+              };
+              this.getScenarios();
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Success!',
+                detail: 'Scenario created successfully.',
+              });
+              this.unblockDocument();
+              if (scenario.has_assumptions === 0) {
+                this.messageService.clear();
+                this.messageService.add({
+                  key: 'loadAssumptions',
+                  sticky: true,
+                  severity: 'warn',
+                  summary: 'Warning!',
+                  detail:
+                    'Your scenario belongs to a study area that lacks assumptions, which are required in order to use ' +
+                    'it for calculations. You can upload or create assumptions in the Assumptions tab under the Advanced Options ' +
+                    'module. Click \'YES \' to open the module, or click \'NO\' to do this later.',
+                });
+              }
+              this.collapseCreateScenario();
+              this.finishCreateScenario();
+              this.openManageData();
+            } else {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error!',
+                detail: 'An error ocurred during the operation.',
+              });
+              this.unblockDocument();
+            }
+          },
+          (error) => {
+            this.unblockDocument();
+            this.logErrorHandler(error);
+          },
+          () => {
+            this.selectedScenarios = [];
+          }
+        );
+      }
     }
   }
 
@@ -1677,8 +1732,17 @@ export class ToolsSidebarComponent implements OnInit {
 
   // Sends a request to get the list of Scenarios
   getScenarios() {
+    let tmpScenarioArray = [];
     this.scenarioService.getScenarios().subscribe(
-      (scenarios) => (this.scenarios = scenarios),
+      (scenarios) => (tmpScenarioArray = scenarios),
+      (error) => {
+        this.logErrorHandler(error);
+      },
+      () => {
+        this.scenarioService.getPublicScenarios().subscribe(
+          (scenarios) => (tmpScenarioArray = tmpScenarioArray.concat(scenarios))
+        );
+      },
       (error) => {
         this.logErrorHandler(error);
       }

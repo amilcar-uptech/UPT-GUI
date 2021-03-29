@@ -69,4 +69,56 @@ export class ScenarioService {
       console.log(e);
     }
   }
+
+  public getPublicScenarios(): Observable<Scenario[]> {
+    return this.http.get<Scenario>('/action?action_route=up_public_scenario')
+            .pipe(
+              map(res => res as Scenario[])
+            );
+  }
+
+  public postPublicScenario(scenario: Scenario): Observable<Scenario> {
+    let body = new HttpParams();
+    body = body.set('studyAreaId', scenario.studyAreaId.toString());
+    body = body.set('name', scenario.name);
+    body = body.set('isBase', scenario.isBase);
+    body = body.set('indicators', scenario.indicators.toString());
+    try {
+      return this.http.post('/action?action_route=up_public_scenario', body);
+
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  public putPublicScenario(scenario: Scenario): Observable<Scenario> {
+    console.log(scenario);
+    scenario.isBase = scenario.isBase ? 1 : 0;
+    let body = new HttpParams();
+    body = body.set('scenarioId', scenario.scenarioId.toString());
+    body = body.set('studyArea', scenario.studyArea.toString());
+    body = body.set('name', scenario.name);
+    body = body.set('description', scenario.description);
+    body = body.set('isBase', scenario.isBase);
+    try {
+      return this.http.put<any>('/action?action_route=up_public_scenario', body)
+            .pipe(
+              map(res => res as Scenario)
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  public deletePublicScenario(scenario: Scenario): Observable<Scenario> {
+    httpOptions.params = scenario;
+    try {
+      return this.http.delete<any>('/action?action_route=up_public_scenario', httpOptions)
+            .pipe(
+              map(res => res as Scenario)
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  }
 }
