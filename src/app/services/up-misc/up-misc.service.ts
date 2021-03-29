@@ -27,4 +27,14 @@ export class UpMiscService {
       map(res => res as string)
     );
   }
+
+  deletePublicTableUP(scenario: any, table: any): Observable<string> {
+    httpOptions.params = {
+      scenarioId: scenario,
+      layerUPName: table
+    };
+    return this.http.delete<any>('/action?action_route=delete_public_data', httpOptions).pipe(
+      map(res => res as string)
+    );
+  }
 }

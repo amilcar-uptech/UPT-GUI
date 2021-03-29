@@ -20,6 +20,13 @@ export class NodeService {
         );
     }
 
+    getUPPublicTables(id: string) {
+        return this.http.get<any>('/action?action_route=LayersUPHandler&action=list_up_public_layers&id=' + id).pipe(
+            map(res => res.data as TreeNode[])
+        );
+    }
+
+
     getSTTables(id: string) {
         return this.http.get<any>('/action?action_route=LayersSTHandler&action=list_remote_st_tables&study_area=' + id)
                     .toPromise()

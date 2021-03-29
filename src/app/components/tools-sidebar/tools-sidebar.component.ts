@@ -1630,12 +1630,22 @@ export class ToolsSidebarComponent implements OnInit {
   // Loads the PrimeNG tree element in the Advanced dialog on the Clear Tables tab
   loadTablesUP() {
     if (this.upTablesScenario) {
-      this.nodeService.getUPTables(this.upTablesScenario.scenarioId).subscribe(
-        (tables) => (this.tablesUP = tables),
-        (error) => {
-          this.logErrorHandler(error);
-        }
-      );
+      if(this.upTablesScenario.scenarioId.includes("priv_")) {
+        this.nodeService.getUPTables(this.upTablesScenario.scenarioId.replace("priv_","")).subscribe(
+          (tables) => (this.tablesUP = tables),
+          (error) => {
+            this.logErrorHandler(error);
+          }
+        );
+      } else if(this.upTablesScenario.scenarioId.includes("pub_")) {
+        this.nodeService.getUPPublicTables(this.upTablesScenario.scenarioId.replace("pub_","")).subscribe(
+          (tables) => (this.tablesUP = tables),
+          (error) => {
+            this.logErrorHandler(error);
+          }
+        );
+      } 
+      
     }
   }
 
@@ -1660,8 +1670,9 @@ export class ToolsSidebarComponent implements OnInit {
       detail: 'Table data is being deleted!',
     });
     this.messageService.clear('confirmDeleteTableUP');
-    this.upMiscService
-      .deleteTableUP(this.upTablesScenario.scenarioId, this.selectedTable.data)
+    if(this.upTablesScenario.scenarioId.includes("priv_")) {
+      this.upMiscService
+      .deleteTableUP(this.upTablesScenario.scenarioId.replace("priv_",""), this.selectedTable.data)
       .subscribe(
         () => {},
         (error) => {
@@ -1677,6 +1688,25 @@ export class ToolsSidebarComponent implements OnInit {
           this.loadUPLayers();
         }
       );
+    } else if(this.upTablesScenario.scenarioId.includes("pub_")) {
+      this.upMiscService
+      .deletePublicTableUP(this.upTablesScenario.scenarioId.replace("pub_",""), this.selectedTable.data)
+      .subscribe(
+        () => {},
+        (error) => {
+          this.logErrorHandler(error);
+        },
+        () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success!',
+            detail: 'Table data deleted successfully!',
+          });
+          this.loadTablesUP();
+          this.loadUPLayers();
+        }
+      );
+    } 
   }
 
   // Hides the confirmDeleteTableUP message
@@ -1734,13 +1764,25 @@ export class ToolsSidebarComponent implements OnInit {
   getScenarios() {
     let tmpScenarioArray = [];
     this.scenarioService.getScenarios().subscribe(
-      (scenarios) => (tmpScenarioArray = scenarios),
+      (scenarios) => {
+        scenarios.forEach(scenario => {
+          scenario.scenarioId = "priv_" + scenario.scenarioId;
+          scenario.scenario_id = "priv_" + scenario.scenario_id
+        });
+        tmpScenarioArray = scenarios;
+      },
       (error) => {
         this.logErrorHandler(error);
       },
       () => {
         this.scenarioService.getPublicScenarios().subscribe(
-          (scenarios) => (tmpScenarioArray = tmpScenarioArray.concat(scenarios)),
+          (scenarios) => {
+            scenarios.forEach(scenario => {
+              scenario.scenarioId = "pub_" + scenario.scenarioId;
+              scenario.scenario_id = "pub_" + scenario.scenario_id
+            });
+            tmpScenarioArray = tmpScenarioArray.concat(scenarios);
+          },
           (error) => {
             this.logErrorHandler(error);
           },
@@ -1770,34 +1812,67 @@ export class ToolsSidebarComponent implements OnInit {
 
   // Sends a request to update the Scenario
   updateScenario() {
-    this.scenarioService.putScenario(this.scenarioManage).subscribe(
-      () => {
-        this.messageService.add({
-          severity: 'info',
-          summary: 'In process!',
-          detail: 'Your scenario is being updated!',
-        });
-      },
-      (error) => {
-        this.logErrorHandler(error);
-      },
-      () => {
-        this.scenarioService.getScenarios().subscribe(
-          (scenarios) => (this.scenarios = scenarios),
-          (error) => {
-            this.logErrorHandler(error);
-          }
-        );
-        this.selectedScenarios = [];
-        this.scenarioManage = null;
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success!',
-          detail: 'Scenario updated successfully!',
-        });
-        this.hideEditScenario();
-      }
-    );
+    if(this.scenarioManage.scenarioId.includes("priv_")) {
+      this.scenarioManage.scenarioId = this.scenarioManage.scenarioId.replace("priv_","");
+      this.scenarioService.putScenario(this.scenarioManage).subscribe(
+        () => {
+          this.messageService.add({
+            severity: 'info',
+            summary: 'In process!',
+            detail: 'Your scenario is being updated!',
+          });
+        },
+        (error) => {
+          this.logErrorHandler(error);
+        },
+        () => {
+          this.scenarioService.getScenarios().subscribe(
+            (scenarios) => (this.scenarios = scenarios),
+            (error) => {
+              this.logErrorHandler(error);
+            }
+          );
+          this.selectedScenarios = [];
+          this.scenarioManage = null;
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success!',
+            detail: 'Scenario updated successfully!',
+          });
+          this.hideEditScenario();
+        }
+      );
+    } else if(this.scenarioManage.scenarioId.includes("pub_")) {
+      this.scenarioManage.scenarioId = this.scenarioManage.scenarioId.replace("pub_","");
+      this.scenarioService.putPublicScenario(this.scenarioManage).subscribe(
+        () => {
+          this.messageService.add({
+            severity: 'info',
+            summary: 'In process!',
+            detail: 'Your scenario is being updated!',
+          });
+        },
+        (error) => {
+          this.logErrorHandler(error);
+        },
+        () => {
+          this.scenarioService.getScenarios().subscribe(
+            (scenarios) => (this.scenarios = scenarios),
+            (error) => {
+              this.logErrorHandler(error);
+            }
+          );
+          this.selectedScenarios = [];
+          this.scenarioManage = null;
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success!',
+            detail: 'Scenario updated successfully!',
+          });
+          this.hideEditScenario();
+        }
+      );
+    } 
   }
 
   // Hides the Scenario Details dialog
@@ -1820,36 +1895,71 @@ export class ToolsSidebarComponent implements OnInit {
 
   // Sends a request to delete the selected Scenario
   confirmDeleteScenario() {
-    this.scenarioService.deleteScenario(this.scenarioManage).subscribe(
-      () => {
-        this.messageService.add({
-          severity: 'info',
-          summary: 'In process!',
-          detail: 'Your scenario is being deleted!',
-        });
-      },
-      (error) => {
-        this.logErrorHandler(error);
-      },
-      () => {
-        this.scenarioService.getScenarios().subscribe(
-          (scenarios) => (this.scenarios = scenarios),
-          (error) => {
-            this.logErrorHandler(error);
-          }
-        );
-        this.layers = [];
-        this.tablesUP = [];
-        this.selectedScenarios = [];
-        this.messageService.clear('confirmDeleteScenario');
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success!',
-          detail: 'Scenario deleted successfully!',
-        });
-        this.hideEditScenario();
-      }
-    );
+    if(this.scenarioManage.scenarioId.includes("priv_")) {
+      this.scenarioManage.scenarioId = this.scenarioManage.scenarioId.replace("priv_","");
+      this.scenarioService.deleteScenario(this.scenarioManage).subscribe(
+        () => {
+          this.messageService.add({
+            severity: 'info',
+            summary: 'In process!',
+            detail: 'Your scenario is being deleted!',
+          });
+        },
+        (error) => {
+          this.logErrorHandler(error);
+        },
+        () => {
+          this.scenarioService.getScenarios().subscribe(
+            (scenarios) => (this.scenarios = scenarios),
+            (error) => {
+              this.logErrorHandler(error);
+            }
+          );
+          this.layers = [];
+          this.tablesUP = [];
+          this.selectedScenarios = [];
+          this.messageService.clear('confirmDeleteScenario');
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success!',
+            detail: 'Scenario deleted successfully!',
+          });
+          this.hideEditScenario();
+        }
+      );
+    } else if(this.scenarioManage.scenarioId.includes("pub_")) {
+      this.scenarioManage.scenarioId = this.scenarioManage.scenarioId.replace("pub_","");
+      this.scenarioService.deletePublicScenario(this.scenarioManage).subscribe(
+        () => {
+          this.messageService.add({
+            severity: 'info',
+            summary: 'In process!',
+            detail: 'Your scenario is being deleted!',
+          });
+        },
+        (error) => {
+          this.logErrorHandler(error);
+        },
+        () => {
+          this.scenarioService.getScenarios().subscribe(
+            (scenarios) => (this.scenarios = scenarios),
+            (error) => {
+              this.logErrorHandler(error);
+            }
+          );
+          this.layers = [];
+          this.tablesUP = [];
+          this.selectedScenarios = [];
+          this.messageService.clear('confirmDeleteScenario');
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success!',
+            detail: 'Scenario deleted successfully!',
+          });
+          this.hideEditScenario();
+        }
+      );
+    } 
   }
 
   // Closes the confirmDeleteScenario message
@@ -1860,14 +1970,31 @@ export class ToolsSidebarComponent implements OnInit {
   // Sends a request to get the Assumptions related to the selected Scenario
   loadAssumptions() {
     if (this.asmptScenarioManage) {
-      this.assumptionService
-        .getAssumptions(this.asmptScenarioManage.scenarioId)
+      if(this.asmptScenarioManage.scenarioId.includes("priv_")) {
+        this.assumptionService
+        .getAssumptions(this.asmptScenarioManage.scenarioId.replace("priv_",""))
         .subscribe(
-          (assumptions) => (this.assumptions = assumptions),
+          (assumptions) => {
+            assumptions.id = "priv_" + assumptions.id;
+            this.assumptions = assumptions;
+          },
           (error) => {
             this.logErrorHandler(error);
           }
         );
+      } else if(this.asmptScenarioManage.scenarioId.includes("pub_")) {
+        this.assumptionService
+        .getPublicAssumptions(this.asmptScenarioManage.scenarioId.replace("pub_",""))
+        .subscribe(
+          (assumptions) => {
+            assumptions.id = "pub_" + assumptions.id;
+            this.assumptions = assumptions;
+          },
+          (error) => {
+            this.logErrorHandler(error);
+          }
+        );
+      } 
     }
   }
 
@@ -1879,8 +2006,9 @@ export class ToolsSidebarComponent implements OnInit {
       summary: 'In process!',
       detail: 'Your file is being uploaded!',
     });
-    this.assumptionService
-      .uploadAssumption(this.asmptStudyAreaFile.id, event.files[0])
+    if(this.asmptStudyAreaFile.id.includes("priv_")) {
+      this.assumptionService
+      .uploadAssumption(this.asmptStudyAreaFile.id.replace("priv_",""), event.files[0])
       .subscribe(
         () => {},
         (error) => {
@@ -1889,14 +2017,31 @@ export class ToolsSidebarComponent implements OnInit {
         },
         () => {
           if (this.asmptScenarioManage) {
-            this.assumptionService
-              .getAssumptions(this.asmptScenarioManage.scenarioId)
+            if(this.asmptScenarioManage.scenarioId.includes("priv_")) {
+              this.assumptionService
+              .getAssumptions(this.asmptScenarioManage.scenarioId.replace("priv_",""))
               .subscribe(
-                (asmpt) => (this.assumptions = asmpt),
+                (assumptions) => {
+                  assumptions.id = "priv_" + assumptions.id;
+                  this.assumptions = assumptions;
+                },
                 (error) => {
                   this.logErrorHandler(error);
                 }
               );
+            } else if(this.asmptScenarioManage.scenarioId.includes("pub_")) {
+              this.assumptionService
+              .getPublicAssumptions(this.asmptScenarioManage.scenarioId.replace("pub_",""))
+              .subscribe(
+                (assumptions) => {
+                  assumptions.id = "pub_" + assumptions.id;
+                  this.assumptions = assumptions;
+                },
+                (error) => {
+                  this.logErrorHandler(error);
+                }
+              );
+            }
           }
           this.messageService.add({
             severity: 'success',
@@ -1906,6 +2051,52 @@ export class ToolsSidebarComponent implements OnInit {
           this.unblockDocument();
         }
       );
+    } else if(this.asmptStudyAreaFile.id.includes("pub_")) {
+      this.assumptionService
+      .uploadPublicAssumption(this.asmptStudyAreaFile.id.replace("pub_",""), event.files[0])
+      .subscribe(
+        () => {},
+        (error) => {
+          this.unblockDocument();
+          this.logErrorHandler(error);
+        },
+        () => {
+          if (this.asmptScenarioManage) {
+            if(this.asmptScenarioManage.scenarioId.includes("priv_")) {
+              this.assumptionService
+              .getAssumptions(this.asmptScenarioManage.scenarioId.replace("priv_",""))
+              .subscribe(
+                (assumptions) => {
+                  assumptions.id = "priv_" + assumptions.id;
+                  this.assumptions = assumptions;
+                },
+                (error) => {
+                  this.logErrorHandler(error);
+                }
+              );
+            } else if(this.asmptScenarioManage.scenarioId.includes("pub_")) {
+              this.assumptionService
+              .getPublicAssumptions(this.asmptScenarioManage.scenarioId.replace("pub_",""))
+              .subscribe(
+                (assumptions) => {
+                  assumptions.id = "pub_" + assumptions.id;
+                  this.assumptions = assumptions;
+                },
+                (error) => {
+                  this.logErrorHandler(error);
+                }
+              );
+            }
+          }
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success!',
+            detail: 'File uploaded successfully!!',
+          });
+          this.unblockDocument();
+        }
+      );
+    } 
   }
 
   // Shows the Assumption Detail dialog and tags the selected assumption as not new
@@ -1925,67 +2116,205 @@ export class ToolsSidebarComponent implements OnInit {
   // Sends a request to either save or update an assumption, depending on its tag
   saveAssumption() {
     if (this.isNewAssumption) {
-      this.assumptionService.createAssumption(this.assumptionManage).subscribe(
-        () =>
-          this.messageService.add({
-            severity: 'info',
-            summary: 'In process!',
-            detail: 'Your assumption is being created!',
-          }),
-        (error) => {
-          this.logErrorHandler(error);
-        },
-        () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success!',
-            detail: 'Assumption created successfully!',
-          });
-          if (this.asmptScenarioManage) {
-            this.assumptionService
-              .getAssumptions(this.asmptScenarioManage.scenarioId)
-              .subscribe(
-                (asmpt) => (this.assumptions = asmpt),
-                (error) => {
-                  this.logErrorHandler(error);
-                }
-              );
+      if(this.assumptionManage.id.includes("priv_")) {
+        this.assumptionManage.id = this.assumptionManage.id.replace("priv_","");
+        this.assumptionService.createAssumption(this.assumptionManage).subscribe(
+          () =>
+            this.messageService.add({
+              severity: 'info',
+              summary: 'In process!',
+              detail: 'Your assumption is being created!',
+            }),
+          (error) => {
+            this.logErrorHandler(error);
+          },
+          () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success!',
+              detail: 'Assumption created successfully!',
+            });
+            if (this.asmptScenarioManage) {
+              if(this.asmptScenarioManage.scenarioId.includes("priv_")) {
+                this.assumptionService
+                .getAssumptions(this.asmptScenarioManage.scenarioId.replace("priv_",""))
+                .subscribe(
+                  (assumptions) => {
+                    assumptions.id = "priv_" + assumptions.id;
+                    this.assumptions = assumptions;
+                  },
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }
+                );
+              } else if(this.asmptScenarioManage.scenarioId.includes("pub_")) {
+                this.assumptionService
+                .getPublicAssumptions(this.asmptScenarioManage.scenarioId.replace("pub_",""))
+                .subscribe(
+                  (assumptions) => {
+                    assumptions.id = "pub_" + assumptions.id;
+                    this.assumptions = assumptions;
+                  },
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }
+                );
+              }
+            }
+            this.assumptionManage = null;
+            this.editAssumptions = false;
           }
-          this.assumptionManage = null;
-          this.editAssumptions = false;
-        }
-      );
+        );
+      } else if(this.assumptionManage.id.includes("pub_")) {
+        this.assumptionManage.id = this.assumptionManage.id.replace("pub_","");
+        this.assumptionService.createPublicAssumption(this.assumptionManage).subscribe(
+          () =>
+            this.messageService.add({
+              severity: 'info',
+              summary: 'In process!',
+              detail: 'Your assumption is being created!',
+            }),
+          (error) => {
+            this.logErrorHandler(error);
+          },
+          () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success!',
+              detail: 'Assumption created successfully!',
+            });
+            if (this.asmptScenarioManage) {
+              if(this.asmptScenarioManage.scenarioId.includes("priv_")) {
+                this.assumptionService
+                .getAssumptions(this.asmptScenarioManage.scenarioId.replace("priv_",""))
+                .subscribe(
+                  (assumptions) => {
+                    assumptions.id = "priv_" + assumptions.id;
+                    this.assumptions = assumptions;
+                  },
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }
+                );
+              } else if(this.asmptScenarioManage.scenarioId.includes("pub_")) {
+                this.assumptionService
+                .getPublicAssumptions(this.asmptScenarioManage.scenarioId.replace("pub_",""))
+                .subscribe(
+                  (assumptions) => {
+                    assumptions.id = "pub_" + assumptions.id;
+                    this.assumptions = assumptions;
+                  },
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }
+                );
+              }
+            }
+            this.assumptionManage = null;
+            this.editAssumptions = false;
+          }
+        );
+      } 
     } else {
-      this.assumptionService.updateAssumption(this.assumptionManage).subscribe(
-        () =>
-          this.messageService.add({
-            severity: 'info',
-            summary: 'In process!',
-            detail: 'Your assumption is being updated!',
-          }),
-        (error) => {
-          this.logErrorHandler(error);
-        },
-        () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success!',
-            detail: 'Assumption updated successfully!',
-          });
-          if (this.asmptScenarioManage) {
-            this.assumptionService
-              .getAssumptions(this.asmptScenarioManage.scenarioId)
-              .subscribe(
-                (asmpt) => (this.assumptions = asmpt),
-                (error) => {
-                  this.logErrorHandler(error);
-                }
-              );
+      if(this.assumptionManage.id.includes("priv_")) {
+        this.assumptionManage.id = this.assumptionManage.id.replace("priv_","");
+        this.assumptionService.updateAssumption(this.assumptionManage).subscribe(
+          () =>
+            this.messageService.add({
+              severity: 'info',
+              summary: 'In process!',
+              detail: 'Your assumption is being updated!',
+            }),
+          (error) => {
+            this.logErrorHandler(error);
+          },
+          () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success!',
+              detail: 'Assumption updated successfully!',
+            });
+            if (this.asmptScenarioManage) {
+              if(this.asmptScenarioManage.scenarioId.includes("priv_")) {
+                this.assumptionService
+                .getAssumptions(this.asmptScenarioManage.scenarioId.replace("priv_",""))
+                .subscribe(
+                  (assumptions) => {
+                    assumptions.id = "priv_" + assumptions.id;
+                    this.assumptions = assumptions;
+                  },
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }
+                );
+              } else if(this.asmptScenarioManage.scenarioId.includes("pub_")) {
+                this.assumptionService
+                .getPublicAssumptions(this.asmptScenarioManage.scenarioId.replace("pub_",""))
+                .subscribe(
+                  (assumptions) => {
+                    assumptions.id = "pub_" + assumptions.id;
+                    this.assumptions = assumptions;
+                  },
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }
+                );
+              }
+            }
+            this.assumptionManage = null;
+            this.editAssumptions = false;
           }
-          this.assumptionManage = null;
-          this.editAssumptions = false;
-        }
-      );
+        );
+      } else if(this.assumptionManage.id.includes("pub_")) {
+        this.assumptionManage.id = this.assumptionManage.id.replace("pub_","");
+        this.assumptionService.updatePublicAssumption(this.assumptionManage).subscribe(
+          () =>
+            this.messageService.add({
+              severity: 'info',
+              summary: 'In process!',
+              detail: 'Your assumption is being updated!',
+            }),
+          (error) => {
+            this.logErrorHandler(error);
+          },
+          () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success!',
+              detail: 'Assumption updated successfully!',
+            });
+            if (this.asmptScenarioManage) {
+              if(this.asmptScenarioManage.scenarioId.includes("priv_")) {
+                this.assumptionService
+                .getAssumptions(this.asmptScenarioManage.scenarioId.replace("priv_",""))
+                .subscribe(
+                  (assumptions) => {
+                    assumptions.id = "priv_" + assumptions.id;
+                    this.assumptions = assumptions;
+                  },
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }
+                );
+              } else if(this.asmptScenarioManage.scenarioId.includes("pub_")) {
+                this.assumptionService
+                .getPublicAssumptions(this.asmptScenarioManage.scenarioId.replace("pub_",""))
+                .subscribe(
+                  (assumptions) => {
+                    assumptions.id = "pub_" + assumptions.id;
+                    this.assumptions = assumptions;
+                  },
+                  (error) => {
+                    this.logErrorHandler(error);
+                  }
+                );
+              }
+            }
+            this.assumptionManage = null;
+            this.editAssumptions = false;
+          }
+        );
+      } 
     }
   }
 
@@ -2013,37 +2342,107 @@ export class ToolsSidebarComponent implements OnInit {
 
   // Sends a request to delete an assumption
   confirmDeleteAssumption() {
-    this.assumptionService.deleteAssumption(this.assumptionManage).subscribe(
-      () =>
-        this.messageService.add({
-          severity: 'info',
-          summary: 'In process!',
-          detail: 'Your assumption is being deleted!',
-        }),
-      (error) => {
-        this.logErrorHandler(error);
-      },
-      () => {
-        if (this.asmptScenarioManage) {
-          this.assumptionService
-            .getAssumptions(this.asmptScenarioManage.scenarioId)
-            .subscribe(
-              (asmpt) => (this.assumptions = asmpt),
-              (error) => {
-                this.logErrorHandler(error);
-              }
-            );
+    if(this.assumptionManage.id.includes("priv_")) {
+      this.assumptionManage.id = this.assumptionManage.id.replace("priv_","");
+      this.assumptionService.deleteAssumption(this.assumptionManage).subscribe(
+        () =>
+          this.messageService.add({
+            severity: 'info',
+            summary: 'In process!',
+            detail: 'Your assumption is being deleted!',
+          }),
+        (error) => {
+          this.logErrorHandler(error);
+        },
+        () => {
+          if (this.asmptScenarioManage) {
+            if(this.asmptScenarioManage.scenarioId.includes("priv_")) {
+              this.assumptionService
+              .getAssumptions(this.asmptScenarioManage.scenarioId.replace("priv_",""))
+              .subscribe(
+                (assumptions) => {
+                  assumptions.id = "priv_" + assumptions.id;
+                  this.assumptions = assumptions;
+                },
+                (error) => {
+                  this.logErrorHandler(error);
+                }
+              );
+            } else if(this.asmptScenarioManage.scenarioId.includes("pub_")) {
+              this.assumptionService
+              .getPublicAssumptions(this.asmptScenarioManage.scenarioId.replace("pub_",""))
+              .subscribe(
+                (assumptions) => {
+                  assumptions.id = "pub_" + assumptions.id;
+                  this.assumptions = assumptions;
+                },
+                (error) => {
+                  this.logErrorHandler(error);
+                }
+              );
+            }
+          }
+          this.assumptionManage = null;
+          this.messageService.clear('confirmDeleteAssumption');
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success!',
+            detail: 'Assumption deleted successfully!',
+          });
+          this.editAssumptions = false;
         }
-        this.assumptionManage = null;
-        this.messageService.clear('confirmDeleteAssumption');
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success!',
-          detail: 'Assumption deleted successfully!',
-        });
-        this.editAssumptions = false;
-      }
-    );
+      );
+    } else if(this.assumptionManage.id.includes("pub_")) {
+      this.assumptionManage.id = this.assumptionManage.id.replace("pub_","");
+      this.assumptionService.deletePublicAssumption(this.assumptionManage).subscribe(
+        () =>
+          this.messageService.add({
+            severity: 'info',
+            summary: 'In process!',
+            detail: 'Your assumption is being deleted!',
+          }),
+        (error) => {
+          this.logErrorHandler(error);
+        },
+        () => {
+          if (this.asmptScenarioManage) {
+            if(this.asmptScenarioManage.scenarioId.includes("priv_")) {
+              this.assumptionService
+              .getAssumptions(this.asmptScenarioManage.scenarioId.replace("priv_",""))
+              .subscribe(
+                (assumptions) => {
+                  assumptions.id = "priv_" + assumptions.id;
+                  this.assumptions = assumptions;
+                },
+                (error) => {
+                  this.logErrorHandler(error);
+                }
+              );
+            } else if(this.asmptScenarioManage.scenarioId.includes("pub_")) {
+              this.assumptionService
+              .getPublicAssumptions(this.asmptScenarioManage.scenarioId.replace("pub_",""))
+              .subscribe(
+                (assumptions) => {
+                  assumptions.id = "pub_" + assumptions.id;
+                  this.assumptions = assumptions;
+                },
+                (error) => {
+                  this.logErrorHandler(error);
+                }
+              );
+            }
+          }
+          this.assumptionManage = null;
+          this.messageService.clear('confirmDeleteAssumption');
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success!',
+            detail: 'Assumption deleted successfully!',
+          });
+          this.editAssumptions = false;
+        }
+      );
+    } 
   }
 
   // Closes the cancelDeleteAssumption

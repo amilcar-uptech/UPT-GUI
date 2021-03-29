@@ -1,5 +1,5 @@
 export interface Assumption {
-    id: number;
+    id: string;
     study_area: any;
     scenario: any;
     category: string;

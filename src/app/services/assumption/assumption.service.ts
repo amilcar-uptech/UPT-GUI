@@ -72,4 +72,58 @@ export class AssumptionService {
               map(res => res as Assumption)
             );
   }
+
+  getPublicAssumptions(id: string): Observable<Assumption[]> {
+    return this.http.get<any>('/action?action_route=up_public_assumptions&scenario_id=' + id)
+            .pipe(
+              map(res => res as Assumption[])
+            );
+  }
+
+  uploadPublicAssumption(id: string, file: any): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('document', file, file.name);
+    return this.http.post<any>('/action?action_route=up_csv_public_assumptions&study_area=' + id, formData);
+  }
+
+  createPublicAssumption(assumption: Assumption): Observable<Assumption> {
+    let body = new HttpParams();
+    body = body.set('study_area', assumption.study_area.id.toString());
+    body = body.set('scenario', assumption.scenario.scenarioId.toString());
+    body = body.set('category', assumption.category);
+    body = body.set('name', assumption.name);
+    body = body.set('value', assumption.value.toString());
+    body = body.set('units', assumption.units);
+    body = body.set('source', assumption.source);
+    body = body.set('description', assumption.description);
+    return this.http.post<any>('/action?action_route=up_public_assumptions', body)
+            .pipe(
+              map(res => res as Assumption)
+            );
+  }
+
+  updatePublicAssumption(assumption: Assumption): Observable<Assumption> {
+    let body = new HttpParams();
+    body = body.set('id', assumption.id.toString());
+    body = body.set('study_area', assumption.study_area.toString());
+    body = body.set('scenario', assumption.scenario.toString());
+    body = body.set('category', assumption.category);
+    body = body.set('name', assumption.name);
+    body = body.set('value', assumption.value.toString());
+    body = body.set('units', assumption.units);
+    body = body.set('source', assumption.source);
+    body = body.set('description', assumption.description);
+    return this.http.put<any>('/action?action_route=up_public_assumptions', body)
+            .pipe(
+              map(res => res as Assumption)
+            );
+  }
+
+  deletePublicAssumption(assumption: Assumption): Observable<Assumption> {
+    httpOptions.params = assumption;
+    return this.http.delete<any>('/action?action_route=up_public_assumptions', httpOptions)
+            .pipe(
+              map(res => res as Assumption)
+            );
+  }
 }
