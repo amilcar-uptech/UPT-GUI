@@ -1740,11 +1740,11 @@ export class ToolsSidebarComponent implements OnInit {
       },
       () => {
         this.scenarioService.getPublicScenarios().subscribe(
-          (scenarios) => (tmpScenarioArray = tmpScenarioArray.concat(scenarios))
+          (scenarios) => (tmpScenarioArray = tmpScenarioArray.concat(scenarios)),
+          (error) => {
+            this.logErrorHandler(error);
+          }
         );
-      },
-      (error) => {
-        this.logErrorHandler(error);
       }
     );
   }
