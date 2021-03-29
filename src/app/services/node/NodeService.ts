@@ -14,6 +14,12 @@ export class NodeService {
                     .then(res => res.data as TreeNode[]);
     }
 
+    getUPPublicLayers(id: string) {
+        return this.http.get<any>('/action?action_route=LayersUPHandler&action=list_up_public_layers&id=' + id)
+                    .toPromise()
+                    .then(res => res.data as TreeNode[]);
+    }
+
     getUPTables(id: string) {
         return this.http.get<any>('/action?action_route=LayersUPHandler&action=list_up_layers&id=' + id).pipe(
             map(res => res.data as TreeNode[])

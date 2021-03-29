@@ -1570,17 +1570,27 @@ export class ToolsSidebarComponent implements OnInit {
   // Loads the PrimeNG tree element in the Manage Data section of the main UP dialog using the Scenario ID
   loadUPLayers() {
     if (this.scenarioManage) {
-      this.nodeService
-        .getUPLayers(this.scenarioManage.scenarioId)
-        .then((layersUP) => {
-          this.layersUP = layersUP;
-        });
+      if(this.scenarioManage.scenarioId.includes("priv_")) {
+        this.nodeService.getUPTables(this.scenarioManage.scenarioId.replace("priv_","")).subscribe(
+          (tables) => (this.layersUP = tables),
+          (error) => {
+            this.logErrorHandler(error);
+          }
+        );
+      } else if(this.scenarioManage.scenarioId.includes("pub_")) {
+        this.nodeService.getUPPublicTables(this.scenarioManage.scenarioId.replace("pub_","")).subscribe(
+          (tables) => (this.layersUP = tables),
+          (error) => {
+            this.logErrorHandler(error);
+          }
+        );
+      } 
     }
   }
 
   // Loads the study for UP
   loadDataLayerUP() {
-    this.nodeService.getLayers().then((layers) => {
+    this.nodeService.getLayers().subscribe((layers) => {
       this.layers = layers;
       this.showManageDataUP();
     });
@@ -1645,7 +1655,6 @@ export class ToolsSidebarComponent implements OnInit {
           }
         );
       } 
-      
     }
   }
 
