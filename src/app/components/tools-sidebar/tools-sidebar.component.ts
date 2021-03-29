@@ -1767,7 +1767,6 @@ export class ToolsSidebarComponent implements OnInit {
       (scenarios) => {
         scenarios.forEach(scenario => {
           scenario.scenarioId = "priv_" + scenario.scenarioId;
-          scenario.scenario_id = "priv_" + scenario.scenario_id
         });
         tmpScenarioArray = scenarios;
       },
@@ -1779,7 +1778,6 @@ export class ToolsSidebarComponent implements OnInit {
           (scenarios) => {
             scenarios.forEach(scenario => {
               scenario.scenarioId = "pub_" + scenario.scenarioId;
-              scenario.scenario_id = "pub_" + scenario.scenario_id
             });
             tmpScenarioArray = tmpScenarioArray.concat(scenarios);
           },
