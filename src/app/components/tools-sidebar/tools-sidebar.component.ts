@@ -1590,7 +1590,7 @@ export class ToolsSidebarComponent implements OnInit {
 
   // Loads the study for UP
   loadDataLayerUP() {
-    this.nodeService.getLayers().subscribe((layers) => {
+    this.nodeService.getLayers().then((layers) => {
       this.layers = layers;
       this.showManageDataUP();
     });
