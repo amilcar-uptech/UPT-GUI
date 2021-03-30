@@ -1725,6 +1725,7 @@ export class ToolsSidebarComponent implements OnInit {
 
   // Sends a request to import data through the UP Manage Data dialog
   importDataUP() {
+    let directory = this.selectedLayer.parent.data;
     this.blockDocument();
     this.messageService.add({
       severity: 'info',
@@ -1742,7 +1743,7 @@ export class ToolsSidebarComponent implements OnInit {
       tableUP: this.listDataUP,
       scenarioId: this.scenarioManage.scenarioId,
     };
-    console.log(this.dataCopy);
+    console.log(directory);
     /* this.dataCopyService.copyDataUP(this.dataCopy).subscribe(
       () => {},
       (error) => {
