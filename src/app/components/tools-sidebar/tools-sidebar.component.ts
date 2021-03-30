@@ -1621,19 +1621,36 @@ export class ToolsSidebarComponent implements OnInit {
   // Loads the options for the dropdowns in the UP Manage Data dialog using the layer ID.
   loadDataColumnsUP(event) {
     if (event.node.type.toLowerCase() === 'layer') {
-      this.listService.getColumn(event.node.data).subscribe(
-        (listManageDataUP) => {
-          this.colFieldsNameArrayUP = [];
-          listManageDataUP.forEach((data) =>
-            this.colFieldsNameArrayUP.push({ name: data })
-          );
-          this.listManageDataUP = this.colFieldsNameArrayUP;
-          this.columnsHeaderUP = event.node.label;
-        },
-        (error) => {
-          this.logErrorHandler(error);
-        }
-      );
+      let directory = event.node.parent.data;
+      if(directory.includes("my_data")) {
+        this.listService.getColumn(event.node.data).subscribe(
+          (listManageDataUP) => {
+            this.colFieldsNameArrayUP = [];
+            listManageDataUP.forEach((data) =>
+              this.colFieldsNameArrayUP.push({ name: data })
+            );
+            this.listManageDataUP = this.colFieldsNameArrayUP;
+            this.columnsHeaderUP = event.node.label;
+          },
+          (error) => {
+            this.logErrorHandler(error);
+          }
+        );
+      } else if(directory.includes("public_data")) {
+        this.listService.getPublicColumn(event.node.data).subscribe(
+          (listManageDataUP) => {
+            this.colFieldsNameArrayUP = [];
+            listManageDataUP.forEach((data) =>
+              this.colFieldsNameArrayUP.push({ name: data })
+            );
+            this.listManageDataUP = this.colFieldsNameArrayUP;
+            this.columnsHeaderUP = event.node.label;
+          },
+          (error) => {
+            this.logErrorHandler(error);
+          }
+        );
+      }
     }
   }
 
