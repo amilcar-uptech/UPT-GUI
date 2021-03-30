@@ -1743,32 +1743,57 @@ export class ToolsSidebarComponent implements OnInit {
       tableUP: this.listDataUP,
       scenarioId: this.scenarioManage.scenarioId.replace("priv_","").replace("pub_",""),
     };
-    console.log(directory);
-    console.log(this.dataCopy);
-    /* this.dataCopyService.copyDataUP(this.dataCopy).subscribe(
-      () => {},
-      (error) => {
-        this.unblockDocument();
-        this.logErrorHandler(error);
-      },
-      () => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success!',
-          detail: 'Process completed successfully.',
-        });
-        this.loadUPLayers();
-        this.classificationService.getClassifications().subscribe(
-          (clsf) => (this.classifications = clsf),
-          (error) => {
-            this.logErrorHandler(error);
-          }
-        );
-        this.unblockDocument();
-        this.columnFieldsArrayUP = [];
-        this.hideManageDataUP();
-      }
-    ); */
+    if(directory.includes("my_data")) {
+      this.dataCopyService.copyDataUP(this.dataCopy).subscribe(
+        () => {},
+        (error) => {
+          this.unblockDocument();
+          this.logErrorHandler(error);
+        },
+        () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success!',
+            detail: 'Process completed successfully.',
+          });
+          this.loadUPLayers();
+          this.classificationService.getClassifications().subscribe(
+            (clsf) => (this.classifications = clsf),
+            (error) => {
+              this.logErrorHandler(error);
+            }
+          );
+          this.unblockDocument();
+          this.columnFieldsArrayUP = [];
+          this.hideManageDataUP();
+        }
+      );
+    } else if(directory.includes("public_data")) {
+      this.dataCopyService.copyPublicDataUP(this.dataCopy).subscribe(
+        () => {},
+        (error) => {
+          this.unblockDocument();
+          this.logErrorHandler(error);
+        },
+        () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success!',
+            detail: 'Process completed successfully.',
+          });
+          this.loadUPLayers();
+          this.classificationService.getClassifications().subscribe(
+            (clsf) => (this.classifications = clsf),
+            (error) => {
+              this.logErrorHandler(error);
+            }
+          );
+          this.unblockDocument();
+          this.columnFieldsArrayUP = [];
+          this.hideManageDataUP();
+        }
+      );
+    }
     this.columnFieldsArrayUP = [];
   }
 
