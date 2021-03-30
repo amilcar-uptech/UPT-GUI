@@ -1741,9 +1741,10 @@ export class ToolsSidebarComponent implements OnInit {
       layerUPName: this.selectedLayerUP.data,
       table: this.columnDataGP,
       tableUP: this.listDataUP,
-      scenarioId: this.scenarioManage.scenarioId,
+      scenarioId: this.scenarioManage.scenarioId.replace("priv_","").replace("pub_",""),
     };
     console.log(directory);
+    console.log(this.dataCopy);
     /* this.dataCopyService.copyDataUP(this.dataCopy).subscribe(
       () => {},
       (error) => {
