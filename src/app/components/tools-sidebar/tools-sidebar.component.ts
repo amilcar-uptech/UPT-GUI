@@ -1742,7 +1742,8 @@ export class ToolsSidebarComponent implements OnInit {
       tableUP: this.listDataUP,
       scenarioId: this.scenarioManage.scenarioId,
     };
-    this.dataCopyService.copyDataUP(this.dataCopy).subscribe(
+    console.log(this.dataCopy);
+    /* this.dataCopyService.copyDataUP(this.dataCopy).subscribe(
       () => {},
       (error) => {
         this.unblockDocument();
@@ -1765,7 +1766,7 @@ export class ToolsSidebarComponent implements OnInit {
         this.columnFieldsArrayUP = [];
         this.hideManageDataUP();
       }
-    );
+    ); */
     this.columnFieldsArrayUP = [];
   }
 

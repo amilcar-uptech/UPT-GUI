@@ -53,6 +53,28 @@ export class DataCopyService {
     }
   }
 
+  public copyPublicDataUP(dataCopy: DataCopy): Observable < DataCopy > {
+    let array = [];
+    dataCopy.tableUP.forEach(
+      ele => array.push(ele.name)
+    );
+    dataCopy.tableUP = array;
+    let body = new HttpParams({
+      fromObject: {
+        tableUP: dataCopy.tableUP,
+        table: dataCopy.table
+      }
+    });
+    body = body.set('layerUPName', dataCopy.layerUPName);
+    body = body.set('layerName', dataCopy.layerName);
+    body = body.set('scenarioId', dataCopy.scenarioId.toString());
+    try {
+      return this.http.post('/action?action_route=copy_public_data', body);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   public copyDataST(dataCopy: DataCopy): Observable < DataCopy > {
     let array = [];
     dataCopy.tableST.forEach(
