@@ -1300,6 +1300,8 @@ export class ToolsSidebarComponent implements OnInit {
           }
         }
       );
+      console.log(privScenarios);
+      console.log(pubScenarios);
       this.resultsService.calculateScenarios(privScenarios, pubScenarios).subscribe(
         () => {},
         (error) => {
