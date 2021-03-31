@@ -1282,6 +1282,8 @@ export class ToolsSidebarComponent implements OnInit {
   calculateScenarios() {
     if (this.selectedScenarios.length > 0) {
       let interval;
+      let pubScenarios: Scenario[] = [];
+      let privScenarios: Scenario[] = [];
       this.clearEvaluation();
       this.messageService.add({
         severity: 'info',
@@ -1291,10 +1293,14 @@ export class ToolsSidebarComponent implements OnInit {
       this.okayResults = true;
       this.selectedScenarios.forEach(
         (scenario) => {
-          scenario.scenarioId = scenario.scenarioId.replace("priv_","").replace("pub_","");
+          if(scenario.scenarioId.includes("pub_")) {
+            pubScenarios.push(scenario.scenarioId.replace("priv_","").replace("pub_",""))
+          } else if(scenario.scenarioId.includes("priv_")) {
+            privScenarios.push(scenario.scenarioId.replace("priv_","").replace("pub_",""))
+          }
         }
       );
-      this.resultsService.calculateScenarios(this.selectedScenarios).subscribe(
+      this.resultsService.calculateScenarios(privScenarios, pubScenarios).subscribe(
         () => {},
         (error) => {
           this.logErrorHandler(error);

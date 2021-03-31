@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { Status } from 'src/app/interfaces/status';
 
 let ids = [];
+let idsPublic = [];
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -41,10 +42,12 @@ export class ResultsService {
     );
   }
 
-  public calculateScenarios(scenarios: Scenario[]): Observable<Status> {
+  public calculateScenarios(scenarios: Scenario[], scenariosPublic: Scenario[]): Observable<Status> {
     ids = [];
+    idsPublic = [];
     scenarios.forEach(scen => ids.push(scen.scenarioId));
-    let body = new HttpParams({fromObject: {scenariosId: ids}});
+    scenariosPublic.forEach(scen => ids.push(scen.scenarioId));
+    let body = new HttpParams({fromObject: {scenariosId: ids, scenariosPublicId: idsPublic}});
     return this.http.post<any>('/action?action_route=ScenarioUPHandler&action=evaluate', body).pipe(
       map(res => res as Status)
     );
