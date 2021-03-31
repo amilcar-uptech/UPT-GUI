@@ -1289,6 +1289,11 @@ export class ToolsSidebarComponent implements OnInit {
         detail: 'Your operation is being processed.',
       });
       this.okayResults = true;
+      this.selectedScenarios.forEach(
+        (scenario) => {
+          scenario.scenarioId = scenario.scenarioId.replace("priv_","").replace("pub_","");
+        }
+      );
       this.resultsService.calculateScenarios(this.selectedScenarios).subscribe(
         () => {},
         (error) => {
@@ -1310,6 +1315,11 @@ export class ToolsSidebarComponent implements OnInit {
   // Sends a request to get the latest status of the UP evaluation. If completed, calls getUPBuffers and getUPResults.
   getStatusUP(i) {
     let statusFlag = false;
+    this.selectedScenarios.forEach(
+      (scenario) => {
+        scenario.scenarioId = scenario.scenarioId.replace("priv_","").replace("pub_","");
+      }
+    );
     this.statusService.statusUP(this.selectedScenarios).subscribe(
       (sts) => {
         this.statusUP = sts;
@@ -1360,6 +1370,11 @@ export class ToolsSidebarComponent implements OnInit {
     let privStdArea = [];
     let pubStdArea = [];
     let stdAreaArray = [];
+    this.selectedScenarios.forEach(
+      (scenario) => {
+        scenario.scenarioId = scenario.scenarioId.replace("priv_","").replace("pub_","");
+      }
+    );
     this.resultsService.getUPBuffers(this.selectedScenarios).subscribe(
       (buffers) => (this.buffersUP = buffers),
       (error) => {
