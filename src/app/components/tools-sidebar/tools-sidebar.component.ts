@@ -1294,9 +1294,11 @@ export class ToolsSidebarComponent implements OnInit {
       this.selectedScenarios.forEach(
         (scenario) => {
           if(scenario.scenarioId.includes("pub_")) {
-            pubScenarios.push(scenario.scenarioId.replace("priv_","").replace("pub_",""))
+            scenario.scenarioId = scenario.scenarioId.replace("pub_","")
+            pubScenarios.push(scenario)
           } else if(scenario.scenarioId.includes("priv_")) {
-            privScenarios.push(scenario.scenarioId.replace("priv_","").replace("pub_",""))
+            scenario.scenarioId = scenario.scenarioId.replace("priv_","")
+            privScenarios.push(scenario)
           }
         }
       );
