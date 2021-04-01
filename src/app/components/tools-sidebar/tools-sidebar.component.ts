@@ -1285,6 +1285,7 @@ export class ToolsSidebarComponent implements OnInit {
       let pubScenarios: Scenario[] = [];
       let privScenarios: Scenario[] = [];
       this.clearEvaluation();
+      console.log(this.selectedScenarios);
       this.messageService.add({
         severity: 'info',
         summary: 'In Progress!',
