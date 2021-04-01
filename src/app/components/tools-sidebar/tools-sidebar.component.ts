@@ -1876,6 +1876,7 @@ export class ToolsSidebarComponent implements OnInit {
           },
           () => {
             this.scenarios = tmpScenarioArray;
+            console.log(this.scenarios);
           }
         );
       }
