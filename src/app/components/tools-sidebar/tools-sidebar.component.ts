@@ -1068,12 +1068,13 @@ export class ToolsSidebarComponent implements OnInit {
     if (this.selectedScenarios.length > 0) {
       this.scenariosCopy = this.selectedScenarios;
       this.okayResults = true;
-      this.selectedScenarios.forEach(
+      let copyScenario = this.selectedScenarios;
+      copyScenario.forEach(
         (scenario) => {
           scenario.scenarioId = scenario.scenarioId.replace("priv_","").replace("pub_","");
         }
       );
-      this.resultsService.getScenarios(this.selectedScenarios).subscribe(
+      this.resultsService.getScenarios(copyScenario).subscribe(
         (scnr) => {
           this.scenarioResults = scnr;
         },
@@ -1285,7 +1286,6 @@ export class ToolsSidebarComponent implements OnInit {
       let pubScenarios: Scenario[] = [];
       let privScenarios: Scenario[] = [];
       this.clearEvaluation();
-      console.log(this.selectedScenarios);
       this.messageService.add({
         severity: 'info',
         summary: 'In Progress!',
@@ -1326,12 +1326,13 @@ export class ToolsSidebarComponent implements OnInit {
   // Sends a request to get the latest status of the UP evaluation. If completed, calls getUPBuffers and getUPResults.
   getStatusUP(i) {
     let statusFlag = false;
-    this.selectedScenarios.forEach(
+    let copyScenario = this.selectedScenarios;
+    copyScenario.forEach(
       (scenario) => {
         scenario.scenarioId = scenario.scenarioId.replace("priv_","").replace("pub_","");
       }
     );
-    this.statusService.statusUP(this.selectedScenarios).subscribe(
+    this.statusService.statusUP(copyScenario).subscribe(
       (sts) => {
         this.statusUP = sts;
       },
@@ -1381,12 +1382,13 @@ export class ToolsSidebarComponent implements OnInit {
     let privStdArea = [];
     let pubStdArea = [];
     let stdAreaArray = [];
-    this.selectedScenarios.forEach(
+    let copyScenario = this.selectedScenarios;
+    copyScenario.forEach(
       (scenario) => {
         scenario.scenarioId = scenario.scenarioId.replace("priv_","").replace("pub_","");
       }
     );
-    this.resultsService.getUPBuffers(this.selectedScenarios).subscribe(
+    this.resultsService.getUPBuffers(copyScenario).subscribe(
       (buffers) => (this.buffersUP = buffers),
       (error) => {
         this.logErrorHandler(error);
