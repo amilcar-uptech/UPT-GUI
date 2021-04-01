@@ -1074,6 +1074,8 @@ export class ToolsSidebarComponent implements OnInit {
           scenario.scenarioId = scenario.scenarioId.replace("priv_","").replace("pub_","");
         }
       );
+      console.log(this.selectedScenarios);
+      console.log(copyScenario);
       this.resultsService.getScenarios(copyScenario).subscribe(
         (scnr) => {
           this.scenarioResults = scnr;
