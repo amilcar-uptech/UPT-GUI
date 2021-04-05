@@ -1605,15 +1605,18 @@ export class ToolsSidebarComponent implements OnInit {
   // Loads the PrimeNG tree element in the Manage Data section of the main UP dialog using the Scenario ID
   loadUPLayers() {
     if (this.scenarioManage) {
-      if(this.scenarioManage.scenarioId.includes("priv_")) {
-        this.nodeService.getUPTables(this.scenarioManage.scenarioId.replace("priv_","")).subscribe(
+      let tmpScenario = this.scenarioManage;
+      if(tmpScenario.scenarioId.includes("priv_")) {
+        tmpScenario.scenarioId = tmpScenario.scenarioId.replace("priv_","")
+        this.nodeService.getUPTables(tmpScenario.scenarioId).subscribe(
           (tables) => (this.layersUP = tables),
           (error) => {
             this.logErrorHandler(error);
           }
         );
-      } else if(this.scenarioManage.scenarioId.includes("pub_")) {
-        this.nodeService.getUPPublicTables(this.scenarioManage.scenarioId.replace("pub_","")).subscribe(
+      } else if(tmpScenario.scenarioId.includes("pub_")) {
+        tmpScenario.scenarioId = tmpScenario.scenarioId.replace("pub_","")
+        this.nodeService.getUPPublicTables(tmpScenario.scenarioId).subscribe(
           (tables) => (this.layersUP = tables),
           (error) => {
             this.logErrorHandler(error);
