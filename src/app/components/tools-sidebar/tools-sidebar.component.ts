@@ -1920,12 +1920,7 @@ export class ToolsSidebarComponent implements OnInit {
           this.logErrorHandler(error);
         },
         () => {
-          this.scenarioService.getScenarios().subscribe(
-            (scenarios) => (this.scenarios = scenarios),
-            (error) => {
-              this.logErrorHandler(error);
-            }
-          );
+          this.getScenarios();
           this.selectedScenarios = [];
           this.scenarioManage = null;
           this.messageService.add({
@@ -1950,12 +1945,7 @@ export class ToolsSidebarComponent implements OnInit {
           this.logErrorHandler(error);
         },
         () => {
-          this.scenarioService.getScenarios().subscribe(
-            (scenarios) => (this.scenarios = scenarios),
-            (error) => {
-              this.logErrorHandler(error);
-            }
-          );
+          this.getScenarios();
           this.selectedScenarios = [];
           this.scenarioManage = null;
           this.messageService.add({
@@ -2003,12 +1993,7 @@ export class ToolsSidebarComponent implements OnInit {
           this.logErrorHandler(error);
         },
         () => {
-          this.scenarioService.getScenarios().subscribe(
-            (scenarios) => (this.scenarios = scenarios),
-            (error) => {
-              this.logErrorHandler(error);
-            }
-          );
+          this.getScenarios();
           this.layers = [];
           this.tablesUP = [];
           this.selectedScenarios = [];
@@ -2035,12 +2020,7 @@ export class ToolsSidebarComponent implements OnInit {
           this.logErrorHandler(error);
         },
         () => {
-          this.scenarioService.getScenarios().subscribe(
-            (scenarios) => (this.scenarios = scenarios),
-            (error) => {
-              this.logErrorHandler(error);
-            }
-          );
+          this.getScenarios();
           this.layers = [];
           this.tablesUP = [];
           this.selectedScenarios = [];
