@@ -1066,7 +1066,6 @@ export class ToolsSidebarComponent implements OnInit {
   // Sends a request for results from the UP calculator and formats them for the Results section of UP.
   getUPResults() {
     if (this.selectedScenarios.length > 0) {
-      this.scenariosCopy = this.selectedScenarios;
       this.okayResults = true;
       let copyScenario = this.selectedScenarios;
       copyScenario.forEach(
@@ -1074,7 +1073,7 @@ export class ToolsSidebarComponent implements OnInit {
           scenario.scenarioId = scenario.scenarioId.replace("priv_","").replace("pub_","");
         }
       );
-      console.log(this.selectedScenarios);
+      console.log(this.scenarios);
       console.log(copyScenario);
       this.resultsService.getScenarios(copyScenario).subscribe(
         (scnr) => {
@@ -1287,8 +1286,9 @@ export class ToolsSidebarComponent implements OnInit {
       let interval;
       let pubScenarios = [];
       let privScenarios = [];
+      let copyScenarios = this.selectedScenarios;
       console.log(this.scenarios);
-      console.log(this.selectedScenarios);
+      console.log(copyScenarios);
       this.clearEvaluation();
       this.messageService.add({
         severity: 'info',
@@ -1296,7 +1296,7 @@ export class ToolsSidebarComponent implements OnInit {
         detail: 'Your operation is being processed.',
       });
       this.okayResults = true;
-      this.selectedScenarios.forEach(
+      copyScenarios.forEach(
         (scenario) => {
           if(scenario.scenarioId.includes("pub_")) {
             scenario.scenarioId = scenario.scenarioId.replace("pub_","")
