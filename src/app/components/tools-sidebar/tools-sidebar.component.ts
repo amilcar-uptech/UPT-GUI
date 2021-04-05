@@ -1287,6 +1287,7 @@ export class ToolsSidebarComponent implements OnInit {
       let interval;
       let pubScenarios = [];
       let privScenarios = [];
+      console.log(this.scenarios);
       console.log(this.selectedScenarios);
       this.clearEvaluation();
       this.messageService.add({
