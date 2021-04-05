@@ -1608,6 +1608,7 @@ export class ToolsSidebarComponent implements OnInit {
   loadUPLayers() {
     if (this.scenarioManage) {
       let tmpScenario = this.scenarioManage;
+      console.log(this.scenarios);
       if(tmpScenario.scenarioId.includes("priv_")) {
         tmpScenario.scenarioId = tmpScenario.scenarioId.replace("priv_","")
         this.nodeService.getUPTables(tmpScenario.scenarioId).subscribe(
