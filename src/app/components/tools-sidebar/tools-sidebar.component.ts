@@ -1069,7 +1069,8 @@ export class ToolsSidebarComponent implements OnInit {
       
       console.log(this.scenarios);
       this.okayResults = true;
-      let copyScenario = this.selectedScenarios;
+      let copyScenario = [];
+      copyScenario.push(this.selectedScenarios);
       copyScenario.forEach(
         (scenario) => {
           scenario.scenarioId = scenario.scenarioId.replace("priv_","").replace("pub_","");
@@ -1609,19 +1610,19 @@ export class ToolsSidebarComponent implements OnInit {
   // Loads the PrimeNG tree element in the Manage Data section of the main UP dialog using the Scenario ID
   loadUPLayers() {
     if (this.scenarioManage) {
-      let tmpScenario = this.scenarioManage;
+      let tmpScenario = this.scenarioManage.scenarioId;
       console.log(this.scenarios);
-      if(tmpScenario.scenarioId.includes("priv_")) {
-        tmpScenario.scenarioId = tmpScenario.scenarioId.replace("priv_","")
-        this.nodeService.getUPTables(tmpScenario.scenarioId).subscribe(
+      if(tmpScenario.includes("priv_")) {
+        tmpScenario = tmpScenario.replace("priv_","")
+        this.nodeService.getUPTables(tmpScenario).subscribe(
           (tables) => (this.layersUP = tables),
           (error) => {
             this.logErrorHandler(error);
           }
         );
-      } else if(tmpScenario.scenarioId.includes("pub_")) {
-        tmpScenario.scenarioId = tmpScenario.scenarioId.replace("pub_","")
-        this.nodeService.getUPPublicTables(tmpScenario.scenarioId).subscribe(
+      } else if(tmpScenario.includes("pub_")) {
+        tmpScenario = tmpScenario.replace("pub_","")
+        this.nodeService.getUPPublicTables(tmpScenario).subscribe(
           (tables) => (this.layersUP = tables),
           (error) => {
             this.logErrorHandler(error);
