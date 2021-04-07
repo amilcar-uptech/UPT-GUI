@@ -1066,6 +1066,8 @@ export class ToolsSidebarComponent implements OnInit {
   // Sends a request for results from the UP calculator and formats them for the Results section of UP.
   getUPResults() {
     if (this.selectedScenarios.length > 0) {
+      
+      console.log(this.scenarios);
       this.okayResults = true;
       let copyScenario = this.selectedScenarios;
       copyScenario.forEach(
