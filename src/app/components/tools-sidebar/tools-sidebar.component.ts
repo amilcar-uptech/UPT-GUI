@@ -1069,14 +1069,18 @@ export class ToolsSidebarComponent implements OnInit {
       
       console.log(this.scenarios);
       this.okayResults = true;
-      let copyScenario = { ... this.selectedScenarios };
+      let copyScenario = [];
+      this.selectedScenarios.forEach(
+        (scenario) => {
+          copyScenario.push(Object.assign({}, scenario));
+        }
+      );
       console.log(copyScenario);
       copyScenario.forEach(
         (scenario) => {
           scenario.scenarioId = scenario.scenarioId.replace("priv_","").replace("pub_","");
         }
       );
-      console.log(this.scenarios);
       console.log(copyScenario);
       this.resultsService.getScenarios(copyScenario).subscribe(
         (scnr) => {
