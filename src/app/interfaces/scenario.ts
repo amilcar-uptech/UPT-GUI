@@ -6,6 +6,6 @@ export interface Scenario {
     indicators?: string;
     isBase?: any;
     studyArea?: any;
-    studyAreaId?: any;
+    studyAreaId?: string;
     has_assumptions?: any;
 }
