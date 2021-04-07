@@ -1066,8 +1066,6 @@ export class ToolsSidebarComponent implements OnInit {
   // Sends a request for results from the UP calculator and formats them for the Results section of UP.
   getUPResults() {
     if (this.selectedScenarios.length > 0) {
-      
-      console.log(this.scenarios);
       this.okayResults = true;
       let copyScenario = [];
       this.selectedScenarios.forEach(
@@ -1075,13 +1073,11 @@ export class ToolsSidebarComponent implements OnInit {
           copyScenario.push(Object.assign({}, scenario));
         }
       );
-      console.log(copyScenario);
       Object.values(copyScenario).forEach(
         (scenario) => {
           scenario.scenarioId = scenario.scenarioId.replace("priv_","").replace("pub_","");
         }
       );
-      console.log(copyScenario);
       this.resultsService.getScenarios(copyScenario).subscribe(
         (scnr) => {
           this.scenarioResults = scnr;
@@ -1294,8 +1290,6 @@ export class ToolsSidebarComponent implements OnInit {
       let pubScenarios = [];
       let privScenarios = [];
       let copyScenarios = this.selectedScenarios;
-      console.log(this.scenarios);
-      console.log(copyScenarios);
       this.clearEvaluation();
       this.messageService.add({
         severity: 'info',
@@ -1314,17 +1308,37 @@ export class ToolsSidebarComponent implements OnInit {
           }
         }
       );
-      console.log(privScenarios);
-      console.log(pubScenarios);
-      this.resultsService.calculateScenarios(privScenarios, pubScenarios).subscribe(
-        () => {},
-        (error) => {
-          this.logErrorHandler(error);
-        },
-        () => {
-          interval = setInterval(() => this.getStatusUP(interval), 5000);
-        }
-      );
+      if(pubScenarios.length > 0 && privScenarios.length > 0) {
+        this.resultsService.calculateScenariosBoth(privScenarios, pubScenarios).subscribe(
+          () => {},
+          (error) => {
+            this.logErrorHandler(error);
+          },
+          () => {
+            interval = setInterval(() => this.getStatusUP(interval), 5000);
+          }
+        );
+      } else if(pubScenarios.length > 0) {
+        this.resultsService.calculatePublicScenarios(pubScenarios).subscribe(
+          () => {},
+          (error) => {
+            this.logErrorHandler(error);
+          },
+          () => {
+            interval = setInterval(() => this.getStatusUP(interval), 5000);
+          }
+        );
+      } else if(privScenarios.length > 0) {
+        this.resultsService.calculateScenarios(privScenarios).subscribe(
+          () => {},
+          (error) => {
+            this.logErrorHandler(error);
+          },
+          () => {
+            interval = setInterval(() => this.getStatusUP(interval), 5000);
+          }
+        );
+      }
     } else {
       this.messageService.add({
         severity: 'error',
@@ -1337,8 +1351,13 @@ export class ToolsSidebarComponent implements OnInit {
   // Sends a request to get the latest status of the UP evaluation. If completed, calls getUPBuffers and getUPResults.
   getStatusUP(i) {
     let statusFlag = false;
-    let copyScenario = this.selectedScenarios;
-    copyScenario.forEach(
+    let copyScenario = [];
+    this.selectedScenarios.forEach(
+      (scenario) => {
+        copyScenario.push(Object.assign({}, scenario));
+      }
+    );
+    Object.values(copyScenario).forEach(
       (scenario) => {
         scenario.scenarioId = scenario.scenarioId.replace("priv_","").replace("pub_","");
       }

@@ -42,13 +42,31 @@ export class ResultsService {
     );
   }
 
-  public calculateScenarios(scenarios: Scenario[], scenariosPublic: Scenario[]): Observable<Status> {
+  public calculateScenarios(scenarios: Scenario[]): Observable<Status> {
+    ids = [];
+    scenarios.forEach(scen => ids.push(scen.scenarioId));
+    let body = new HttpParams({fromObject: {scenariosId: ids}});
+    return this.http.post<any>('/action?action_route=ScenarioUPHandler&action=evaluate', body).pipe(
+      map(res => res as Status)
+    );
+  }
+
+  public calculatePublicScenarios(scenarios: Scenario[]): Observable<Status> {
+    ids = [];
+    scenarios.forEach(scen => ids.push(scen.scenarioId));
+    let body = new HttpParams({fromObject: {scenariosPublicId: ids}});
+    return this.http.post<any>('/action?action_route=ScenarioUPHandler&action=evaluate_public', body).pipe(
+      map(res => res as Status)
+    );
+  }
+
+  public calculateScenariosBoth(scenarios: Scenario[], scenariosPublic: Scenario[]): Observable<Status> {
     ids = [];
     idsPublic = [];
     scenarios.forEach(scen => ids.push(scen.scenarioId));
     scenariosPublic.forEach(scen => ids.push(scen.scenarioId));
     let body = new HttpParams({fromObject: {scenariosId: ids, scenariosPublicId: idsPublic}});
-    return this.http.post<any>('/action?action_route=ScenarioUPHandler&action=evaluate', body).pipe(
+    return this.http.post<any>('/action?action_route=ScenarioUPHandler&action=evaluate_both', body).pipe(
       map(res => res as Status)
     );
   }
