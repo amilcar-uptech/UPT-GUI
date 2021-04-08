@@ -1727,7 +1727,7 @@ export class ToolsSidebarComponent implements OnInit {
       if(tmpScenario.includes("priv_")) {
         tmpScenario = tmpScenario.replace("priv_","")
         this.nodeService.getUPTables(tmpScenario).subscribe(
-          (tables) => (this.upTablesScenario = tables),
+          (tables) => (this.tablesUP = tables),
           (error) => {
             this.logErrorHandler(error);
           }
@@ -1735,7 +1735,7 @@ export class ToolsSidebarComponent implements OnInit {
       } else if(tmpScenario.includes("pub_")) {
         tmpScenario = tmpScenario.replace("pub_","")
         this.nodeService.getUPPublicTables(tmpScenario).subscribe(
-          (tables) => (this.upTablesScenario = tables),
+          (tables) => (this.tablesUP = tables),
           (error) => {
             this.logErrorHandler(error);
           }
