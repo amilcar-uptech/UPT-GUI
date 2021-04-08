@@ -1634,7 +1634,6 @@ export class ToolsSidebarComponent implements OnInit {
   loadUPLayers() {
     if (this.scenarioManage) {
       let tmpScenario = this.scenarioManage.scenarioId;
-      console.log(this.scenarios);
       if(tmpScenario.includes("priv_")) {
         tmpScenario = tmpScenario.replace("priv_","")
         this.nodeService.getUPTables(tmpScenario).subscribe(
@@ -1724,16 +1723,19 @@ export class ToolsSidebarComponent implements OnInit {
   // Loads the PrimeNG tree element in the Advanced dialog on the Clear Tables tab
   loadTablesUP() {
     if (this.upTablesScenario) {
-      if(this.upTablesScenario.scenarioId.includes("priv_")) {
-        this.nodeService.getUPTables(this.upTablesScenario.scenarioId.replace("priv_","")).subscribe(
-          (tables) => (this.tablesUP = tables),
+      let tmpScenario = this.upTablesScenario.scenarioId;
+      if(tmpScenario.includes("priv_")) {
+        tmpScenario = tmpScenario.replace("priv_","")
+        this.nodeService.getUPTables(tmpScenario).subscribe(
+          (tables) => (this.layersUP = tables),
           (error) => {
             this.logErrorHandler(error);
           }
         );
-      } else if(this.upTablesScenario.scenarioId.includes("pub_")) {
-        this.nodeService.getUPPublicTables(this.upTablesScenario.scenarioId.replace("pub_","")).subscribe(
-          (tables) => (this.tablesUP = tables),
+      } else if(tmpScenario.includes("pub_")) {
+        tmpScenario = tmpScenario.replace("pub_","")
+        this.nodeService.getUPPublicTables(tmpScenario).subscribe(
+          (tables) => (this.layersUP = tables),
           (error) => {
             this.logErrorHandler(error);
           }
@@ -1763,9 +1765,10 @@ export class ToolsSidebarComponent implements OnInit {
       detail: 'Table data is being deleted!',
     });
     this.messageService.clear('confirmDeleteTableUP');
-    if(this.upTablesScenario.scenarioId.includes("priv_")) {
+    let tmpScenario = this.upTablesScenario.scenarioId;
+    if(tmpScenario.includes("priv_")) {
       this.upMiscService
-      .deleteTableUP(this.upTablesScenario.scenarioId.replace("priv_",""), this.selectedTable.data)
+      .deleteTableUP(tmpScenario.replace("priv_",""), this.selectedTable.data)
       .subscribe(
         () => {},
         (error) => {
@@ -1781,9 +1784,9 @@ export class ToolsSidebarComponent implements OnInit {
           this.loadUPLayers();
         }
       );
-    } else if(this.upTablesScenario.scenarioId.includes("pub_")) {
+    } else if(tmpScenario.includes("pub_")) {
       this.upMiscService
-      .deletePublicTableUP(this.upTablesScenario.scenarioId.replace("pub_",""), this.selectedTable.data)
+      .deletePublicTableUP(tmpScenario.replace("pub_",""), this.selectedTable.data)
       .subscribe(
         () => {},
         (error) => {
@@ -1827,7 +1830,6 @@ export class ToolsSidebarComponent implements OnInit {
       tableUP: this.listDataUP,
       scenarioId: this.scenarioManage.scenarioId.replace("priv_","").replace("pub_",""),
     };
-    console.log(this.dataCopy);
     if(directory.includes("my_data")) {
       this.dataCopyService.copyDataUP(this.dataCopy).subscribe(
         () => {},
@@ -1908,7 +1910,6 @@ export class ToolsSidebarComponent implements OnInit {
           },
           () => {
             this.scenarios = tmpScenarioArray;
-            console.log(this.scenarios);
           }
         );
       }
