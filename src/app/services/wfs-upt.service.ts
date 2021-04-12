@@ -26,11 +26,9 @@ export class WfsUptService {
                 );
   }
   
-  public importUptWfs(id: number): Observable<any> {
+  public importUptWfs(ids: number[]): Observable<any> {
     try {
-      let body = new HttpParams();
-      body = body.set('study_area',id.toString());
-      //console.log();
+      let body = new HttpParams({fromObject: {studyAreasId: ids}});
       return this.http.post<any>('/action?action_route=UPTImportPublicLayerData', body);
     } catch (e) {
       console.log(e);

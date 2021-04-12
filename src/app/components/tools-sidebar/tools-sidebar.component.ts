@@ -81,7 +81,7 @@ export class ToolsSidebarComponent implements OnInit {
 
   // UPT WFS variables
   wfsStudyArea: SelectItem[];
-  wfsSelectedStudyArea: Layer;
+  wfsSelectedStudyArea: Layer[];
   uptWfs: SelectItem[];
   selectedUptWfs: TreeNode;
   colFieldsNameArrayUptWfs = [];
@@ -642,9 +642,12 @@ export class ToolsSidebarComponent implements OnInit {
       summary: 'In Progress!',
       detail: 'Your operation is being processed.',
     });
-    let layerId = this.wfsSelectedStudyArea.id;
-    layerId = layerId.replace("pub_","");
-    this.wfsUptService.importUptWfs(layerId).subscribe(
+    let lyrId = [];
+    this.wfsSelectedStudyArea.forEach((lyr) => {
+      lyr.id = lyr.id.replace("pub_","");
+      lyrId.push(lyrId);
+    });
+    this.wfsUptService.importUptWfs(lyrId).subscribe(
       () => {},
       (error) => {
         this.logErrorHandler(error);
