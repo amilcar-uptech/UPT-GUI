@@ -686,6 +686,7 @@ export class ToolsSidebarComponent implements OnInit {
     let lyrId = [];
     console.log(this.wfsSelectedStudyArea);
     this.wfsSelectedStudyArea.forEach((lyr) => {
+      console.log(lyr);
       lyr.id = lyr.id.replace("pub_","");
       lyrId.push(lyrId);
     });
