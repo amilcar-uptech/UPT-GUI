@@ -440,23 +440,24 @@ export class ToolsSidebarComponent implements OnInit {
 
   // Colors used for the color scale dialog
   scaleColorsST = [
-    "#630000",
-    "#9e0142",
-    "#d53e4f",
-    "#f46d43",
-    "#fee08b",
-    "#abdda4",
-    "#66c2a5",
-    "#3288bd",
-    "#5e4fa2",
-    "#240058"
+    "#5E4FA2",
+                      "#3288BD",
+                      "#66C2A5",
+                      "#ABDDA4",
+                      "#E6F598",
+                      "#FEE08B",
+                      "#FDAE61",
+                      "#F46D43",
+                      "#D53E4F",
+                      "#9E0142",
+                      "#630000",
   ];
 
   // Color scaling for the heatmap
   colors = chroma.scale(this.scaleColorsST);
 
   // Numbers used for the color scale dialog
-  scaleNumbersST: any[] = ['10', '20', '30', '40', '50', '60', '70', '80', '90', '100'];
+  scaleNumbersST: any[] = ['0', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100'];
 
   // LayersST
   isNewLayer = false;
