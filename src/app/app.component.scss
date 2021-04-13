@@ -1,5 +1,5 @@
 @import '../styles.scss';
-::ng-deep .change-index {
+:host ::ng-deep .change-index {
     z-index: 1100 !important;
 }
 
@@ -237,6 +237,6 @@ hr {
     border-bottom: #343E46
 }
 
-::ng-deep .dropdown-menu {
+:host ::ng-deep .dropdown-menu {
     z-index: 15000 !important;
 }
