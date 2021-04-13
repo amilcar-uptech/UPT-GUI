@@ -801,46 +801,17 @@
     </div>
 </p-dialog>
 <!--Pending.-->
-<p-dialog [focusOnShow]="false" header="Manage WFS" [(visible)]="displayUptWfs" [maximizable]="true" [style]="{'width':'60em'}" [contentStyle]="{'max-height':'40em'}" [baseZIndex]="1150">
+<p-dialog [focusOnShow]="false" header="Manage WFS" [(visible)]="displayUptWfs" [maximizable]="true" [style]="{'width':'60em'}" [contentStyle]="{'max-height':'30em'}" [baseZIndex]="1150">
     <div class="gp_modal geoportal-dialog">
         <div class="ui-g ui-fluid">
             <div class="ui-g-5">
                 <div class="ui-g ui-fluid">
-                    <p-dropdown placeholder="Select a study area" optionLabel="name" [baseZIndex]="2500" appendTo="body" [options]="wfsStudyArea" [(ngModel)]="wfsSelectedStudyArea" [filter]="true" styleClass="geoportal-dialog" panelStyleClass="geoportal-dialog"></p-dropdown>
+                    <p-multiSelect defaultLabel="Select a layer" [filter]="true" optionLabel="name" [baseZIndex]="2500" appendTo="body" [options]="wfsStudyArea" [(ngModel)]="wfsSelectedStudyArea" [filter]="true" styleClass="geoportal-dialog" panelStyleClass="geoportal-dialog"></p-multiSelect>
                 </div>
-                <!--<div class="ui-g ui-fluid" *ngIf="wfsSelectedStudyArea">
-                    <p-tree [filter]="true" (onNodeSelect)="loadUptWfsColumns($event)" selectionMode="single" [(selection)]="selectedUptWfs" [value]="uptWfs" [style]="{'max-height':'200px','overflow':'auto'}">
-                        <ng-template let-node pTemplate="directory">
-                            <span>{{node.label}}</span>
-                        </ng-template>
-                        <ng-template let-node pTemplate="layer">
-                            <span>{{node.label}}</span>
-                        </ng-template>
-                    </p-tree>
-                </div>-->
             </div>
-            <!--<div class="ui-g-7" *ngIf="selectedUptWfs">
-                <div class="ui-g ui-fluid">
-                    <p-table [value]="listManageDataUptWfs">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th style="width:2.5em"></th>
-                                <th>{{columnsHeaderUptWfs + ' Fields'}}</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-column let-index="rowIndex">
-                            <tr [pReorderableRow]="index">
-                                <td>
-                                </td>
-                                <td>{{column}}</td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </div>
-            </div>-->
         </div>
         <div class="container-fluid p-3" *ngIf="wfsSelectedStudyArea">
-            <div class="justify-content-center">
+            <div class="ui-g ui-fluid">
                 <p-button icon="pi pi-save" (onClick)="importUptWfs()" label="IMPORT" styleClass="ui-button-raised">
                 </p-button>
                 <p-button icon="pi pi-trash" label="DELETE" (onClick)="deleteUptWfs()" styleClass="ui-button-raised"></p-button>

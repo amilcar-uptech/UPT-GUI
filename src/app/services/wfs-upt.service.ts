@@ -26,21 +26,19 @@ export class WfsUptService {
                 );
   }
   
-  public importUptWfs(id: number): Observable<any> {
+  public importUptWfs(ids: string[]): Observable<any> {
     try {
-      let body = new HttpParams();
-      body = body.set('study_area',id.toString());
-      //console.log();
+      let body = new HttpParams({fromObject: {studyAreasId: ids}});
       return this.http.post<any>('/action?action_route=UPTImportPublicLayerData', body);
     } catch (e) {
       console.log(e);
     }
   }
 
-  public deleteUptWfs(id: number): Observable<any> {
+  public deleteUptWfs(ids: string[]): Observable<any> {
     try {
       httpOptions['params'] = {
-        id: id
+        studyAreasId: ids
       };
       return this.http.delete<any>('/action?action_route=UPTImportPublicLayerData', httpOptions);
     } catch (e) {

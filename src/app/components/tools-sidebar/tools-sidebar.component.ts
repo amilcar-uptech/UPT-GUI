@@ -642,9 +642,12 @@ export class ToolsSidebarComponent implements OnInit {
       summary: 'In Progress!',
       detail: 'Your operation is being processed.',
     });
-    let layerId = this.wfsSelectedStudyArea.id;
-    layerId = layerId.replace("pub_","");
-    this.wfsUptService.importUptWfs(layerId).subscribe(
+    let lyrId = [];
+    this.wfsSelectedStudyArea.forEach((lyr) => {
+      lyr.id = lyr.id.replace("pub_","");
+      lyrId.push(lyr.id);
+    });
+    this.wfsUptService.importUptWfs(lyrId).subscribe(
       () => {},
       (error) => {
         this.logErrorHandler(error);
@@ -680,9 +683,15 @@ export class ToolsSidebarComponent implements OnInit {
       summary: 'In Progress!',
       detail: 'Your operation is being processed.',
     });
-    let layerId = this.wfsSelectedStudyArea.id;
-    layerId = layerId.replace("pub_","");
-    this.wfsUptService.deleteUptWfs(layerId).subscribe(
+    let lyrId = [];
+    console.log(this.wfsSelectedStudyArea);
+    this.wfsSelectedStudyArea.forEach((lyr) => {
+      console.log(lyr);
+      lyr.id = lyr.id.replace("pub_","");
+      lyrId.push(lyr.id);
+    });
+    console.log(lyrId)
+    this.wfsUptService.deleteUptWfs(lyrId).subscribe(
       () => {},
       (error) => {
         this.messageService.add({
