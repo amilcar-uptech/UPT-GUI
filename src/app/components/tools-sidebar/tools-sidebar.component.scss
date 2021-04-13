@@ -635,3 +635,7 @@ body .booleanCheckbox .ui-chkbox-label {
     left: auto !important;
     top: auto !important;
 }
+
+:host ::ng-deep .ui-togglebutton .ui-button-icon-left {
+    color: #fff !important;
+}
