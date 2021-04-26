@@ -1,50 +1,27 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { NodeService } from 'src/app/services/node/NodeService';
-import { TreeNode, MessageService } from 'primeng/api';
+import { TreeNode, MessageService, SelectItem, DynamicDialogRef, DynamicDialogConfig } from 'primeng/api';
 import { ListService } from 'src/app/services/list/list.service';
 import { Column } from 'src/app/domain/column';
 import { Layer } from 'src/app/interfaces/layer';
-import { SelectItem } from 'primeng/api';
-import { Indicator } from 'src/app/interfaces/indicator';
-import { Scenario } from 'src/app/interfaces/scenario';
-import { ScenarioService } from 'src/app/services/scenario/scenario.service';
-import { Scenarios } from 'src/app/interfaces/results';
-import { ResultsService } from 'src/app/services/results/results.service';
 import { Observable } from 'rxjs';
 import { LayerService } from 'src/app/services/layer/layer.service';
 import { DataCopy } from 'src/app/interfaces/data-copy';
 import { DataCopyService } from 'src/app/services/data-copy/data-copy.service';
 import { SettingsService } from 'src/app/services/settings/settings.service';
 import { Settings } from 'src/app/interfaces/settings';
-import { StatusService } from '../../services/status.service';
 import { MatchLayer } from 'src/app/interfaces/match-layer';
 import { NormalizationMethod } from '../../interfaces/normalization-method';
 import { StEvaluationService } from 'src/app/services/st-evaluation.service';
 import chroma from 'chroma-js';
-import { Assumption } from 'src/app/interfaces/assumption';
-import { AssumptionService } from 'src/app/services/assumption/assumption.service';
 import { LayerST } from 'src/app/interfaces/layer-st';
 import { LayerSTService } from 'src/app/services/layerST/layer-st.service';
 import { MethodService } from 'src/app/services/method/method.service';
-import { ModuleService } from 'src/app/services/module/module.service';
-import { Amenities } from 'src/app/interfaces/amenities';
-import { UpMiscService } from 'src/app/services/up-misc/up-misc.service';
 import { UpColumn } from 'src/app/interfaces/up-column';
-import { IndResult } from 'src/app/interfaces/ind-result';
-import { IndUp } from 'src/app/interfaces/ind-up';
-import { Module } from 'src/app/interfaces/module';
 import { StColumn } from 'src/app/interfaces/st-column';
-import { ViewChild } from '@angular/core';
-import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
-import { Classification } from 'src/app/interfaces/classification';
-import { ClassificationService } from 'src/app/services/classification/classification.service';
 import { Status } from 'src/app/interfaces/status';
 import { Heatmap } from 'src/app/interfaces/heatmap';
 import { HeatmapService } from 'src/app/services/heatmap.service';
-import { WfsUptService } from 'src/app/services/wfs-upt.service';
-import { saveAs } from 'file-saver';
-import { ShareLayersService } from 'src/app/services/share-layers.service';
-import { RoleService } from 'src/app/services/role.service';
 
 @Component({
   selector: 'app-urban-hotspots',
@@ -52,6 +29,17 @@ import { RoleService } from 'src/app/services/role.service';
   styleUrls: ['./urban-hotspots.component.css']
 })
 export class UrbanHotspotsComponent implements OnInit {
+
+  @Output() logErrorHandler: EventEmitter<string> = new EventEmitter();
+  @Output() blockDocument: EventEmitter<any> = new EventEmitter();
+  @Output() unblockDocument: EventEmitter<any> = new EventEmitter();
+  @Output() clearEvaluation: EventEmitter<any> = new EventEmitter();
+  @Output() showEvaluation: EventEmitter<any> = new EventEmitter();
+  @Output() hideEvaluation: EventEmitter<any> = new EventEmitter();
+  @Input() evalHtml: string;
+  @Output() evalHtmlChange: EventEmitter<string> = new EventEmitter();
+  @Input() Oskari: any;
+
   // Cols for managing objects
   colsLayersSettings: any[];
   colsLayer: any[];
@@ -60,6 +48,8 @@ export class UrbanHotspotsComponent implements OnInit {
   colsManageSetting: any[];
   colsNormMethod: any[];
   colsJoinMethod: any[];
+
+  columnDataGP: string[] = [];
 
   /**
    * ST variables
@@ -260,6 +250,18 @@ export class UrbanHotspotsComponent implements OnInit {
   /**
    * Functions for ST
    */
+  startUH() {
+    this.displayST = true;
+    this.loadDataLayerST();
+    this.loadSTColumns();
+    this.loadSTMethods();
+    this.loadSTStudyArea();
+    this.staticNormST = [];
+    this.staticJoinST = [];
+    this.showColorScaleST();
+    this.openAccordionST();
+  }
+
   // Reverses color scale
   reverseColorScaleST() {
     this.scaleColorsST = this.scaleColorsST.reverse();
@@ -294,21 +296,6 @@ export class UrbanHotspotsComponent implements OnInit {
   // Hides the color scale dialog
   hideColorScaleST() {
     this.displayColorScaleST = false;
-  }
-
-  // Shows the main ST dialog and loads important variables to run its calculations
-  showST() {
-    this.upAct = false;
-    this.stAct = true;
-    this.loadDataLayerST();
-    this.loadSTColumns();
-    this.loadSTMethods();
-    this.loadSTStudyArea();
-    this.staticNormST = [];
-    this.staticJoinST = [];
-    this.showColorScaleST();
-    this.openAccordionST();
-    this.displayST = true;
   }
 
   // Shows the main ST dialog without loading anything else
@@ -350,7 +337,7 @@ export class UrbanHotspotsComponent implements OnInit {
         this.stdAreaFilter = studyArea;
       },
       (error) => {
-        this.logErrorHandler(error);
+        this.showErrorHandler(error);
       }
     );
   }
@@ -363,7 +350,7 @@ export class UrbanHotspotsComponent implements OnInit {
         this.normMethodsSTManage = normMethod;
       },
       (error) => {
-        this.logErrorHandler(error);
+        this.showErrorHandler(error);
       }
     );
     this.layersService.getJoinMethods().subscribe(
@@ -372,7 +359,7 @@ export class UrbanHotspotsComponent implements OnInit {
         this.joinMethodsSTManage = joinType;
       },
       (error) => {
-        this.logErrorHandler(error);
+        this.showErrorHandler(error);
       },
       () => {
         this.joinMethod = this.joinType[0];
@@ -385,7 +372,7 @@ export class UrbanHotspotsComponent implements OnInit {
         );
       },
       (error) => {
-        this.logErrorHandler(error);
+        this.showErrorHandler(error);
       }
     );
     this.methodService.getStaticJoinMethod().subscribe(
@@ -395,7 +382,7 @@ export class UrbanHotspotsComponent implements OnInit {
         );
       },
       (error) => {
-        this.logErrorHandler(error);
+        this.showErrorHandler(error);
       }
     );
   }
@@ -407,7 +394,7 @@ export class UrbanHotspotsComponent implements OnInit {
         this.tablesST = tablesST;
       },
       (error) => {
-        this.logErrorHandler(error);
+        this.showErrorHandler(error);
       }
     );
   }
@@ -427,7 +414,7 @@ export class UrbanHotspotsComponent implements OnInit {
         this.listDataDistancesST = listDataST;
       },
       (error) => {
-        this.logErrorHandler(error);
+        this.showErrorHandler(error);
       }
     );
   }
@@ -447,7 +434,7 @@ export class UrbanHotspotsComponent implements OnInit {
           this.columnHeaderDistancesST = event.node.label;
         },
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         }
       );
     } else {
@@ -465,7 +452,7 @@ export class UrbanHotspotsComponent implements OnInit {
         this.listDataST = listDataST;
       },
       (error) => {
-        this.logErrorHandler(error);
+        this.showErrorHandler(error);
       }
     );
     this.listService.getSTColumnFilters().subscribe(
@@ -474,7 +461,7 @@ export class UrbanHotspotsComponent implements OnInit {
         this.loadDataLayerST();
       },
       (error) => {
-        this.logErrorHandler(error);
+        this.showErrorHandler(error);
       }
     );
   }
@@ -494,7 +481,7 @@ export class UrbanHotspotsComponent implements OnInit {
           this.columnsHeaderST = event.node.label;
         },
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         }
       );
     } else {
@@ -520,7 +507,7 @@ export class UrbanHotspotsComponent implements OnInit {
           this.columnsHeaderFiltersST = event.node.label;
         },
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         }
       );
     } else {
@@ -534,7 +521,7 @@ export class UrbanHotspotsComponent implements OnInit {
   // Sends a request to copy data from the selected layer into the distance module
   importDataST() {
     if (this.stdAreaSTDistances != null) {
-      this.blockDocument();
+      this.block();
       this.messageService.add({
         severity: 'info',
         summary: 'In Progress!',
@@ -562,8 +549,8 @@ export class UrbanHotspotsComponent implements OnInit {
           };
         },
         (error) => {
-          this.unblockDocument();
-          this.logErrorHandler(error);
+          this.unblock();
+          this.showErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -571,7 +558,7 @@ export class UrbanHotspotsComponent implements OnInit {
             summary: 'Success!',
             detail: 'Process completed successfully.',
           });
-          this.unblockDocument();
+          this.unblock();
         }
       );
     } else {
@@ -586,7 +573,7 @@ export class UrbanHotspotsComponent implements OnInit {
   // Sends a request to copy layer data into ST as a Layer
   matchLayersST() {
     if (this.layerSTId && this.layerSTLabel && this.layerSTField.name) {
-      this.blockDocument();
+      this.block();
       this.messageService.add({
         severity: 'info',
         summary: 'In Progress!',
@@ -608,8 +595,8 @@ export class UrbanHotspotsComponent implements OnInit {
           };
         },
         (error) => {
-          this.unblockDocument();
-          this.logErrorHandler(error);
+          this.unblock();
+          this.showErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -626,11 +613,11 @@ export class UrbanHotspotsComponent implements OnInit {
               .subscribe(
                 (layers) => (this.layersSTManage = layers),
                 (error) => {
-                  this.logErrorHandler(error);
+                  this.showErrorHandler(error);
                 }
               );
           }
-          this.unblockDocument();
+          this.unblock();
         }
       );
     } else {
@@ -644,7 +631,7 @@ export class UrbanHotspotsComponent implements OnInit {
 
   // Sends a request to copy layer data into ST as a Filter
   matchFiltersST() {
-    this.blockDocument();
+    this.block();
     this.messageService.add({
       severity: 'info',
       summary: 'In Progress!',
@@ -662,8 +649,8 @@ export class UrbanHotspotsComponent implements OnInit {
         };
       },
       (error) => {
-        this.unblockDocument();
-        this.logErrorHandler(error);
+        this.unblock();
+        this.showErrorHandler(error);
       },
       () => {
         this.messageService.add({
@@ -680,11 +667,11 @@ export class UrbanHotspotsComponent implements OnInit {
             .subscribe(
               (layers) => (this.filtersSTManage = layers),
               (error) => {
-                this.logErrorHandler(error);
+                this.showErrorHandler(error);
               }
             );
         }
-        this.unblockDocument();
+        this.unblock();
       }
     );
   }
@@ -699,7 +686,7 @@ export class UrbanHotspotsComponent implements OnInit {
       this.layersService.getLayers(this.selectedStudyAreaST.id).subscribe(
         (layers) => (this.layerSettings = layers),
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         }, () => {
           this.layerSettings.forEach(
             stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
@@ -711,7 +698,7 @@ export class UrbanHotspotsComponent implements OnInit {
       this.layersService.getFilters(this.selectedStudyAreaST.id).subscribe(
         (filters) => (this.filterList = filters),
         (error) => { 
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         }
       );
     }
@@ -737,7 +724,7 @@ export class UrbanHotspotsComponent implements OnInit {
         detail: 'Please select a join method.',
       });
     } else {
-      this.blockDocument();
+      this.block();
       this.settingsString = '';
       this.selectedLayersST = [];
       this.selSetting.forEach((setting) => {
@@ -761,9 +748,9 @@ export class UrbanHotspotsComponent implements OnInit {
             this.fullGeojson = data;
           },
           (error) => {
-            this.unblockDocument();
+            this.unblock();
             this.stResult = true;
-            this.logErrorHandler(error);
+            this.showErrorHandler(error);
           },
           () => {
             this.printGeoJSON();
@@ -784,8 +771,8 @@ export class UrbanHotspotsComponent implements OnInit {
     this.stEvaluationService.postStdArea(stdAreaEval).subscribe(
       () => {},
       (error) => {
-        this.unblockDocument();
-        this.logErrorHandler(error);
+        this.unblock();
+        this.showErrorHandler(error);
       },
       () => {
         interval = setInterval(
@@ -806,10 +793,10 @@ export class UrbanHotspotsComponent implements OnInit {
       () => {},
       () => {
         if (this.statusST.length > 0) {
-          this.clearEvaluation();
-          this.showEvaluation();
+          this.clearDistancesConsole();
+          this.showDistancesConsole();
           this.statusST.forEach((s) => {
-            this.procHtml +=
+            this.evalHtml +=
               '<div class="ui-md-4">' +
               s.event +
               '</div><div class="ui-md-2">' +
@@ -819,6 +806,7 @@ export class UrbanHotspotsComponent implements OnInit {
               '</div><div class="ui-md-4">' +
               s.value +
               '</div>';
+            this.evalHtmlChange.emit(this.evalHtml);
             if (
               s.event.toLowerCase() === 'all distances finished' ||
               s.value.toLowerCase() === 'all distances finished'
@@ -845,16 +833,16 @@ export class UrbanHotspotsComponent implements OnInit {
     this.stEvaluationService.getDistanceLayers(sa).subscribe(
       (layers) => (this.distanceLayerST = layers),
       (error) => {
-        this.logErrorHandler(error);
+        this.showErrorHandler(error);
       },
       () => {
         this.distanceLayerST.forEach((lyr) => {
           setTimeout(() => {
-            Oskari.getSandbox()
+            this.Oskari.getSandbox()
               .findRegisteredModuleInstance('MyPlacesImport')
               .getService()
               .addLayerToService(lyr, false);
-            Oskari.getSandbox()
+            this.Oskari.getSandbox()
               .findRegisteredModuleInstance('MyPlacesImport')
               .getTab()
               .refresh();
@@ -931,14 +919,14 @@ export class UrbanHotspotsComponent implements OnInit {
             });
           }
         });
-        Oskari.getSandbox().postRequestByName('VectorLayerRequest', [
+        this.Oskari.getSandbox().postRequestByName('VectorLayerRequest', [
           this.layerOptions,
         ]);
-        Oskari.getSandbox().postRequestByName(
+        this.Oskari.getSandbox().postRequestByName(
           'MapModulePlugin.RemoveFeaturesFromMapRequest',
           [null, null, 'ST_VECTOR_LAYER']
         );
-        Oskari.getSandbox().postRequestByName(this.rn, [
+        this.Oskari.getSandbox().postRequestByName(this.rn, [
           this.geojsonObject,
           this.layerOptions,
         ]);
@@ -949,9 +937,9 @@ export class UrbanHotspotsComponent implements OnInit {
           summary: 'Success!',
           detail: 'Process completed successfully!',
         });
-        this.unblockDocument();
+        this.unblock();
       } catch(e) {
-        this.unblockDocument();
+        this.unblock();
         this.messageService.add({
           severity: 'error',
           summary: 'Error!',
@@ -961,7 +949,7 @@ export class UrbanHotspotsComponent implements OnInit {
       }
       
     } else {
-      this.unblockDocument();
+      this.unblock();
       this.closeAccordionST();
       this.stResult = true;
       this.messageService.add({
@@ -970,7 +958,7 @@ export class UrbanHotspotsComponent implements OnInit {
         detail:
           'Process completed successfully, but no results were generated.',
       });
-      Oskari.getSandbox().postRequestByName(
+      this.Oskari.getSandbox().postRequestByName(
         'MapModulePlugin.RemoveFeaturesFromMapRequest',
         [null, null, 'ST_VECTOR_LAYER']
       );
@@ -1016,14 +1004,14 @@ export class UrbanHotspotsComponent implements OnInit {
           });
         }
       });
-      Oskari.getSandbox().postRequestByName('VectorLayerRequest', [
+      this.Oskari.getSandbox().postRequestByName('VectorLayerRequest', [
         this.layerOptions,
       ]);
-      Oskari.getSandbox().postRequestByName(
+      this.Oskari.getSandbox().postRequestByName(
         'MapModulePlugin.RemoveFeaturesFromMapRequest',
         [null, null, 'ST_VECTOR_LAYER']
       );
-      Oskari.getSandbox().postRequestByName(this.rn, [
+      this.Oskari.getSandbox().postRequestByName(this.rn, [
         this.geojsonObject,
         this.layerOptions,
       ]);
@@ -1037,26 +1025,26 @@ export class UrbanHotspotsComponent implements OnInit {
       summary: 'In Progress!',
       detail: 'Your operation is being processed.',
     });
-    this.blockDocument();
+    this.block();
     this.heatmapService.saveHeatmap(this.oskariHeatmap).subscribe(
       (res) => (this.oskariResponse = res),
       (error) => {
-        this.unblockDocument();
-        this.logErrorHandler(error);
+        this.unblock();
+        this.showErrorHandler(error);
       },
       () => {
-        this.unblockDocument();
+        this.unblock();
         this.messageService.add({
           severity: 'success',
           summary: 'Success!',
           detail: 'Process completed successfully!',
         });
         this.hideSaveHeatmap();
-        Oskari.getSandbox()
+        this.Oskari.getSandbox()
           .findRegisteredModuleInstance('MyPlacesImport')
           .getService()
           .addLayerToService(this.oskariResponse, false);
-        Oskari.getSandbox()
+        this.Oskari.getSandbox()
           .findRegisteredModuleInstance('MyPlacesImport')
           .getTab()
           .refresh();
@@ -1071,7 +1059,7 @@ export class UrbanHotspotsComponent implements OnInit {
       this.layerSTService.getLayerST(this.stdAreaManageLayer.id).subscribe(
         (layers) => (this.layersSTManage = layers),
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         }
       );
     }
@@ -1083,7 +1071,7 @@ export class UrbanHotspotsComponent implements OnInit {
       this.layerSTService.getFiltersST(this.stdAreaManageFilter.id).subscribe(
         (filters) => (this.filtersSTManage = filters),
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         }
       );
     }
@@ -1095,7 +1083,7 @@ export class UrbanHotspotsComponent implements OnInit {
       this.settingsService.getSettings(this.stdAreaManageSetting.id).subscribe(
         (settings) => (this.settingsSTManage = settings),
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         }, () => {
           this.settingsSTManage.forEach(
             stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
@@ -1118,7 +1106,7 @@ export class UrbanHotspotsComponent implements OnInit {
         this.selLayerColumns = this.colFieldsNameArrayST;
       },
       (error) => {
-        this.logErrorHandler(error);
+        this.showErrorHandler(error);
       }
     );
     this.editLayers = true;
@@ -1135,7 +1123,7 @@ export class UrbanHotspotsComponent implements OnInit {
             detail: 'Your layer is being created!',
           }),
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -1149,7 +1137,7 @@ export class UrbanHotspotsComponent implements OnInit {
               .subscribe(
                 (stngs) => (this.settingsSTManage = stngs),
                 (error) => {
-                  this.logErrorHandler(error);
+                  this.showErrorHandler(error);
                 }, () => {
                   this.settingsSTManage.forEach(
                     stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
@@ -1163,7 +1151,7 @@ export class UrbanHotspotsComponent implements OnInit {
               .subscribe(
                 (lyrs) => (this.layersSTManage = lyrs),
                 (error) => {
-                  this.logErrorHandler(error);
+                  this.showErrorHandler(error);
                 }
               );
           }
@@ -1171,7 +1159,7 @@ export class UrbanHotspotsComponent implements OnInit {
             this.layersService.getLayers(this.selectedStudyAreaST.id).subscribe(
               (lyrs) => (this.layerSettings = lyrs),
               (error) => {
-                this.logErrorHandler(error);
+                this.showErrorHandler(error);
               }, () => {
                 this.layerSettings.forEach(
                   stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
@@ -1191,7 +1179,7 @@ export class UrbanHotspotsComponent implements OnInit {
             detail: 'Your layer is being updated!',
           }),
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -1205,7 +1193,7 @@ export class UrbanHotspotsComponent implements OnInit {
               .subscribe(
                 (stngs) => (this.settingsSTManage = stngs),
                 (error) => {
-                  this.logErrorHandler(error);
+                  this.showErrorHandler(error);
                 }, () => {
                   this.settingsSTManage.forEach(
                     stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
@@ -1219,7 +1207,7 @@ export class UrbanHotspotsComponent implements OnInit {
               .subscribe(
                 (lyrs) => (this.layersSTManage = lyrs),
                 (error) => {
-                  this.logErrorHandler(error);
+                  this.showErrorHandler(error);
                 }
               );
           }
@@ -1227,7 +1215,7 @@ export class UrbanHotspotsComponent implements OnInit {
             this.layersService.getLayers(this.selectedStudyAreaST.id).subscribe(
               (lyrs) => (this.layerSettings = lyrs),
               (error) => {
-                this.logErrorHandler(error);
+                this.showErrorHandler(error);
               }, () => {
                 this.layerSettings.forEach(
                   stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
@@ -1274,7 +1262,7 @@ export class UrbanHotspotsComponent implements OnInit {
           detail: 'Your layer is being deleted!',
         }),
       (error) => {
-        this.logErrorHandler(error);
+        this.showErrorHandler(error);
       },
       () => {
         this.manageLayer = null;
@@ -1290,7 +1278,7 @@ export class UrbanHotspotsComponent implements OnInit {
             .subscribe(
               (stngs) => (this.settingsSTManage = stngs),
               (error) => {
-                this.logErrorHandler(error);
+                this.showErrorHandler(error);
               }, () => {
                 this.settingsSTManage.forEach(
                   stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
@@ -1301,14 +1289,14 @@ export class UrbanHotspotsComponent implements OnInit {
         this.layerSTService.getLayerST(this.stdAreaManageLayer.id).subscribe(
           (lyrs) => (this.layersSTManage = lyrs),
           (error) => {
-            this.logErrorHandler(error);
+            this.showErrorHandler(error);
           }
         );
         if (this.selectedStudyAreaST) {
           this.layersService.getLayers(this.selectedStudyAreaST.id).subscribe(
             (layers) => (this.layerSettings = layers),
             (error) => {
-              this.logErrorHandler(error);
+              this.showErrorHandler(error);
             }, () => {
               this.layerSettings.forEach(
                 stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
@@ -1344,7 +1332,7 @@ export class UrbanHotspotsComponent implements OnInit {
             detail: 'Your filter is being created!',
           }),
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -1358,7 +1346,7 @@ export class UrbanHotspotsComponent implements OnInit {
               .subscribe(
                 (fltr) => (this.filtersSTManage = fltr),
                 (error) => {
-                  this.logErrorHandler(error);
+                  this.showErrorHandler(error);
                 }
               );
           }
@@ -1368,7 +1356,7 @@ export class UrbanHotspotsComponent implements OnInit {
               .subscribe(
                 (flts) => (this.filterList = flts),
                 (error) => {
-                  this.logErrorHandler(error);
+                  this.showErrorHandler(error);
                 }
               );
           }
@@ -1385,7 +1373,7 @@ export class UrbanHotspotsComponent implements OnInit {
             detail: 'Your filter is being updated!',
           }),
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -1399,7 +1387,7 @@ export class UrbanHotspotsComponent implements OnInit {
               .subscribe(
                 (fltr) => (this.filtersSTManage = fltr),
                 (error) => {
-                  this.logErrorHandler(error);
+                  this.showErrorHandler(error);
                 }
               );
           }
@@ -1409,7 +1397,7 @@ export class UrbanHotspotsComponent implements OnInit {
               .subscribe(
                 (flts) => (this.filterList = flts),
                 (error) => {
-                  this.logErrorHandler(error);
+                  this.showErrorHandler(error);
                 }
               );
           }
@@ -1452,7 +1440,7 @@ export class UrbanHotspotsComponent implements OnInit {
           detail: 'Your filter is being deleted!',
         }),
       (error) => {
-        this.logErrorHandler(error);
+        this.showErrorHandler(error);
       },
       () => {
         this.manageFilter = null;
@@ -1465,14 +1453,14 @@ export class UrbanHotspotsComponent implements OnInit {
         this.layerSTService.getFiltersST(this.stdAreaManageFilter.id).subscribe(
           (fltr) => (this.filtersSTManage = fltr),
           (error) => {
-            this.logErrorHandler(error);
+            this.showErrorHandler(error);
           }
         );
         if (this.selectedStudyAreaST) {
           this.layersService.getFilters(this.selectedStudyAreaST.id).subscribe(
             (fltr) => (this.filterList = fltr),
             (error) => {
-              this.logErrorHandler(error);
+              this.showErrorHandler(error);
             }
           );
         }
@@ -1513,7 +1501,7 @@ export class UrbanHotspotsComponent implements OnInit {
               detail: 'Your method is being created!',
             }),
           (error) => {
-            this.logErrorHandler(error);
+            this.showErrorHandler(error);
           },
           () => {
             this.messageService.add({
@@ -1527,7 +1515,7 @@ export class UrbanHotspotsComponent implements OnInit {
                 this.settingsType = method;
               },
               (error) => {
-                this.logErrorHandler(error);
+                this.showErrorHandler(error);
               }
             );
             this.manageNormMethod = null;
@@ -1545,7 +1533,7 @@ export class UrbanHotspotsComponent implements OnInit {
               detail: 'Your method is being updated!',
             }),
           (error) => {
-            this.logErrorHandler(error);
+            this.showErrorHandler(error);
           },
           () => {
             this.messageService.add({
@@ -1559,7 +1547,7 @@ export class UrbanHotspotsComponent implements OnInit {
                 this.settingsType = method;
               },
               (error) => {
-                this.logErrorHandler(error);
+                this.showErrorHandler(error);
               }
             );
             this.manageNormMethod = null;
@@ -1603,7 +1591,7 @@ export class UrbanHotspotsComponent implements OnInit {
             detail: 'Your method is being deleted!',
           }),
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         },
         () => {
           this.manageNormMethod = null;
@@ -1619,7 +1607,7 @@ export class UrbanHotspotsComponent implements OnInit {
               this.settingsType = method;
             },
             (error) => {
-              this.logErrorHandler(error);
+              this.showErrorHandler(error);
             }
           );
           this.editNormMethod = false;
@@ -1657,7 +1645,7 @@ export class UrbanHotspotsComponent implements OnInit {
             detail: 'Your method is being created!',
           }),
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -1672,7 +1660,7 @@ export class UrbanHotspotsComponent implements OnInit {
               this.joinType = method;
             },
             (error) => {
-              this.logErrorHandler(error);
+              this.showErrorHandler(error);
             }
           );
           this.editJoinMethod = false;
@@ -1687,7 +1675,7 @@ export class UrbanHotspotsComponent implements OnInit {
             detail: 'Your method is being updated!',
           }),
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -1701,7 +1689,7 @@ export class UrbanHotspotsComponent implements OnInit {
               this.joinType = method;
             },
             (error) => {
-              this.logErrorHandler(error);
+              this.showErrorHandler(error);
             }
           );
           this.manageJoinMethod = null;
@@ -1743,7 +1731,7 @@ export class UrbanHotspotsComponent implements OnInit {
           detail: 'Your method is being deleted!',
         }),
       (error) => {
-        this.logErrorHandler(error);
+        this.showErrorHandler(error);
       },
       () => {
         this.manageJoinMethod = null;
@@ -1759,7 +1747,7 @@ export class UrbanHotspotsComponent implements OnInit {
             this.joinType = method;
           },
           (error) => {
-            this.logErrorHandler(error);
+            this.showErrorHandler(error);
           }
         );
         this.editJoinMethod = false;
@@ -1798,7 +1786,7 @@ export class UrbanHotspotsComponent implements OnInit {
             detail: 'Your settings are being created!',
           }),
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -1811,7 +1799,7 @@ export class UrbanHotspotsComponent implements OnInit {
             .subscribe(
               (stngs) => (this.settingsSTManage = stngs),
               (error) => {
-                this.logErrorHandler(error);
+                this.showErrorHandler(error);
               }, () => {
                 this.settingsSTManage.forEach(
                   stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
@@ -1822,7 +1810,7 @@ export class UrbanHotspotsComponent implements OnInit {
             this.layersService.getLayers(this.selectedStudyAreaST.id).subscribe(
               (layers) => (this.layerSettings = layers),
               (error) => {
-                this.logErrorHandler(error);
+                this.showErrorHandler(error);
               }, () => {
                 this.layerSettings.forEach(
                   stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
@@ -1846,7 +1834,7 @@ export class UrbanHotspotsComponent implements OnInit {
             detail: 'Your settings are being updated!',
           }),
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -1859,7 +1847,7 @@ export class UrbanHotspotsComponent implements OnInit {
             .subscribe(
               (stngs) => (this.settingsSTManage = stngs),
               (error) => {
-                this.logErrorHandler(error);
+                this.showErrorHandler(error);
               }, () => {
                 this.settingsSTManage.forEach(
                   stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
@@ -1870,7 +1858,7 @@ export class UrbanHotspotsComponent implements OnInit {
             this.layersService.getLayers(this.selectedStudyAreaST.id).subscribe(
               (layers) => (this.layerSettings = layers),
               (error) => {
-                this.logErrorHandler(error);
+                this.showErrorHandler(error);
               }, () => {
                 this.layerSettings.forEach(
                   stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
@@ -1917,7 +1905,7 @@ export class UrbanHotspotsComponent implements OnInit {
           detail: 'Your settings are being deleted!',
         }),
       (error) => {
-        this.logErrorHandler(error);
+        this.showErrorHandler(error);
       },
       () => {
         this.manageSetting = null;
@@ -1932,7 +1920,7 @@ export class UrbanHotspotsComponent implements OnInit {
           .subscribe(
             (stngs) => (this.settingsSTManage = stngs),
             (error) => {
-              this.logErrorHandler(error);
+              this.showErrorHandler(error);
             }, () => {
               this.settingsSTManage.forEach(
                 stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
@@ -1943,7 +1931,7 @@ export class UrbanHotspotsComponent implements OnInit {
           this.layersService.getLayers(this.selectedStudyAreaST.id).subscribe(
             (layers) => (this.layerSettings = layers),
             (error) => {
-              this.logErrorHandler(error);
+              this.showErrorHandler(error);
             }, () => {
               this.layerSettings.forEach(
                 stng => stng.normalization_method = stng.normalization_method === 1 ? 3 : stng.normalization_method
@@ -1956,12 +1944,47 @@ export class UrbanHotspotsComponent implements OnInit {
     );
   }
 
+  showErrorHandler(error) {
+    this.logErrorHandler.emit(error);
+  }
+
+  block() {
+    this.blockDocument.emit(null);
+  }
+
+  unblock() {
+    this.blockDocument.emit(null);
+  }
+
+  clearDistancesConsole() {
+    this.clearEvaluation.emit(null);
+  }
+
+  showDistancesConsole() {
+    this.showEvaluation.emit(null);
+  }
+
+  hideDistancesConsole() {
+    this.hideEvaluation.emit(null);
+  }
+
   // Closes the confirmDeleteSettings message
   cancelDeleteSettings() {
     this.messageService.clear('confirmDeleteSettings');
   }
 
-  constructor() { }
+  constructor(private nodeService: NodeService,
+    private listService: ListService,
+    private layersService: LayerService,
+    private dataCopyService: DataCopyService,
+    private settingsService: SettingsService,
+    private messageService: MessageService,
+    private stEvaluationService: StEvaluationService,
+    private layerSTService: LayerSTService,
+    private methodService: MethodService,
+    private heatmapService: HeatmapService,
+    public ref: DynamicDialogRef,
+    public config: DynamicDialogConfig) { }
 
   ngOnInit() {
     this.layerSTId = null;
@@ -1970,7 +1993,8 @@ export class UrbanHotspotsComponent implements OnInit {
     this.layerSTField = null;
     this.selectedStudyAreaST = null;
     this.selectedFiltersST = [];
-    this.filterRangeST = [0, 100];this.colsLayersSettings = [
+    this.filterRangeST = [0, 100];
+    this.colsLayersSettings = [
       { field: 'label', header: 'Layer' },
       { field: 'normalization_method', header: 'Normalization Method' },
       { field: 'range_min', header: 'Lowest Value' },

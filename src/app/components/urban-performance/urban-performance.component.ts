@@ -1,31 +1,20 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { NodeService } from 'src/app/services/node/NodeService';
-import { TreeNode, MessageService } from 'primeng/api';
+import { TreeNode, MessageService, SelectItem, DynamicDialogRef, DynamicDialogConfig } from 'primeng/api';
 import { ListService } from 'src/app/services/list/list.service';
 import { Column } from 'src/app/domain/column';
 import { Layer } from 'src/app/interfaces/layer';
-import { SelectItem } from 'primeng/api';
 import { Indicator } from 'src/app/interfaces/indicator';
 import { Scenario } from 'src/app/interfaces/scenario';
 import { ScenarioService } from 'src/app/services/scenario/scenario.service';
 import { Scenarios } from 'src/app/interfaces/results';
 import { ResultsService } from 'src/app/services/results/results.service';
-import { Observable } from 'rxjs';
 import { LayerService } from 'src/app/services/layer/layer.service';
 import { DataCopy } from 'src/app/interfaces/data-copy';
 import { DataCopyService } from 'src/app/services/data-copy/data-copy.service';
-import { SettingsService } from 'src/app/services/settings/settings.service';
-import { Settings } from 'src/app/interfaces/settings';
 import { StatusService } from '../../services/status.service';
-import { MatchLayer } from 'src/app/interfaces/match-layer';
-import { NormalizationMethod } from '../../interfaces/normalization-method';
-import { StEvaluationService } from 'src/app/services/st-evaluation.service';
-import chroma from 'chroma-js';
 import { Assumption } from 'src/app/interfaces/assumption';
 import { AssumptionService } from 'src/app/services/assumption/assumption.service';
-import { LayerST } from 'src/app/interfaces/layer-st';
-import { LayerSTService } from 'src/app/services/layerST/layer-st.service';
-import { MethodService } from 'src/app/services/method/method.service';
 import { ModuleService } from 'src/app/services/module/module.service';
 import { Amenities } from 'src/app/interfaces/amenities';
 import { UpMiscService } from 'src/app/services/up-misc/up-misc.service';
@@ -33,18 +22,11 @@ import { UpColumn } from 'src/app/interfaces/up-column';
 import { IndResult } from 'src/app/interfaces/ind-result';
 import { IndUp } from 'src/app/interfaces/ind-up';
 import { Module } from 'src/app/interfaces/module';
-import { StColumn } from 'src/app/interfaces/st-column';
-import { ViewChild } from '@angular/core';
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 import { Classification } from 'src/app/interfaces/classification';
 import { ClassificationService } from 'src/app/services/classification/classification.service';
 import { Status } from 'src/app/interfaces/status';
-import { Heatmap } from 'src/app/interfaces/heatmap';
-import { HeatmapService } from 'src/app/services/heatmap.service';
-import { WfsUptService } from 'src/app/services/wfs-upt.service';
 import { saveAs } from 'file-saver';
-import { ShareLayersService } from 'src/app/services/share-layers.service';
-import { RoleService } from 'src/app/services/role.service';
 
 declare var Oskari: any;
 
@@ -57,6 +39,18 @@ export class UrbanPerformanceComponent implements OnInit {
   /**
    * UP Variables
    */
+   @Output() logErrorHandler: EventEmitter<string> = new EventEmitter();
+   @Output() blockDocument: EventEmitter<any> = new EventEmitter();
+   @Output() unblockDocument: EventEmitter<any> = new EventEmitter();
+   @Output() clearEvaluation: EventEmitter<any> = new EventEmitter();
+   @Output() showEvaluation: EventEmitter<any> = new EventEmitter();
+   @Output() hideEvaluation: EventEmitter<any> = new EventEmitter();
+   @Input() evalHtml: string;
+   @Output() evalHtmlChange: EventEmitter<string> = new EventEmitter();
+   @Input() Oskari: any;
+   
+  columnDataGP: string[] = [];
+
    @ViewChild('tabsetUP', { static: false }) tabsetUP: NgbTabset;
    // Data and options used for chart in UP
    dataColorsUP: string[] = ['#FF8680', '#43D9B7', '#4287F5', '#FCBA03'];
@@ -82,8 +76,6 @@ export class UrbanPerformanceComponent implements OnInit {
  
    // Properties to display UP dialogs
    displayUP = false;
-   displayConsole = false;
-   displayEvaluation = false;
    displayManageDataUP = false;
    displayAdvancedUP = false;
    editAssumptions = false;
@@ -268,68 +260,6 @@ export class UrbanPerformanceComponent implements OnInit {
    /**
    * Functions for UP
    */
-  // Displays the main UP dialog, as well as sends requests needed for the different elements needed for operations.
-  showUP() {
-    this.upAct = true;
-    this.stAct = false;
-    this.indSelectItems = [];
-    this.indsEditResult = [];
-    this.selectedScenarios = [];
-    this.moduleService.getModules().subscribe(
-      (indicators) => {
-        this.indicators = indicators;
-        if (this.isUPTAdmin) {
-          this.modules = indicators;
-        }
-      },
-      (error) => {
-        this.logErrorHandler(error);
-      },
-      () => {
-        this.indicators.forEach((indicator) => {
-          this.indSelectItems.push({
-            label: indicator.label,
-            value: indicator,
-          });
-        });
-      }
-    );
-    this.layersService.getStudyAreas().subscribe(
-      (studyArea) => {
-        this.studyArea = studyArea;
-      },
-      (error) => {
-        this.logErrorHandler(error);
-      }
-    );
-    this.classificationService.getClassifications().subscribe(
-      (clsf) => (this.classifications = clsf),
-      (error) => {
-        this.logErrorHandler(error);
-      }
-    );
-    this.getScenarios();
-    if (this.isUPTAdmin) {
-      this.moduleService.getIndicators().subscribe(
-        (inds) => {
-          this.inds = inds;
-          inds.forEach((ind) =>
-            this.indsEditResult.push({ value: ind.id, label: ind.indicator })
-          );
-        },
-        (error) => {
-          this.logErrorHandler(error);
-        }
-      );
-      this.moduleService.getIndicatorResults().subscribe(
-        (indRes) => (this.indsResult = indRes),
-        (error) => {
-          this.logErrorHandler(error);
-        }
-      );
-    }
-    this.displayUP = true;
-  }
 
   // Displays the main UP window without sending requests again.
   showNoLoadUP() {
@@ -455,7 +385,7 @@ export class UrbanPerformanceComponent implements OnInit {
           this.scenarioResults = scnr;
         },
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         },
         () => {
           this.scenarioResults.forEach((rslt) => {
@@ -630,7 +560,7 @@ export class UrbanPerformanceComponent implements OnInit {
         this.downloadObject = res;
       },
       (error) => {
-        this.logErrorHandler(error);
+        this.showErrorHandler(error);
       },
       () => {
         this.saveToFileSystem(this.downloadObject);
@@ -659,7 +589,7 @@ export class UrbanPerformanceComponent implements OnInit {
   calculateScenarios() {
     if (this.selectedScenarios.length > 0) {
       let interval;
-      this.clearEvaluation();
+      this.clearResultsConsole();
       this.messageService.add({
         severity: 'info',
         summary: 'In Progress!',
@@ -669,7 +599,7 @@ export class UrbanPerformanceComponent implements OnInit {
       this.resultsService.calculateScenarios(this.selectedScenarios).subscribe(
         () => {},
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         },
         () => {
           interval = setInterval(() => this.getStatusUP(interval), 5000);
@@ -700,10 +630,10 @@ export class UrbanPerformanceComponent implements OnInit {
       },
       () => {
         if (this.statusUP.length > 0) {
-          this.clearEvaluation();
-          this.showEvaluation();
+          this.clearResultsConsole();
+          this.showResultsConsole();
           this.statusUP.forEach((s) => {
-            this.procHtml +=
+            this.evalHtml +=
               '<div class="ui-md-4">' +
               s.event +
               '</div><div class="ui-md-2">' +
@@ -737,7 +667,7 @@ export class UrbanPerformanceComponent implements OnInit {
     this.resultsService.getUPBuffers(this.selectedScenarios).subscribe(
       (buffers) => (this.buffersUP = buffers),
       (error) => {
-        this.logErrorHandler(error);
+        this.showErrorHandler(error);
       },
       () => {
         this.buffersUP.forEach((bfs) => {
@@ -757,7 +687,7 @@ export class UrbanPerformanceComponent implements OnInit {
             this.studyArea = studyArea;
           },
           (error) => {
-            this.logErrorHandler(error);
+            this.showErrorHandler(error);
           }
         );
       }
@@ -789,7 +719,7 @@ export class UrbanPerformanceComponent implements OnInit {
       this.scenarioName !== null &&
       this.indSelectItems.length > 0
     ) {
-      this.blockDocument();
+      this.block();
       this.messageService.add({
         severity: 'info',
         summary: 'In Progress!',
@@ -826,7 +756,7 @@ export class UrbanPerformanceComponent implements OnInit {
               summary: 'Success!',
               detail: 'Scenario created successfully.',
             });
-            this.unblockDocument();
+            this.unblock();
             if (scenario.has_assumptions === 0) {
               this.messageService.clear();
               this.messageService.add({
@@ -849,12 +779,12 @@ export class UrbanPerformanceComponent implements OnInit {
               summary: 'Error!',
               detail: 'An error ocurred during the operation.',
             });
-            this.unblockDocument();
+            this.unblock();
           }
         },
         (error) => {
-          this.unblockDocument();
-          this.logErrorHandler(error);
+          this.unblock();
+          this.showErrorHandler(error);
         },
         () => {
           this.selectedScenarios = [];
@@ -905,7 +835,7 @@ export class UrbanPerformanceComponent implements OnInit {
             this.loadDataLayerUP();
           },
           (error) => {
-            this.logErrorHandler(error);
+            this.showErrorHandler(error);
           }
         );
       }
@@ -930,7 +860,7 @@ export class UrbanPerformanceComponent implements OnInit {
           this.columnsHeaderUP = event.node.label;
         },
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         }
       );
     }
@@ -942,7 +872,7 @@ export class UrbanPerformanceComponent implements OnInit {
       this.nodeService.getUPTables(this.upTablesScenario.scenarioId).subscribe(
         (tables) => (this.tablesUP = tables),
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         }
       );
     }
@@ -974,7 +904,7 @@ export class UrbanPerformanceComponent implements OnInit {
       .subscribe(
         () => {},
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -995,7 +925,7 @@ export class UrbanPerformanceComponent implements OnInit {
 
   // Sends a request to import data through the UP Manage Data dialog
   importDataUP() {
-    this.blockDocument();
+    this.block();
     this.messageService.add({
       severity: 'info',
       summary: 'In Progress!',
@@ -1015,8 +945,8 @@ export class UrbanPerformanceComponent implements OnInit {
     this.dataCopyService.copyDataUP(this.dataCopy).subscribe(
       () => {},
       (error) => {
-        this.unblockDocument();
-        this.logErrorHandler(error);
+        this.unblock();
+        this.showErrorHandler(error);
       },
       () => {
         this.messageService.add({
@@ -1028,10 +958,10 @@ export class UrbanPerformanceComponent implements OnInit {
         this.classificationService.getClassifications().subscribe(
           (clsf) => (this.classifications = clsf),
           (error) => {
-            this.logErrorHandler(error);
+            this.showErrorHandler(error);
           }
         );
-        this.unblockDocument();
+        this.unblock();
         this.columnFieldsArrayUP = [];
         this.hideManageDataUP();
       }
@@ -1044,7 +974,7 @@ export class UrbanPerformanceComponent implements OnInit {
     this.scenarioService.getScenarios().subscribe(
       (scenarios) => (this.scenarios = scenarios),
       (error) => {
-        this.logErrorHandler(error);
+        this.showErrorHandler(error);
       }
     );
   }
@@ -1076,13 +1006,13 @@ export class UrbanPerformanceComponent implements OnInit {
         });
       },
       (error) => {
-        this.logErrorHandler(error);
+        this.showErrorHandler(error);
       },
       () => {
         this.scenarioService.getScenarios().subscribe(
           (scenarios) => (this.scenarios = scenarios),
           (error) => {
-            this.logErrorHandler(error);
+            this.showErrorHandler(error);
           }
         );
         this.selectedScenarios = [];
@@ -1126,13 +1056,13 @@ export class UrbanPerformanceComponent implements OnInit {
         });
       },
       (error) => {
-        this.logErrorHandler(error);
+        this.showErrorHandler(error);
       },
       () => {
         this.scenarioService.getScenarios().subscribe(
           (scenarios) => (this.scenarios = scenarios),
           (error) => {
-            this.logErrorHandler(error);
+            this.showErrorHandler(error);
           }
         );
         this.layers = [];
@@ -1162,7 +1092,7 @@ export class UrbanPerformanceComponent implements OnInit {
         .subscribe(
           (assumptions) => (this.assumptions = assumptions),
           (error) => {
-            this.logErrorHandler(error);
+            this.showErrorHandler(error);
           }
         );
     }
@@ -1170,7 +1100,7 @@ export class UrbanPerformanceComponent implements OnInit {
 
   // Sends a request to upload an assumptions file
   uploadAssumption(event) {
-    this.blockDocument();
+    this.block();
     this.messageService.add({
       severity: 'info',
       summary: 'In process!',
@@ -1181,8 +1111,8 @@ export class UrbanPerformanceComponent implements OnInit {
       .subscribe(
         () => {},
         (error) => {
-          this.unblockDocument();
-          this.logErrorHandler(error);
+          this.unblock();
+          this.showErrorHandler(error);
         },
         () => {
           if (this.asmptScenarioManage) {
@@ -1191,7 +1121,7 @@ export class UrbanPerformanceComponent implements OnInit {
               .subscribe(
                 (asmpt) => (this.assumptions = asmpt),
                 (error) => {
-                  this.logErrorHandler(error);
+                  this.showErrorHandler(error);
                 }
               );
           }
@@ -1200,7 +1130,7 @@ export class UrbanPerformanceComponent implements OnInit {
             summary: 'Success!',
             detail: 'File uploaded successfully!!',
           });
-          this.unblockDocument();
+          this.unblock();
         }
       );
   }
@@ -1230,7 +1160,7 @@ export class UrbanPerformanceComponent implements OnInit {
             detail: 'Your assumption is being created!',
           }),
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -1244,7 +1174,7 @@ export class UrbanPerformanceComponent implements OnInit {
               .subscribe(
                 (asmpt) => (this.assumptions = asmpt),
                 (error) => {
-                  this.logErrorHandler(error);
+                  this.showErrorHandler(error);
                 }
               );
           }
@@ -1261,7 +1191,7 @@ export class UrbanPerformanceComponent implements OnInit {
             detail: 'Your assumption is being updated!',
           }),
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -1275,7 +1205,7 @@ export class UrbanPerformanceComponent implements OnInit {
               .subscribe(
                 (asmpt) => (this.assumptions = asmpt),
                 (error) => {
-                  this.logErrorHandler(error);
+                  this.showErrorHandler(error);
                 }
               );
           }
@@ -1318,7 +1248,7 @@ export class UrbanPerformanceComponent implements OnInit {
           detail: 'Your assumption is being deleted!',
         }),
       (error) => {
-        this.logErrorHandler(error);
+        this.showErrorHandler(error);
       },
       () => {
         if (this.asmptScenarioManage) {
@@ -1327,7 +1257,7 @@ export class UrbanPerformanceComponent implements OnInit {
             .subscribe(
               (asmpt) => (this.assumptions = asmpt),
               (error) => {
-                this.logErrorHandler(error);
+                this.showErrorHandler(error);
               }
             );
         }
@@ -1375,7 +1305,7 @@ export class UrbanPerformanceComponent implements OnInit {
               detail: 'Your module is being created!',
             }),
           (error) => {
-            this.logErrorHandler(error);
+            this.showErrorHandler(error);
           },
           () => {
             this.messageService.add({
@@ -1386,7 +1316,7 @@ export class UrbanPerformanceComponent implements OnInit {
             this.classificationService.getClassifications().subscribe(
               (clsf) => (this.classifications = clsf),
               (error) => {
-                this.logErrorHandler(error);
+                this.showErrorHandler(error);
               }
             );
             this.manageClassification = null;
@@ -1404,7 +1334,7 @@ export class UrbanPerformanceComponent implements OnInit {
               detail: 'Your module is being updated!',
             }),
           (error) => {
-            this.logErrorHandler(error);
+            this.showErrorHandler(error);
           },
           () => {
             this.messageService.add({
@@ -1415,7 +1345,7 @@ export class UrbanPerformanceComponent implements OnInit {
             this.classificationService.getClassifications().subscribe(
               (clsf) => (this.classifications = clsf),
               (error) => {
-                this.logErrorHandler(error);
+                this.showErrorHandler(error);
               }
             );
             this.manageClassification = null;
@@ -1459,13 +1389,13 @@ export class UrbanPerformanceComponent implements OnInit {
             detail: 'Your module is being deleted!',
           }),
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         },
         () => {
           this.classificationService.getClassifications().subscribe(
             (clsf) => (this.classifications = clsf),
             (error) => {
-              this.logErrorHandler(error);
+              this.showErrorHandler(error);
             }
           );
           this.manageClassification = null;
@@ -1503,7 +1433,7 @@ export class UrbanPerformanceComponent implements OnInit {
             detail: 'Your module is being created!',
           }),
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -1518,7 +1448,7 @@ export class UrbanPerformanceComponent implements OnInit {
               this.modules = indicators;
             },
             (error) => {
-              this.logErrorHandler(error);
+              this.showErrorHandler(error);
             },
             () => {
               this.indicators.forEach((indicator) => {
@@ -1542,7 +1472,7 @@ export class UrbanPerformanceComponent implements OnInit {
             detail: 'Your module is being updated!',
           }),
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -1557,7 +1487,7 @@ export class UrbanPerformanceComponent implements OnInit {
               this.modules = indicators;
             },
             (error) => {
-              this.logErrorHandler(error);
+              this.showErrorHandler(error);
             },
             () => {
               this.indicators.forEach((indicator) => {
@@ -1607,7 +1537,7 @@ export class UrbanPerformanceComponent implements OnInit {
           detail: 'Your module is being deleted!',
         }),
       (error) => {
-        this.logErrorHandler(error);
+        this.showErrorHandler(error);
       },
       () => {
         this.indSelectItems = [];
@@ -1617,7 +1547,7 @@ export class UrbanPerformanceComponent implements OnInit {
             this.modules = indicators;
           },
           (error) => {
-            this.logErrorHandler(error);
+            this.showErrorHandler(error);
           },
           () => {
             this.indicators.forEach((indicator) => {
@@ -1670,7 +1600,7 @@ export class UrbanPerformanceComponent implements OnInit {
             detail: 'Your indicator is being created!',
           }),
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -1690,7 +1620,7 @@ export class UrbanPerformanceComponent implements OnInit {
               );
             },
             (error) => {
-              this.logErrorHandler(error);
+              this.showErrorHandler(error);
             }
           );
           this.manageIndicators = null;
@@ -1706,7 +1636,7 @@ export class UrbanPerformanceComponent implements OnInit {
             detail: 'Your indicator is being updated!',
           }),
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -1726,7 +1656,7 @@ export class UrbanPerformanceComponent implements OnInit {
               );
             },
             (error) => {
-              this.logErrorHandler(error);
+              this.showErrorHandler(error);
             }
           );
           this.manageIndicators = null;
@@ -1768,7 +1698,7 @@ export class UrbanPerformanceComponent implements OnInit {
           detail: 'Your indicator is being deleted!',
         }),
       (error) => {
-        this.logErrorHandler(error);
+        this.showErrorHandler(error);
       },
       () => {
         this.indsEditResult = [];
@@ -1780,7 +1710,7 @@ export class UrbanPerformanceComponent implements OnInit {
             );
           },
           (error) => {
-            this.logErrorHandler(error);
+            this.showErrorHandler(error);
           }
         );
         this.manageIndicators = null;
@@ -1825,7 +1755,7 @@ export class UrbanPerformanceComponent implements OnInit {
             detail: 'Your result labeling is being created!',
           }),
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -1836,7 +1766,7 @@ export class UrbanPerformanceComponent implements OnInit {
           this.moduleService.getIndicatorResults().subscribe(
             (indRes) => (this.indsResult = indRes),
             (error) => {
-              this.logErrorHandler(error);
+              this.showErrorHandler(error);
             }
           );
           if (this.scenarioResults || this.selectedScenarios) {
@@ -1855,7 +1785,7 @@ export class UrbanPerformanceComponent implements OnInit {
             detail: 'Your result labeling is being updated!',
           }),
         (error) => {
-          this.logErrorHandler(error);
+          this.showErrorHandler(error);
         },
         () => {
           this.messageService.add({
@@ -1866,7 +1796,7 @@ export class UrbanPerformanceComponent implements OnInit {
           this.moduleService.getIndicatorResults().subscribe(
             (indRes) => (this.indsResult = indRes),
             (error) => {
-              this.logErrorHandler(error);
+              this.showErrorHandler(error);
             }
           );
           if (this.scenarioResults || this.selectedScenarios) {
@@ -1911,13 +1841,13 @@ export class UrbanPerformanceComponent implements OnInit {
           detail: 'Your result labeling is being deleted!',
         }),
       (error) => {
-        this.logErrorHandler(error);
+        this.showErrorHandler(error);
       },
       () => {
         this.moduleService.getIndicatorResults().subscribe(
           (indRes) => (this.indsResult = indRes),
           (error) => {
-            this.logErrorHandler(error);
+            this.showErrorHandler(error);
           }
         );
         if (this.scenarioResults || this.selectedScenarios) {
@@ -1942,7 +1872,7 @@ export class UrbanPerformanceComponent implements OnInit {
 
   // Sends a request to install the module from the uploaded file.
   installModule(event) {
-    this.blockDocument();
+    this.block();
     this.moduleService.installModule(event.files[0]).subscribe(
       () =>
         this.messageService.add({
@@ -1951,7 +1881,7 @@ export class UrbanPerformanceComponent implements OnInit {
           detail: 'Your module is being installed!',
         }),
       (error) => {
-        this.logErrorHandler(error);
+        this.showErrorHandler(error);
       },
       () => {
         this.messageService.add({
@@ -1966,7 +1896,7 @@ export class UrbanPerformanceComponent implements OnInit {
             this.modules = indicators;
           },
           (error) => {
-            this.logErrorHandler(error);
+            this.showErrorHandler(error);
           },
           () => {
             this.indicators.forEach((indicator) => {
@@ -1977,12 +1907,49 @@ export class UrbanPerformanceComponent implements OnInit {
             });
           }
         );
-        this.unblockDocument();
+        this.unblock();
       }
     );
   }
 
-  constructor() {
+  showErrorHandler(error) {
+    this.logErrorHandler.emit(error);
+  }
+
+  block() {
+    this.blockDocument.emit(null);
+  }
+
+  unblock() {
+    this.unblockDocument.emit(null);
+  }
+
+  clearResultsConsole() {
+    this.clearEvaluation.emit(null);
+  }
+
+  showResultsConsole() {
+    this.showEvaluation.emit(null);
+  }
+
+  hideResultsConsole() {
+    this.hideEvaluation.emit(null);
+  }
+
+  constructor(private nodeService: NodeService,
+    private listService: ListService,
+    private scenarioService: ScenarioService,
+    private assumptionService: AssumptionService,
+    private resultsService: ResultsService,
+    private layersService: LayerService,
+    private dataCopyService: DataCopyService,
+    private messageService: MessageService,
+    private statusService: StatusService,
+    private moduleService: ModuleService,
+    private upMiscService: UpMiscService,
+    private classificationService: ClassificationService,
+    public ref: DynamicDialogRef,
+    public config: DynamicDialogConfig) {
     // Sets values for the UP Results graph.
     this.resultOptionsUP = {
       legend: {

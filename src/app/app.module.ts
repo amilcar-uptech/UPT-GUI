@@ -108,6 +108,10 @@ import { UrbanHotspotsComponent } from './components/urban-hotspots/urban-hotspo
     ListService,
     HttpClient
   ],
+  entryComponents: [
+    UrbanPerformanceComponent,
+    UrbanHotspotsComponent,
+  ],
   bootstrap: [
     AppComponent
   ]

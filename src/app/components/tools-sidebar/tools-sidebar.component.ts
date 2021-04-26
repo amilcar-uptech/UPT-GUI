@@ -1,50 +1,16 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { NodeService } from 'src/app/services/node/NodeService';
-import { TreeNode, MessageService } from 'primeng/api';
-import { ListService } from 'src/app/services/list/list.service';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { TreeNode, MessageService, SelectItem, DialogService } from 'primeng/api';
 import { Column } from 'src/app/domain/column';
 import { Layer } from 'src/app/interfaces/layer';
-import { SelectItem } from 'primeng/api';
-import { Indicator } from 'src/app/interfaces/indicator';
-import { Scenario } from 'src/app/interfaces/scenario';
-import { ScenarioService } from 'src/app/services/scenario/scenario.service';
-import { Scenarios } from 'src/app/interfaces/results';
-import { ResultsService } from 'src/app/services/results/results.service';
-import { Observable } from 'rxjs';
 import { LayerService } from 'src/app/services/layer/layer.service';
-import { DataCopy } from 'src/app/interfaces/data-copy';
-import { DataCopyService } from 'src/app/services/data-copy/data-copy.service';
-import { SettingsService } from 'src/app/services/settings/settings.service';
-import { Settings } from 'src/app/interfaces/settings';
-import { StatusService } from '../../services/status.service';
-import { MatchLayer } from 'src/app/interfaces/match-layer';
-import { NormalizationMethod } from '../../interfaces/normalization-method';
-import { StEvaluationService } from 'src/app/services/st-evaluation.service';
-import chroma from 'chroma-js';
-import { Assumption } from 'src/app/interfaces/assumption';
-import { AssumptionService } from 'src/app/services/assumption/assumption.service';
-import { LayerST } from 'src/app/interfaces/layer-st';
-import { LayerSTService } from 'src/app/services/layerST/layer-st.service';
-import { MethodService } from 'src/app/services/method/method.service';
 import { ModuleService } from 'src/app/services/module/module.service';
-import { Amenities } from 'src/app/interfaces/amenities';
-import { UpMiscService } from 'src/app/services/up-misc/up-misc.service';
 import { UpColumn } from 'src/app/interfaces/up-column';
-import { IndResult } from 'src/app/interfaces/ind-result';
-import { IndUp } from 'src/app/interfaces/ind-up';
-import { Module } from 'src/app/interfaces/module';
-import { StColumn } from 'src/app/interfaces/st-column';
-import { ViewChild } from '@angular/core';
-import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
-import { Classification } from 'src/app/interfaces/classification';
 import { ClassificationService } from 'src/app/services/classification/classification.service';
-import { Status } from 'src/app/interfaces/status';
-import { Heatmap } from 'src/app/interfaces/heatmap';
 import { HeatmapService } from 'src/app/services/heatmap.service';
-import { WfsUptService } from 'src/app/services/wfs-upt.service';
-import { saveAs } from 'file-saver';
 import { ShareLayersService } from 'src/app/services/share-layers.service';
 import { RoleService } from 'src/app/services/role.service';
+import { UrbanHotspotsComponent } from '../urban-hotspots/urban-hotspots.component';
+import { UrbanPerformanceComponent } from '../urban-performance/urban-performance.component';
 
 declare var Oskari: any;
 
@@ -56,6 +22,10 @@ declare var Oskari: any;
 })
 
 export class ToolsSidebarComponent implements OnInit {
+
+  @ViewChild(UrbanHotspotsComponent, {static: false}) urbanHotspots: UrbanHotspotsComponent;
+  @ViewChild(UrbanPerformanceComponent, {static: false}) urbanPerformance: UrbanPerformanceComponent;
+
   /**
    *  Misc. Variables: General use variables that aren't used by either UrbanHotspots or UrbanPerformance
    */
@@ -100,11 +70,13 @@ export class ToolsSidebarComponent implements OnInit {
   
   errHtml = '';
   procHtml = '';
-
-  columnDataGP: string[] = [];
+  displayConsole = false;
+  displayEvaluation = false;
 
   shareLayersList: any[];
   shareLayer: any;
+
+  Oskari: any;
 
   /**
    * Misc. Functions: Functions that are not involved in either ST or UP
@@ -295,6 +267,34 @@ export class ToolsSidebarComponent implements OnInit {
     );
   }
 
+  // Shows the main ST dialog and loads important variables to run its calculations
+  showST() {
+    this.upAct = false;
+    this.stAct = true;
+    this.urbanHotspots.startUH();
+  }
+
+  // Displays the main UP dialog, as well as sends requests needed for the different elements needed for operations.
+  showUP() {
+    this.upAct = true;
+    this.stAct = false;
+    const ref = this.dialogService.open(UrbanHotspotsComponent, {
+      header: 'UrbanPerformance',
+      width: '60%',
+      data: {
+        logErrorHandler: this.logErrorHandler,
+        blockDocument: this.blockDocument,
+        unblockDocument: this.unblockDocument,
+        clearEvaluation: this.clearEvaluation,
+        showEvaluation: this.showEvaluation,
+        hideEvaluation: this.hideEvaluation,
+        procHtml: this.procHtml,
+        Oskari: this.Oskari,
+      }
+    });
+    // this.displayUP = true;
+  }
+
   // Pending functionality. Sends a request to get the WFS layers.
   /* loadUptWfsLayers() {
     this.wfsUptService.getUptWfsLayers().subscribe(
@@ -351,26 +351,15 @@ export class ToolsSidebarComponent implements OnInit {
   }*/
 
   constructor(
-    private nodeService: NodeService,
-    private listService: ListService,
-    private scenarioService: ScenarioService,
-    private assumptionService: AssumptionService,
-    private resultsService: ResultsService,
-    private layersService: LayerService,
-    private dataCopyService: DataCopyService,
-    private settingsService: SettingsService,
     private messageService: MessageService,
-    private statusService: StatusService,
-    private stEvaluationService: StEvaluationService,
-    private layerSTService: LayerSTService,
-    private methodService: MethodService,
-    private moduleService: ModuleService,
-    private upMiscService: UpMiscService,
-    private classificationService: ClassificationService,
     private heatmapService: HeatmapService,
-    private wfsUptService: WfsUptService,
     private shareLayerService: ShareLayersService,
-    private roleService: RoleService
+    private roleService: RoleService,
+    private dialogService: DialogService,
+    private moduleService: ModuleService,
+    private layersService: LayerService,
+    private classificationService: ClassificationService,
+
   ) {
   }
 

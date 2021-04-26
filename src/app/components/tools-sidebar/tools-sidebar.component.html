@@ -255,3 +255,8 @@
         </div>
     </p-footer>
 </p-dialog>
+
+<app-urban-hotspots [(evalHtml)]="procHtml" (showErrorHandler)="logErrorHandler($event)" (block)="blockDocument($event)" (unblock)="unblockDocument($event)" (clearDistancesConsole)="clearEvaluation($event)" (showDistancesConsole)="showEvaluation($event)"
+    (hideDistancesConsole)="hideEvaluation($event)"></app-urban-hotspots>
+<app-urban-performance [(evalHtml)]="procHtml" (showErrorHandler)="logErrorHandler($event)" (block)="blockDocument($event)" (unblock)="unblockDocument($event)" (clearResultsConsole)="clearEvaluation($event)" (showResultsConsole)="showEvaluation($event)"
+    (hideResultsConsole)="hideEvaluation($event)"></app-urban-performance>
