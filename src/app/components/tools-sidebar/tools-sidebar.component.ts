@@ -274,11 +274,16 @@ export class ToolsSidebarComponent implements OnInit {
     this.urbanHotspots.startUH();
   }
 
+  noLoadST() {
+    this.urbanHotspots.showNoLoadST();
+  }
+
   // Displays the main UP dialog, as well as sends requests needed for the different elements needed for operations.
   showUP() {
     this.upAct = true;
     this.stAct = false;
-    const ref = this.dialogService.open(UrbanHotspotsComponent, {
+    this.urbanPerformance.startUP();
+    /* const ref = this.dialogService.open(UrbanHotspotsComponent, {
       header: 'UrbanPerformance',
       width: '60%',
       data: {
@@ -291,8 +296,12 @@ export class ToolsSidebarComponent implements OnInit {
         procHtml: this.procHtml,
         Oskari: this.Oskari,
       }
-    });
+    }); */
     // this.displayUP = true;
+  }
+
+  noLoadUP() {
+    this.urbanPerformance.showNoLoadUP();
   }
 
   // Pending functionality. Sends a request to get the WFS layers.
@@ -355,11 +364,6 @@ export class ToolsSidebarComponent implements OnInit {
     private heatmapService: HeatmapService,
     private shareLayerService: ShareLayersService,
     private roleService: RoleService,
-    private dialogService: DialogService,
-    private moduleService: ModuleService,
-    private layersService: LayerService,
-    private classificationService: ClassificationService,
-
   ) {
   }
 

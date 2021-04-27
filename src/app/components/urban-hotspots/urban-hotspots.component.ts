@@ -39,6 +39,7 @@ export class UrbanHotspotsComponent implements OnInit {
   @Input() evalHtml: string;
   @Output() evalHtmlChange: EventEmitter<string> = new EventEmitter();
   @Input() Oskari: any;
+  @Input() isAdmin: boolean;
 
   // Cols for managing objects
   colsLayersSettings: any[];
@@ -167,17 +168,17 @@ export class UrbanHotspotsComponent implements OnInit {
 
   // Colors used for the color scale dialog
   scaleColorsST = [
-    "#5E4FA2",
-                      "#3288BD",
-                      "#66C2A5",
-                      "#ABDDA4",
-                      "#E6F598",
-                      "#FEE08B",
-                      "#FDAE61",
-                      "#F46D43",
-                      "#D53E4F",
-                      "#9E0142",
-                      "#630000",
+    '#5E4FA2',
+    '#3288BD',
+    '#66C2A5',
+    '#ABDDA4',
+    '#E6F598',
+    '#FEE08B',
+    '#FDAE61',
+    '#F46D43',
+    '#D53E4F',
+    '#9E0142',
+    '#630000',
   ];
 
   // Color scaling for the heatmap
@@ -251,7 +252,6 @@ export class UrbanHotspotsComponent implements OnInit {
    * Functions for ST
    */
   startUH() {
-    this.displayST = true;
     this.loadDataLayerST();
     this.loadSTColumns();
     this.loadSTMethods();
@@ -260,11 +260,13 @@ export class UrbanHotspotsComponent implements OnInit {
     this.staticJoinST = [];
     this.showColorScaleST();
     this.openAccordionST();
+    this.displayST = true;
   }
 
   // Reverses color scale
   reverseColorScaleST() {
-    this.scaleColorsST = this.scaleColorsST.reverse();
+    const rev = [...this.scaleColorsST].reverse();
+    this.scaleColorsST = rev;
     this.colors = chroma.scale(this.scaleColorsST);
   }
 
@@ -697,7 +699,7 @@ export class UrbanHotspotsComponent implements OnInit {
       this.selectedFiltersST = [];
       this.layersService.getFilters(this.selectedStudyAreaST.id).subscribe(
         (filters) => (this.filterList = filters),
-        (error) => { 
+        (error) => {
           this.showErrorHandler(error);
         }
       );
@@ -711,7 +713,7 @@ export class UrbanHotspotsComponent implements OnInit {
     this.selectedFiltersST.forEach((fltr) =>
       this.selectedFiltersArrayST.push(+fltr)
     );
-    if (this.selSetting.length == 0 || this.selSetting == null) {
+    if (this.selSetting.length === 0 || this.selSetting == null) {
       this.messageService.add({
         severity: 'error',
         summary: 'Error!',
@@ -762,7 +764,7 @@ export class UrbanHotspotsComponent implements OnInit {
   // Sends a request to start the distance evaluation
   evaluateDistances() {
     let interval;
-    let stdAreaEval = this.stdAreaSTEvalDist.id;
+    const stdAreaEval = this.stdAreaSTEvalDist.id;
     this.messageService.add({
       severity: 'info',
       summary: 'In Progress!',
@@ -947,7 +949,7 @@ export class UrbanHotspotsComponent implements OnInit {
             'Error: ' + e,
         });
       }
-      
+
     } else {
       this.unblock();
       this.closeAccordionST();
@@ -1876,7 +1878,7 @@ export class UrbanHotspotsComponent implements OnInit {
   // Creates a copy of the selected settings
   cloneSettings(s: Settings): Settings {
     let stng = {};
-    for (let prop in s) {
+    for (const prop in s) {
       stng[prop] = s[prop];
     }
     return stng as Settings;
@@ -1974,17 +1976,17 @@ export class UrbanHotspotsComponent implements OnInit {
   }
 
   constructor(private nodeService: NodeService,
-    private listService: ListService,
-    private layersService: LayerService,
-    private dataCopyService: DataCopyService,
-    private settingsService: SettingsService,
-    private messageService: MessageService,
-    private stEvaluationService: StEvaluationService,
-    private layerSTService: LayerSTService,
-    private methodService: MethodService,
-    private heatmapService: HeatmapService,
-    public ref: DynamicDialogRef,
-    public config: DynamicDialogConfig) { }
+              private listService: ListService,
+              private layersService: LayerService,
+              private dataCopyService: DataCopyService,
+              private settingsService: SettingsService,
+              private messageService: MessageService,
+              private stEvaluationService: StEvaluationService,
+              private layerSTService: LayerSTService,
+              private methodService: MethodService,
+              private heatmapService: HeatmapService,
+              public ref: DynamicDialogRef,
+              public config: DynamicDialogConfig) { }
 
   ngOnInit() {
     this.layerSTId = null;

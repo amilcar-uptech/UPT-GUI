@@ -420,7 +420,7 @@
                 </ng-template>
             </ngb-tab>
             <!--Section that allows an admin to view the normMethods-->
-            <ngb-tab *ngIf="isUPTAdmin">
+            <ngb-tab *ngIf="isAdmin">
                 <ng-template ngbTabTitle>Normalization</ng-template>
                 <ng-template ngbTabContent>
                     <div class="ui-g ui-fluid">
@@ -461,7 +461,7 @@
                 </ng-template>
             </ngb-tab>
             <!--Section that allows an admin to view the joinMethods-->
-            <ngb-tab *ngIf="isUPTAdmin">
+            <ngb-tab *ngIf="isAdmin">
                 <ng-template ngbTabTitle>Operation</ng-template>
                 <ng-template ngbTabContent>
                     <div class="ui-g ui-fluid">

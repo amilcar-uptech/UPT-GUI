@@ -48,7 +48,8 @@ export class UrbanPerformanceComponent implements OnInit {
    @Input() evalHtml: string;
    @Output() evalHtmlChange: EventEmitter<string> = new EventEmitter();
    @Input() Oskari: any;
-   
+   @Input() isAdmin: boolean;
+
   columnDataGP: string[] = [];
 
    @ViewChild('tabsetUP', { static: false }) tabsetUP: NgbTabset;
@@ -58,22 +59,22 @@ export class UrbanPerformanceComponent implements OnInit {
    // Status
    statusUP: Status[] = [];
    buffersUP = [];
- 
+
    // Collapsed state of UP steps
    createScenarioCollapsed = true;
    manageDataCollapsed = true;
    scenariosCollapsed = true;
    resultsCollapsed = true;
- 
+
    // Status of UP steps
    createScenarioDone = false;
    manageDataDone = false;
    scenariosDone = false;
    resultsDone = false;
- 
+
    // Create scenario properties
    isBaseUP = false;
- 
+
    // Properties to display UP dialogs
    displayUP = false;
    displayManageDataUP = false;
@@ -84,7 +85,7 @@ export class UrbanPerformanceComponent implements OnInit {
    editModule = false;
    editIndicator = false;
    editIndResult = false;
- 
+
    // Data provided by NodeService UP
    layersUP: TreeNode[];
    layers: TreeNode[];
@@ -92,32 +93,32 @@ export class UrbanPerformanceComponent implements OnInit {
    selectedTable: TreeNode;
    selectedLayerUP: TreeNode;
    selectedLayer: TreeNode;
- 
+
    // Cities
    studyArea: SelectItem[];
    selectedStudyAreaUP: Layer;
- 
+
    // Properties to change icons of collapsible UP steps
    showCreate: boolean;
    showManage: boolean;
    showResults: boolean;
    showScenariosUP: boolean;
- 
+
    // Data provided by ListService UP
    listManageDataUP: any[];
    listDataUP: UpColumn[];
    selectedColumn: Column;
    selectedUPColumn: Column;
- 
+
    // Indicators
    indicators: Indicator[];
    indSelectItems: SelectItem[] = [];
    selectedIndicators: Indicator[];
    indArray;
    selIndText = '';
- 
+
    selectedCityAssumptions: Layer;
- 
+
    // Scenarios
    newScenario: Scenario;
    scenarios: Scenario[];
@@ -130,12 +131,12 @@ export class UrbanPerformanceComponent implements OnInit {
    selScenIdArray = [];
    isNewScenario: boolean;
    selScenario: Scenario;
- 
+
    // Assumptions
    assumptionName: string;
    assumptionCategory: string;
    assumptionValue: number;
- 
+
    // Results
    scenarioResults: any[] = [];
    rsltLabels: any[] = [];
@@ -147,14 +148,14 @@ export class UrbanPerformanceComponent implements OnInit {
    resultDatasets: any[] = [];
    resultDataUP: any;
    resultOptionsUP: any;
- 
+
    goalsArray: any[] = [];
    goalsLabelArray: any[] = [];
    goalsValues: any[] = [];
- 
+
    // Results
    resultsScenarios: Scenarios[];
- 
+
    // Assumptions
    uploadedAssumptions: any[] = [];
    asmptStudyAreaFile: Layer;
@@ -163,91 +164,91 @@ export class UrbanPerformanceComponent implements OnInit {
    selAssumption: Assumption;
    isNewAssumption: boolean;
    assumptionManage: Assumption;
- 
+
    // Classification
    isNewClassification = false;
    manageClassification: Classification;
    selClassification: Classification;
    classifications: Classification[] = [];
- 
+
    // UP Tables
    upTablesScenario: Scenario;
- 
+
    // Modules
    isNewModule = false;
    manageModules: Module;
    selModule: Module;
    modules: Module[] = [];
- 
+
    // Indicator
    isNewIndicator = false;
    manageIndicators: IndUp;
    selIndicator: IndUp;
    inds: IndUp[] = [];
- 
+
    // Indicator Results
    isNewIndResult = false;
    indsEditResult: SelectItem[] = [];
    manageIndResults: IndResult;
    selIndResult: IndResult;
    indsResult: IndResult[] = [];
- 
+
    // Amenities
    isNewAmenities = false;
    manageAmenities: Amenities;
    selAmenities: Amenities;
    amenities: Amenities[] = [];
- 
+
    // Roads
    isNewRoads = false;
    manageRoads: Amenities;
    selRoads: Amenities;
    roads: Amenities[] = [];
- 
+
    // Transit
    isNewTransit = false;
    manageTransit: Amenities;
    selTransit: Amenities;
    transit: Amenities[] = [];
- 
+
    // Risks
    isNewRisks = false;
    manageRisks: Amenities;
    selRisks: Amenities;
    risks: Amenities[] = [];
- 
+
    // Footprints
    isNewFootprints = false;
    manageFootprints: Amenities;
    selFootprints: Amenities;
    footprints: Amenities[] = [];
- 
+
    // Jobs
    isNewJobs = false;
    manageJobs: Amenities;
    selJobs: Amenities;
    jobs: Amenities[] = [];
- 
+
    // Manage Data UP variables
    manageDataHeaderUP = '';
    columnsHeaderUP = '';
    columnFieldsArrayUP: Column[] = [];
    colFieldsNameArrayUP: any[] = [];
- 
+
    // import data
    dataCopy: DataCopy;
- 
+
    // Manage variables for objects
    manageScenario: Scenario;
- 
+
    // Download object
    downloadObject: any;
- 
+
    // selScenarios copy
    scenariosCopy: Scenario[];
- 
+
    okayResults = true;
- 
+
    // Cols for managing objects
    colsScenario: any[];
    colsAssumption: any[];
@@ -258,9 +259,67 @@ export class UrbanPerformanceComponent implements OnInit {
    colsIndResults: any[];
 
    /**
-   * Functions for UP
+   *Functions for UP
    */
-
+  startUP() {
+    this.indSelectItems = [];
+    this.indsEditResult = [];
+    this.selectedScenarios = [];
+    this.moduleService.getModules().subscribe(
+      (indicators) => {
+        this.indicators = indicators;
+        if (this.isAdmin) {
+          this.modules = indicators;
+        }
+      },
+      (error) => {
+        this.showErrorHandler(error);
+      },
+      () => {
+        this.indicators.forEach((indicator) => {
+          this.indSelectItems.push({
+            label: indicator.label,
+            value: indicator,
+          });
+        });
+      }
+    );
+    this.layersService.getStudyAreas().subscribe(
+      (studyArea) => {
+        this.studyArea = studyArea;
+      },
+      (error) => {
+        this.showErrorHandler(error);
+      }
+    );
+    this.classificationService.getClassifications().subscribe(
+      (clsf) => (this.classifications = clsf),
+      (error) => {
+        this.showErrorHandler(error);
+      }
+    );
+    this.getScenarios();
+    if (this.isAdmin) {
+      this.moduleService.getIndicators().subscribe(
+        (inds) => {
+          this.inds = inds;
+          inds.forEach((ind) =>
+            this.indsEditResult.push({ value: ind.id, label: ind.indicator })
+          );
+        },
+        (error) => {
+          this.showErrorHandler(error);
+        }
+      );
+      this.moduleService.getIndicatorResults().subscribe(
+        (indRes) => (this.indsResult = indRes),
+        (error) => {
+          this.showErrorHandler(error);
+        }
+      );
+    }
+    this.displayUP = true;
+  }
   // Displays the main UP window without sending requests again.
   showNoLoadUP() {
     this.displayUP = true;
@@ -353,8 +412,8 @@ export class UrbanPerformanceComponent implements OnInit {
       const indList = this.indSelectItems;
       let origString = '';
       let arrayString: string[] = [];
-      let newArrayString: string[] = [];
-      let depAry = [];
+      const newArrayString: string[] = [];
+      const depAry = [];
       origString = indDep.replace(/"/g, '').replace('[', '').replace(']', '');
       arrayString = origString.split(',');
       arrayString.forEach((str) => {
@@ -405,19 +464,19 @@ export class UrbanPerformanceComponent implements OnInit {
           this.goalsLabelArray = [];
           this.goalsValues = [];
 
-          let fullRslt = [];
-          let rslVal = [];
+          const fullRslt = [];
+          const rslVal = [];
           let tmpRslt = [];
           let tempVal = [];
-          let rslInd = [];
-          let scnName = [];
-          let rsltArray = [];
+          const rslInd = [];
+          const scnName = [];
+          const rsltArray = [];
           let prcVal = [];
           let goalInd = [];
           let goalIndArray = [];
-          let goalLabel = [];
-          let goalValArray = [];
+          const goalLabel = [];
           let goalScenario = [];
+          let goalValArray = [];
           this.scenarioResults[0].results.forEach((r) => {
             if (!this.rsltLabelsArray.includes(r.label) && r.label !== null) {
               this.rsltLabels.push({
@@ -839,7 +898,7 @@ export class UrbanPerformanceComponent implements OnInit {
           }
         );
       }
-      // If the table is 'assumptions', displays the Advanced dialog on the Assumptions tab. 
+      // If the table is 'assumptions', displays the Advanced dialog on the Assumptions tab.
       else {
         this.tabsetUP.select('assumptionsUP');
         this.showAdvancedUP();
@@ -1937,19 +1996,19 @@ export class UrbanPerformanceComponent implements OnInit {
   }
 
   constructor(private nodeService: NodeService,
-    private listService: ListService,
-    private scenarioService: ScenarioService,
-    private assumptionService: AssumptionService,
-    private resultsService: ResultsService,
-    private layersService: LayerService,
-    private dataCopyService: DataCopyService,
-    private messageService: MessageService,
-    private statusService: StatusService,
-    private moduleService: ModuleService,
-    private upMiscService: UpMiscService,
-    private classificationService: ClassificationService,
-    public ref: DynamicDialogRef,
-    public config: DynamicDialogConfig) {
+              private listService: ListService,
+              private scenarioService: ScenarioService,
+              private assumptionService: AssumptionService,
+              private resultsService: ResultsService,
+              private layersService: LayerService,
+              private dataCopyService: DataCopyService,
+              private messageService: MessageService,
+              private statusService: StatusService,
+              private moduleService: ModuleService,
+              private upMiscService: UpMiscService,
+              private classificationService: ClassificationService,
+              public ref: DynamicDialogRef,
+              public config: DynamicDialogConfig) {
     // Sets values for the UP Results graph.
     this.resultOptionsUP = {
       legend: {

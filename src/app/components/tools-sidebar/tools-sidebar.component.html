@@ -87,8 +87,8 @@
     </div>
     <ul class=" btn-list list-unstyled pt-2" id="buttonList">
         <li>
-            <p-button class="urbanperformance geoportal-btn" icon="fas fa-wrench" (onClick)="showNoLoadUP();" *ngIf="upAct"></p-button>
-            <p-button class="suitability geoportal-btn" icon="fas fa-wrench" (onClick)="showNoLoadST();" *ngIf="stAct">
+            <p-button class="urbanperformance geoportal-btn" icon="fas fa-wrench" (onClick)="noLoadUP();" *ngIf="upAct"></p-button>
+            <p-button class="suitability geoportal-btn" icon="fas fa-wrench" (onClick)="noLoadST();" *ngIf="stAct">
             </p-button>
         </li>
         <div *ngIf="stAct || upAct">
@@ -257,6 +257,6 @@
 </p-dialog>
 
 <app-urban-hotspots [(evalHtml)]="procHtml" (showErrorHandler)="logErrorHandler($event)" (block)="blockDocument($event)" (unblock)="unblockDocument($event)" (clearDistancesConsole)="clearEvaluation($event)" (showDistancesConsole)="showEvaluation($event)"
-    (hideDistancesConsole)="hideEvaluation($event)"></app-urban-hotspots>
+    (hideDistancesConsole)="hideEvaluation($event)" [Oskari]="Oskari" [isAdmin]="isUPTAdmin"></app-urban-hotspots>
 <app-urban-performance [(evalHtml)]="procHtml" (showErrorHandler)="logErrorHandler($event)" (block)="blockDocument($event)" (unblock)="unblockDocument($event)" (clearResultsConsole)="clearEvaluation($event)" (showResultsConsole)="showEvaluation($event)"
-    (hideResultsConsole)="hideEvaluation($event)"></app-urban-performance>
+    (hideResultsConsole)="hideEvaluation($event)" [Oskari]="Oskari" [isAdmin]="isUPTAdmin"></app-urban-performance>
