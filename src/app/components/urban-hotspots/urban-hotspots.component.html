@@ -180,7 +180,7 @@
                             <p-header>Match Layers
                             </p-header>
                             <div class="ui-g ui-fluid p-4">
-                                <p-tree [filter]="true" (onNodeSelect)="loadDataColumnST($event)" selectionMode="single" [(selection)]="selectedLayer" [value]="layersDataST" [style]="{'max-height':'200px','overflow':'auto'}">
+                                <p-tree [filter]="true" (onNodeSelect)="loadDataColumnST($event)" selectionMode="single" [(selection)]="selectedLayerST" [value]="layersDataST" [style]="{'max-height':'200px','overflow':'auto'}">
                                     <ng-template let-node pTemplate="directory">
                                         <span>{{node.label}}</span>
                                     </ng-template>
