@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NodeService } from 'src/app/services/node/NodeService';
-import { TreeNode, MessageService, SelectItem, DynamicDialogRef, DynamicDialogConfig } from 'primeng/api';
+import { TreeNode, MessageService, SelectItem } from 'primeng/api';
 import { ListService } from 'src/app/services/list/list.service';
 import { Column } from 'src/app/domain/column';
 import { Layer } from 'src/app/interfaces/layer';
@@ -1985,9 +1985,7 @@ export class UrbanHotspotsComponent implements OnInit {
               private stEvaluationService: StEvaluationService,
               private layerSTService: LayerSTService,
               private methodService: MethodService,
-              private heatmapService: HeatmapService,
-              public ref: DynamicDialogRef,
-              public config: DynamicDialogConfig) { }
+              private heatmapService: HeatmapService,) { }
 
   ngOnInit() {
     this.layerSTId = null;

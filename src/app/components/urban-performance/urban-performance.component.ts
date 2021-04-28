@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { NodeService } from 'src/app/services/node/NodeService';
-import { TreeNode, MessageService, SelectItem, DynamicDialogRef, DynamicDialogConfig } from 'primeng/api';
+import { TreeNode, MessageService, SelectItem } from 'primeng/api';
 import { ListService } from 'src/app/services/list/list.service';
 import { Column } from 'src/app/domain/column';
 import { Layer } from 'src/app/interfaces/layer';
@@ -2007,9 +2007,7 @@ export class UrbanPerformanceComponent implements OnInit {
               private statusService: StatusService,
               private moduleService: ModuleService,
               private upMiscService: UpMiscService,
-              private classificationService: ClassificationService,
-              public ref: DynamicDialogRef,
-              public config: DynamicDialogConfig) {
+              private classificationService: ClassificationService,) {
     // Sets values for the UP Results graph.
     this.resultOptionsUP = {
       legend: {
