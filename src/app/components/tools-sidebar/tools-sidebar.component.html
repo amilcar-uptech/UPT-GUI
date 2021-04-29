@@ -1156,7 +1156,7 @@
                 </ng-template>
             </ngb-tab>
             <!--Section that allows the user to copy data into the distance module to evaluate distances and save the results as a layer in Oskari.-->
-            <ngb-tab>
+            <!--<ngb-tab>
                 <ng-template ngbTabTitle>Manage Data</ng-template>
                 <ng-template ngbTabContent>
                     <div class="p-2">
@@ -1239,7 +1239,7 @@
                         </p-fieldset>
                     </div>
                 </ng-template>
-            </ngb-tab>
+            </ngb-tab>-->
         </ngb-tabset>
     </div>
 </p-dialog>
@@ -1906,7 +1906,7 @@
         <div class="suitability ui-g ui-fluid px-2">
             <p-button label="EVALUATE" (onClick)="evaluateLayer()" styleClass="advanced-geoportal geoportal-btn suitability"></p-button>
             <p-button label="REVERSE SCALE" class="advanced-geoportal geoportal-btn geoportal-title-btn" icon="fas fa-cog" (onClick)="reverseColorScaleST();"></p-button>
-            <p-button label="SAVE TO GEOPORTAL" [disabled]="stResult" class="advanced-geoportal geoportal-btn geoportal-title-btn" icon="pi pi-save" (onClick)="showSaveHeatmap();"></p-button>
+            <!--<p-button label="SAVE TO GEOPORTAL" [disabled]="stResult" class="advanced-geoportal geoportal-btn geoportal-title-btn" icon="pi pi-save" (onClick)="showSaveHeatmap();"></p-button>-->
             <p-button label="ADVANCED" class="advanced-geoportal geoportal-btn geoportal-title-btn" icon="fas fa-cog" (onClick)="showDataST();"></p-button>
             <p-toggleButton class="advanced-geoportal geoportal-btn geoportal-title-btn" [(ngModel)]="isFreeScaleST" (onChange)="changeScaleModeST($event)" onLabel="FREE SCALE" offLabel="FIXED SCALE" onIcon="pi pi-lock-open" offIcon="pi pi-lock"></p-toggleButton>
         </div>
