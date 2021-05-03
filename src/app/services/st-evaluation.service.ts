@@ -101,4 +101,13 @@ export class StEvaluationService {
       map(res => res as any[])
     );
   }
+
+  getPublicDistanceLayers(id: any): Observable<any[]> {
+    httpOptions.params = {
+      study_area: id
+    };
+    return this.http.get<any>('/action?action_route=evaluate_public_distances_new_layers', httpOptions).pipe(
+      map(res => res as any[])
+    );
+  }
 }
