@@ -33,7 +33,7 @@ declare var Oskari: any;
 @Component({
   selector: 'app-urban-performance',
   templateUrl: './urban-performance.component.html',
-  styleUrls: ['./urban-performance.component.css'],
+  styleUrls: ['./urban-performance.component.scss'],
   providers: [MessageService],
 })
 export class UrbanPerformanceComponent implements OnInit {

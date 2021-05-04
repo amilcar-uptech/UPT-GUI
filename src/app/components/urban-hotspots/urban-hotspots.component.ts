@@ -26,7 +26,7 @@ import { HeatmapService } from 'src/app/services/heatmap.service';
 @Component({
   selector: 'app-urban-hotspots',
   templateUrl: './urban-hotspots.component.html',
-  styleUrls: ['./urban-hotspots.component.css'],
+  styleUrls: ['./urban-hotspots.component.scss'],
   providers: [MessageService],
 })
 export class UrbanHotspotsComponent implements OnInit {
