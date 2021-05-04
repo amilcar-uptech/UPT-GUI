@@ -1,0 +1,106 @@
+@import '../../../styles.scss';
+:host ::ng-deep .urbanperformance .nav-item {
+    border-right: black 0.5px solid;
+    border-left: black 0.5px solid;
+    border-top: black 0.5px solid;
+}
+
+:host ::ng-deep .ui-dialog.pluginGP .ui-dialog-content:has(.suitability) {
+    padding: 0;
+}
+
+:host ::ng-deep .ui-dialog.pluginGP .ui-dialog-titlebar {
+    text-align: center;
+}
+
+:host ::ng-deep .ui-dialog.manageDataModule {
+    right: 5em !important;
+    left: auto !important;
+    top: 17em !important;
+}
+
+:host ::ng-deep .ui-dialog.pluginGP {
+    right: 5em !important;
+    left: 0 !important;
+    top: 4.1em !important;
+}
+
+#up_settings .gp_modal {
+    background: #273038;
+}
+
+#up_settings .gp_modal .badge-dark {
+    background: #343E46;
+    color: #5A6C79;
+}
+
+:host ::ng-deep .gp_modal.urbanperformance .nav-item .nav-link {
+    background: #343E46 !important;
+    color: #FF8680 !important;
+}
+
+:host ::ng-deep .urbanperformance.gp_modal .nav-item .active,
+:host ::ng-deep .urbanperformance .tab-content .active {
+    background: #4B565F !important;
+    color: #FF8680 !important;
+}
+
+:host ::ng-deep .urbanperformance .ui-fieldset-legend a:hover,
+:host ::ng-deep .urbanperformance .ui-table .ui-sortable-column.ui-state-highlight,
+:host ::ng-deep .urbanperformance .ui-table .ui-table-tbody>tr.ui-state-highlight,
+:host ::ng-deep .urbanperformance .ui-paginator-page.ui-state-active,
+:host ::ng-deep .urbanperformance .ui-progressbar .ui-progressbar-value {
+    background-color: #FF8680 !important;
+}
+
+:host ::ng-deep .urbanperformance .ui-button,
+.urbanperformance.calculate,
+:host ::ng-deep .urbanperformance .ui-chkbox-box.ui-state-active {
+    background-color: #FF8680 !important;
+    border-color: #FF8680 !important;
+}
+
+:host ::ng-deep .urbanperformance .ui-inputtext:hover,
+:host ::ng-deep .urbanperformance .ui-inputtext:focus,
+:host ::ng-deep .urbanperformance .ui-multiselect:hover,
+:host ::ng-deep .urbanperformance .ui-multiselect:focus,
+:host ::ng-deep .urbanperformance .ui-multiselect:active,
+:host ::ng-deep .urbanperformance .ui-multiselect.ui-state-focus,
+:host ::ng-deep .urbanperformance .ui-dropdown:hover,
+:host ::ng-deep .urbanperformance .ui-dropdown:focus,
+:host ::ng-deep .urbanperformance .ui-dropdown:active,
+:host ::ng-deep .urbanperformance .ui-dropdown.ui-state-focus,
+:host ::ng-deep .urbanperformance .ui-chkbox-box:hover,
+:host ::ng-deep .urbanperformance .ui-chkbox-box:focus,
+:host ::ng-deep .urbanperformance .ui-chkbox-box:active {
+    border-color: #FF8680 !important;
+}
+
+:host ::ng-deep .urbanperformance .ui-inputgroup .ui-multiselect {
+    display: inline-flex !important;
+}
+
+:host ::ng-deep .urbanperformance .ui-multiselect-item.ui-state-highlight,
+:host ::ng-deep .urbanperformance .ui-dropdown-item.ui-state-highlight,
+:host ::ng-deep .urbanperformance .ui-treenode-label.ui-state-highlight {
+    background-color: #FF8680 !important;
+}
+
+:host ::ng-deep .urbanperformance .ui-chkbox-box.ui-state-focus,
+:host ::ng-deep .urbanperformance .ui-button:enabled:focus:not(.advanced-geoportal .ui-button) {
+    box-shadow: 0 0 0 0.2em #FF8680 !important;
+}
+
+:host ::ng-deep .geoportal-btn.urbanperformance,
+:host ::ng-deep .geoportal-btn.urbanperformance:hover,
+:host ::ng-deep .geoportal-btn.urbanperformance:focus {
+    background-color: #FF8680 !important;
+    min-width: 0 !important;
+    border: #FF8680 !important;
+}
+
+:host ::ng-deep .urbanperformance .ui-dropdown-filter-icon,
+:host ::ng-deep .urbanperformance .ui-multiselect-filter-icon,
+:host ::ng-deep .urbanperformance .ui-tree .ui-tree-filter-container .ui-tree-filter-icon {
+    color: #FF8680 !important;
+}

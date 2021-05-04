@@ -1,0 +1,161 @@
+@import '../../../styles.scss';
+:host ::ng-deep #suitability .ui-spinner-button {
+    background-color: $geo-teal !important;
+    border-color: $geo-teal !important;
+}
+
+:host ::ng-deep .ui-accordion.suitability .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+    background-color: #191919 !important;
+    border: 1px solid #191919 !important;
+}
+
+:host ::ng-deep .ui-accordion.suitability .ui-accordion-header:not(.ui-state-active):not(.ui-state-disabled):hover a,
+:host ::ng-deep .ui-accordion.suitability .ui-accordion-header.ui-state-active:not(.ui-state-disabled):hover a,
+:host ::ng-deep .ui-accordion .ui-accordion-header a,
+:host ::ng-deep .ui-accordion.suitability .ui-accordion-header a .ui-accordion-toggle-icon,
+:host ::ng-deep .ui-accordion.suitability .ui-accordion-header:not(.ui-state-active):not(.ui-state-disabled):hover a .ui-accordion-toggle-icon {
+    color: #ffffff !important;
+}
+
+:host ::ng-deep .ui-accordion.suitability .ui-accordion-header {
+    text-align: center !important;
+}
+
+:host ::ng-deep .colorScaleST.ui-dialog>* {
+    background-color: #323232 !important;
+    color: #fff !important;
+}
+
+:host ::ng-deep .colorScaleST.ui-dialog {
+    right: 6em !important;
+    bottom: 1em !important;
+    left: auto !important;
+    top: auto !important;
+}
+
+:host ::ng-deep .suitability .ui-dropdown-filter-icon,
+:host ::ng-deep .suitability .ui-multiselect-filter-icon,
+:host ::ng-deep .suitability .ui-tree .ui-tree-filter-container .ui-tree-filter-icon {
+    color: $geo-teal !important;
+}
+
+:host ::ng-deep .suitability .ui-button,
+:host ::ng-deep .suitability .ui-chkbox-box.ui-state-active {
+    background-color: $geo-teal !important;
+    border-color: $geo-teal !important;
+}
+
+:host ::ng-deep .suitability .ui-inputswitch-checked .ui-inputswitch-slider {
+    background-color: $geo-teal !important;
+}
+
+:host ::ng-deep .suitability .ui-inputtext:hover,
+:host ::ng-deep .suitability .ui-inputtext:focus,
+:host ::ng-deep .suitability .ui-multiselect:hover,
+:host ::ng-deep .suitability .ui-multiselect:focus,
+:host ::ng-deep .suitability .ui-multiselect:active,
+:host ::ng-deep .suitability .ui-multiselect.ui-state-focus,
+:host ::ng-deep .suitability .ui-dropdown:hover,
+:host ::ng-deep .suitability .ui-dropdown:focus,
+:host ::ng-deep .suitability .ui-dropdown:active,
+:host ::ng-deep .suitability .ui-dropdown.ui-state-focus,
+:host ::ng-deep .suitability .ui-chkbox-box:hover,
+:host ::ng-deep .suitability .ui-chkbox-box:focus,
+:host ::ng-deep .suitability .ui-chkbox-box:active {
+    border-color: $geo-teal !important;
+}
+
+:host ::ng-deep .suitability .ui-chkbox-box.ui-state-focus,
+:host ::ng-deep .suitability .ui-button:enabled:focus {
+    box-shadow: 0 0 0 0.2em $geo-teal !important;
+}
+
+:host ::ng-deep .suitability .ui-multiselect-item.ui-state-highlight,
+:host ::ng-deep .suitability .ui-dropdown-item.ui-state-highlight,
+:host ::ng-deep .suitability .ui-treenode-label.ui-state-highlight {
+    background-color: $geo-teal !important;
+}
+
+:host ::ng-deep .suitability .ui-button,
+:host ::ng-deep .suitability .ui-chkbox-box.ui-state-active {
+    background-color: $geo-teal !important;
+    border-color: $geo-teal !important;
+}
+
+:host ::ng-deep .suitability .ui-fieldset-legend a:hover,
+:host ::ng-deep .suitability .ui-table .ui-sortable-column.ui-state-highlight,
+:host ::ng-deep .suitability .ui-table .ui-table-tbody>tr.ui-state-highlight,
+:host ::ng-deep .suitability .ui-paginator-page.ui-state-active,
+:host ::ng-deep .suitability .ui-progressbar .ui-progressbar-value {
+    background-color: $geo-teal !important;
+}
+
+:host ::ng-deep .suitability .ui-table.settingsTable tr.ui-state-highlight {
+    background-color: #323232 !important;
+}
+
+:host ::ng-deep #suitability .ui-slider .ui-slider-handle {
+    background-color: #FFFFFF;
+    border-color: #FFFFFF;
+}
+
+:host ::ng-deep #suitability .ui-slider:not(.ui-state-disabled) .ui-slider-handle:hover,
+#suitability .custom-control-input:checked~.custom-control-label::before {
+    background-color: $geo-teal;
+    border-color: $geo-teal;
+}
+
+:host ::ng-deep #suitability .ui-slider .ui-slider-range {
+    background-color: $geo-teal;
+}
+
+:host ::ng-deep #suitability.gp_modal .nav-item .active,
+:host ::ng-deep #suitability .tab-content .active,
+:host ::ng-deep .suitability.gp_modal .nav-item .active,
+:host ::ng-deep .suitability .tab-content .active {
+    background: #4B565F !important;
+    color: $geo-teal !important;
+}
+
+:host ::ng-deep #suitability.gp_modal .nav-item .nav-link,
+:host ::ng-deep .suitability.gp_modal .nav-item .nav-link {
+    background: #343E46 !important;
+    color: $geo-teal !important;
+}
+
+.st-button,
+.st-button:hover,
+.st-button:focus {
+    background-color: $geo-teal !important;
+    border: $geo-teal !important;
+    min-width: 0 !important;
+}
+
+:host ::ng-deep .suitability .fa-2x {
+    font-size: 1.5em !important;
+}
+
+:host ::ng-deep .suitability .nav-item {
+    border-right: black 0.5px solid;
+    border-left: black 0.5px solid;
+}
+
+:host ::ng-deep .geoportal-btn.suitability,
+:host ::ng-deep .geoportal-btn.suitability:hover,
+:host ::ng-deep .geoportal-btn.suitability:focus {
+    background-color: $geo-teal !important;
+    border: $geo-teal !important;
+    min-width: 0 !important;
+}
+
+:host ::ng-deep .suitability .ui-table-wrapper .ui-spinner {
+    width: inherit !important;
+}
+
+:host ::ng-deep .suitability .ui-table-wrapper .ui-spinner-input {
+    width: inherit !important;
+}
+
+:host ::ng-deep .suitability .ui-table-wrapper .ui-dropdown {
+    min-width: inherit !important;
+}
