@@ -32,11 +32,11 @@ import { HeatmapService } from 'src/app/services/heatmap.service';
 export class UrbanHotspotsComponent implements OnInit {
 
   @Output() logErrorHandler: EventEmitter<string> = new EventEmitter();
-  @Output() blockDocument: EventEmitter<null> = new EventEmitter();
-  @Output() unblockDocument: EventEmitter<null> = new EventEmitter();
-  @Output() clearEvaluation: EventEmitter<null> = new EventEmitter();
-  @Output() showEvaluation: EventEmitter<null> = new EventEmitter();
-  @Output() hideEvaluation: EventEmitter<null> = new EventEmitter();
+  @Output() blockDocument: EventEmitter<any> = new EventEmitter();
+  @Output() unblockDocument: EventEmitter<any> = new EventEmitter();
+  @Output() clearEvaluation: EventEmitter<any> = new EventEmitter();
+  @Output() showEvaluation: EventEmitter<any> = new EventEmitter();
+  @Output() hideEvaluation: EventEmitter<any> = new EventEmitter();
   @Input() evalHtml: string;
   @Output() evalHtmlChange: EventEmitter<string> = new EventEmitter();
   @Input() Oskari: any;
