@@ -3,6 +3,8 @@
     <p-progressSpinner strokeWidth="3" [style]="{'width': '50px', 'height': '50px', 'position': 'absolute', 'top': '50%', 'left':'50%'}">
     </p-progressSpinner>
 </p-blockUI>
+<!--PrimeNG generic toast used to show generic messages for success, errors and warnings.-->
+<p-toast [baseZIndex]="1500"></p-toast>
 <!--PrimeNG which contains the main UrbanHotspot tool.-->
 <p-dialog [focusOnShow]="false" [baseZIndex]="1150" [positionTop]="0" [responsive]="true" [maximizable]="true" [style]="{'width': '60em'}" [blockScroll]="true" header="UrbanHotspots" [(visible)]="displayST" [contentStyle]="{'max-height':'80vh'}">
     <p-accordion (onClose)="closeAccordionST()" (onOpen)="openAccordionST()" [activeIndex]="accordionST" styleClass="suitability" expandIcon="pi pi-fw pi-chevron-down" collapseIcon="pi pi-fw pi-chevron-up">
