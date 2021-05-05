@@ -1952,10 +1952,12 @@ export class UrbanHotspotsComponent implements OnInit {
   }
 
   block() {
+    console.log("TRYING TO BLOCK");
     this.blockDocument.emit(null);
   }
 
   unblock() {
+    console.log("TRYING TO UNBLOCK");
     this.blockDocument.emit(null);
   }
 
