@@ -256,6 +256,6 @@
     </p-footer>
 </p-dialog>
 
-<app-urban-hotspots [(evalHtml)]="procHtml" (showErrorHandler)="logErrorHandler($event)" (clearDistancesConsole)="clearEvaluation()" (showDistancesConsole)="showEvaluation()" (hideDistancesConsole)="hideEvaluation()" [isAdmin]="isUPTAdmin"></app-urban-hotspots>
+<app-urban-hotspots [Oskari]="Oskari" [(evalHtml)]="procHtml" (showErrorHandler)="logErrorHandler($event)" (clearDistancesConsole)="clearEvaluation()" (showDistancesConsole)="showEvaluation()" (hideDistancesConsole)="hideEvaluation()" [isAdmin]="isUPTAdmin"></app-urban-hotspots>
 <app-urban-performance [(evalHtml)]="procHtml" (showErrorHandler)="logErrorHandler($event)" (block)="blockDocument()" (unblock)="unblockDocument()" (clearResultsConsole)="clearEvaluation()" (showResultsConsole)="showEvaluation()" (hideResultsConsole)="hideEvaluation()"
     [Oskari]="Oskari" [isAdmin]="isUPTAdmin"></app-urban-performance>

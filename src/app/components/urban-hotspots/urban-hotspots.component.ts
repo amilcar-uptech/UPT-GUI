@@ -38,7 +38,7 @@ export class UrbanHotspotsComponent implements OnInit {
   @Output() hideEvaluation: EventEmitter<any> = new EventEmitter();
   @Input() evalHtml: string;
   @Output() evalHtmlChange: EventEmitter<string> = new EventEmitter();
-  Oskari: any;
+  @Input() Oskari: any;
   @Input() isAdmin: boolean;
 
   // Cols for managing objects
