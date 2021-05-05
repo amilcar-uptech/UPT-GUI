@@ -32,14 +32,13 @@ import { HeatmapService } from 'src/app/services/heatmap.service';
 export class UrbanHotspotsComponent implements OnInit {
 
   @Output() logErrorHandler: EventEmitter<string> = new EventEmitter();
-  @Output() blockDocument: EventEmitter<any> = new EventEmitter();
-  @Output() unblockDocument: EventEmitter<any> = new EventEmitter();
+  blockedDocument = false;
   @Output() clearEvaluation: EventEmitter<any> = new EventEmitter();
   @Output() showEvaluation: EventEmitter<any> = new EventEmitter();
   @Output() hideEvaluation: EventEmitter<any> = new EventEmitter();
   @Input() evalHtml: string;
   @Output() evalHtmlChange: EventEmitter<string> = new EventEmitter();
-  @Input() Oskari: any;
+  Oskari: any;
   @Input() isAdmin: boolean;
 
   // Cols for managing objects
@@ -524,7 +523,7 @@ export class UrbanHotspotsComponent implements OnInit {
   // Sends a request to copy data from the selected layer into the distance module
   importDataST() {
     if (this.stdAreaSTDistances != null) {
-      this.block();
+      this.blockDocument();
       this.messageService.add({
         severity: 'info',
         summary: 'In Progress!',
@@ -552,7 +551,7 @@ export class UrbanHotspotsComponent implements OnInit {
           };
         },
         (error) => {
-          this.unblock();
+          this.unblockDocument();
           this.showErrorHandler(error);
         },
         () => {
@@ -561,7 +560,7 @@ export class UrbanHotspotsComponent implements OnInit {
             summary: 'Success!',
             detail: 'Process completed successfully.',
           });
-          this.unblock();
+          this.unblockDocument();
         }
       );
     } else {
@@ -576,7 +575,7 @@ export class UrbanHotspotsComponent implements OnInit {
   // Sends a request to copy layer data into ST as a Layer
   matchLayersST() {
     if (this.layerSTId && this.layerSTLabel && this.layerSTField.name) {
-      this.block();
+      this.blockDocument();
       this.messageService.add({
         severity: 'info',
         summary: 'In Progress!',
@@ -598,7 +597,7 @@ export class UrbanHotspotsComponent implements OnInit {
           };
         },
         (error) => {
-          this.unblock();
+          this.unblockDocument();
           this.showErrorHandler(error);
         },
         () => {
@@ -620,7 +619,7 @@ export class UrbanHotspotsComponent implements OnInit {
                 }
               );
           }
-          this.unblock();
+          this.unblockDocument();
         }
       );
     } else {
@@ -634,7 +633,7 @@ export class UrbanHotspotsComponent implements OnInit {
 
   // Sends a request to copy layer data into ST as a Filter
   matchFiltersST() {
-    this.block();
+    this.blockDocument();
     this.messageService.add({
       severity: 'info',
       summary: 'In Progress!',
@@ -652,7 +651,7 @@ export class UrbanHotspotsComponent implements OnInit {
         };
       },
       (error) => {
-        this.unblock();
+        this.unblockDocument();
         this.showErrorHandler(error);
       },
       () => {
@@ -674,7 +673,7 @@ export class UrbanHotspotsComponent implements OnInit {
               }
             );
         }
-        this.unblock();
+        this.unblockDocument();
       }
     );
   }
@@ -727,7 +726,7 @@ export class UrbanHotspotsComponent implements OnInit {
         detail: 'Please select a join method.',
       });
     } else {
-      this.block();
+      this.blockDocument();
       this.settingsString = '';
       this.selectedLayersST = [];
       this.selSetting.forEach((setting) => {
@@ -751,7 +750,7 @@ export class UrbanHotspotsComponent implements OnInit {
             this.fullGeojson = data;
           },
           (error) => {
-            this.unblock();
+            this.unblockDocument();
             this.stResult = true;
             this.showErrorHandler(error);
           },
@@ -774,7 +773,7 @@ export class UrbanHotspotsComponent implements OnInit {
     this.stEvaluationService.postStdArea(stdAreaEval).subscribe(
       () => {},
       (error) => {
-        this.unblock();
+        this.unblockDocument();
         this.showErrorHandler(error);
       },
       () => {
@@ -940,9 +939,9 @@ export class UrbanHotspotsComponent implements OnInit {
           summary: 'Success!',
           detail: 'Process completed successfully!',
         });
-        this.unblock();
+        this.unblockDocument();
       } catch(e) {
-        this.unblock();
+        this.unblockDocument();
         this.messageService.add({
           severity: 'error',
           summary: 'Error!',
@@ -952,7 +951,7 @@ export class UrbanHotspotsComponent implements OnInit {
       }
 
     } else {
-      this.unblock();
+      this.unblockDocument();
       this.closeAccordionST();
       this.stResult = true;
       this.messageService.add({
@@ -1028,15 +1027,15 @@ export class UrbanHotspotsComponent implements OnInit {
       summary: 'In Progress!',
       detail: 'Your operation is being processed.',
     });
-    this.block();
+    this.blockDocument();
     this.heatmapService.saveHeatmap(this.oskariHeatmap).subscribe(
       (res) => (this.oskariResponse = res),
       (error) => {
-        this.unblock();
+        this.unblockDocument();
         this.showErrorHandler(error);
       },
       () => {
-        this.unblock();
+        this.unblockDocument();
         this.messageService.add({
           severity: 'success',
           summary: 'Success!',
@@ -1951,14 +1950,14 @@ export class UrbanHotspotsComponent implements OnInit {
     this.logErrorHandler.emit(error);
   }
 
-  block() {
-    console.log("TRYING TO BLOCK");
-    this.blockDocument.emit(null);
+  // PrimeNG document blocking.
+  blockDocument() {
+    this.blockedDocument = true;
   }
 
-  unblock() {
-    console.log("TRYING TO UNBLOCK");
-    this.blockDocument.emit(null);
+  // PrimeNG document unblocking.
+  unblockDocument() {
+    this.blockedDocument = false;
   }
 
   clearDistancesConsole() {

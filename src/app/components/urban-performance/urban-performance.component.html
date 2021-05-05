@@ -1,3 +1,8 @@
+<!--PrimeNG block component to block the whole document when certain requests are made.-->
+<p-blockUI [blocked]="blockedDocument" [baseZIndex]="50000">
+    <p-progressSpinner strokeWidth="3" [style]="{'width': '50px', 'height': '50px', 'position': 'absolute', 'top': '50%', 'left':'50%'}">
+    </p-progressSpinner>
+</p-blockUI>
 <!--PrimeNG dialog which contains the main UP tool.-->
 <p-dialog [focusOnShow]="false" [baseZIndex]="1150" [positionTop]="0" header="UrbanPerformance" [(visible)]="displayUP" [contentStyle]="{'max-height':'80vh'}" [style]="{'width':'60em'}">
     <div class="gp_modal container-fluid mb-2 py-2 urbanperformance" id="urbanperformance">

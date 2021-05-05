@@ -115,12 +115,12 @@ export class ToolsSidebarComponent implements OnInit {
   }
 
   // PrimeNG document blocking.
-  blockDocument(event) {
+  blockDocument() {
     this.blockedDocument = true;
   }
 
   // PrimeNG document unblocking.
-  unblockDocument(event) {
+  unblockDocument() {
     this.blockedDocument = false;
   }
 
