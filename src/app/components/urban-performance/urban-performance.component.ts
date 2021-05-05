@@ -48,7 +48,7 @@ export class UrbanPerformanceComponent implements OnInit {
    @Output() hideEvaluation: EventEmitter<any> = new EventEmitter();
    @Input() evalHtml: string;
    @Output() evalHtmlChange: EventEmitter<string> = new EventEmitter();
-   @Input() Oskari: any;
+   Oskari: any;
    @Input() isAdmin: boolean;
 
   columnDataGP: string[] = [];

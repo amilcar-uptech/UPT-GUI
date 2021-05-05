@@ -23,6 +23,7 @@ import { Status } from 'src/app/interfaces/status';
 import { Heatmap } from 'src/app/interfaces/heatmap';
 import { HeatmapService } from 'src/app/services/heatmap.service';
 
+declare var Oskari: any;
 @Component({
   selector: 'app-urban-hotspots',
   templateUrl: './urban-hotspots.component.html',
@@ -38,7 +39,7 @@ export class UrbanHotspotsComponent implements OnInit {
   @Output() hideEvaluation: EventEmitter<any> = new EventEmitter();
   @Input() evalHtml: string;
   @Output() evalHtmlChange: EventEmitter<string> = new EventEmitter();
-  @Input() Oskari: any;
+  Oskari: any;
   @Input() isAdmin: boolean;
 
   // Cols for managing objects
