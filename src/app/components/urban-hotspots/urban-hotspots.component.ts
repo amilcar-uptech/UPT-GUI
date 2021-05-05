@@ -39,7 +39,6 @@ export class UrbanHotspotsComponent implements OnInit {
   @Output() hideEvaluation: EventEmitter<any> = new EventEmitter();
   @Input() evalHtml: string;
   @Output() evalHtmlChange: EventEmitter<string> = new EventEmitter();
-  Oskari: any;
   @Input() isAdmin: boolean;
 
   // Cols for managing objects
@@ -841,11 +840,11 @@ export class UrbanHotspotsComponent implements OnInit {
       () => {
         this.distanceLayerST.forEach((lyr) => {
           setTimeout(() => {
-            this.Oskari.getSandbox()
+            Oskari.getSandbox()
               .findRegisteredModuleInstance('MyPlacesImport')
               .getService()
               .addLayerToService(lyr, false);
-            this.Oskari.getSandbox()
+            Oskari.getSandbox()
               .findRegisteredModuleInstance('MyPlacesImport')
               .getTab()
               .refresh();
@@ -922,14 +921,14 @@ export class UrbanHotspotsComponent implements OnInit {
             });
           }
         });
-        this.Oskari.getSandbox().postRequestByName('VectorLayerRequest', [
+        Oskari.getSandbox().postRequestByName('VectorLayerRequest', [
           this.layerOptions,
         ]);
-        this.Oskari.getSandbox().postRequestByName(
+        Oskari.getSandbox().postRequestByName(
           'MapModulePlugin.RemoveFeaturesFromMapRequest',
           [null, null, 'ST_VECTOR_LAYER']
         );
-        this.Oskari.getSandbox().postRequestByName(this.rn, [
+        Oskari.getSandbox().postRequestByName(this.rn, [
           this.geojsonObject,
           this.layerOptions,
         ]);
@@ -961,7 +960,7 @@ export class UrbanHotspotsComponent implements OnInit {
         detail:
           'Process completed successfully, but no results were generated.',
       });
-      this.Oskari.getSandbox().postRequestByName(
+      Oskari.getSandbox().postRequestByName(
         'MapModulePlugin.RemoveFeaturesFromMapRequest',
         [null, null, 'ST_VECTOR_LAYER']
       );
@@ -1007,14 +1006,14 @@ export class UrbanHotspotsComponent implements OnInit {
           });
         }
       });
-      this.Oskari.getSandbox().postRequestByName('VectorLayerRequest', [
+      Oskari.getSandbox().postRequestByName('VectorLayerRequest', [
         this.layerOptions,
       ]);
-      this.Oskari.getSandbox().postRequestByName(
+      Oskari.getSandbox().postRequestByName(
         'MapModulePlugin.RemoveFeaturesFromMapRequest',
         [null, null, 'ST_VECTOR_LAYER']
       );
-      this.Oskari.getSandbox().postRequestByName(this.rn, [
+      Oskari.getSandbox().postRequestByName(this.rn, [
         this.geojsonObject,
         this.layerOptions,
       ]);
@@ -1043,11 +1042,11 @@ export class UrbanHotspotsComponent implements OnInit {
           detail: 'Process completed successfully!',
         });
         this.hideSaveHeatmap();
-        this.Oskari.getSandbox()
+        Oskari.getSandbox()
           .findRegisteredModuleInstance('MyPlacesImport')
           .getService()
           .addLayerToService(this.oskariResponse, false);
-        this.Oskari.getSandbox()
+        Oskari.getSandbox()
           .findRegisteredModuleInstance('MyPlacesImport')
           .getTab()
           .refresh();
