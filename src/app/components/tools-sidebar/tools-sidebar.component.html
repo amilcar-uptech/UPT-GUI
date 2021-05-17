@@ -1365,7 +1365,7 @@
                             <p-fieldset [toggleable]="true" legend="Install Modules">
                                 <div class="ui-g ui-fluid">
                                     <div class="ui-md-12">
-                                        <p-fileUpload name="moduleFile[]" customUpload="true" (uploadHandler)="installModule($event)" accept=".zip" chooseLabel="SELECT FILE (.ZIP)" uploadLabel="INSTALL" cancelLabel="CANCEL"></p-fileUpload>
+                                        <p-fileUpload name="moduleFile[]" customUpload="true" (uploadHandler)="installModule($event)" accept=".zip" chooseLabel="SELECT FILE (.ZIP)" uploadLabel="INSTALL" cancelLabel="CANCEL" multiple="multiple"></p-fileUpload>
                                     </div>
                                 </div>
                             </p-fieldset>
