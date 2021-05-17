@@ -5,6 +5,42 @@
 </p-blockUI>
 <!--PrimeNG generic toast used to show generic messages for success, errors and warnings.-->
 <p-toast [baseZIndex]="1500"></p-toast>
+<!--PrimeNG dialog which contains the error log.-->
+<p-dialog [focusOnShow]="false" styleClass="gp-console" [(visible)]="displayConsole" [style]="{'width': '600px'}" [contentStyle]="{'max-height':'40vh'}" [baseZIndex]="1150">
+    <p-header>
+        Log
+    </p-header>
+    <div class="ui-g ui-fluid">
+        <div class="ui-md-4">STATUS</div>
+        <div class="ui-md-8">DESCRIPTION</div>
+    </div>
+    <div class="ui-g ui-fluid" [innerHTML]="errHtml"></div>
+    <p-footer>
+        <div class="ui-g ui-fluid">
+            <p-button label="CLEAR CONSOLE" class="tools-geoportal geoportal-btn geoportal-title-btn" icon="pi pi-refresh" (onClick)="clearConsole();"></p-button>
+            <p-button label="CLOSE" class="tools-geoportal geoportal-btn geoportal-title-btn" icon="pi pi-times" (onClick)="hideConsole();"></p-button>
+        </div>
+    </p-footer>
+</p-dialog>
+<!--PrimeNG dialog which contains the processing log.-->
+<p-dialog [focusOnShow]="false" styleClass="gp-console" [(visible)]="displayEvaluation" [style]="{'width': '750px'}" [contentStyle]="{'max-height':'40vh'}" [baseZIndex]="1150">
+    <p-header>
+        Processing History
+    </p-header>
+    <div class="ui-g ui-fluid">
+        <div class="ui-md-4">EVENT</div>
+        <div class="ui-md-2">STUDY AREA</div>
+        <div class="ui-md-2">TIME</div>
+        <div class="ui-md-4">PROCESS</div>
+    </div>
+    <div class="ui-g ui-fluid" [innerHTML]="procHtml"></div>
+    <p-footer>
+        <div class="ui-g ui-fluid">
+            <p-button label="CLEAR CONSOLE" class="tools-geoportal geoportal-btn geoportal-title-btn" icon="pi pi-refresh" (onClick)="clearEvaluation();"></p-button>
+            <p-button label="CLOSE" class="tools-geoportal geoportal-btn geoportal-title-btn" icon="pi pi-times" (onClick)="hideEvaluation();"></p-button>
+        </div>
+    </p-footer>
+</p-dialog>
 <!--PrimeNG which contains the main UrbanHotspot tool.-->
 <p-dialog [focusOnShow]="false" [baseZIndex]="1150" [positionTop]="0" [responsive]="true" [maximizable]="true" [style]="{'width': '60em'}" [blockScroll]="true" header="UrbanHotspots" [(visible)]="displayST" [contentStyle]="{'max-height':'80vh'}">
     <p-accordion (onClose)="closeAccordionST()" (onOpen)="openAccordionST()" [activeIndex]="accordionST" styleClass="suitability" expandIcon="pi pi-fw pi-chevron-down" collapseIcon="pi pi-fw pi-chevron-up">

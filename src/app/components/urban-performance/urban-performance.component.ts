@@ -40,15 +40,12 @@ export class UrbanPerformanceComponent implements OnInit {
   /**
    * UP Variables
    */
-   @Output() logErrorHandler: EventEmitter<string> = new EventEmitter();
-   @Output() blockDocument: EventEmitter<any> = new EventEmitter();
-   @Output() unblockDocument: EventEmitter<any> = new EventEmitter();
-   @Output() clearEvaluation: EventEmitter<any> = new EventEmitter();
-   @Output() showEvaluation: EventEmitter<any> = new EventEmitter();
-   @Output() hideEvaluation: EventEmitter<any> = new EventEmitter();
-   @Input() evalHtml: string;
-   @Output() evalHtmlChange: EventEmitter<string> = new EventEmitter();
-   @Input() isAdmin: boolean;
+  errHtml = '';
+  procHtml = '';
+  blockedDocument = false;
+  @Input() isAdmin: boolean;
+  displayEvaluation = false;
+  displayConsole = false;
 
   columnDataGP: string[] = [];
 
@@ -778,7 +775,7 @@ export class UrbanPerformanceComponent implements OnInit {
       this.scenarioName !== null &&
       this.indSelectItems.length > 0
     ) {
-      this.block();
+      this.blockDocument();
       this.messageService.add({
         severity: 'info',
         summary: 'In Progress!',
@@ -815,7 +812,7 @@ export class UrbanPerformanceComponent implements OnInit {
               summary: 'Success!',
               detail: 'Scenario created successfully.',
             });
-            this.unblock();
+            this.unblockDocument();
             if (scenario.has_assumptions === 0) {
               this.messageService.clear();
               this.messageService.add({
@@ -838,11 +835,11 @@ export class UrbanPerformanceComponent implements OnInit {
               summary: 'Error!',
               detail: 'An error ocurred during the operation.',
             });
-            this.unblock();
+            this.unblockDocument();
           }
         },
         (error) => {
-          this.unblock();
+          this.unblockDocument();
           this.showErrorHandler(error);
         },
         () => {
@@ -984,7 +981,7 @@ export class UrbanPerformanceComponent implements OnInit {
 
   // Sends a request to import data through the UP Manage Data dialog
   importDataUP() {
-    this.block();
+    this.blockDocument();
     this.messageService.add({
       severity: 'info',
       summary: 'In Progress!',
@@ -1004,7 +1001,7 @@ export class UrbanPerformanceComponent implements OnInit {
     this.dataCopyService.copyDataUP(this.dataCopy).subscribe(
       () => {},
       (error) => {
-        this.unblock();
+        this.unblockDocument();
         this.showErrorHandler(error);
       },
       () => {
@@ -1020,7 +1017,7 @@ export class UrbanPerformanceComponent implements OnInit {
             this.showErrorHandler(error);
           }
         );
-        this.unblock();
+        this.unblockDocument();
         this.columnFieldsArrayUP = [];
         this.hideManageDataUP();
       }
@@ -1159,7 +1156,7 @@ export class UrbanPerformanceComponent implements OnInit {
 
   // Sends a request to upload an assumptions file
   uploadAssumption(event) {
-    this.block();
+    this.blockDocument();
     this.messageService.add({
       severity: 'info',
       summary: 'In process!',
@@ -1170,7 +1167,7 @@ export class UrbanPerformanceComponent implements OnInit {
       .subscribe(
         () => {},
         (error) => {
-          this.unblock();
+          this.unblockDocument();
           this.showErrorHandler(error);
         },
         () => {
@@ -1189,7 +1186,7 @@ export class UrbanPerformanceComponent implements OnInit {
             summary: 'Success!',
             detail: 'File uploaded successfully!!',
           });
-          this.unblock();
+          this.unblockDocument();
         }
       );
   }
@@ -1931,7 +1928,7 @@ export class UrbanPerformanceComponent implements OnInit {
 
   // Sends a request to install the module from the uploaded file.
   installModule(event) {
-    this.block();
+    this.blockDocument();
     this.moduleService.installModule(event.files[0]).subscribe(
       () =>
         this.messageService.add({
@@ -1966,7 +1963,7 @@ export class UrbanPerformanceComponent implements OnInit {
             });
           }
         );
-        this.unblock();
+        this.unblockDocument();
       }
     );
   }
@@ -1975,13 +1972,16 @@ export class UrbanPerformanceComponent implements OnInit {
     this.logErrorHandler.emit(error);
   }
 
-  block() {
-    this.blockDocument.emit(null);
+  // PrimeNG document blocking.
+  blockDocument() {
+    this.blockedDocument = true;
   }
 
-  unblock() {
-    this.unblockDocument.emit(null);
+  // PrimeNG document unblocking.
+  unblockDocument() {
+    this.blockedDocument = false;
   }
+
 
   clearResultsConsole() {
     this.clearEvaluation.emit(null);
