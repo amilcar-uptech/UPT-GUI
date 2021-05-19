@@ -45,6 +45,8 @@ import { SquareKilometersPipe } from './custom-pipes/square-kilometers.pipe';
 import { NormMethodPipe } from './custom-pipes/norm-method.pipe';
 import { DependenciesPipe } from './custom-pipes/dependencies.pipe';
 import { StaticMethodPipe } from './custom-pipes/static-method.pipe';
+import { UrbanHotspotsComponent } from './components/urban-hotspots/urban-hotspots.component';
+import { UrbanPerformanceComponent } from './components/urban-performance/urban-performance.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +56,8 @@ import { StaticMethodPipe } from './custom-pipes/static-method.pipe';
     NormMethodPipe,
     DependenciesPipe,
     StaticMethodPipe,
+    UrbanHotspotsComponent,
+    UrbanPerformanceComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { RoleService } from './services/role.service';
 import { ToolsSidebarComponent } from './components/tools-sidebar/tools-sidebar.component';
 
 @Component({
@@ -12,7 +11,7 @@ import { ToolsSidebarComponent } from './components/tools-sidebar/tools-sidebar.
 
 export class AppComponent implements OnInit {
   // URL for the directory where most assets will be found
-  oskariUrl = '/Oskari/dist/wbidp/geoportal';
+  oskariUrl = '/Oskari/dist/1.2.1/geoportal';
   title = 'UPT-GUI-app';
   // Status of UPT
   urbPerActive: boolean;
@@ -41,9 +40,9 @@ export class AppComponent implements OnInit {
       this.tools.upAct = true;
       this.tools.stAct = false;
       this.tools.showUP();
-      this.tools.hideColorScaleST();
-      this.tools.hideST();
-      this.tools.hideDataST();
+      this.tools.urbanHotspots.hideColorScaleST();
+      this.tools.urbanHotspots.hideST();
+      this.tools.urbanHotspots.hideDataST();
     } else {
       this.promptPermission();
     }
@@ -67,8 +66,8 @@ export class AppComponent implements OnInit {
       this.tools.stAct = true;
       this.tools.upAct = false;
       this.tools.showST();
-      this.tools.hideUP();
-      this.tools.hideAdvancedUP();
+      this.tools.urbanPerformance.hideUP();
+      this.tools.urbanPerformance.hideAdvancedUP();
     } else {
       this.promptPermission();
     }
@@ -78,11 +77,11 @@ export class AppComponent implements OnInit {
   closePlugin() {
     this.urbPerActive = false;
     this.suitabilityActive = false;
-    this.tools.hideUP();
-    this.tools.hideColorScaleST();
-    this.tools.hideST();
-    this.tools.hideAdvancedUP();
-    this.tools.hideDataST();
+    this.tools.urbanPerformance.hideUP();
+    this.tools.urbanHotspots.hideColorScaleST();
+    this.tools.urbanHotspots.hideST();
+    this.tools.urbanPerformance.hideAdvancedUP();
+    this.tools.urbanHotspots.hideDataST();
     this.tools.upAct = false;
     this.tools.stAct = false;
   }
