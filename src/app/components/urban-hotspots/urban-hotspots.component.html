@@ -223,7 +223,7 @@
                             <p-header>Match Layers
                             </p-header>
                             <div class="ui-g ui-fluid p-4">
-                                <p-tree [filter]="true" (onNodeSelect)="loadDataColumnST($event)" selectionMode="single" [(selection)]="selectedLayer" [value]="layersDataST" [style]="{'max-height':'200px','overflow':'auto'}">
+                                <p-tree [filter]="true" (onNodeSelect)="loadDataColumnST($event)" selectionMode="single" [(selection)]="selectedLayerST" [value]="layersDataST" [style]="{'max-height':'200px','overflow':'auto'}">
                                     <ng-template let-node pTemplate="directory">
                                         <span>{{node.label}}</span>
                                     </ng-template>
@@ -463,7 +463,7 @@
                 </ng-template>
             </ngb-tab>
             <!--Section that allows an admin to view the normMethods-->
-            <ngb-tab *ngIf="isUPTAdmin">
+            <ngb-tab *ngIf="isAdmin">
                 <ng-template ngbTabTitle>Normalization</ng-template>
                 <ng-template ngbTabContent>
                     <div class="ui-g ui-fluid">
@@ -504,7 +504,7 @@
                 </ng-template>
             </ngb-tab>
             <!--Section that allows an admin to view the joinMethods-->
-            <ngb-tab *ngIf="isUPTAdmin">
+            <ngb-tab *ngIf="isAdmin">
                 <ng-template ngbTabTitle>Operation</ng-template>
                 <ng-template ngbTabContent>
                     <div class="ui-g ui-fluid">
@@ -907,6 +907,60 @@
             </div>
             <div class="ui-g-6">
                 <button type="button" pButton label="CANCEL" class="ui-button-secondary" (click)="cancelDeleteNormMethod()"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
+<!--PrimeNG toast which asks for confirmation to delete an ContagionHotspots Layer.-->
+<p-toast [modal]="true" key="confirmDeleteLayer" position="center" [baseZIndex]="5000">
+    <ng-template let-o let-message pTemplate="message">
+        <div style="text-align: center">
+            <i class="pi pi-exclamation-triangle" style="font-size: 3em"></i>
+            <h3>{{message.summary}}</h3>
+            <p>{{message.detail}}</p>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-6">
+                <button type="button" pButton label="CONFIRM" class="ui-button-success" (click)="confirmDeleteLayer()"></button>
+            </div>
+            <div class="ui-g-6">
+                <button type="button" pButton label="CANCEL" class="ui-button-secondary" (click)="cancelDeleteLayer()"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
+<!--PrimeNG toast which asks for confirmaton to delete an ContagionHotspots Filter-->
+<p-toast [modal]="true" key="confirmDeleteFilter" position="center" [baseZIndex]="5000">
+    <ng-template let-o let-message pTemplate="message">
+        <div style="text-align: center">
+            <i class="pi pi-exclamation-triangle" style="font-size: 3em"></i>
+            <h3>{{message.summary}}</h3>
+            <p>{{message.detail}}</p>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-6">
+                <button type="button" pButton label="CONFIRM" class="ui-button-success" (click)="confirmDeleteFilter()"></button>
+            </div>
+            <div class="ui-g-6">
+                <button type="button" pButton label="CANCEL" class="ui-button-secondary" (click)="cancelDeleteFilter()"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
+<!--PrimeNG toast which asks for confirmation to restore ContagionHotspots settings to default value.-->
+<p-toast [modal]="true" key="confirmDeleteSettings" position="center" [baseZIndex]="5000">
+    <ng-template let-o let-message pTemplate="message">
+        <div style="text-align: center">
+            <i class="pi pi-exclamation-triangle" style="font-size: 3em"></i>
+            <h3>{{message.summary}}</h3>
+            <p>{{message.detail}}</p>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-6">
+                <button type="button" pButton label="CONFIRM" class="ui-button-success" (click)="confirmDeleteSettings()"></button>
+            </div>
+            <div class="ui-g-6">
+                <button type="button" pButton label="CANCEL" class="ui-button-secondary" (click)="cancelDeleteSettings()"></button>
             </div>
         </div>
     </ng-template>

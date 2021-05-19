@@ -350,7 +350,7 @@
                 </ng-template>
             </ngb-tab>
             <!--Section that allows an admin to install new calculus modules and view modules, indicators and result labels.-->
-            <ngb-tab id="indicatorsUP" *ngIf="isUPTAdmin">
+            <ngb-tab id="indicatorsUP" *ngIf="isAdmin">
                 <ng-template ngbTabTitle>
                     Indicators
                 </ng-template>
@@ -780,7 +780,6 @@
 </p-dialog>
 <!--PrimeNG generic toast used to show generic messages for success, errors and warnings.-->
 <p-toast [baseZIndex]="1500"></p-toast>
-<p-button class="ui-button-secondary" icon="pi pi-angle-left" styleClass="toolbarbtn" (onClick)="displayTools = true" [style]="{'position':'absolute','top':'4em','right':'0px','z-index':980}"></p-button>
 <p-dialog [focusOnShow]="false" classStyle="managaDataModule" header="Manage Data" [(visible)]="displayManageDataUP" [maximizable]="true" [style]="{'width':'45em'}" [contentStyle]="{'max-height':'40em'}" [baseZIndex]="1150">
     <div class="gp_modal urbanperformance">
         <div class="ui-g ui-fluid p-3">
@@ -962,60 +961,6 @@
             </div>
             <div class="ui-g-6">
                 <button type="button" pButton label="CANCEL" class="ui-button-secondary" (click)="cancelDeleteAssumption()"></button>
-            </div>
-        </div>
-    </ng-template>
-</p-toast>
-<!--PrimeNG toast which asks for confirmation to delete an ContagionHotspots Layer.-->
-<p-toast [modal]="true" key="confirmDeleteLayer" position="center" [baseZIndex]="5000">
-    <ng-template let-o let-message pTemplate="message">
-        <div style="text-align: center">
-            <i class="pi pi-exclamation-triangle" style="font-size: 3em"></i>
-            <h3>{{message.summary}}</h3>
-            <p>{{message.detail}}</p>
-        </div>
-        <div class="ui-g ui-fluid">
-            <div class="ui-g-6">
-                <button type="button" pButton label="CONFIRM" class="ui-button-success" (click)="confirmDeleteLayer()"></button>
-            </div>
-            <div class="ui-g-6">
-                <button type="button" pButton label="CANCEL" class="ui-button-secondary" (click)="cancelDeleteLayer()"></button>
-            </div>
-        </div>
-    </ng-template>
-</p-toast>
-<!--PrimeNG toast which asks for confirmaton to delete an ContagionHotspots Filter-->
-<p-toast [modal]="true" key="confirmDeleteFilter" position="center" [baseZIndex]="5000">
-    <ng-template let-o let-message pTemplate="message">
-        <div style="text-align: center">
-            <i class="pi pi-exclamation-triangle" style="font-size: 3em"></i>
-            <h3>{{message.summary}}</h3>
-            <p>{{message.detail}}</p>
-        </div>
-        <div class="ui-g ui-fluid">
-            <div class="ui-g-6">
-                <button type="button" pButton label="CONFIRM" class="ui-button-success" (click)="confirmDeleteFilter()"></button>
-            </div>
-            <div class="ui-g-6">
-                <button type="button" pButton label="CANCEL" class="ui-button-secondary" (click)="cancelDeleteFilter()"></button>
-            </div>
-        </div>
-    </ng-template>
-</p-toast>
-<!--PrimeNG toast which asks for confirmation to restore ContagionHotspots settings to default value.-->
-<p-toast [modal]="true" key="confirmDeleteSettings" position="center" [baseZIndex]="5000">
-    <ng-template let-o let-message pTemplate="message">
-        <div style="text-align: center">
-            <i class="pi pi-exclamation-triangle" style="font-size: 3em"></i>
-            <h3>{{message.summary}}</h3>
-            <p>{{message.detail}}</p>
-        </div>
-        <div class="ui-g ui-fluid">
-            <div class="ui-g-6">
-                <button type="button" pButton label="CONFIRM" class="ui-button-success" (click)="confirmDeleteSettings()"></button>
-            </div>
-            <div class="ui-g-6">
-                <button type="button" pButton label="CANCEL" class="ui-button-secondary" (click)="cancelDeleteSettings()"></button>
             </div>
         </div>
     </ng-template>

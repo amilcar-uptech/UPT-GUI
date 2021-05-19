@@ -3,6 +3,7 @@
     <p-progressSpinner strokeWidth="3" [style]="{'width': '50px', 'height': '50px', 'position': 'absolute', 'top': '50%', 'left':'50%'}">
     </p-progressSpinner>
 </p-blockUI>
+<p-button class="ui-button-secondary" icon="pi pi-angle-left" styleClass="toolbarbtn" (onClick)="displayTools = true" [style]="{'position':'absolute','top':'4em','right':'0px','z-index':980}"></p-button>
 <!--PrimeNG dialog which allows users to share layers so that other UPT users may access them for their evaluations.
 <p-dialog header="Share User Layers" [(visible)]="displayShare" [modal]="false" [style]="{width: 'width', minWidth: 'minWidth'}" [maximizable]="false" [baseZIndex]="1150">
     <div class="ui-g ui-fluid p-3">
@@ -73,8 +74,8 @@
     </div>
     <ul class=" btn-list list-unstyled pt-2" id="buttonList">
         <li>
-            <p-button class="urbanperformance geoportal-btn" icon="fas fa-wrench" (onClick)="showNoLoadUP();" *ngIf="upAct"></p-button>
-            <p-button class="suitability geoportal-btn" icon="fas fa-wrench" (onClick)="showNoLoadST();" *ngIf="stAct">
+            <p-button class="urbanperformance geoportal-btn" icon="fas fa-wrench" (onClick)="noLoadUP();" *ngIf="upAct"></p-button>
+            <p-button class="suitability geoportal-btn" icon="fas fa-wrench" (onClick)="noLoadST();" *ngIf="stAct">
             </p-button>
         </li>
         <div *ngIf="stAct || upAct">
