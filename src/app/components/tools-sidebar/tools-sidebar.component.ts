@@ -4158,7 +4158,7 @@ export class ToolsSidebarComponent implements OnInit {
         } else if(fltr.includes("pub_")) {
           fltr = fltr.replace("pub_","");
           this.selectedPublicFiltersArrayST.push(+fltr);
-        } 
+        }
       }
     );
     if (this.selSetting.length == 0 || this.selSetting == null) {
@@ -4178,17 +4178,19 @@ export class ToolsSidebarComponent implements OnInit {
       this.selectedLayersST = [];
       this.selectedPublicLayersST = [];
       this.selSetting.forEach((setting) => {
-        if(!isUndefined(setting.st_layer_id)) {
+        if(setting.st_layer_id.includes("priv_")) {
+          setting.st_layer_id = setting.st_layer_id.replace("priv_","");
           this.selectedLayersST.push(setting.st_layer_id);
-        } else if(!isUndefined(setting.st_public_layer_id)) {
-          this.selectedPublicLayersST.push(setting.st_public_layer_id);
+        } else if(setting.st_layer_id.includes("pub_")) {
+          setting.st_layer_id = setting.st_layer_id.replace("pub_","");
+          this.selectedPublicLayersST.push(setting.st_layer_id);
         }
       });
       this.selSetting.forEach(
         (stng) => {
-          if(!isUndefined(stng.st_layer_id)) {
+          if(stng.st_layer_id.includes("priv_")) {
             tmpStngs.push(stng);
-          } else if(!isUndefined(stng.st_public_layer_id)) {
+          } else if(stng.st_layer_id.includes("pub_")) {
             tmpPubStngs.push(stng);
           }
           stng.smaller_better = stng.smaller_better ? 1 : 0;
@@ -4254,7 +4256,6 @@ export class ToolsSidebarComponent implements OnInit {
           }
         );
       }
-      
     }
   }
 
