@@ -1763,7 +1763,7 @@
                                 </div>
                             </div>
                             <ng-container *ngIf="layerSettings; else noLayers">
-                                <p-table styleClass="settingsTable" [columns]="colsLayersSettings" [value]="layerSettings" [(selection)]="selSetting" dataKey="st_layer_id" dataKey="st_public_layer_id">
+                                <p-table styleClass="settingsTable" [columns]="colsLayersSettings" [value]="layerSettings" [(selection)]="selSetting" dataKey="st_layer_id">
                                     <ng-template pTemplate="header" let-columns>
                                         <tr>
                                             <th style="width: 3em;">

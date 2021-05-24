@@ -4178,12 +4178,13 @@ export class ToolsSidebarComponent implements OnInit {
       this.selectedLayersST = [];
       this.selectedPublicLayersST = [];
       this.selSetting.forEach((setting) => {
+        let tmpStngLyrId = '';
         if(setting.st_layer_id.includes("priv_")) {
-          setting.st_layer_id = setting.st_layer_id.replace("priv_","");
-          this.selectedLayersST.push(setting.st_layer_id);
+          tmpStngLyrId = setting.st_layer_id.replace("priv_","");
+          this.selectedLayersST.push(tmpStngLyrId);
         } else if(setting.st_layer_id.includes("pub_")) {
-          setting.st_layer_id = setting.st_layer_id.replace("pub_","");
-          this.selectedPublicLayersST.push(setting.st_layer_id);
+          tmpStngLyrId = setting.st_layer_id.replace("pub_","");
+          this.selectedPublicLayersST.push(tmpStngLyrId);
         }
       });
       this.selSetting.forEach(
@@ -4196,6 +4197,7 @@ export class ToolsSidebarComponent implements OnInit {
           stng.smaller_better = stng.smaller_better ? 1 : 0;
         }
       );
+      console.log(this.selSetting);
       tmpStrStngs = JSON.stringify(tmpStngs);
       tmpStrPubStngs = JSON.stringify(tmpPubStngs);
       this.blockDocument();
