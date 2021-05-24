@@ -4189,9 +4189,14 @@ export class ToolsSidebarComponent implements OnInit {
       });
       this.selSetting.forEach(
         (stng) => {
+          let tmpStngLyrId = '';
           if(stng.st_layer_id.includes("priv_")) {
+            tmpStngLyrId = setting.st_layer_id.replace("priv_","");
+            stng.st_layer_id = tmpStngLyrId;
             tmpStngs.push(stng);
           } else if(stng.st_layer_id.includes("pub_")) {
+            tmpStngLyrId = setting.st_layer_id.replace("pub_","");
+            stng.st_layer_id = tmpStngLyrId;
             tmpPubStngs.push(stng);
           }
           stng.smaller_better = stng.smaller_better ? 1 : 0;
