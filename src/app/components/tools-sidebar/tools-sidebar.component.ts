@@ -4205,6 +4205,8 @@ export class ToolsSidebarComponent implements OnInit {
       console.log(this.selSetting);
       tmpStrStngs = JSON.stringify(tmpStngs);
       tmpStrPubStngs = JSON.stringify(tmpPubStngs);
+      console.log(tmpStrStngs);
+      console.log(tmpStrPubStngs);
       this.blockDocument();
       if(stdAreaId.includes("priv_")) {
         stdAreaId = stdAreaId.replace("priv_","");
