@@ -27,7 +27,7 @@
         </div>
     </ng-template>
 </p-toast>
-<!--PrimeNG dialog which shows the color scale used for ContagionHotspots-->
+<!--PrimeNG dialog which shows the color scale used for UrbanHotspots-->
 <p-dialog [showHeader]="false" [(visible)]="displayColorScaleST" [maximizable]="false" [resizable]="false" [draggable]="false" [baseZIndex]="1150" styleClass="colorScaleST" [contentStyle]="{'opacity': 0.75}">
     <div class="ui-g ui-fluid ui-rtl" dir="rtl" style="font-size: 12px;">
         INDEX
@@ -236,7 +236,7 @@
         </div>
     </ng-template>
 </p-toast>
-<!--PrimeNG toast which asks for confirmation to delete an ContagionHotspots Layer.-->
+<!--PrimeNG toast which asks for confirmation to delete an UrbanHotspots Layer.-->
 <p-toast [modal]="true" key="confirmDeleteLayer" position="center" [baseZIndex]="5000">
     <ng-template let-o let-message pTemplate="message">
         <div style="text-align: center">
@@ -254,7 +254,7 @@
         </div>
     </ng-template>
 </p-toast>
-<!--PrimeNG toast which asks for confirmaton to delete an ContagionHotspots Filter-->
+<!--PrimeNG toast which asks for confirmaton to delete an UrbanHotspots Filter-->
 <p-toast [modal]="true" key="confirmDeleteFilter" position="center" [baseZIndex]="5000">
     <ng-template let-o let-message pTemplate="message">
         <div style="text-align: center">
@@ -272,7 +272,7 @@
         </div>
     </ng-template>
 </p-toast>
-<!--PrimeNG toast which asks for confirmation to restore ContagionHotspots settings to default value.-->
+<!--PrimeNG toast which asks for confirmation to restore UrbanHotspots settings to default value.-->
 <p-toast [modal]="true" key="confirmDeleteSettings" position="center" [baseZIndex]="5000">
     <ng-template let-o let-message pTemplate="message">
         <div style="text-align: center">
@@ -327,7 +327,7 @@
         </div>
     </p-footer>
 </p-dialog>
-<!--PrimeNG dialog which allows the user to save the results of an ContagionHotspots evaluation into Oskari as a layer.-->
+<!--PrimeNG dialog which allows the user to save the results of an UrbanHotspots evaluation into Oskari as a layer.-->
 <p-dialog header="Save Heatmap to Geoportal" [(visible)]="displaySaveHeatmap" [focusOnShow]="false" [responsive]="true" showEffect="fade" [modal]="true" [style]="{width: '450px'}" [maximizable]="false" [baseZIndex]="1150">
     <div class="suitability">
         <div class="ui-g ui-fluid" *ngIf="oskariHeatmap">
@@ -400,7 +400,7 @@
         </div>
     </p-footer>
 </p-dialog>
-<!--PrimeNG dialog that allows the user to create/edit the settings of an ContagionHotspots Layer.-->
+<!--PrimeNG dialog that allows the user to create/edit the settings of an UrbanHotspots Layer.-->
 <p-dialog header="Settings Details" [(visible)]="editSettings" [focusOnShow]="false" [responsive]="true" showEffect="fade" [modal]="true" [style]="{width: '300px'}" [maximizable]="false" [baseZIndex]="1150">
     <div class="suitability">
         <div class="ui-g ui-fluid" *ngIf="manageSetting">
@@ -464,7 +464,7 @@
         </div>
     </p-footer>
 </p-dialog>
-<!--PrimeNG dialog that allows the user to create/edit an ContagionHotspots Filter.-->
+<!--PrimeNG dialog that allows the user to create/edit an UrbanHotspots Filter.-->
 <p-dialog header="Filter Details" [(visible)]="editFilters" [focusOnShow]="false" [responsive]="true" showEffect="fade" [modal]="true" [style]="{width: '300px'}" [maximizable]="false" [baseZIndex]="1150">
     <div class="suitability">
         <div class="ui-g ui-fluid" *ngIf="manageFilter">
@@ -485,7 +485,7 @@
         </div>
     </p-footer>
 </p-dialog>
-<!--PrimeNG dialog that allows the user to create/edit an ContagionHotspots Layer.-->
+<!--PrimeNG dialog that allows the user to create/edit an UrbanHotspots Layer.-->
 <p-dialog header="Layer Details" [(visible)]="editLayers" [focusOnShow]="false" [responsive]="true" showEffect="fade" [modal]="true" [style]="{width: '300px'}" [maximizable]="false" [baseZIndex]="1150">
     <div class="suitability">
         <div class="ui-g ui-fluid" *ngIf="manageLayer">
@@ -819,11 +819,11 @@
         </div>
     </div>
 </p-dialog>
-<!--PrimeNG dialog for the advanced functionalities of ContagionHotspots.-->
+<!--PrimeNG dialog for the advanced functionalities of UrbanHotspots.-->
 <p-dialog [focusOnShow]="false" [baseZIndex]="1150" styleClass="suitability" header="Advanced Options" [positionTop]="0" [maximizable]="true" [(visible)]="displayDataST" [style]="{'width': '75em'}" [contentStyle]="{'max-height':'90vh'}">
     <div class="gp_modal suitability">
         <ngb-tabset type="pills" justify="justified">
-            <!--Section which allows the user to import layers from the geoportal into ContagionHotspots as layers for its own evaluations, as well as viewing ContagionHotspots Layers per study area.-->
+            <!--Section which allows the user to import layers from the geoportal into UrbanHotspots as layers for its own evaluations, as well as viewing UrbanHotspots Layers per study area.-->
             <ngb-tab>
                 <ng-template ngbTabTitle>
                     Layers
@@ -924,7 +924,7 @@
                     </div>
                 </ng-template>
             </ngb-tab>
-            <!--Section which allows the user to import layers from the geoportal into ContagionHotspots as filters for its own evaluations, as well as viewing ContagionHotspots Filters per study area.-->
+            <!--Section which allows the user to import layers from the geoportal into UrbanHotspots as filters for its own evaluations, as well as viewing UrbanHotspots Filters per study area.-->
             <ngb-tab>
                 <ng-template ngbTabTitle>
                     Filters
@@ -1906,7 +1906,7 @@
         <div class="suitability ui-g ui-fluid px-2">
             <p-button label="EVALUATE" (onClick)="evaluateLayer()" styleClass="advanced-geoportal geoportal-btn suitability"></p-button>
             <p-button label="REVERSE SCALE" class="advanced-geoportal geoportal-btn geoportal-title-btn" icon="fas fa-cog" (onClick)="reverseColorScaleST();"></p-button>
-            <!--<p-button label="SAVE TO GEOPORTAL" [disabled]="stResult" class="advanced-geoportal geoportal-btn geoportal-title-btn" icon="pi pi-save" (onClick)="showSaveHeatmap();"></p-button>-->
+            <p-button label="SAVE TO GEOPORTAL" [disabled]="stResult" class="advanced-geoportal geoportal-btn geoportal-title-btn" icon="pi pi-save" (onClick)="showSaveHeatmap();"></p-button>
             <p-button label="ADVANCED" class="advanced-geoportal geoportal-btn geoportal-title-btn" icon="fas fa-cog" (onClick)="showDataST();"></p-button>
             <p-toggleButton class="advanced-geoportal geoportal-btn geoportal-title-btn" [(ngModel)]="isFreeScaleST" (onChange)="changeScaleModeST($event)" onLabel="FREE SCALE" offLabel="FIXED SCALE" onIcon="pi pi-lock-open" offIcon="pi pi-lock"></p-toggleButton>
         </div>
@@ -2008,7 +2008,7 @@
         </div>-->
     </ul>
 </p-sidebar>
-<!--PrimeNG overlayPanel which contains additional info about ContagionHotspots.-->
+<!--PrimeNG overlayPanel which contains additional info about UrbanHotspots.-->
 <p-overlayPanel [baseZIndex]="4000" [style]="{width: '40em'}" #stInfo>
     <h6 class="pt-2 pl-2 text-uppercase results-text">About</h6>
     <div class="results-text mx-3 my-3 text-justify">
@@ -2020,7 +2020,7 @@
         <hr class="gp_teal">
     </div>
 </p-overlayPanel>
-<!--PrimeNG overlayPanel which contains additional info about ContagionHotspots.-->
+<!--PrimeNG overlayPanel which contains additional info about UrbanHotspots.-->
 <p-overlayPanel [baseZIndex]="4000" [style]="{width: '30em'}" #upInfo>
     <div class="results-text mx-3 my-3 text-justify">
         <p>To use this tool you must have uploaded the assumptions and criteria tables in your geoportal.</p>
