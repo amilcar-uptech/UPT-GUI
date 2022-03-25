@@ -20,10 +20,12 @@ export class AssumptionService {
   constructor(private http: HttpClient) { }
 
   getAssumptions(id: string): Observable<Assumption[]> {
-    return this.http.get<any>('/action?action_route=up_assumptions&scenario_id=' + id)
+    let result = this.http.get<any>('/action?action_route=up_assumptions&scenario_id=' + id)
             .pipe(
               map(res => res as Assumption[])
             );
+    console.log(result);
+    return result;
   }
 
   uploadAssumption(id: string, file: any): Observable<any> {
