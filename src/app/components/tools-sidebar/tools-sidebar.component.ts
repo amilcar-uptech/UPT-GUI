@@ -1660,7 +1660,6 @@ export class ToolsSidebarComponent implements OnInit {
         .getAssumptions(this.asmptScenarioManage.scenarioId)
         .subscribe(
           (assumptions) => {
-            console.log(assumptions)
             this.assumptions = assumptions;
           },
           (error) => {
