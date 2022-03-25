@@ -1664,6 +1664,7 @@ export class ToolsSidebarComponent implements OnInit {
             this.logErrorHandler(error);
           }
         );
+        console.log(this.assumptions);
     }
   }
 
